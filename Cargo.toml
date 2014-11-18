@@ -1,0 +1,13 @@
+[package]
+
+name = "kinetic-rust"
+version = "0.0.1"
+authors = ["Ignacio Corderi <icorderi@msn.com>"]
+
+[dependencies.protobuf]
+
+git = "https://github.com/stepancheg/rust-protobuf.git"
+
+[dependencies.rust-crypto]
+
+git = "https://github.com/DaGenix/rust-crypto.git"
