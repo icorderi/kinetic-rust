@@ -35,6 +35,7 @@ use std::error::FromError;
 use std::io::net::ip::ToSocketAddr;
 use std::collections;
 use std::sync::{Mutex, Arc};
+use std::sync::Future;
 
 mod kinetic;
 
@@ -215,7 +216,7 @@ impl Client {
     }
 
     #[unstable]
-    pub fn put(&self, key: vec::Vec<u8>, value: vec::Vec<u8>) -> KineticResult<()> {
+    pub fn put(&self, key: vec::Vec<u8>, value: vec::Vec<u8>) -> Future<KineticResult<()>> {
         let mut cmd = kinetic::Command::new();
 
         // fill header
@@ -242,16 +243,18 @@ impl Client {
         let (tx, rx) = channel();
         self.channel.send((tx, msg, cmd, value));
 
-        // Receive response
-        let (_, cmd, _) = rx.recv();
+        Future::spawn(proc() {
+            // Receive response
+            let (_, cmd, _) = rx.recv();
 
-        let status = cmd.get_status();
-        if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(()) }
-        else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            let status = cmd.get_status();
+            if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(()) }
+            else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+        })
     }
 
     #[unstable]
-    pub fn get(&self, key: vec::Vec<u8>) -> KineticResult<Vec<u8>> {
+    pub fn get(&self, key: vec::Vec<u8>) -> Future<KineticResult<Vec<u8>>> {
         let mut cmd = kinetic::Command::new();
 
         // fill header
@@ -278,12 +281,14 @@ impl Client {
         let (tx, rx) = channel();
         self.channel.send((tx, msg, cmd, vec::Vec::new()));
 
-        // Receive response
-        let (_, cmd, value) = rx.recv();
+        Future::spawn(proc() {
+            // Receive response
+            let (_, cmd, value) = rx.recv();
 
-        let status = cmd.get_status();
-        if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(value) }
-        else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            let status = cmd.get_status();
+            if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(value) }
+            else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+        })
     }
 }
 
@@ -293,8 +298,8 @@ fn main() {
 
     let c = Client::connect("127.0.0.1:8123").unwrap();
 
-    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.2!".as_bytes().to_vec()).unwrap();
-    let v = c.get("rust".as_bytes().to_vec()).unwrap();
+    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.2!".as_bytes().to_vec()).unwrap().unwrap();
+    let v = c.get("rust".as_bytes().to_vec()).unwrap().unwrap();
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
 }
