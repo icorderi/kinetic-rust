@@ -36,6 +36,7 @@ use std::io::net::ip::ToSocketAddr;
 use std::collections;
 use std::sync::{Mutex, Arc};
 use std::sync::Future;
+use std::time::duration::Duration;
 
 mod kinetic;
 
@@ -305,9 +306,15 @@ fn main() {
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
 
+    let items = 100i;
     // benchmark
-    //let data = vec::Vec::from_fn(1024*1024, |_| 0u8); // 1 MB
-    //for i in range(0i, 100i) {
-    //    c.put(format!("rust.{}", i).as_bytes().to_vec(), data);
-    //}
+    let d = Duration::span(|| {
+        let data = Arc::new(box [0u8,..1024*1024]); // 1 MB
+        for i in range(0i, items) {
+            let data = data.clone().to_vec();
+            c.put(format!("rust.{}", i).as_bytes().to_vec(), data);
+        }
+    });
+    let bw = items as f32 / d.num_seconds() as f32;
+    println!("Benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw);
 }
