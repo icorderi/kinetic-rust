@@ -4,7 +4,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
-#![allow(non_snake_case)] 
+#![allow(non_snake_case)]
 
 #[deriving(Clone,PartialEq,Default)]
 pub struct Local {
@@ -76,7 +76,7 @@ impl ::protobuf::Message for Local {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolVersion.set_default();
                     try!(is.read_string_into(tmp))
@@ -225,7 +225,7 @@ impl<'a> Message {
     }
 
     pub fn get_authType(&self) -> Message_AuthType {
-        self.authType.unwrap_or(Message_INVALID_AUTH_TYPE)
+        self.authType.unwrap_or(Message_AuthType::INVALID_AUTH_TYPE)
     }
 
     // optional .com.seagate.kinetic.proto.Message.HMACauth hmacAuth = 5;
@@ -331,28 +331,28 @@ impl ::protobuf::Message for Message {
             match field_number {
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Message_AuthType::new(try!(is.read_int32()));
                     self.authType = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hmacAuth.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.pinAuth.set_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.commandBytes.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -642,14 +642,14 @@ impl ::protobuf::Message for Message_HMACauth {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.identity = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hmac.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -823,7 +823,7 @@ impl<'a> Message_PINauth {
     }
 
     pub fn get_pinOp(&self) -> Message_PINauth_PinOp {
-        self.pinOp.unwrap_or(Message_PINauth_INVALID_PINOP)
+        self.pinOp.unwrap_or(Message_PINauth_PinOp::INVALID_PINOP)
     }
 
     // optional bytes pin = 2;
@@ -873,14 +873,14 @@ impl ::protobuf::Message for Message_PINauth {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Message_PINauth_PinOp::new(try!(is.read_int32()));
                     self.pinOp = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.pin.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -1016,21 +1016,21 @@ impl ::protobuf::reflect::FieldAccessor<Message_PINauth> for Message_PINauth_pin
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Message_PINauth_PinOp {
-    Message_PINauth_INVALID_PINOP = -1,
-    Message_PINauth_UNLOCK_PINOP = 1,
-    Message_PINauth_LOCK_PINOP = 2,
-    Message_PINauth_ERASE_PINOP = 3,
-    Message_PINauth_SECURE_ERASE_PINOP = 4,
+    INVALID_PINOP = -1,
+    UNLOCK_PINOP = 1,
+    LOCK_PINOP = 2,
+    ERASE_PINOP = 3,
+    SECURE_ERASE_PINOP = 4,
 }
 
 impl Message_PINauth_PinOp {
     pub fn new(value: i32) -> Message_PINauth_PinOp {
         match value {
-            -1 => Message_PINauth_INVALID_PINOP,
-            1 => Message_PINauth_UNLOCK_PINOP,
-            2 => Message_PINauth_LOCK_PINOP,
-            3 => Message_PINauth_ERASE_PINOP,
-            4 => Message_PINauth_SECURE_ERASE_PINOP,
+            -1 => Message_PINauth_PinOp::INVALID_PINOP,
+            1 => Message_PINauth_PinOp::UNLOCK_PINOP,
+            2 => Message_PINauth_PinOp::LOCK_PINOP,
+            3 => Message_PINauth_PinOp::ERASE_PINOP,
+            4 => Message_PINauth_PinOp::SECURE_ERASE_PINOP,
             _ => panic!()
         }
     }
@@ -1053,19 +1053,19 @@ impl ::protobuf::ProtobufEnum for Message_PINauth_PinOp {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Message_AuthType {
-    Message_INVALID_AUTH_TYPE = -1,
-    Message_HMACAUTH = 1,
-    Message_PINAUTH = 2,
-    Message_UNSOLICITEDSTATUS = 3,
+    INVALID_AUTH_TYPE = -1,
+    HMACAUTH = 1,
+    PINAUTH = 2,
+    UNSOLICITEDSTATUS = 3,
 }
 
 impl Message_AuthType {
     pub fn new(value: i32) -> Message_AuthType {
         match value {
-            -1 => Message_INVALID_AUTH_TYPE,
-            1 => Message_HMACAUTH,
-            2 => Message_PINAUTH,
-            3 => Message_UNSOLICITEDSTATUS,
+            -1 => Message_AuthType::INVALID_AUTH_TYPE,
+            1 => Message_AuthType::HMACAUTH,
+            2 => Message_AuthType::PINAUTH,
+            3 => Message_AuthType::UNSOLICITEDSTATUS,
             _ => panic!()
         }
     }
@@ -1213,21 +1213,21 @@ impl ::protobuf::Message for Command {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.header.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.body.set_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.status.set_default();
                     try!(is.merge_message(tmp))
@@ -1531,7 +1531,7 @@ impl<'a> Command_Header {
     }
 
     pub fn get_messageType(&self) -> Command_MessageType {
-        self.messageType.unwrap_or(Command_INVALID_MESSAGE_TYPE)
+        self.messageType.unwrap_or(Command_MessageType::INVALID_MESSAGE_TYPE)
     }
 
     // optional int64 timeout = 9;
@@ -1588,7 +1588,7 @@ impl<'a> Command_Header {
     }
 
     pub fn get_priority(&self) -> Command_Priority {
-        self.priority.unwrap_or(Command_NORMAL)
+        self.priority.unwrap_or(Command_Priority::NORMAL)
     }
 
     // optional int64 TimeQuanta = 13;
@@ -1626,63 +1626,63 @@ impl ::protobuf::Message for Command_Header {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.clusterVersion = Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.connectionID = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.sequence = Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.ackSequence = Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_MessageType::new(try!(is.read_int32()));
                     self.messageType = Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.timeout = Some(tmp);
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.earlyExit = Some(tmp);
                 },
                 12 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Priority::new(try!(is.read_int32()));
                     self.priority = Some(tmp);
                 },
                 13 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.TimeQuanta = Some(tmp);
@@ -2267,49 +2267,49 @@ impl ::protobuf::Message for Command_Body {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.keyValue.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.range.set_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.setup.set_default();
                     try!(is.merge_message(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.p2pOperation.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.getLog.set_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.security.set_default();
                     try!(is.merge_message(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.backgroundOperation.set_default();
                     try!(is.merge_message(tmp))
@@ -2657,7 +2657,7 @@ impl<'a> Command_Status {
     }
 
     pub fn get_code(&self) -> Command_Status_StatusCode {
-        self.code.unwrap_or(Command_Status_INVALID_STATUS_CODE)
+        self.code.unwrap_or(Command_Status_StatusCode::INVALID_STATUS_CODE)
     }
 
     // optional string statusMessage = 2;
@@ -2738,21 +2738,21 @@ impl ::protobuf::Message for Command_Status {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Status_StatusCode::new(try!(is.read_int32()));
                     self.code = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.statusMessage.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.detailedMessage.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -2917,55 +2917,55 @@ impl ::protobuf::reflect::FieldAccessor<Command_Status> for Command_Status_detai
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Status_StatusCode {
-    Command_Status_INVALID_STATUS_CODE = -1,
-    Command_Status_NOT_ATTEMPTED = 0,
-    Command_Status_SUCCESS = 1,
-    Command_Status_HMAC_FAILURE = 2,
-    Command_Status_NOT_AUTHORIZED = 3,
-    Command_Status_VERSION_FAILURE = 4,
-    Command_Status_INTERNAL_ERROR = 5,
-    Command_Status_HEADER_REQUIRED = 6,
-    Command_Status_NOT_FOUND = 7,
-    Command_Status_VERSION_MISMATCH = 8,
-    Command_Status_SERVICE_BUSY = 9,
-    Command_Status_EXPIRED = 10,
-    Command_Status_DATA_ERROR = 11,
-    Command_Status_PERM_DATA_ERROR = 12,
-    Command_Status_REMOTE_CONNECTION_ERROR = 13,
-    Command_Status_NO_SPACE = 14,
-    Command_Status_NO_SUCH_HMAC_ALGORITHM = 15,
-    Command_Status_INVALID_REQUEST = 16,
-    Command_Status_NESTED_OPERATION_ERRORS = 17,
-    Command_Status_DEVICE_LOCKED = 18,
-    Command_Status_DEVICE_ALREADY_UNLOCKED = 19,
-    Command_Status_CONNECTION_TERMINATED = 20,
+    INVALID_STATUS_CODE = -1,
+    NOT_ATTEMPTED = 0,
+    SUCCESS = 1,
+    HMAC_FAILURE = 2,
+    NOT_AUTHORIZED = 3,
+    VERSION_FAILURE = 4,
+    INTERNAL_ERROR = 5,
+    HEADER_REQUIRED = 6,
+    NOT_FOUND = 7,
+    VERSION_MISMATCH = 8,
+    SERVICE_BUSY = 9,
+    EXPIRED = 10,
+    DATA_ERROR = 11,
+    PERM_DATA_ERROR = 12,
+    REMOTE_CONNECTION_ERROR = 13,
+    NO_SPACE = 14,
+    NO_SUCH_HMAC_ALGORITHM = 15,
+    INVALID_REQUEST = 16,
+    NESTED_OPERATION_ERRORS = 17,
+    DEVICE_LOCKED = 18,
+    DEVICE_ALREADY_UNLOCKED = 19,
+    CONNECTION_TERMINATED = 20,
 }
 
 impl Command_Status_StatusCode {
     pub fn new(value: i32) -> Command_Status_StatusCode {
         match value {
-            -1 => Command_Status_INVALID_STATUS_CODE,
-            0 => Command_Status_NOT_ATTEMPTED,
-            1 => Command_Status_SUCCESS,
-            2 => Command_Status_HMAC_FAILURE,
-            3 => Command_Status_NOT_AUTHORIZED,
-            4 => Command_Status_VERSION_FAILURE,
-            5 => Command_Status_INTERNAL_ERROR,
-            6 => Command_Status_HEADER_REQUIRED,
-            7 => Command_Status_NOT_FOUND,
-            8 => Command_Status_VERSION_MISMATCH,
-            9 => Command_Status_SERVICE_BUSY,
-            10 => Command_Status_EXPIRED,
-            11 => Command_Status_DATA_ERROR,
-            12 => Command_Status_PERM_DATA_ERROR,
-            13 => Command_Status_REMOTE_CONNECTION_ERROR,
-            14 => Command_Status_NO_SPACE,
-            15 => Command_Status_NO_SUCH_HMAC_ALGORITHM,
-            16 => Command_Status_INVALID_REQUEST,
-            17 => Command_Status_NESTED_OPERATION_ERRORS,
-            18 => Command_Status_DEVICE_LOCKED,
-            19 => Command_Status_DEVICE_ALREADY_UNLOCKED,
-            20 => Command_Status_CONNECTION_TERMINATED,
+            -1 => Command_Status_StatusCode::INVALID_STATUS_CODE,
+            0 => Command_Status_StatusCode::NOT_ATTEMPTED,
+            1 => Command_Status_StatusCode::SUCCESS,
+            2 => Command_Status_StatusCode::HMAC_FAILURE,
+            3 => Command_Status_StatusCode::NOT_AUTHORIZED,
+            4 => Command_Status_StatusCode::VERSION_FAILURE,
+            5 => Command_Status_StatusCode::INTERNAL_ERROR,
+            6 => Command_Status_StatusCode::HEADER_REQUIRED,
+            7 => Command_Status_StatusCode::NOT_FOUND,
+            8 => Command_Status_StatusCode::VERSION_MISMATCH,
+            9 => Command_Status_StatusCode::SERVICE_BUSY,
+            10 => Command_Status_StatusCode::EXPIRED,
+            11 => Command_Status_StatusCode::DATA_ERROR,
+            12 => Command_Status_StatusCode::PERM_DATA_ERROR,
+            13 => Command_Status_StatusCode::REMOTE_CONNECTION_ERROR,
+            14 => Command_Status_StatusCode::NO_SPACE,
+            15 => Command_Status_StatusCode::NO_SUCH_HMAC_ALGORITHM,
+            16 => Command_Status_StatusCode::INVALID_REQUEST,
+            17 => Command_Status_StatusCode::NESTED_OPERATION_ERRORS,
+            18 => Command_Status_StatusCode::DEVICE_LOCKED,
+            19 => Command_Status_StatusCode::DEVICE_ALREADY_UNLOCKED,
+            20 => Command_Status_StatusCode::CONNECTION_TERMINATED,
             _ => panic!()
         }
     }
@@ -3182,7 +3182,7 @@ impl<'a> Command_KeyValue {
     }
 
     pub fn get_algorithm(&self) -> Command_Algorithm {
-        self.algorithm.unwrap_or(Command_INVALID_ALGORITHM)
+        self.algorithm.unwrap_or(Command_Algorithm::INVALID_ALGORITHM)
     }
 
     // optional bool metadataOnly = 7;
@@ -3220,7 +3220,7 @@ impl<'a> Command_KeyValue {
     }
 
     pub fn get_synchronization(&self) -> Command_Synchronization {
-        self.synchronization.unwrap_or(Command_INVALID_SYNCHRONIZATION)
+        self.synchronization.unwrap_or(Command_Synchronization::INVALID_SYNCHRONIZATION)
     }
 }
 
@@ -3239,56 +3239,56 @@ impl ::protobuf::Message for Command_KeyValue {
             match field_number {
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newVersion.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.force = Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.dbVersion.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.tag.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Algorithm::new(try!(is.read_int32()));
                     self.algorithm = Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.metadataOnly = Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Synchronization::new(try!(is.read_int32()));
                     self.synchronization = Some(tmp);
@@ -3806,49 +3806,49 @@ impl ::protobuf::Message for Command_Range {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.startKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.endKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.startKeyInclusive = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.endKeyInclusive = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
                     self.maxReturned = Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.reverse = Some(tmp);
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.keys.push_default();
                     try!(is.read_bytes_into(tmp))
@@ -4268,28 +4268,28 @@ impl ::protobuf::Message for Command_Setup {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.newClusterVersion = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.firmwareDownload = Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newErasePin.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newLockPin.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -4590,21 +4590,21 @@ impl ::protobuf::Message for Command_P2POperation {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.peer.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.operation.push_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.allChildOperationsSucceeded = Some(tmp);
@@ -4987,42 +4987,42 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
             match field_number {
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.version.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.force = Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.status.set_default();
                     try!(is.merge_message(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.p2pop.set_default();
                     try!(is.merge_message(tmp))
@@ -5390,21 +5390,21 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hostname.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
                     self.port = Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.tls = Some(tmp);
@@ -5852,63 +5852,63 @@ impl ::protobuf::Message for Command_GetLog {
                         is.pop_limit(old_limit);
                     } else {
                         if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                            return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                            return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                         };
                         self.types.push(Command_GetLog_Type::new(try!(is.read_int32())));
                     }
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.utilizations.push_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.temperatures.push_default();
                     try!(is.merge_message(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.capacity.set_default();
                     try!(is.merge_message(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.configuration.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.statistics.push_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.messages.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.limits.set_default();
                     try!(is.merge_message(tmp))
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.device.set_default();
                     try!(is.merge_message(tmp))
@@ -6351,14 +6351,14 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.value = Some(tmp);
@@ -6645,35 +6645,35 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.current = Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.minimum = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.maximum = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.target = Some(tmp);
@@ -6972,14 +6972,14 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
             match field_number {
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
                     self.nominalCapacityInBytes = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
                     self.portionFull = Some(tmp);
@@ -7585,105 +7585,105 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
             match field_number {
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.vendor.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.model.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.serialNumber.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 14 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.worldWideName.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.version.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 12 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.compilationDate.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 13 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.sourceHash.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 15 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolVersion.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 16 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolCompilationDate.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 17 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolSourceHash.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.interface.push_default();
                     try!(is.merge_message(tmp))
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
                     self.port = Some(tmp);
                 },
                 11 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
                     self.tlsPort = Some(tmp);
                 },
                 18 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.Locking = Some(tmp);
                 },
                 19 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.SecureErase = Some(tmp);
@@ -8362,28 +8362,28 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.MAC.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.ipv4Address.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.ipv6Address.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -8617,7 +8617,7 @@ impl<'a> Command_GetLog_Statistics {
     }
 
     pub fn get_messageType(&self) -> Command_MessageType {
-        self.messageType.unwrap_or(Command_INVALID_MESSAGE_TYPE)
+        self.messageType.unwrap_or(Command_MessageType::INVALID_MESSAGE_TYPE)
     }
 
     // optional uint64 count = 4;
@@ -8674,21 +8674,21 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_MessageType::new(try!(is.read_int32()));
                     self.messageType = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
                     self.count = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
                     self.bytes = Some(tmp);
@@ -9098,70 +9098,70 @@ impl ::protobuf::Message for Command_GetLog_Limits {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxKeySize = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxValueSize = Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxVersionSize = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxTagSize = Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxConnections = Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxOutstandingReadRequests = Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxOutstandingWriteRequests = Some(tmp);
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxMessageSize = Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxKeyRangeCount = Some(tmp);
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
                     self.maxIdentityCount = Some(tmp);
@@ -9596,7 +9596,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -9702,29 +9702,29 @@ impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Device> for Command_GetLo
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_GetLog_Type {
-    Command_GetLog_INVALID_TYPE = -1,
-    Command_GetLog_UTILIZATIONS = 0,
-    Command_GetLog_TEMPERATURES = 1,
-    Command_GetLog_CAPACITIES = 2,
-    Command_GetLog_CONFIGURATION = 3,
-    Command_GetLog_STATISTICS = 4,
-    Command_GetLog_MESSAGES = 5,
-    Command_GetLog_LIMITS = 6,
-    Command_GetLog_DEVICE = 7,
+    INVALID_TYPE = -1,
+    UTILIZATIONS = 0,
+    TEMPERATURES = 1,
+    CAPACITIES = 2,
+    CONFIGURATION = 3,
+    STATISTICS = 4,
+    MESSAGES = 5,
+    LIMITS = 6,
+    DEVICE = 7,
 }
 
 impl Command_GetLog_Type {
     pub fn new(value: i32) -> Command_GetLog_Type {
         match value {
-            -1 => Command_GetLog_INVALID_TYPE,
-            0 => Command_GetLog_UTILIZATIONS,
-            1 => Command_GetLog_TEMPERATURES,
-            2 => Command_GetLog_CAPACITIES,
-            3 => Command_GetLog_CONFIGURATION,
-            4 => Command_GetLog_STATISTICS,
-            5 => Command_GetLog_MESSAGES,
-            6 => Command_GetLog_LIMITS,
-            7 => Command_GetLog_DEVICE,
+            -1 => Command_GetLog_Type::INVALID_TYPE,
+            0 => Command_GetLog_Type::UTILIZATIONS,
+            1 => Command_GetLog_Type::TEMPERATURES,
+            2 => Command_GetLog_Type::CAPACITIES,
+            3 => Command_GetLog_Type::CONFIGURATION,
+            4 => Command_GetLog_Type::STATISTICS,
+            5 => Command_GetLog_Type::MESSAGES,
+            6 => Command_GetLog_Type::LIMITS,
+            7 => Command_GetLog_Type::DEVICE,
             _ => panic!()
         }
     }
@@ -9804,7 +9804,7 @@ impl ::protobuf::Message for Command_Security {
             match field_number {
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.acl.push_default();
                     try!(is.merge_message(tmp))
@@ -10005,7 +10005,7 @@ impl<'a> Command_Security_ACL {
     }
 
     pub fn get_hmacAlgorithm(&self) -> Command_Security_ACL_HMACAlgorithm {
-        self.hmacAlgorithm.unwrap_or(Command_Security_ACL_INVALID_HMAC_ALGORITHM)
+        self.hmacAlgorithm.unwrap_or(Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM)
     }
 
     // repeated .com.seagate.kinetic.proto.Command.Security.ACL.Scope scope = 4;
@@ -10044,7 +10044,7 @@ impl<'a> Command_Security_ACL {
     }
 
     pub fn get_maxPriority(&self) -> Command_Priority {
-        self.maxPriority.unwrap_or(Command_NORMAL)
+        self.maxPriority.unwrap_or(Command_Priority::NORMAL)
     }
 }
 
@@ -10063,35 +10063,35 @@ impl ::protobuf::Message for Command_Security_ACL {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.identity = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Security_ACL_HMACAlgorithm::new(try!(is.read_int32()));
                     self.hmacAlgorithm = Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.scope.push_default();
                     try!(is.merge_message(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_Priority::new(try!(is.read_int32()));
                     self.maxPriority = Some(tmp);
@@ -10447,14 +10447,14 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
                     self.offset = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.value.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -10469,14 +10469,14 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
                         is.pop_limit(old_limit);
                     } else {
                         if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                            return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                            return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                         };
                         self.permission.push(Command_Security_ACL_Permission::new(try!(is.read_int32())));
                     }
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
                     self.TlsRequired = Some(tmp);
@@ -10667,15 +10667,15 @@ impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Security_ACL_HMACAlgorithm {
-    Command_Security_ACL_INVALID_HMAC_ALGORITHM = -1,
-    Command_Security_ACL_HmacSHA1 = 1,
+    INVALID_HMAC_ALGORITHM = -1,
+    HmacSHA1 = 1,
 }
 
 impl Command_Security_ACL_HMACAlgorithm {
     pub fn new(value: i32) -> Command_Security_ACL_HMACAlgorithm {
         match value {
-            -1 => Command_Security_ACL_INVALID_HMAC_ALGORITHM,
-            1 => Command_Security_ACL_HmacSHA1,
+            -1 => Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM,
+            1 => Command_Security_ACL_HMACAlgorithm::HmacSHA1,
             _ => panic!()
         }
     }
@@ -10698,29 +10698,29 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Security_ACL_Permission {
-    Command_Security_ACL_INVALID_PERMISSION = -1,
-    Command_Security_ACL_READ = 0,
-    Command_Security_ACL_WRITE = 1,
-    Command_Security_ACL_DELETE = 2,
-    Command_Security_ACL_RANGE = 3,
-    Command_Security_ACL_SETUP = 4,
-    Command_Security_ACL_P2POP = 5,
-    Command_Security_ACL_GETLOG = 7,
-    Command_Security_ACL_SECURITY = 8,
+    INVALID_PERMISSION = -1,
+    READ = 0,
+    WRITE = 1,
+    DELETE = 2,
+    RANGE = 3,
+    SETUP = 4,
+    P2POP = 5,
+    GETLOG = 7,
+    SECURITY = 8,
 }
 
 impl Command_Security_ACL_Permission {
     pub fn new(value: i32) -> Command_Security_ACL_Permission {
         match value {
-            -1 => Command_Security_ACL_INVALID_PERMISSION,
-            0 => Command_Security_ACL_READ,
-            1 => Command_Security_ACL_WRITE,
-            2 => Command_Security_ACL_DELETE,
-            3 => Command_Security_ACL_RANGE,
-            4 => Command_Security_ACL_SETUP,
-            5 => Command_Security_ACL_P2POP,
-            7 => Command_Security_ACL_GETLOG,
-            8 => Command_Security_ACL_SECURITY,
+            -1 => Command_Security_ACL_Permission::INVALID_PERMISSION,
+            0 => Command_Security_ACL_Permission::READ,
+            1 => Command_Security_ACL_Permission::WRITE,
+            2 => Command_Security_ACL_Permission::DELETE,
+            3 => Command_Security_ACL_Permission::RANGE,
+            4 => Command_Security_ACL_Permission::SETUP,
+            5 => Command_Security_ACL_Permission::P2POP,
+            7 => Command_Security_ACL_Permission::GETLOG,
+            8 => Command_Security_ACL_Permission::SECURITY,
             _ => panic!()
         }
     }
@@ -10782,7 +10782,7 @@ impl<'a> Command_BackgroundOperation {
     }
 
     pub fn get_backOpType(&self) -> Command_BackgroundOperation_BackOpType {
-        self.backOpType.unwrap_or(Command_BackgroundOperation_INVALID_BACKOP)
+        self.backOpType.unwrap_or(Command_BackgroundOperation_BackOpType::INVALID_BACKOP)
     }
 
     // optional .com.seagate.kinetic.proto.Command.Range range = 2;
@@ -10829,14 +10829,14 @@ impl ::protobuf::Message for Command_BackgroundOperation {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = Command_BackgroundOperation_BackOpType::new(try!(is.read_int32()));
                     self.backOpType = Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufWireError("unexpected wire type".to_string()));
+                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.range.set_default();
                     try!(is.merge_message(tmp))
@@ -10975,17 +10975,17 @@ impl ::protobuf::reflect::FieldAccessor<Command_BackgroundOperation> for Command
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_BackgroundOperation_BackOpType {
-    Command_BackgroundOperation_INVALID_BACKOP = -1,
-    Command_BackgroundOperation_MEDIASCAN = 1,
-    Command_BackgroundOperation_MEDIAOPTIMIZE = 2,
+    INVALID_BACKOP = -1,
+    MEDIASCAN = 1,
+    MEDIAOPTIMIZE = 2,
 }
 
 impl Command_BackgroundOperation_BackOpType {
     pub fn new(value: i32) -> Command_BackgroundOperation_BackOpType {
         match value {
-            -1 => Command_BackgroundOperation_INVALID_BACKOP,
-            1 => Command_BackgroundOperation_MEDIASCAN,
-            2 => Command_BackgroundOperation_MEDIAOPTIMIZE,
+            -1 => Command_BackgroundOperation_BackOpType::INVALID_BACKOP,
+            1 => Command_BackgroundOperation_BackOpType::MEDIASCAN,
+            2 => Command_BackgroundOperation_BackOpType::MEDIAOPTIMIZE,
             _ => panic!()
         }
     }
@@ -11008,19 +11008,19 @@ impl ::protobuf::ProtobufEnum for Command_BackgroundOperation_BackOpType {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Synchronization {
-    Command_INVALID_SYNCHRONIZATION = -1,
-    Command_WRITETHROUGH = 1,
-    Command_WRITEBACK = 2,
-    Command_FLUSH = 3,
+    INVALID_SYNCHRONIZATION = -1,
+    WRITETHROUGH = 1,
+    WRITEBACK = 2,
+    FLUSH = 3,
 }
 
 impl Command_Synchronization {
     pub fn new(value: i32) -> Command_Synchronization {
         match value {
-            -1 => Command_INVALID_SYNCHRONIZATION,
-            1 => Command_WRITETHROUGH,
-            2 => Command_WRITEBACK,
-            3 => Command_FLUSH,
+            -1 => Command_Synchronization::INVALID_SYNCHRONIZATION,
+            1 => Command_Synchronization::WRITETHROUGH,
+            2 => Command_Synchronization::WRITEBACK,
+            3 => Command_Synchronization::FLUSH,
             _ => panic!()
         }
     }
@@ -11043,21 +11043,21 @@ impl ::protobuf::ProtobufEnum for Command_Synchronization {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Priority {
-    Command_NORMAL = 5,
-    Command_LOWEST = 1,
-    Command_LOWER = 3,
-    Command_HIGHER = 7,
-    Command_HIGHEST = 9,
+    NORMAL = 5,
+    LOWEST = 1,
+    LOWER = 3,
+    HIGHER = 7,
+    HIGHEST = 9,
 }
 
 impl Command_Priority {
     pub fn new(value: i32) -> Command_Priority {
         match value {
-            5 => Command_NORMAL,
-            1 => Command_LOWEST,
-            3 => Command_LOWER,
-            7 => Command_HIGHER,
-            9 => Command_HIGHEST,
+            5 => Command_Priority::NORMAL,
+            1 => Command_Priority::LOWEST,
+            3 => Command_Priority::LOWER,
+            7 => Command_Priority::HIGHER,
+            9 => Command_Priority::HIGHEST,
             _ => panic!()
         }
     }
@@ -11080,23 +11080,23 @@ impl ::protobuf::ProtobufEnum for Command_Priority {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Algorithm {
-    Command_INVALID_ALGORITHM = -1,
-    Command_SHA1 = 1,
-    Command_SHA2 = 2,
-    Command_SHA3 = 3,
-    Command_CRC32 = 4,
-    Command_CRC64 = 5,
+    INVALID_ALGORITHM = -1,
+    SHA1 = 1,
+    SHA2 = 2,
+    SHA3 = 3,
+    CRC32 = 4,
+    CRC64 = 5,
 }
 
 impl Command_Algorithm {
     pub fn new(value: i32) -> Command_Algorithm {
         match value {
-            -1 => Command_INVALID_ALGORITHM,
-            1 => Command_SHA1,
-            2 => Command_SHA2,
-            3 => Command_SHA3,
-            4 => Command_CRC32,
-            5 => Command_CRC64,
+            -1 => Command_Algorithm::INVALID_ALGORITHM,
+            1 => Command_Algorithm::SHA1,
+            2 => Command_Algorithm::SHA2,
+            3 => Command_Algorithm::SHA3,
+            4 => Command_Algorithm::CRC32,
+            5 => Command_Algorithm::CRC64,
             _ => panic!()
         }
     }
@@ -11119,69 +11119,69 @@ impl ::protobuf::ProtobufEnum for Command_Algorithm {
 
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_MessageType {
-    Command_INVALID_MESSAGE_TYPE = -1,
-    Command_GET = 2,
-    Command_GET_RESPONSE = 1,
-    Command_PUT = 4,
-    Command_PUT_RESPONSE = 3,
-    Command_DELETE = 6,
-    Command_DELETE_RESPONSE = 5,
-    Command_GETNEXT = 8,
-    Command_GETNEXT_RESPONSE = 7,
-    Command_GETPREVIOUS = 10,
-    Command_GETPREVIOUS_RESPONSE = 9,
-    Command_GETKEYRANGE = 12,
-    Command_GETKEYRANGE_RESPONSE = 11,
-    Command_GETVERSION = 16,
-    Command_GETVERSION_RESPONSE = 15,
-    Command_SETUP = 22,
-    Command_SETUP_RESPONSE = 21,
-    Command_GETLOG = 24,
-    Command_GETLOG_RESPONSE = 23,
-    Command_SECURITY = 26,
-    Command_SECURITY_RESPONSE = 25,
-    Command_PEER2PEERPUSH = 28,
-    Command_PEER2PEERPUSH_RESPONSE = 27,
-    Command_NOOP = 30,
-    Command_NOOP_RESPONSE = 29,
-    Command_FLUSHALLDATA = 32,
-    Command_FLUSHALLDATA_RESPONSE = 31,
-    Command_BACKOP = 34,
-    Command_BACKOP_RESPONSE = 33,
+    INVALID_MESSAGE_TYPE = -1,
+    GET = 2,
+    GET_RESPONSE = 1,
+    PUT = 4,
+    PUT_RESPONSE = 3,
+    DELETE = 6,
+    DELETE_RESPONSE = 5,
+    GETNEXT = 8,
+    GETNEXT_RESPONSE = 7,
+    GETPREVIOUS = 10,
+    GETPREVIOUS_RESPONSE = 9,
+    GETKEYRANGE = 12,
+    GETKEYRANGE_RESPONSE = 11,
+    GETVERSION = 16,
+    GETVERSION_RESPONSE = 15,
+    SETUP = 22,
+    SETUP_RESPONSE = 21,
+    GETLOG = 24,
+    GETLOG_RESPONSE = 23,
+    SECURITY = 26,
+    SECURITY_RESPONSE = 25,
+    PEER2PEERPUSH = 28,
+    PEER2PEERPUSH_RESPONSE = 27,
+    NOOP = 30,
+    NOOP_RESPONSE = 29,
+    FLUSHALLDATA = 32,
+    FLUSHALLDATA_RESPONSE = 31,
+    BACKOP = 34,
+    BACKOP_RESPONSE = 33,
 }
 
 impl Command_MessageType {
     pub fn new(value: i32) -> Command_MessageType {
         match value {
-            -1 => Command_INVALID_MESSAGE_TYPE,
-            2 => Command_GET,
-            1 => Command_GET_RESPONSE,
-            4 => Command_PUT,
-            3 => Command_PUT_RESPONSE,
-            6 => Command_DELETE,
-            5 => Command_DELETE_RESPONSE,
-            8 => Command_GETNEXT,
-            7 => Command_GETNEXT_RESPONSE,
-            10 => Command_GETPREVIOUS,
-            9 => Command_GETPREVIOUS_RESPONSE,
-            12 => Command_GETKEYRANGE,
-            11 => Command_GETKEYRANGE_RESPONSE,
-            16 => Command_GETVERSION,
-            15 => Command_GETVERSION_RESPONSE,
-            22 => Command_SETUP,
-            21 => Command_SETUP_RESPONSE,
-            24 => Command_GETLOG,
-            23 => Command_GETLOG_RESPONSE,
-            26 => Command_SECURITY,
-            25 => Command_SECURITY_RESPONSE,
-            28 => Command_PEER2PEERPUSH,
-            27 => Command_PEER2PEERPUSH_RESPONSE,
-            30 => Command_NOOP,
-            29 => Command_NOOP_RESPONSE,
-            32 => Command_FLUSHALLDATA,
-            31 => Command_FLUSHALLDATA_RESPONSE,
-            34 => Command_BACKOP,
-            33 => Command_BACKOP_RESPONSE,
+            -1 => Command_MessageType::INVALID_MESSAGE_TYPE,
+            2 => Command_MessageType::GET,
+            1 => Command_MessageType::GET_RESPONSE,
+            4 => Command_MessageType::PUT,
+            3 => Command_MessageType::PUT_RESPONSE,
+            6 => Command_MessageType::DELETE,
+            5 => Command_MessageType::DELETE_RESPONSE,
+            8 => Command_MessageType::GETNEXT,
+            7 => Command_MessageType::GETNEXT_RESPONSE,
+            10 => Command_MessageType::GETPREVIOUS,
+            9 => Command_MessageType::GETPREVIOUS_RESPONSE,
+            12 => Command_MessageType::GETKEYRANGE,
+            11 => Command_MessageType::GETKEYRANGE_RESPONSE,
+            16 => Command_MessageType::GETVERSION,
+            15 => Command_MessageType::GETVERSION_RESPONSE,
+            22 => Command_MessageType::SETUP,
+            21 => Command_MessageType::SETUP_RESPONSE,
+            24 => Command_MessageType::GETLOG,
+            23 => Command_MessageType::GETLOG_RESPONSE,
+            26 => Command_MessageType::SECURITY,
+            25 => Command_MessageType::SECURITY_RESPONSE,
+            28 => Command_MessageType::PEER2PEERPUSH,
+            27 => Command_MessageType::PEER2PEERPUSH_RESPONSE,
+            30 => Command_MessageType::NOOP,
+            29 => Command_MessageType::NOOP_RESPONSE,
+            32 => Command_MessageType::FLUSHALLDATA,
+            31 => Command_MessageType::FLUSHALLDATA_RESPONSE,
+            34 => Command_MessageType::BACKOP,
+            33 => Command_MessageType::BACKOP_RESPONSE,
             _ => panic!()
         }
     }

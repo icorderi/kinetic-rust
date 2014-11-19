@@ -1,6 +1,6 @@
 [root]
 name = "kinetic-rust"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "protobuf 0.0.1 (git+https://github.com/stepancheg/rust-protobuf.git)",
  "rust-crypto 0.1.0 (git+https://github.com/DaGenix/rust-crypto.git)",
@@ -9,7 +9,7 @@ dependencies = [
 [[package]]
 name = "protobuf"
 version = "0.0.1"
-source = "git+https://github.com/stepancheg/rust-protobuf.git#e76f91a7c145febc26022da5a733aab6f9190cf4"
+source = "git+https://github.com/stepancheg/rust-protobuf.git#f38077af17500118db92b2cdbaefab0b294e316a"
 
 [[package]]
 name = "rust-crypto"

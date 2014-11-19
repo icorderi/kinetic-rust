@@ -39,6 +39,7 @@ use std::collections;
 use std::sync::{Mutex, Arc};
 use std::sync::Future;
 use std::time::duration::Duration;
+use std::num::Int;
 
 mod kinetic;
 
@@ -48,23 +49,23 @@ pub type KineticResult<T> = Result<T, KineticError>;
 #[deriving(Show,Eq,PartialEq)]
 #[unstable]
 pub enum KineticError {
-    KineticIoError(io::IoError),
-    KineticProtobufError(ProtobufError),
-    KineticInvalidMagicNumber,
-    KineticRemoteError(kinetic::Command_Status_StatusCode)
+    IoError(io::IoError),
+    ProtobufError(ProtobufError),
+    InvalidMagicNumber,
+    RemoteError(kinetic::Command_Status_StatusCode)
 }
 
 #[unstable]
 impl FromError<io::IoError> for KineticError {
     fn from_error(err: io::IoError) -> KineticError {
-        KineticError::KineticIoError(err)
+        KineticError::IoError(err)
     }
 }
 
 #[unstable]
 impl FromError<ProtobufError> for KineticError {
     fn from_error(err: ProtobufError) -> KineticError {
-        KineticError::KineticProtobufError(err)
+        KineticError::ProtobufError(err)
     }
 }
 
@@ -77,11 +78,11 @@ pub type KineticCommand = (Sender<KineticResponse>, kinetic::Message, kinetic::C
 #[unstable]
 fn network_recv(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
     let mut header = [0u8,..9];
-    try!(stream.read_at_least(9, header));
+    try!(stream.read_at_least(9, &mut header));
 
-    let mut r = io::BufReader::new(header);
+    let mut r = io::BufReader::new(&header);
     let magic_number = try!(r.read_byte());
-    if magic_number != 70u8 { return Err(KineticError::KineticInvalidMagicNumber); }
+    if magic_number != 70u8 { return Err(KineticError::InvalidMagicNumber); }
     let proto_length = try!(r.read_be_i32()) as uint;
     let value_length = try!(r.read_be_i32()) as uint;
 
@@ -157,7 +158,7 @@ impl KineticChannel {
                 let r = network_recv(&mut reader);
                 if r.is_err() { break } ; // TODO: this is correct only if we closed it
                 let (msg, cmd, value) = r.unwrap();
-                if msg.get_authType() != kinetic::Message_UNSOLICITEDSTATUS
+                if msg.get_authType() != kinetic::Message_AuthType::UNSOLICITEDSTATUS
                 {
                     let ack = cmd.get_header().get_ackSequence();
                     let req: Option<Sender<KineticResponse>>;
@@ -189,14 +190,14 @@ impl KineticChannel {
                 let cmd_bytes = cmd.write_to_bytes().unwrap();
 
                 // Set message authentication
-                msg.set_authType(kinetic::Message_AuthType::Message_HMACAUTH);
+                msg.set_authType(kinetic::Message_AuthType::HMACAUTH);
                 let mut auth = kinetic::Message_HMACauth::new();
                 auth.set_identity(1); // TODO: move to attribute
 
                 // Calculate hmac_sha1 of the command
                 let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), "asdfasdf".as_bytes()); // TODO: move to attribute
 
-                let buffer: [u8, ..4] = unsafe { std::mem::transmute(cmd_bytes.len().to_u32().to_be()) };
+                let buffer: [u8, ..4] = unsafe { std::mem::transmute((cmd_bytes.len() as u32).to_be()) };
 
                 hmac.input(buffer.as_slice());
                 hmac.input(cmd_bytes.as_slice());
@@ -250,14 +251,14 @@ impl Client {
         header.set_clusterVersion(self.cluster_version);
 
         // Set command type to put
-        header.set_messageType(kinetic::Command_MessageType::Command_PUT);
+        header.set_messageType(kinetic::Command_MessageType::PUT);
 
         cmd.set_header(header);
 
         // Build the actual command
         let mut kv = kinetic::Command_KeyValue::new();
         kv.set_key(key);
-        kv.set_synchronization(kinetic::Command_WRITEBACK);
+        kv.set_synchronization(kinetic::Command_Synchronization::WRITEBACK);
         kv.set_force(true);
 
         let mut body = kinetic::Command_Body::new();
@@ -276,8 +277,8 @@ impl Client {
             let (_, cmd, _) = rx.recv();
 
             let status = cmd.get_status();
-            if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(()) }
-            else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            if status.get_code() == kinetic::Command_Status_StatusCode::SUCCESS { Ok(()) }
+            else { Err(KineticError::RemoteError(status.get_code())) } // TODO: return the entire status, not just the code
         })
     }
 
@@ -290,7 +291,7 @@ impl Client {
         header.set_clusterVersion(self.cluster_version);
 
         // Set command type to put
-        header.set_messageType(kinetic::Command_MessageType::Command_GET);
+        header.set_messageType(kinetic::Command_MessageType::GET);
 
         cmd.set_header(header);
 
@@ -314,8 +315,8 @@ impl Client {
             let (_, cmd, value) = rx.recv();
 
             let status = cmd.get_status();
-            if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(value) }
-            else { Err(KineticRemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            if status.get_code() == kinetic::Command_Status_StatusCode::SUCCESS { Ok(value) }
+            else { Err(KineticError::RemoteError(status.get_code())) } // TODO: return the entire status, not just the code
         })
     }
 }
@@ -358,7 +359,7 @@ fn main() {
 
     let c = Client::connect("127.0.0.1:8123").unwrap();
 
-    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.3!".as_bytes().to_vec()).unwrap().unwrap();
+    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.4!".as_bytes().to_vec()).unwrap().unwrap();
     let v = c.get("rust".as_bytes().to_vec()).unwrap().unwrap();
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
