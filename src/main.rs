@@ -22,7 +22,9 @@
 
 extern crate protobuf;
 extern crate "rust-crypto" as rust_crypto;
+extern crate test;
 
+use test::Bencher;
 use protobuf::parse_from_reader;
 use protobuf::parse_from_bytes;
 use protobuf::Message;
@@ -52,22 +54,24 @@ pub enum KineticError {
     KineticRemoteError(kinetic::Command_Status_StatusCode)
 }
 
+#[unstable]
 impl FromError<io::IoError> for KineticError {
     fn from_error(err: io::IoError) -> KineticError {
         KineticError::KineticIoError(err)
     }
 }
 
+#[unstable]
 impl FromError<ProtobufError> for KineticError {
     fn from_error(err: ProtobufError) -> KineticError {
         KineticError::KineticProtobufError(err)
     }
 }
 
-#[unstable]
+#[experimental]
 pub type KineticResponse = (kinetic::Message, kinetic::Command, vec::Vec<u8>);
 
-#[unstable]
+#[experimental]
 pub type KineticCommand = (Sender<KineticResponse>, kinetic::Message, kinetic::Command, vec::Vec<u8>);
 
 #[unstable]
@@ -116,10 +120,23 @@ fn network_send(stream: &mut io::Writer, proto: kinetic::Message, value: vec::Ve
 
 #[experimental]
 pub struct KineticChannel {
+    stream: io::TcpStream,
     writer_tx: std::comm::SyncSender<KineticCommand>
 }
 
+#[experimental]
+impl Drop for KineticChannel {
+    #[experimental]
+    fn drop(&mut self) {
+        // TODO: mark somewhere that we are closing it
+        self.stream.close_read().unwrap();
+    }
+}
+
+#[experimental]
 impl KineticChannel {
+
+    #[experimental]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<KineticChannel> {
         let mut s = try!(io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
@@ -133,16 +150,21 @@ impl KineticChannel {
 
         // reader
         let mut reader = s.clone();
-        let pending_mutex_clone = pending_mutex.clone();
+        let pending_mutex_reader = pending_mutex.clone();
         spawn(proc() {
-            let pending_mutex = pending_mutex_clone;
+            let pending_mutex = pending_mutex_reader;
             loop {
-                let (msg, cmd, value) = network_recv(&mut reader).unwrap();
+                let r = network_recv(&mut reader);
+                if r.is_err() { break } ; // TODO: this is correct only if we closed it
+                let (msg, cmd, value) = r.unwrap();
                 if msg.get_authType() != kinetic::Message_UNSOLICITEDSTATUS
                 {
                     let ack = cmd.get_header().get_ackSequence();
-                    let mut pending = pending_mutex.lock();
-                    let req: Option<Sender<KineticResponse>>= pending.remove(&ack); // returns the value if it was there
+                    let req: Option<Sender<KineticResponse>>;
+                    {
+                        let mut pending = pending_mutex.lock();
+                        req = pending.remove(&ack); // returns the value if it was there
+                    }
                     match req {
                         None => println!("No match for ack: {} found.", ack),
                         Some(callback) => callback.send((msg, cmd, value))
@@ -155,8 +177,9 @@ impl KineticChannel {
         // writer
         let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(10); // TODO: move to argument
         let mut writer = s.clone();
+        let pending_mutex_writer = pending_mutex.clone();
         spawn(proc() {
-            let pending_mutex = pending_mutex;
+            let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 
             for (callback, mut msg, mut cmd, value) in w_rx.iter(){
@@ -172,9 +195,10 @@ impl KineticChannel {
 
                 // Calculate hmac_sha1 of the command
                 let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), "asdfasdf".as_bytes()); // TODO: move to attribute
-                let mut w = io::MemWriter::with_capacity(4);
-                w.write_be_u32(cmd_bytes.len().to_u32().unwrap()).unwrap();
-                hmac.input(w.unwrap().as_slice());
+
+                let buffer: [u8, ..4] = unsafe { std::mem::transmute(cmd_bytes.len().to_u32().to_be()) };
+
+                hmac.input(buffer.as_slice());
                 hmac.input(cmd_bytes.as_slice());
 
                 auth.set_hmac(hmac.result().code().to_vec());
@@ -190,33 +214,34 @@ impl KineticChannel {
                 network_send(&mut writer, msg, value).unwrap();
                 seq += 1;
             }
-            println!("Writer closed.")
         });
 
-        Ok(KineticChannel { writer_tx: w_tx })
+        Ok(KineticChannel { stream: s, writer_tx: w_tx})
     }
 
+    #[experimental]
     pub fn send(&self, p: KineticCommand) {
         self.writer_tx.send(p);
     }
 }
 
-#[unstable]
+#[experimental]
 pub struct Client {
     channel: KineticChannel,
     cluster_version: i64
 }
 
+#[experimental]
 impl Client {
 
-    #[unstable]
+    #[experimental]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
         let c = try!(KineticChannel::connect(addr));
         Ok( Client { channel: c,
                      cluster_version: 0 })
     }
 
-    #[unstable]
+    #[experimental]
     pub fn put(&self, key: vec::Vec<u8>, value: vec::Vec<u8>) -> Future<KineticResult<()>> {
         let mut cmd = kinetic::Command::new();
 
@@ -256,7 +281,7 @@ impl Client {
         })
     }
 
-    #[unstable]
+    #[experimental]
     pub fn get(&self, key: vec::Vec<u8>) -> Future<KineticResult<Vec<u8>>> {
         let mut cmd = kinetic::Command::new();
 
@@ -295,6 +320,38 @@ impl Client {
     }
 }
 
+#[bench]
+fn put_one_megabyte(b: &mut Bencher) {
+    let c = Client::connect("127.0.0.1:8123").unwrap();
+
+    b.iter(|| {
+        let data = vec::Vec::from_elem(1024*1024, 0u8); // 1 MB
+        c.put("bench".as_bytes().to_vec(), data).unwrap().unwrap();
+    });
+    b.bytes = 1024*1024;
+}
+
+#[bench]
+fn put_ten_megabytes(b: &mut Bencher) {
+    let c = Client::connect("127.0.0.1:8123").unwrap();
+
+    let items = 10i;
+    b.iter(|| {
+        let data = Arc::new(box [0u8,..1024*1024]); // 1 MB
+        let mut responses = vec::Vec::with_capacity(items as uint);
+        for i in range(0i, items) {
+            let data = data.clone().to_vec();
+            let r = c.put(format!("bench.{}", i).as_bytes().to_vec(), data);
+            responses.push(r);
+        }
+        // wait on all
+        for r in responses.into_iter() {
+            r.unwrap().unwrap();
+        }
+    });
+    b.bytes = 1024*1024*10;
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Kinetic from Rust!")
@@ -310,9 +367,15 @@ fn main() {
     // benchmark
     let d = Duration::span(|| {
         let data = Arc::new(box [0u8,..1024*1024]); // 1 MB
+        let mut responses = vec::Vec::with_capacity(items as uint);
         for i in range(0i, items) {
             let data = data.clone().to_vec();
-            c.put(format!("rust.{}", i).as_bytes().to_vec(), data);
+            let r = c.put(format!("bench.{}", i).as_bytes().to_vec(), data);
+            responses.push(r);
+        }
+        // wait on all
+        for r in responses.into_iter() {
+            r.unwrap().unwrap();
         }
     });
     let bw = items as f32 / d.num_seconds() as f32;

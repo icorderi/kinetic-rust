@@ -9,10 +9,10 @@ dependencies = [
 [[package]]
 name = "protobuf"
 version = "0.0.1"
-source = "git+https://github.com/stepancheg/rust-protobuf.git#1d9ed544813e3a0a7504b442b8c5a27cd43f2ad1"
+source = "git+https://github.com/stepancheg/rust-protobuf.git#e76f91a7c145febc26022da5a733aab6f9190cf4"
 
 [[package]]
 name = "rust-crypto"
 version = "0.1.0"
-source = "git+https://github.com/DaGenix/rust-crypto.git#314d87895b6f41261b17e6302c13f1cb2fdf8809"
+source = "git+https://github.com/DaGenix/rust-crypto.git#a76a43d7f2ce979e16fe63ff56e333a751a1d1aa"
 
