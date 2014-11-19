@@ -115,7 +115,7 @@ fn network_send(stream: &mut io::Writer, proto: kinetic::Message, value: vec::Ve
 
 #[experimental]
 pub struct KineticChannel {
-    writer_tx: std::comm::Sender<KineticCommand>
+    writer_tx: std::comm::SyncSender<KineticCommand>
 }
 
 impl KineticChannel {
@@ -152,7 +152,7 @@ impl KineticChannel {
         });
 
         // writer
-        let (w_tx, w_rx): (Sender<_>, Receiver<KineticCommand>) = channel();
+        let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(10); // TODO: move to argument
         let mut writer = s.clone();
         spawn(proc() {
             let pending_mutex = pending_mutex;
@@ -231,6 +231,8 @@ impl Client {
         // Build the actual command
         let mut kv = kinetic::Command_KeyValue::new();
         kv.set_key(key);
+        kv.set_synchronization(kinetic::Command_WRITEBACK);
+        kv.set_force(true);
 
         let mut body = kinetic::Command_Body::new();
         body.set_keyValue(kv);
@@ -298,8 +300,14 @@ fn main() {
 
     let c = Client::connect("127.0.0.1:8123").unwrap();
 
-    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.2!".as_bytes().to_vec()).unwrap().unwrap();
+    c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.3!".as_bytes().to_vec()).unwrap().unwrap();
     let v = c.get("rust".as_bytes().to_vec()).unwrap().unwrap();
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
+
+    // benchmark
+    //let data = vec::Vec::from_fn(1024*1024, |_| 0u8); // 1 MB
+    //for i in range(0i, 100i) {
+    //    c.put(format!("rust.{}", i).as_bytes().to_vec(), data);
+    //}
 }
