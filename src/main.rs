@@ -33,6 +33,8 @@ use std::vec;
 use std::io;
 use std::error::FromError;
 use std::io::net::ip::ToSocketAddr;
+use std::collections;
+use std::sync::{Mutex, Arc};
 
 mod kinetic;
 
@@ -64,10 +66,10 @@ impl FromError<ProtobufError> for KineticError {
 pub type KineticResponse = (kinetic::Message, kinetic::Command, vec::Vec<u8>);
 
 #[unstable]
-pub type KineticCommand = (kinetic::Message, vec::Vec<u8>);
+pub type KineticCommand = (Sender<KineticResponse>, kinetic::Message, kinetic::Command, vec::Vec<u8>);
 
 #[unstable]
-fn receive(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
+fn network_recv(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
     let mut header = [0u8,..9];
     try!(stream.read_at_least(9, header));
 
@@ -91,16 +93,14 @@ fn receive(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
 }
 
 #[unstable]
-fn send(stream: &mut io::Writer, p: KineticCommand) -> KineticResult<()> {
-    let (msg, value) = p;
-
-    let s = msg.serialized_size();
+fn network_send(stream: &mut io::Writer, proto: kinetic::Message, value: vec::Vec<u8>) -> KineticResult<()> {
+    let s = proto.serialized_size();
 
     let mut hw = io::BufferedWriter::with_capacity(9u + s as uint, stream);
     try!(hw.write_u8(70u8)); // Magic number
     try!(hw.write_be_i32(s as i32));
     try!(hw.write_be_i32(value.len() as i32));
-    try!(msg.write_to_writer(&mut hw));
+    try!(proto.write_to_writer(&mut hw));
 
     let stream = hw.unwrap();
 
@@ -114,7 +114,6 @@ fn send(stream: &mut io::Writer, p: KineticCommand) -> KineticResult<()> {
 
 #[experimental]
 pub struct KineticChannel {
-    reader_rx: std::comm::Receiver<KineticResult<KineticResponse>>,
     writer_tx: std::comm::Sender<KineticCommand>
 }
 
@@ -123,44 +122,86 @@ impl KineticChannel {
         let mut s = try!(io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
+        // Handshake
+        let (_, cmd, _) = network_recv(&mut s).unwrap();
+        let connection_id = cmd.get_header().get_connectionID();
+
+        // Other state like pending requests...
+        let pending_mutex = Arc::new(Mutex::new(collections::HashMap::with_capacity(10)));
+
         // reader
-        let (r_tx, r_rx) = channel();
         let mut reader = s.clone();
+        let pending_mutex_clone = pending_mutex.clone();
         spawn(proc() {
+            let pending_mutex = pending_mutex_clone;
             loop {
-                let resp = receive(&mut reader);
-                r_tx.send(resp);
+                let (msg, cmd, value) = network_recv(&mut reader).unwrap();
+                if msg.get_authType() != kinetic::Message_UNSOLICITEDSTATUS
+                {
+                    let ack = cmd.get_header().get_ackSequence();
+                    let mut pending = pending_mutex.lock();
+                    let req: Option<Sender<KineticResponse>>= pending.remove(&ack); // returns the value if it was there
+                    match req {
+                        None => println!("No match for ack: {} found.", ack),
+                        Some(callback) => callback.send((msg, cmd, value))
+                    }
+                }
+                //r_tx.send(Ok((msg, cmd, value)));
             }
         });
 
         // writer
-        let (w_tx, w_rx) = channel();
+        let (w_tx, w_rx): (Sender<_>, Receiver<KineticCommand>) = channel();
         let mut writer = s.clone();
         spawn(proc() {
-            for p in w_rx.iter(){
-                send(&mut writer, p).unwrap();
+            let pending_mutex = pending_mutex;
+            let mut seq = 0;
+
+            for (callback, mut msg, mut cmd, value) in w_rx.iter(){
+                cmd.mut_header().set_sequence(seq);
+                cmd.mut_header().set_connectionID(connection_id);
+
+                let cmd_bytes = cmd.write_to_bytes().unwrap();
+
+                // Set message authentication
+                msg.set_authType(kinetic::Message_AuthType::Message_HMACAUTH);
+                let mut auth = kinetic::Message_HMACauth::new();
+                auth.set_identity(1); // TODO: move to attribute
+
+                // Calculate hmac_sha1 of the command
+                let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), "asdfasdf".as_bytes()); // TODO: move to attribute
+                let mut w = io::MemWriter::with_capacity(4);
+                w.write_be_u32(cmd_bytes.len().to_u32().unwrap()).unwrap();
+                hmac.input(w.unwrap().as_slice());
+                hmac.input(cmd_bytes.as_slice());
+
+                auth.set_hmac(hmac.result().code().to_vec());
+                msg.set_hmacAuth(auth);
+
+
+                msg.set_commandBytes(cmd_bytes);
+
+                {
+                    let mut pending = pending_mutex.lock();
+                    pending.insert(seq, callback);
+                }
+                network_send(&mut writer, msg, value).unwrap();
+                seq += 1;
             }
             println!("Writer closed.")
         });
 
-        Ok(KineticChannel {reader_rx: r_rx , writer_tx: w_tx})
+        Ok(KineticChannel { writer_tx: w_tx })
     }
 
     pub fn send(&self, p: KineticCommand) {
         self.writer_tx.send(p);
-    }
-
-    pub fn recv(&self) -> KineticResult<KineticResponse> {
-        self.reader_rx.recv()
     }
 }
 
 #[unstable]
 pub struct Client {
     channel: KineticChannel,
-    connection_id: i64,
-    identity: i64,
-    key: vec::Vec<u8>,
     cluster_version: i64
 }
 
@@ -169,12 +210,8 @@ impl Client {
     #[unstable]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
         let c = try!(KineticChannel::connect(addr));
-        let (_, cmd, _) = try!(c.recv());
         Ok( Client { channel: c,
-                     cluster_version: 0,
-                     connection_id: cmd.get_header().get_connectionID(),
-                     identity: 1,
-                     key: "asdfasdf".as_bytes().to_vec()})
+                     cluster_version: 0 })
     }
 
     #[unstable]
@@ -183,8 +220,6 @@ impl Client {
 
         // fill header
         let mut header = kinetic::Command_Header::new();
-        header.set_connectionID(self.connection_id);
-        header.set_sequence(0); // TODO: move this to an attribute? Writer should be able to set it
         header.set_clusterVersion(self.cluster_version);
 
         // Set command type to put
@@ -200,35 +235,15 @@ impl Client {
         body.set_keyValue(kv);
         cmd.set_body(body);
 
-        let cmd_bytes = cmd.write_to_bytes().unwrap();
-
         // Message wrapping the command
-        let mut msg = kinetic::Message::new();
-
-        // Set message authentication
-        msg.set_authType(kinetic::Message_AuthType::Message_HMACAUTH);
-        let mut auth = kinetic::Message_HMACauth::new();
-        auth.set_identity(self.identity);
-
-        // Calculate Hmac_sha1 of the command
-        let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), self.key.as_slice());
-        let mut w = io::MemWriter::with_capacity(4);
-        w.write_be_u32(cmd_bytes.len().to_u32().unwrap()).unwrap();
-        hmac.input(w.unwrap().as_slice());
-        hmac.input(cmd_bytes.as_slice());
-
-        auth.set_hmac(hmac.result().code().to_vec());
-        msg.set_hmacAuth(auth);
-
-        msg.set_commandBytes(cmd_bytes);
+        let msg = kinetic::Message::new();
 
         // Send to device
-        self.channel.send((msg, value));
-
-        // TODO: this is wrong... use seq/ackSeq to match response to request
+        let (tx, rx) = channel();
+        self.channel.send((tx, msg, cmd, value));
 
         // Receive response
-        let (_, cmd, _) = try!(self.channel.recv());
+        let (_, cmd, _) = rx.recv();
 
         let status = cmd.get_status();
         if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(()) }
@@ -241,8 +256,6 @@ impl Client {
 
         // fill header
         let mut header = kinetic::Command_Header::new();
-        header.set_connectionID(self.connection_id);
-        header.set_sequence(0); // TODO: move this to an attribute? Writer should be able to set it
         header.set_clusterVersion(self.cluster_version);
 
         // Set command type to put
@@ -258,35 +271,15 @@ impl Client {
         body.set_keyValue(kv);
         cmd.set_body(body);
 
-        let cmd_bytes = cmd.write_to_bytes().unwrap();
-
         // Message wrapping the command
-        let mut msg = kinetic::Message::new();
-
-        // Set message authentication
-        msg.set_authType(kinetic::Message_AuthType::Message_HMACAUTH);
-        let mut auth = kinetic::Message_HMACauth::new();
-        auth.set_identity(self.identity);
-
-        // Calculate Hmac_sha1 of the command
-        let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), self.key.as_slice());
-        let mut w = io::MemWriter::with_capacity(4);
-        w.write_be_u32(cmd_bytes.len().to_u32().unwrap()).unwrap();
-        hmac.input(w.unwrap().as_slice());
-        hmac.input(cmd_bytes.as_slice());
-
-        auth.set_hmac(hmac.result().code().to_vec());
-        msg.set_hmacAuth(auth);
-
-        msg.set_commandBytes(cmd_bytes);
+        let msg = kinetic::Message::new();
 
         // Send to device
-        self.channel.send((msg, vec::Vec::new()));
-
-        // TODO: this is wrong... use seq/ackSeq to match response to request
+        let (tx, rx) = channel();
+        self.channel.send((tx, msg, cmd, vec::Vec::new()));
 
         // Receive response
-        let (_, cmd, value) = try!(self.channel.recv());
+        let (_, cmd, value) = rx.recv();
 
         let status = cmd.get_status();
         if status.get_code() == kinetic::Command_Status_SUCCESS { Ok(value) }
