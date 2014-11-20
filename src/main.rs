@@ -20,6 +20,8 @@
 
 // author: Ignacio Corderi
 
+//! Kinetic protocol library in Rust
+
 extern crate protobuf;
 extern crate "rust-crypto" as rust_crypto;
 extern crate test;
@@ -234,6 +236,13 @@ pub struct Client {
     cluster_version: i64
 }
 
+
+/// Kinetic protocol client
+/// # Example
+/// ```no_run
+/// let c = Client::connect("127.0.0.1:8123").unwrap();
+/// c.put("hello".as_bytes().to_vec(), "world".as_bytes().to_vec()).unwrap().unwrap();
+/// ```
 #[experimental]
 impl Client {
 
@@ -244,6 +253,7 @@ impl Client {
                      cluster_version: 0 })
     }
 
+    /// Sends a Put command for the given key/value pair to the target device
     #[experimental]
     pub fn put(&self, key: vec::Vec<u8>, value: vec::Vec<u8>) -> Future<KineticResult<()>> {
         let mut cmd = kinetic::Command::new();
@@ -359,7 +369,10 @@ fn put_ten_megabytes(b: &mut Bencher) {
 fn main() {
     println!("Kinetic from Rust!")
 
-    let c = Client::connect("127.0.0.1:8123").unwrap();
+    let args = std::os::args();
+    println!("Connecting to {}", args[1]);
+
+    let c = Client::connect(format!("{}:8123", args[1]).as_slice()).unwrap();
 
     c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.4!".as_bytes().to_vec()).unwrap().unwrap();
     let v = c.get("rust".as_bytes().to_vec()).unwrap().unwrap();
