@@ -100,7 +100,7 @@ fn network_recv(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
 }
 
 #[unstable]
-fn network_send(stream: &mut io::Writer, proto: kinetic::Message, value: vec::Vec<u8>) -> KineticResult<()> {
+fn network_send(stream: &mut io::Writer, proto: &kinetic::Message, value: &[u8]) -> KineticResult<()> {
     let s = proto.serialized_size();
 
     let mut hw = io::BufferedWriter::with_capacity(9u + s as uint, stream);
@@ -179,10 +179,12 @@ impl KineticChannel {
         let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(10); // TODO: move to argument
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
+        let key = "asdfasdf".as_bytes();
         spawn(proc() {
             let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 
+            let mut buffer: [u8, ..4];
             for (callback, mut msg, mut cmd, value) in w_rx.iter(){
                 cmd.mut_header().set_sequence(seq);
                 cmd.mut_header().set_connectionID(connection_id);
@@ -195,11 +197,11 @@ impl KineticChannel {
                 auth.set_identity(1); // TODO: move to attribute
 
                 // Calculate hmac_sha1 of the command
-                let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), "asdfasdf".as_bytes()); // TODO: move to attribute
+                let mut hmac = rust_crypto::hmac::Hmac::new(rust_crypto::sha1::Sha1::new(), key); // TODO: move to attribute
 
-                let buffer: [u8, ..4] = unsafe { std::mem::transmute((cmd_bytes.len() as u32).to_be()) };
+                buffer = unsafe { std::mem::transmute((cmd_bytes.len() as u32).to_be()) };
 
-                hmac.input(buffer.as_slice());
+                hmac.input(&buffer);
                 hmac.input(cmd_bytes.as_slice());
 
                 auth.set_hmac(hmac.result().code().to_vec());
@@ -212,7 +214,7 @@ impl KineticChannel {
                     let mut pending = pending_mutex.lock();
                     pending.insert(seq, callback);
                 }
-                network_send(&mut writer, msg, value).unwrap();
+                network_send(&mut writer, &msg, value.as_slice()).unwrap();
                 seq += 1;
             }
         });
@@ -364,14 +366,14 @@ fn main() {
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
 
-    let items = 100i;
+    let items = 1000i;
     // benchmark
     let d = Duration::span(|| {
         let data = Arc::new(box [0u8,..1024*1024]); // 1 MB
         let mut responses = vec::Vec::with_capacity(items as uint);
         for i in range(0i, items) {
             let data = data.clone().to_vec();
-            let r = c.put(format!("bench.{}", i).as_bytes().to_vec(), data);
+            let r = c.put(format!("opt-bench.{}", i).as_bytes().to_vec(), data);
             responses.push(r);
         }
         // wait on all
@@ -379,6 +381,6 @@ fn main() {
             r.unwrap().unwrap();
         }
     });
-    let bw = items as f32 / d.num_seconds() as f32;
+    let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);
     println!("Benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw);
 }

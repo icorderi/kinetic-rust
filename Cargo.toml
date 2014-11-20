@@ -3,6 +3,12 @@
 name = "kinetic-rust"
 version = "0.0.3"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
+license = "MIT"
+homepage = "https://github.com/icorderi/kinetic-rust/"
+repository = "https://github.com/icorderi/kinetic-rust/"
+description = "A library to connect with Kinetic drives from Rust"
+keywords = [ "Protocol", "Kinetic", "Storage" ]
+readme = "README.md"
 
 [dependencies.protobuf]
 
