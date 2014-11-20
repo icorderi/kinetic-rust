@@ -54,7 +54,7 @@ pub enum KineticError {
     IoError(io::IoError),
     ProtobufError(ProtobufError),
     InvalidMagicNumber,
-    RemoteError(kinetic::Command_Status_StatusCode)
+    RemoteError(kinetic::Command_Status_StatusCode, String)
 }
 
 #[unstable]
@@ -290,7 +290,7 @@ impl Client {
 
             let status = cmd.get_status();
             if status.get_code() == kinetic::Command_Status_StatusCode::SUCCESS { Ok(()) }
-            else { Err(KineticError::RemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            else { Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage()))) } // TODO: return the entire status, not just the code
         })
     }
 
@@ -328,7 +328,7 @@ impl Client {
 
             let status = cmd.get_status();
             if status.get_code() == kinetic::Command_Status_StatusCode::SUCCESS { Ok(value) }
-            else { Err(KineticError::RemoteError(status.get_code())) } // TODO: return the entire status, not just the code
+            else { Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage()))) } // TODO: return the entire status, not just the code
         })
     }
 }
