@@ -272,6 +272,8 @@ impl Client {
         kv.set_key(key);
         kv.set_synchronization(kinetic::Command_Synchronization::WRITEBACK);
         kv.set_force(true);
+        kv.set_tag(vec![1,2,3,4]);
+        kv.set_algorithm(kinetic::Command_Algorithm::SHA1);
 
         let mut body = kinetic::Command_Body::new();
         body.set_keyValue(kv);
