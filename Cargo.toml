@@ -17,3 +17,7 @@ git = "https://github.com/stepancheg/rust-protobuf.git"
 [dependencies.rust-crypto]
 
 git = "https://github.com/DaGenix/rust-crypto.git"
+
+[dependencies.docopt_macros]
+
+git = "git://github.com/docopt/docopt.rs"

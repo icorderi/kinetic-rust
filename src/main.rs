@@ -25,6 +25,10 @@
 extern crate protobuf;
 extern crate "rust-crypto" as rust_crypto;
 extern crate test;
+extern crate serialize;
+extern crate docopt;
+
+use docopt::Docopt;
 
 use test::Bencher;
 use protobuf::parse_from_reader;
@@ -367,21 +371,81 @@ fn put_ten_megabytes(b: &mut Bencher) {
     b.bytes = 1024*1024*10;
 }
 
+// Write the Docopt usage string.
+static USAGE: &'static str = "
+Kinetic from Rust!
+
+Usage: kinetic-rust write <target> [<count>]
+       kinetic-rust read <target>
+       kinetic-rust [options]
+
+Options:
+  -h, --help       Show this message.
+  --version        Show the version of kinetic-rust.
+";
+
+#[deriving(Decodable, Show)]
+struct Args {
+   cmd_write: Option<WriteArgs>,
+   cmd_read: Option<ReadArgs>,
+   flag_help: bool,
+   flag_version: bool
+}
+
+#[deriving(Decodable, Show)]
+struct WriteArgs{
+    arg_target: String,
+    arg_count: Option<int>
+}
+
+#[deriving(Decodable, Show)]
+struct ReadArgs{
+    arg_target: String
+}
+
+pub fn version() -> String {
+    format!("{} {}", "kinetic-rust" ,match option_env!("CFG_VERSION") {
+        Some(s) => s.to_string(),
+        None => format!("{}.{}.{}{}",
+                        env!("CARGO_PKG_VERSION_MAJOR"),
+                        env!("CARGO_PKG_VERSION_MINOR"),
+                        env!("CARGO_PKG_VERSION_PATCH"),
+                        option_env!("CARGO_PKG_VERSION_PRE").unwrap_or(""))
+    })
+}
+
 #[cfg(not(test))]
 fn main() {
-    println!("Kinetic from Rust!")
 
-    let args = std::os::args();
-    println!("Connecting to {}", args[1]);
+    let args: Args = Docopt::new(USAGE)
+                            .and_then(|d| d.decode())
+                            .unwrap_or_else(|e| e.exit());
 
-    let c = Client::connect(format!("{}:8123", args[1]).as_slice()).unwrap();
+    if args.flag_help {
+        println!("{}", USAGE);
+        return;
+    }
+
+    if args.flag_version {
+        println!("{}", version());
+        return;
+    }
+
+    println!("{}", args);
+
+    let cmd = args.cmd_write.unwrap();
+    let target = cmd.arg_target;
+
+    println!("Connecting to {}", target);
+
+    let c = Client::connect(format!("{}:8123", target).as_slice()).unwrap();
 
     c.put("rust".as_bytes().to_vec(), "Hello from rust v0.0.4!".as_bytes().to_vec()).unwrap().unwrap();
     let v = c.get("rust".as_bytes().to_vec()).unwrap().unwrap();
 
     println!("Read back: {}", String::from_utf8(v).unwrap());
 
-    let items = 1000i;
+    let items = cmd.arg_count.unwrap_or(10i);
     // benchmark
     let d = Duration::span(|| {
         let data = Arc::new(box [0u8,..1024*1024]); // 1 MB
