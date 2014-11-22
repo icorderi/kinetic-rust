@@ -26,7 +26,7 @@
 
 use core::Command;
 
-// Requests the value stored with the given key
+/// Requests the value stored with the given key
 #[experimental]
 pub struct Get<'k> {
     pub key: &'k[u8]
@@ -57,7 +57,7 @@ impl<'k, 'c, 'r> Command<'c,'r, ::responses::GetResponse<'r>> for Get<'k> {
 
 }
 
-// Stores the value asociated with the key
+/// Stores the value asociated with the key
 #[experimental]
 pub struct Put<'k,'v> {
     pub key: &'k[u8],
