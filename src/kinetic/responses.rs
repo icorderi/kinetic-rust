@@ -31,9 +31,9 @@ use proto::{Message, Command};
 
 /// The command doesn't return anything of interest
 #[stable]
-impl Response for () {
+impl<'r> Response<'r> for () {
 
-    fn from_proto<'m,'c,'v>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<()> {
+    fn from_proto<'m,'c,'v:'r>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<()> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
@@ -52,9 +52,9 @@ pub struct GetResponse<'v> {
 }
 
 #[experimental]
-impl<'v> Response for GetResponse<'v> {
+impl<'r> Response<'r> for GetResponse<'r> {
 
-    fn from_proto<'m,'c,'v>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'v>> {
+    fn from_proto<'m,'c,'v:'r>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'r>> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {

@@ -21,16 +21,16 @@
 // author: Ignacio Corderi
 
 #[unstable]
-pub trait Command<R: Response> {
+pub trait Command<'v,'r, R: Response<'r>> {
 
-    fn build_proto<'v>(&self) -> (::proto::Command, Option<&'v[u8]>);
+    fn build_proto(&self) -> (::proto::Command, Option<&'v[u8]>);
 
 }
 
 #[unstable]
-pub trait Response {
+pub trait Response<'r> {
 
-     fn from_proto<'m,'c,'v>(&'m::proto::Message, &'c::proto::Command, &'v[u8]) -> ::result::KineticResult<Self>;
+     fn from_proto<'m,'c,'v:'r>(&'m::proto::Message, &'c::proto::Command, &'v[u8]) -> ::result::KineticResult<Self>;
 
 }
 

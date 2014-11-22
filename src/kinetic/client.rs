@@ -173,13 +173,15 @@ impl Client {
 
     /// Sends commands to target device
     #[unstable]
-    pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
+    pub fn send<'c,'r, R : Response<'r>, C: Command<'c,'r, R>> (&self, cmd: C) -> KineticResult<R> {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
 
         // set extra client specific fields on the header
-        let mut h = cmd.mut_header();
-        h.set_clusterVersion(self.cluster_version);
+        {
+            let mut h = cmd.mut_header();
+            h.set_clusterVersion(self.cluster_version);
+        }
 
         // Message wrapping the command
         let msg = ::proto::Message::new();
@@ -196,9 +198,9 @@ impl Client {
         // Receive response
         let (msg, cmd, value) = rx.recv();
 
-        // return specific response for the command
+        // create response for the command
         let r:KineticResult<R> = Response::from_proto(&msg, &cmd, value.as_slice());
-        r
+        r // return it
     }
 
     // Returns a Future<T> instead of waiting for the response

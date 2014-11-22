@@ -33,9 +33,9 @@ pub struct Get<'k> {
 }
 
 #[experimental]
-impl<'k,'r> Command<::responses::GetResponse<'r>> for Get<'k> {
+impl<'k, 'c, 'r> Command<'c,'r, ::responses::GetResponse<'r>> for Get<'k> {
 
-    fn build_proto<'v>(&self) -> (::proto::Command, Option<&'v[u8]>) {
+    fn build_proto(&self) -> (::proto::Command, Option<&'c[u8]>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 
@@ -65,7 +65,7 @@ pub struct Put<'k,'v> {
 }
 
 #[experimental]
-impl<'k,'v> Command<()> for Put<'k,'v> {
+impl<'k,'v,'r> Command<'v,'r, ()> for Put<'k,'v> {
 
     fn build_proto(&self) -> (::proto::Command, Option<&'v [u8]>) {
         let mut cmd = ::proto::Command::new();
