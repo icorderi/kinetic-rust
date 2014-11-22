@@ -155,8 +155,11 @@ pub struct Client {
 /// Kinetic protocol client
 /// # Example
 /// ```no_run
+/// use kinetic::Client;
+/// use kinetic::commands::Put;
+///
 /// let c = Client::connect("127.0.0.1:8123").unwrap();
-/// c.put("hello".as_bytes().to_vec(), "world".as_bytes().to_vec()).unwrap().unwrap();
+/// c.send(Put { key: "hello".as_bytes(), value: "world".as_bytes() }).unwrap();
 /// ```
 #[experimental]
 impl Client {
