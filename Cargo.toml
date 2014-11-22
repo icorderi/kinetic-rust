@@ -1,7 +1,7 @@
 [package]
 
 name = "kinetic-rust"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 license = "MIT"
 homepage = "https://github.com/icorderi/kinetic-rust/"
@@ -26,7 +26,7 @@ git = "https://github.com/DaGenix/rust-crypto.git"
 [[bin]]
 
 name = "kinetic-bench"
-path = "src/kinetic-bench/tool.rs"
+path = "src/kinetic-bench/main.rs"
 
 [dependencies.docopt_macros]
 
