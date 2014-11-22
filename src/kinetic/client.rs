@@ -171,91 +171,42 @@ impl Client {
                      cluster_version: 0 })
     }
 
-    #[experimental]
+    /// Sends commands to target device
+    #[unstable]
     pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
-        Ok(cmd.get_response())
-    }
+        // build specific command
+        let (mut cmd, value) = cmd.build_proto();
 
-    /// Sends a Put command for the given key/value pair to the target device
-    #[experimental]
-    fn put(&self, key: vec::Vec<u8>, value: vec::Vec<u8>) -> Future<KineticResult<()>> {
-        let mut cmd = ::proto::Command::new();
-
-        // fill header
-        let mut header = ::proto::Command_Header::new();
-        header.set_clusterVersion(self.cluster_version);
-
-        // Set command type to put
-        header.set_messageType(::proto::Command_MessageType::PUT);
-
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut kv = ::proto::Command_KeyValue::new();
-        kv.set_key(key);
-        kv.set_synchronization(::proto::Command_Synchronization::WRITEBACK);
-        kv.set_force(true);
-        kv.set_tag(vec![1,2,3,4]);
-        kv.set_algorithm(::proto::Command_Algorithm::SHA1);
-
-        let mut body = ::proto::Command_Body::new();
-        body.set_keyValue(kv);
-        cmd.set_body(body);
+        // set extra client specific fields on the header
+        let mut h = cmd.mut_header();
+        h.set_clusterVersion(self.cluster_version);
 
         // Message wrapping the command
         let msg = ::proto::Message::new();
+
+        // turn optional value into vec
+        let value = match value {
+                        None => vec![],
+                        Some(v) => v.to_vec() };
 
         // Send to device
         let (tx, rx) = channel();
         self.channel.send((tx, msg, cmd, value));
 
-        Future::spawn(proc() {
-            // Receive response
-            let (_, cmd, _) = rx.recv();
+        // Receive response
+        let (msg, cmd, value) = rx.recv();
 
-            let status = cmd.get_status();
-            if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS { Ok(()) }
-            else { Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage()))) } // TODO: return the entire status, not just the code
-        })
+        // return specific response for the command
+        let r:KineticResult<R> = Response::from_proto(&msg, &cmd, value.as_slice());
+        r
     }
 
-    #[experimental]
-    fn get(&self, key: vec::Vec<u8>) -> Future<KineticResult<Vec<u8>>> {
-        let mut cmd = ::proto::Command::new();
+    // Returns a Future<T> instead of waiting for the response
+//     #[experimental]
+//     pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
+//         Future::spawn(proc() { self.send(cmd) })
+//     }
 
-        // fill header
-        let mut header = ::proto::Command_Header::new();
-        header.set_clusterVersion(self.cluster_version);
-
-        // Set command type to put
-        header.set_messageType(::proto::Command_MessageType::GET);
-
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut kv = ::proto::Command_KeyValue::new();
-        kv.set_key(key);
-
-        let mut body = ::proto::Command_Body::new();
-        body.set_keyValue(kv);
-        cmd.set_body(body);
-
-        // Message wrapping the command
-        let msg = ::proto::Message::new();
-
-        // Send to device
-        let (tx, rx) = channel();
-        self.channel.send((tx, msg, cmd, vec::Vec::new()));
-
-        Future::spawn(proc() {
-            // Receive response
-            let (_, cmd, value) = rx.recv();
-
-            let status = cmd.get_status();
-            if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS { Ok(value) }
-            else { Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage()))) } // TODO: return the entire status, not just the code
-        })
-    }
 }
 
 // #[bench]

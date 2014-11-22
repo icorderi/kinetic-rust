@@ -22,11 +22,17 @@
 
 #[unstable]
 pub trait Command<R: Response> {
-    fn get_response(&self) -> R;
+
+    fn build_proto<'v>(&self) -> (::proto::Command, Option<&'v[u8]>);
+
 }
 
 #[unstable]
-pub trait Response { }
+pub trait Response {
+
+     fn from_proto<'m,'c,'v>(&'m::proto::Message, &'c::proto::Command, &'v[u8]) -> ::result::KineticResult<Self>;
+
+}
 
 #[experimental]
 pub type KineticResponse = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);

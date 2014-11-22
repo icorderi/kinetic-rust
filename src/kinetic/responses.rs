@@ -25,16 +25,44 @@
 //! Kinetic responses for available commands
 
 use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
 
 /// The command doesn't return anything of interest
 #[stable]
-impl Response for () { }
+impl Response for () {
+
+    fn from_proto<'m,'c,'v>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<()> {
+        let status = cmd.get_status();
+
+        if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
+            Ok(())
+        } else {
+            Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))
+        }
+    }
+
+}
 
 /// A get command returns the value stored associated with the key requested
 #[experimental]
-pub struct GetResponse<'a> {
-    pub value: Option<&'a[u8]>
+pub struct GetResponse<'v> {
+    pub value: Option<&'v[u8]>
 }
 
 #[experimental]
-impl<'a> Response for GetResponse<'a> { }
+impl<'v> Response for GetResponse<'v> {
+
+    fn from_proto<'m,'c,'v>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'v>> {
+        let status = cmd.get_status();
+
+        if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
+            Ok(GetResponse { value: Some(value) })
+        } else {
+            Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))
+        }
+    }
+
+}
+

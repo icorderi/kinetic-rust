@@ -28,27 +28,67 @@ use core::Command;
 
 // Requests the value stored with the given key
 #[experimental]
-pub struct Get<'a> {
-    pub key: &'a[u8]
+pub struct Get<'k> {
+    pub key: &'k[u8]
 }
 
 #[experimental]
-impl<'a,'r> Command<::responses::GetResponse<'r>> for Get<'a> {
-    fn get_response(&self) -> ::responses::GetResponse<'r>{
-        ::responses::GetResponse { value: None }
+impl<'k,'r> Command<::responses::GetResponse<'r>> for Get<'k> {
+
+    fn build_proto<'v>(&self) -> (::proto::Command, Option<&'v[u8]>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::Command_Header::new();
+
+        // Set command type
+        header.set_messageType(::proto::Command_MessageType::GET);
+
+        cmd.set_header(header);
+
+        // Build the actual command
+        let mut kv = ::proto::Command_KeyValue::new();
+        kv.set_key(self.key.to_vec());
+
+        let mut body = ::proto::Command_Body::new();
+        body.set_keyValue(kv);
+        cmd.set_body(body);
+
+        (cmd, None) // return command
     }
+
 }
 
 // Stores the value asociated with the key
 #[experimental]
-pub struct Put<'a,'b> {
-    pub key: &'a[u8],
-    pub value: &'b[u8]
+pub struct Put<'k,'v> {
+    pub key: &'k[u8],
+    pub value: &'v[u8]
 }
 
 #[experimental]
-impl<'a,'b> Command<()> for Put<'a,'b> {
-    fn get_response(&self) -> () {
-        ()
+impl<'k,'v> Command<()> for Put<'k,'v> {
+
+    fn build_proto(&self) -> (::proto::Command, Option<&'v [u8]>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::Command_Header::new();
+
+        // Set command type
+        header.set_messageType(::proto::Command_MessageType::PUT);
+
+        cmd.set_header(header);
+
+        // Build the actual command
+        let mut kv = ::proto::Command_KeyValue::new();
+        kv.set_key(self.key.to_vec());
+        kv.set_synchronization(::proto::Command_Synchronization::WRITEBACK);
+        kv.set_force(true);
+        kv.set_tag(vec![1,2,3,4]);
+        kv.set_algorithm(::proto::Command_Algorithm::SHA1);
+
+        let mut body = ::proto::Command_Body::new();
+        body.set_keyValue(kv);
+        cmd.set_body(body);
+
+        (cmd, Some(self.value)) // return command
     }
+
 }
