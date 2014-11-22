@@ -35,7 +35,7 @@ pub struct Get<'k> {
 #[experimental]
 impl<'k,'r> Command<::responses::GetResponse<'r>> for Get<'k> {
 
-    fn build_proto<'k>(&self) -> (::proto::Command, Option<&'k[u8]>) {
+    fn build_proto<'v>(&self) -> (::proto::Command, Option<&'v[u8]>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 
