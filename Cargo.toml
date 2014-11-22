@@ -1,14 +1,19 @@
 [package]
 
 name = "kinetic-rust"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 license = "MIT"
 homepage = "https://github.com/icorderi/kinetic-rust/"
 repository = "https://github.com/icorderi/kinetic-rust/"
-description = "A library to connect with Kinetic drives from Rust"
+description = "A Kinetic API written in Rust"
 keywords = [ "Protocol", "Kinetic", "Storage" ]
 readme = "README.md"
+
+[lib]
+
+name = "kinetic"
+path = "src/kinetic/lib.rs"
 
 [dependencies.protobuf]
 
@@ -17,6 +22,11 @@ git = "https://github.com/stepancheg/rust-protobuf.git"
 [dependencies.rust-crypto]
 
 git = "https://github.com/DaGenix/rust-crypto.git"
+
+[[bin]]
+
+name = "kinetic-bench"
+path = "src/kinetic-bench/tool.rs"
 
 [dependencies.docopt_macros]
 
