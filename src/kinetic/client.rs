@@ -26,11 +26,9 @@ use crypto::mac::Mac;
 use std::{vec, io, collections};
 use std::io::net::ip::ToSocketAddr;
 use std::sync::{Mutex, Arc};
-use std::sync::Future;
 use std::num::Int;
 use core::{Command, Response, KineticResponse};
 use result::KineticResult;
-use error::KineticError;
 
 
 #[experimental]
@@ -161,18 +159,18 @@ pub struct Client {
 /// let c = Client::connect("127.0.0.1:8123").unwrap();
 /// c.send(Put { key: "hello".as_bytes(), value: "world".as_bytes() }).unwrap();
 /// ```
-#[experimental]
+#[unstable]
 impl Client {
 
-    #[unstable]
+    #[stable]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
         let c = try!(KineticChannel::connect(addr));
         Ok( Client { channel: c,
                      cluster_version: 0 })
     }
 
-    /// Sends commands to target device
-    #[unstable]
+    /// Sends commands to target device an waits for response
+    #[stable]
     pub fn send<'c,'r, R : Response<'r>, C: Command<'c,'r, R>> (&self, cmd: C) -> KineticResult<R> {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
@@ -205,7 +203,7 @@ impl Client {
 
     // Returns a Future<T> instead of waiting for the response
 //     #[experimental]
-//     pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
+//     pub fn send_future<'c,'r, R : Response<'r>, C: Command<'c,'r, R>> (&self, cmd: C) -> Future<KineticResult<R>> {
 //         Future::spawn(proc() { self.send(cmd) })
 //     }
 

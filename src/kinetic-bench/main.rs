@@ -28,20 +28,16 @@ extern crate docopt;
 extern crate kinetic;
 
 use docopt::Docopt;
-use std::collections;
-use std::sync::{Mutex, Arc};
+use std::sync::Arc;
 use std::time::duration::Duration;
-use std::num::Int;
 use std::vec;
 use kinetic::commands::{Put, Get};
-use kinetic::responses::GetResponse;
 
 // Write the Docopt usage string.
 static USAGE: &'static str = "
 Kinetic from Rust!
 
 Usage: kinetic-rust write <target> [<count>]
-       kinetic-rust read <target>
        kinetic-rust [options]
 
 Options:
@@ -97,7 +93,10 @@ fn main() {
         return;
     }
 
-    println!("{}", args);
+    if args.cmd_write.is_none() {
+        println!("{}", USAGE);
+        return;
+    }
 
     let cmd = args.cmd_write.unwrap();
     let target = cmd.arg_target;
@@ -106,7 +105,7 @@ fn main() {
 
     let c = kinetic::Client::connect(format!("{}:8123", target).as_slice()).unwrap();
 
-    c.send(Put { key: "rust".as_bytes(), value: "Hello from rust v0.0.4!".as_bytes()}).unwrap();
+    c.send(Put { key: "rust".as_bytes(), value: format!("Hello from {}!", version()).as_bytes()}).unwrap();
     let v = c.send(Get { key: "rust".as_bytes() }).unwrap();
 
     match v.value {

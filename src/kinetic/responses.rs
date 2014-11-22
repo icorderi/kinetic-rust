@@ -29,11 +29,12 @@ use result::KineticResult;
 use error::KineticError;
 use proto::{Message, Command};
 
+
 /// The command doesn't return anything of interest
 #[stable]
 impl<'r> Response<'r> for () {
 
-    fn from_proto<'m,'c,'v:'r>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<()> {
+    fn from_proto<'m,'c,'v:'r>(_: &'m Message, cmd: &'c Command, _: &'v[u8]) -> KineticResult<()> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
@@ -47,6 +48,7 @@ impl<'r> Response<'r> for () {
 
 /// A get command returns the value stored associated with the key requested
 #[experimental]
+#[deriving(Show)]
 pub struct GetResponse<'v> {
     pub value: Option<&'v[u8]>
 }
@@ -54,7 +56,7 @@ pub struct GetResponse<'v> {
 #[experimental]
 impl<'r> Response<'r> for GetResponse<'r> {
 
-    fn from_proto<'m,'c,'v:'r>(msg: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'r>> {
+    fn from_proto<'m,'c,'v:'r>(_: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'r>> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
