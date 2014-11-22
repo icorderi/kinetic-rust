@@ -6,6 +6,7 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
+
 #[deriving(Clone,PartialEq,Default)]
 pub struct Local {
     protocolVersion: ::protobuf::SingularField<::std::string::String>,
@@ -55,7 +56,7 @@ impl<'a> Local {
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "3.0.0",
         }
     }
@@ -109,7 +110,7 @@ impl ::protobuf::Message for Local {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.protocolVersion.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
             },
             None => {},
@@ -310,7 +311,7 @@ impl<'a> Message {
 
     pub fn get_commandBytes(&'a self) -> &'a [u8] {
         match self.commandBytes.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -395,13 +396,13 @@ impl ::protobuf::Message for Message {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.authType {
-            Some(ref v) => {
-                try!(os.write_enum(4, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(4, v as i32));
             },
             None => {},
         };
         match self.hmacAuth.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -410,7 +411,7 @@ impl ::protobuf::Message for Message {
             None => {},
         };
         match self.pinAuth.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -419,7 +420,7 @@ impl ::protobuf::Message for Message {
             None => {},
         };
         match self.commandBytes.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(7, v.as_slice()));
             },
             None => {},
@@ -621,7 +622,7 @@ impl<'a> Message_HMACauth {
 
     pub fn get_hmac(&'a self) -> &'a [u8] {
         match self.hmac.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -685,13 +686,13 @@ impl ::protobuf::Message for Message_HMACauth {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.identity {
-            Some(ref v) => {
-                try!(os.write_int64(1, *v));
+            Some(v) => {
+                try!(os.write_int64(1, v));
             },
             None => {},
         };
         match self.hmac.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
@@ -852,7 +853,7 @@ impl<'a> Message_PINauth {
 
     pub fn get_pin(&'a self) -> &'a [u8] {
         match self.pin.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -916,13 +917,13 @@ impl ::protobuf::Message for Message_PINauth {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.pinOp {
-            Some(ref v) => {
-                try!(os.write_enum(1, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(1, v as i32));
             },
             None => {},
         };
         match self.pin.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
@@ -1268,7 +1269,7 @@ impl ::protobuf::Message for Command {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.header.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -1277,7 +1278,7 @@ impl ::protobuf::Message for Command {
             None => {},
         };
         match self.body.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -1286,7 +1287,7 @@ impl ::protobuf::Message for Command {
             None => {},
         };
         match self.status.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -1739,56 +1740,56 @@ impl ::protobuf::Message for Command_Header {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.clusterVersion {
-            Some(ref v) => {
-                try!(os.write_int64(1, *v));
+            Some(v) => {
+                try!(os.write_int64(1, v));
             },
             None => {},
         };
         match self.connectionID {
-            Some(ref v) => {
-                try!(os.write_int64(3, *v));
+            Some(v) => {
+                try!(os.write_int64(3, v));
             },
             None => {},
         };
         match self.sequence {
-            Some(ref v) => {
-                try!(os.write_int64(4, *v));
+            Some(v) => {
+                try!(os.write_int64(4, v));
             },
             None => {},
         };
         match self.ackSequence {
-            Some(ref v) => {
-                try!(os.write_int64(6, *v));
+            Some(v) => {
+                try!(os.write_int64(6, v));
             },
             None => {},
         };
         match self.messageType {
-            Some(ref v) => {
-                try!(os.write_enum(7, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(7, v as i32));
             },
             None => {},
         };
         match self.timeout {
-            Some(ref v) => {
-                try!(os.write_int64(9, *v));
+            Some(v) => {
+                try!(os.write_int64(9, v));
             },
             None => {},
         };
         match self.earlyExit {
-            Some(ref v) => {
-                try!(os.write_bool(10, *v));
+            Some(v) => {
+                try!(os.write_bool(10, v));
             },
             None => {},
         };
         match self.priority {
-            Some(ref v) => {
-                try!(os.write_enum(12, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(12, v as i32));
             },
             None => {},
         };
         match self.TimeQuanta {
-            Some(ref v) => {
-                try!(os.write_int64(13, *v));
+            Some(v) => {
+                try!(os.write_int64(13, v));
             },
             None => {},
         };
@@ -2366,7 +2367,7 @@ impl ::protobuf::Message for Command_Body {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.keyValue.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2375,7 +2376,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.range.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2384,7 +2385,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.setup.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2393,7 +2394,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.p2pOperation.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2402,7 +2403,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.getLog.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2411,7 +2412,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.security.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2420,7 +2421,7 @@ impl ::protobuf::Message for Command_Body {
             None => {},
         };
         match self.backgroundOperation.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -2686,7 +2687,7 @@ impl<'a> Command_Status {
 
     pub fn get_statusMessage(&'a self) -> &'a str {
         match self.statusMessage.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -2717,7 +2718,7 @@ impl<'a> Command_Status {
 
     pub fn get_detailedMessage(&'a self) -> &'a [u8] {
         match self.detailedMessage.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -2791,19 +2792,19 @@ impl ::protobuf::Message for Command_Status {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.code {
-            Some(ref v) => {
-                try!(os.write_enum(1, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(1, v as i32));
             },
             None => {},
         };
         match self.statusMessage.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(2, v.as_slice()));
             },
             None => {},
         };
         match self.detailedMessage.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(3, v.as_slice()));
             },
             None => {},
@@ -3049,7 +3050,7 @@ impl<'a> Command_KeyValue {
 
     pub fn get_newVersion(&'a self) -> &'a [u8] {
         match self.newVersion.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3099,7 +3100,7 @@ impl<'a> Command_KeyValue {
 
     pub fn get_key(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3130,7 +3131,7 @@ impl<'a> Command_KeyValue {
 
     pub fn get_dbVersion(&'a self) -> &'a [u8] {
         match self.dbVersion.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3161,7 +3162,7 @@ impl<'a> Command_KeyValue {
 
     pub fn get_tag(&'a self) -> &'a [u8] {
         match self.tag.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3342,50 +3343,50 @@ impl ::protobuf::Message for Command_KeyValue {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.newVersion.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
         };
         match self.force {
-            Some(ref v) => {
-                try!(os.write_bool(8, *v));
+            Some(v) => {
+                try!(os.write_bool(8, v));
             },
             None => {},
         };
         match self.key.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(3, v.as_slice()));
             },
             None => {},
         };
         match self.dbVersion.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(4, v.as_slice()));
             },
             None => {},
         };
         match self.tag.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(5, v.as_slice()));
             },
             None => {},
         };
         match self.algorithm {
-            Some(ref v) => {
-                try!(os.write_enum(6, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(6, v as i32));
             },
             None => {},
         };
         match self.metadataOnly {
-            Some(ref v) => {
-                try!(os.write_bool(7, *v));
+            Some(v) => {
+                try!(os.write_bool(7, v));
             },
             None => {},
         };
         match self.synchronization {
-            Some(ref v) => {
-                try!(os.write_enum(9, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(9, v as i32));
             },
             None => {},
         };
@@ -3658,7 +3659,7 @@ impl<'a> Command_Range {
 
     pub fn get_startKey(&'a self) -> &'a [u8] {
         match self.startKey.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3689,7 +3690,7 @@ impl<'a> Command_Range {
 
     pub fn get_endKey(&'a self) -> &'a [u8] {
         match self.endKey.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -3899,38 +3900,38 @@ impl ::protobuf::Message for Command_Range {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.startKey.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(1, v.as_slice()));
             },
             None => {},
         };
         match self.endKey.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
         };
         match self.startKeyInclusive {
-            Some(ref v) => {
-                try!(os.write_bool(3, *v));
+            Some(v) => {
+                try!(os.write_bool(3, v));
             },
             None => {},
         };
         match self.endKeyInclusive {
-            Some(ref v) => {
-                try!(os.write_bool(4, *v));
+            Some(v) => {
+                try!(os.write_bool(4, v));
             },
             None => {},
         };
         match self.maxReturned {
-            Some(ref v) => {
-                try!(os.write_int32(5, *v));
+            Some(v) => {
+                try!(os.write_int32(5, v));
             },
             None => {},
         };
         match self.reverse {
-            Some(ref v) => {
-                try!(os.write_bool(6, *v));
+            Some(v) => {
+                try!(os.write_bool(6, v));
             },
             None => {},
         };
@@ -4216,7 +4217,7 @@ impl<'a> Command_Setup {
 
     pub fn get_newErasePin(&'a self) -> &'a [u8] {
         match self.newErasePin.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -4247,7 +4248,7 @@ impl<'a> Command_Setup {
 
     pub fn get_newLockPin(&'a self) -> &'a [u8] {
         match self.newLockPin.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -4331,25 +4332,25 @@ impl ::protobuf::Message for Command_Setup {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.newClusterVersion {
-            Some(ref v) => {
-                try!(os.write_int64(1, *v));
+            Some(v) => {
+                try!(os.write_int64(1, v));
             },
             None => {},
         };
         match self.firmwareDownload {
-            Some(ref v) => {
-                try!(os.write_bool(5, *v));
+            Some(v) => {
+                try!(os.write_bool(5, v));
             },
             None => {},
         };
         match self.newErasePin.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(6, v.as_slice()));
             },
             None => {},
         };
         match self.newLockPin.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(7, v.as_slice()));
             },
             None => {},
@@ -4644,7 +4645,7 @@ impl ::protobuf::Message for Command_P2POperation {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.peer.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -4659,8 +4660,8 @@ impl ::protobuf::Message for Command_P2POperation {
             try!(v.write_to_with_computed_sizes(os, sizes.as_slice(), sizes_pos));
         };
         match self.allChildOperationsSucceeded {
-            Some(ref v) => {
-                try!(os.write_bool(3, *v));
+            Some(v) => {
+                try!(os.write_bool(3, v));
             },
             None => {},
         };
@@ -4829,7 +4830,7 @@ impl<'a> Command_P2POperation_Operation {
 
     pub fn get_key(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -4860,7 +4861,7 @@ impl<'a> Command_P2POperation_Operation {
 
     pub fn get_version(&'a self) -> &'a [u8] {
         match self.version.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -4891,7 +4892,7 @@ impl<'a> Command_P2POperation_Operation {
 
     pub fn get_newKey(&'a self) -> &'a [u8] {
         match self.newKey.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -5071,31 +5072,31 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.key.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(3, v.as_slice()));
             },
             None => {},
         };
         match self.version.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(4, v.as_slice()));
             },
             None => {},
         };
         match self.newKey.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(5, v.as_slice()));
             },
             None => {},
         };
         match self.force {
-            Some(ref v) => {
-                try!(os.write_bool(6, *v));
+            Some(v) => {
+                try!(os.write_bool(6, v));
             },
             None => {},
         };
         match self.status.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -5104,7 +5105,7 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
             None => {},
         };
         match self.p2pop.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -5331,7 +5332,7 @@ impl<'a> Command_P2POperation_Peer {
 
     pub fn get_hostname(&'a self) -> &'a str {
         match self.hostname.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -5443,20 +5444,20 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.hostname.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
             },
             None => {},
         };
         match self.port {
-            Some(ref v) => {
-                try!(os.write_int32(2, *v));
+            Some(v) => {
+                try!(os.write_int32(2, v));
             },
             None => {},
         };
         match self.tls {
-            Some(ref v) => {
-                try!(os.write_bool(3, *v));
+            Some(v) => {
+                try!(os.write_bool(3, v));
             },
             None => {},
         };
@@ -5767,7 +5768,7 @@ impl<'a> Command_GetLog {
 
     pub fn get_messages(&'a self) -> &'a [u8] {
         match self.messages.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -5986,7 +5987,7 @@ impl ::protobuf::Message for Command_GetLog {
             try!(v.write_to_with_computed_sizes(os, sizes.as_slice(), sizes_pos));
         };
         match self.capacity.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -5995,7 +5996,7 @@ impl ::protobuf::Message for Command_GetLog {
             None => {},
         };
         match self.configuration.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -6010,13 +6011,13 @@ impl ::protobuf::Message for Command_GetLog {
             try!(v.write_to_with_computed_sizes(os, sizes.as_slice(), sizes_pos));
         };
         match self.messages.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(7, v.as_slice()));
             },
             None => {},
         };
         match self.limits.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -6025,7 +6026,7 @@ impl ::protobuf::Message for Command_GetLog {
             None => {},
         };
         match self.device.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(9, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;
@@ -6311,7 +6312,7 @@ impl<'a> Command_GetLog_Utilization {
 
     pub fn get_name(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -6394,14 +6395,14 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.name.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
             },
             None => {},
         };
         match self.value {
-            Some(ref v) => {
-                try!(os.write_float(2, *v));
+            Some(v) => {
+                try!(os.write_float(2, v));
             },
             None => {},
         };
@@ -6548,7 +6549,7 @@ impl<'a> Command_GetLog_Temperature {
 
     pub fn get_name(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -6718,32 +6719,32 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.name.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
             },
             None => {},
         };
         match self.current {
-            Some(ref v) => {
-                try!(os.write_float(2, *v));
+            Some(v) => {
+                try!(os.write_float(2, v));
             },
             None => {},
         };
         match self.minimum {
-            Some(ref v) => {
-                try!(os.write_float(3, *v));
+            Some(v) => {
+                try!(os.write_float(3, v));
             },
             None => {},
         };
         match self.maximum {
-            Some(ref v) => {
-                try!(os.write_float(4, *v));
+            Some(v) => {
+                try!(os.write_float(4, v));
             },
             None => {},
         };
         match self.target {
-            Some(ref v) => {
-                try!(os.write_float(5, *v));
+            Some(v) => {
+                try!(os.write_float(5, v));
             },
             None => {},
         };
@@ -7015,14 +7016,14 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.nominalCapacityInBytes {
-            Some(ref v) => {
-                try!(os.write_uint64(4, *v));
+            Some(v) => {
+                try!(os.write_uint64(4, v));
             },
             None => {},
         };
         match self.portionFull {
-            Some(ref v) => {
-                try!(os.write_float(5, *v));
+            Some(v) => {
+                try!(os.write_float(5, v));
             },
             None => {},
         };
@@ -7189,7 +7190,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_vendor(&'a self) -> &'a str {
         match self.vendor.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7220,7 +7221,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_model(&'a self) -> &'a str {
         match self.model.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7251,7 +7252,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_serialNumber(&'a self) -> &'a [u8] {
         match self.serialNumber.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -7282,7 +7283,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_worldWideName(&'a self) -> &'a [u8] {
         match self.worldWideName.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -7313,7 +7314,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_version(&'a self) -> &'a str {
         match self.version.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7344,7 +7345,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_compilationDate(&'a self) -> &'a str {
         match self.compilationDate.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7375,7 +7376,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_sourceHash(&'a self) -> &'a str {
         match self.sourceHash.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7406,7 +7407,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7437,7 +7438,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_protocolCompilationDate(&'a self) -> &'a str {
         match self.protocolCompilationDate.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7468,7 +7469,7 @@ impl<'a> Command_GetLog_Configuration {
 
     pub fn get_protocolSourceHash(&'a self) -> &'a str {
         match self.protocolSourceHash.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -7758,61 +7759,61 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.vendor.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(5, v.as_slice()));
             },
             None => {},
         };
         match self.model.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(6, v.as_slice()));
             },
             None => {},
         };
         match self.serialNumber.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(7, v.as_slice()));
             },
             None => {},
         };
         match self.worldWideName.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(14, v.as_slice()));
             },
             None => {},
         };
         match self.version.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(8, v.as_slice()));
             },
             None => {},
         };
         match self.compilationDate.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(12, v.as_slice()));
             },
             None => {},
         };
         match self.sourceHash.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(13, v.as_slice()));
             },
             None => {},
         };
         match self.protocolVersion.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(15, v.as_slice()));
             },
             None => {},
         };
         match self.protocolCompilationDate.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(16, v.as_slice()));
             },
             None => {},
         };
         match self.protocolSourceHash.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(17, v.as_slice()));
             },
             None => {},
@@ -7824,26 +7825,26 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
             try!(v.write_to_with_computed_sizes(os, sizes.as_slice(), sizes_pos));
         };
         match self.port {
-            Some(ref v) => {
-                try!(os.write_int32(10, *v));
+            Some(v) => {
+                try!(os.write_int32(10, v));
             },
             None => {},
         };
         match self.tlsPort {
-            Some(ref v) => {
-                try!(os.write_int32(11, *v));
+            Some(v) => {
+                try!(os.write_int32(11, v));
             },
             None => {},
         };
         match self.Locking {
-            Some(ref v) => {
-                try!(os.write_bool(18, *v));
+            Some(v) => {
+                try!(os.write_bool(18, v));
             },
             None => {},
         };
         match self.SecureErase {
-            Some(ref v) => {
-                try!(os.write_bool(19, *v));
+            Some(v) => {
+                try!(os.write_bool(19, v));
             },
             None => {},
         };
@@ -8248,7 +8249,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     pub fn get_name(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => "",
         }
     }
@@ -8279,7 +8280,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     pub fn get_MAC(&'a self) -> &'a [u8] {
         match self.MAC.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -8310,7 +8311,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     pub fn get_ipv4Address(&'a self) -> &'a [u8] {
         match self.ipv4Address.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -8341,7 +8342,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     pub fn get_ipv6Address(&'a self) -> &'a [u8] {
         match self.ipv6Address.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -8425,25 +8426,25 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.name.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
             },
             None => {},
         };
         match self.MAC.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
         };
         match self.ipv4Address.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(3, v.as_slice()));
             },
             None => {},
         };
         match self.ipv6Address.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(4, v.as_slice()));
             },
             None => {},
@@ -8727,20 +8728,20 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.messageType {
-            Some(ref v) => {
-                try!(os.write_enum(1, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(1, v as i32));
             },
             None => {},
         };
         match self.count {
-            Some(ref v) => {
-                try!(os.write_uint64(4, *v));
+            Some(v) => {
+                try!(os.write_uint64(4, v));
             },
             None => {},
         };
         match self.bytes {
-            Some(ref v) => {
-                try!(os.write_uint64(5, *v));
+            Some(v) => {
+                try!(os.write_uint64(5, v));
             },
             None => {},
         };
@@ -9221,62 +9222,62 @@ impl ::protobuf::Message for Command_GetLog_Limits {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.maxKeySize {
-            Some(ref v) => {
-                try!(os.write_uint32(1, *v));
+            Some(v) => {
+                try!(os.write_uint32(1, v));
             },
             None => {},
         };
         match self.maxValueSize {
-            Some(ref v) => {
-                try!(os.write_uint32(2, *v));
+            Some(v) => {
+                try!(os.write_uint32(2, v));
             },
             None => {},
         };
         match self.maxVersionSize {
-            Some(ref v) => {
-                try!(os.write_uint32(3, *v));
+            Some(v) => {
+                try!(os.write_uint32(3, v));
             },
             None => {},
         };
         match self.maxTagSize {
-            Some(ref v) => {
-                try!(os.write_uint32(4, *v));
+            Some(v) => {
+                try!(os.write_uint32(4, v));
             },
             None => {},
         };
         match self.maxConnections {
-            Some(ref v) => {
-                try!(os.write_uint32(5, *v));
+            Some(v) => {
+                try!(os.write_uint32(5, v));
             },
             None => {},
         };
         match self.maxOutstandingReadRequests {
-            Some(ref v) => {
-                try!(os.write_uint32(6, *v));
+            Some(v) => {
+                try!(os.write_uint32(6, v));
             },
             None => {},
         };
         match self.maxOutstandingWriteRequests {
-            Some(ref v) => {
-                try!(os.write_uint32(7, *v));
+            Some(v) => {
+                try!(os.write_uint32(7, v));
             },
             None => {},
         };
         match self.maxMessageSize {
-            Some(ref v) => {
-                try!(os.write_uint32(8, *v));
+            Some(v) => {
+                try!(os.write_uint32(8, v));
             },
             None => {},
         };
         match self.maxKeyRangeCount {
-            Some(ref v) => {
-                try!(os.write_uint32(9, *v));
+            Some(v) => {
+                try!(os.write_uint32(9, v));
             },
             None => {},
         };
         match self.maxIdentityCount {
-            Some(ref v) => {
-                try!(os.write_uint32(10, *v));
+            Some(v) => {
+                try!(os.write_uint32(10, v));
             },
             None => {},
         };
@@ -9575,7 +9576,7 @@ impl<'a> Command_GetLog_Device {
 
     pub fn get_name(&'a self) -> &'a [u8] {
         match self.name.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -9629,7 +9630,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.name.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(1, v.as_slice()));
             },
             None => {},
@@ -9984,7 +9985,7 @@ impl<'a> Command_Security_ACL {
 
     pub fn get_key(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -10136,20 +10137,20 @@ impl ::protobuf::Message for Command_Security_ACL {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.identity {
-            Some(ref v) => {
-                try!(os.write_int64(1, *v));
+            Some(v) => {
+                try!(os.write_int64(1, v));
             },
             None => {},
         };
         match self.key.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
         };
         match self.hmacAlgorithm {
-            Some(ref v) => {
-                try!(os.write_enum(3, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(3, v as i32));
             },
             None => {},
         };
@@ -10160,8 +10161,8 @@ impl ::protobuf::Message for Command_Security_ACL {
             try!(v.write_to_with_computed_sizes(os, sizes.as_slice(), sizes_pos));
         };
         match self.maxPriority {
-            Some(ref v) => {
-                try!(os.write_enum(5, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(5, v as i32));
             },
             None => {},
         };
@@ -10387,7 +10388,7 @@ impl<'a> Command_Security_ACL_Scope {
 
     pub fn get_value(&'a self) -> &'a [u8] {
         match self.value.as_ref() {
-            Some(ref v) => v.as_slice(),
+            Some(v) => v.as_slice(),
             None => [].as_slice(),
         }
     }
@@ -10518,13 +10519,13 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.offset {
-            Some(ref v) => {
-                try!(os.write_int64(1, *v));
+            Some(v) => {
+                try!(os.write_int64(1, v));
             },
             None => {},
         };
         match self.value.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
             },
             None => {},
@@ -10533,8 +10534,8 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             try!(os.write_enum(3, *v as i32));
         };
         match self.TlsRequired {
-            Some(ref v) => {
-                try!(os.write_bool(4, *v));
+            Some(v) => {
+                try!(os.write_bool(4, v));
             },
             None => {},
         };
@@ -10872,13 +10873,13 @@ impl ::protobuf::Message for Command_BackgroundOperation {
     fn write_to_with_computed_sizes(&self, os: &mut ::protobuf::CodedOutputStream, sizes: &[u32], sizes_pos: &mut uint) -> ::protobuf::ProtobufResult<()> {
         use protobuf::{Message};
         match self.backOpType {
-            Some(ref v) => {
-                try!(os.write_enum(1, *v as i32));
+            Some(v) => {
+                try!(os.write_enum(1, v as i32));
             },
             None => {},
         };
         match self.range.as_ref() {
-            Some(ref v) => {
+            Some(v) => {
                 try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
                 try!(os.write_raw_varint32(sizes[*sizes_pos]));
                 *sizes_pos += 1;

@@ -21,7 +21,9 @@
 // author: Ignacio Corderi
 
 //! Kinetic protocol library in Rust
-
+#![feature(phase)]
+#[phase(plugin, link)]
+extern crate log;
 extern crate protobuf;
 extern crate "rust-crypto" as rust_crypto;
 extern crate test;
@@ -29,7 +31,6 @@ extern crate serialize;
 extern crate docopt;
 
 use docopt::Docopt;
-
 use test::Bencher;
 use protobuf::parse_from_reader;
 use protobuf::parse_from_bytes;
@@ -403,6 +404,7 @@ struct ReadArgs{
     arg_target: String
 }
 
+#[frozen]
 pub fn version() -> String {
     format!("{} {}", "kinetic-rust" ,match option_env!("CFG_VERSION") {
         Some(s) => s.to_string(),
