@@ -26,6 +26,7 @@
 
 use core::Command;
 
+
 /// Requests the value stored with the given key
 #[experimental]
 pub struct Get<'k> {

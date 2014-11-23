@@ -22,5 +22,6 @@
 
 use error::KineticError;
 
+
 #[stable]
 pub type KineticResult<T> = Result<T, KineticError>;

@@ -26,6 +26,7 @@ use result::KineticResult;
 use error::KineticError;
 use core::KineticResponse;
 
+
 #[unstable]
 pub fn recv(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
     let mut header = [0u8,..9];

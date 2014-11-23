@@ -25,6 +25,7 @@ use protobuf::error::ProtobufError;
 use proto::Command_Status_StatusCode;
 use std::io::IoError;
 
+
 #[deriving(Show,Eq,PartialEq)]
 #[unstable]
 pub enum KineticError {

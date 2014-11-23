@@ -20,6 +20,7 @@
 
 // author: Ignacio Corderi
 
+/// Trait representing a Kinetic command
 #[unstable]
 pub trait Command<'v,'r, R: Response<'r>> {
 
@@ -27,6 +28,7 @@ pub trait Command<'v,'r, R: Response<'r>> {
 
 }
 
+/// Trait representing a Kinetic response
 #[unstable]
 pub trait Response<'r> {
 
