@@ -29,7 +29,7 @@ pub type KineticResult<T> = Result<T, KineticError>;
 
 /// Trait representing a Kinetic command
 #[unstable]
-pub trait Command<R: Response> {
+pub trait Command<R: Response> : Send {
 
     /// Build the raw kinetic proto structure for the Command
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>);
@@ -38,7 +38,7 @@ pub trait Command<R: Response> {
 
 /// Trait representing a Kinetic response
 #[unstable]
-pub trait Response {
+pub trait Response : Send {
 
     /// Create a Response un populate it with values from the raw kinetic proto
     fn from_proto(::proto::Message, ::proto::Command, vec::Vec<u8>) -> KineticResult<Self>;

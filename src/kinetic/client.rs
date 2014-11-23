@@ -25,7 +25,7 @@ use crypto::digest::Digest;
 use crypto::mac::Mac;
 use std::{vec, io, collections};
 use std::io::net::ip::ToSocketAddr;
-use std::sync::{Mutex, Arc};
+use std::sync::{Mutex, Arc, Future};
 use std::num::Int;
 use core::{Command, Response, KineticResult};
 
@@ -205,10 +205,10 @@ impl Client {
     }
 
     // Returns a Future<T> instead of waiting for the response
-//     #[experimental]
-//     pub fn send_future<'c,'r, R : Response<'r>, C: Command<'c,'r, R>> (&self, cmd: C) -> Future<KineticResult<R>> {
-//         Future::spawn(proc() { self.send(cmd) })
-//     }
+    #[experimental]
+    pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
+        Future::spawn(proc() { self.send(cmd) })
+    }
 
 }
 
