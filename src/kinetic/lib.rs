@@ -31,20 +31,21 @@ extern crate protobuf;
 extern crate "rust-crypto" as crypto;
 extern crate serialize;
 
-pub use core::Command;
-pub use core::Response;
+pub use core::{protocol_version, version};
+pub use core::{Command, Response};
+pub use core::KineticResult;
 pub use client::Client;
-pub use result::KineticResult;
 pub use error::KineticError;
 pub use proto::Command_Status_StatusCode as StatusCode;
 
+
 pub mod commands;
 pub mod responses;
+
 
 mod client;
 mod core;
 mod error;
 mod network;
 mod proto;
-mod result;
 

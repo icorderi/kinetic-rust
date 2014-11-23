@@ -25,30 +25,30 @@
 //! Available Kinetic commands
 
 use core::Command;
-
+use std::vec;
 
 /// Requests the value stored with the given key
 #[experimental]
-pub struct Get<'k> {
-    pub key: &'k[u8]
+pub struct Get {
+    key: vec::Vec<u8>
 }
 
 #[experimental]
-impl<'k, 'c, 'r> Command<'c,'r, ::responses::GetResponse<'r>> for Get<'k> {
+impl Command<::responses::GetResponse> for Get {
 
-    fn build_proto(&self) -> (::proto::Command, Option<&'c[u8]>) {
+    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 
         // Set command type
         header.set_messageType(::proto::Command_MessageType::GET);
-
         cmd.set_header(header);
 
         // Build the actual command
         let mut kv = ::proto::Command_KeyValue::new();
-        kv.set_key(self.key.to_vec());
+        kv.set_key(self.key);
 
+        // Fill the body
         let mut body = ::proto::Command_Body::new();
         body.set_keyValue(kv);
         cmd.set_body(body);
@@ -60,31 +60,31 @@ impl<'k, 'c, 'r> Command<'c,'r, ::responses::GetResponse<'r>> for Get<'k> {
 
 /// Stores the value asociated with the key
 #[experimental]
-pub struct Put<'k,'v> {
-    pub key: &'k[u8],
-    pub value: &'v[u8]
+pub struct Put {
+    key: vec::Vec<u8>,
+    value: vec::Vec<u8>
 }
 
 #[experimental]
-impl<'k,'v,'r> Command<'v,'r, ()> for Put<'k,'v> {
+impl Command<()> for Put {
 
-    fn build_proto(&self) -> (::proto::Command, Option<&'v [u8]>) {
+    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 
         // Set command type
         header.set_messageType(::proto::Command_MessageType::PUT);
-
         cmd.set_header(header);
 
         // Build the actual command
         let mut kv = ::proto::Command_KeyValue::new();
-        kv.set_key(self.key.to_vec());
+        kv.set_key(self.key);
         kv.set_synchronization(::proto::Command_Synchronization::WRITEBACK);
         kv.set_force(true);
         kv.set_tag(vec![1,2,3,4]);
         kv.set_algorithm(::proto::Command_Algorithm::SHA1);
 
+        // Fill the body
         let mut body = ::proto::Command_Body::new();
         body.set_keyValue(kv);
         cmd.set_body(body);

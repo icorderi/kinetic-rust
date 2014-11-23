@@ -20,21 +20,46 @@
 
 // author: Ignacio Corderi
 
+use error::KineticError;
+use std::vec;
+
+
+#[stable]
+pub type KineticResult<T> = Result<T, KineticError>;
+
 /// Trait representing a Kinetic command
 #[unstable]
-pub trait Command<'v,'r, R: Response<'r>> {
+pub trait Command<R: Response> {
 
-    fn build_proto(&self) -> (::proto::Command, Option<&'v[u8]>);
+    /// Build the raw kinetic proto structure for the Command
+    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>);
 
 }
 
 /// Trait representing a Kinetic response
 #[unstable]
-pub trait Response<'r> {
+pub trait Response {
 
-     fn from_proto<'m,'c,'v:'r>(&'m::proto::Message, &'c::proto::Command, &'v[u8]) -> ::result::KineticResult<Self>;
+    /// Create a Response un populate it with values from the raw kinetic proto
+    fn from_proto(::proto::Message, ::proto::Command, vec::Vec<u8>) -> KineticResult<Self>;
 
 }
 
-#[experimental]
-pub type KineticResponse = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
+/// Returns the version of the Kinetic Protocol
+#[frozen]
+pub fn protocol_version() -> String {
+    ::proto::Local::default_instance().get_protocolVersion().into_string()
+}
+
+/// Returns the current version of the package
+#[frozen]
+pub fn version() -> String {
+    format!("{}", match option_env!("CFG_VERSION") {
+        Some(s) => s.to_string(),
+        None => format!("{}.{}.{}{}",
+                        env!("CARGO_PKG_VERSION_MAJOR"),
+                        env!("CARGO_PKG_VERSION_MINOR"),
+                        env!("CARGO_PKG_VERSION_PATCH"),
+                        option_env!("CARGO_PKG_VERSION_PRE").unwrap_or(""))
+    })
+}

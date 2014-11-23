@@ -37,8 +37,8 @@ use kinetic::commands::{Put, Get};
 static USAGE: &'static str = "
 Kinetic from Rust!
 
-Usage: kinetic-rust write <target> [<count>]
-       kinetic-rust [options]
+Usage: kinetic-bench write <target> [<count>]
+       kinetic-bench [options]
 
 Options:
   -h, --help       Show this message.
@@ -65,15 +65,8 @@ struct ReadArgs{
 }
 
 #[stable]
-pub fn version() -> String {
-    format!("{} {}", "kinetic-rust" ,match option_env!("CFG_VERSION") {
-        Some(s) => s.to_string(),
-        None => format!("{}.{}.{}{}",
-                        env!("CARGO_PKG_VERSION_MAJOR"),
-                        env!("CARGO_PKG_VERSION_MINOR"),
-                        env!("CARGO_PKG_VERSION_PATCH"),
-                        option_env!("CARGO_PKG_VERSION_PRE").unwrap_or(""))
-    })
+fn version() -> String {
+    format!("kinetic-rust {}\nkinetic-protocol {}", kinetic::version(), kinetic::protocol_version())
 }
 
 #[cfg(not(test))]

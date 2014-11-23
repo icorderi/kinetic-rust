@@ -22,13 +22,12 @@
 
 use protobuf::{parse_from_reader, parse_from_bytes, Message};
 use std::io;
-use result::KineticResult;
+use core::KineticResult;
 use error::KineticError;
-use core::KineticResponse;
 
 
 #[unstable]
-pub fn recv(stream: &mut io::Reader) -> KineticResult<KineticResponse> {
+pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)> {
     let mut header = [0u8,..9];
     try!(stream.read_at_least(9, &mut header));
 
@@ -64,7 +63,7 @@ pub fn send(stream: &mut io::Writer, proto: &::proto::Message, value: &[u8]) -> 
     let stream = hw.unwrap();
 
     if value.len() > 0 {
-        try!(stream.write(value.as_slice()));
+        try!(stream.write(value));
         try!(stream.flush());
     }
 

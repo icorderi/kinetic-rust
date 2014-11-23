@@ -27,12 +27,15 @@ use std::{vec, io, collections};
 use std::io::net::ip::ToSocketAddr;
 use std::sync::{Mutex, Arc};
 use std::num::Int;
-use core::{Command, Response, KineticResponse};
-use result::KineticResult;
+use core::{Command, Response, KineticResult};
 
+static DEFAULT_MAX_PENDING: uint = 10;
 
 #[experimental]
-type KineticCommand = (Sender<KineticResponse>, ::proto::Message, ::proto::Command, vec::Vec<u8>);
+type KineticCommand = (Sender<KineticResponse>, ::proto::Message, ::proto::Command, Option<::std::vec::Vec<u8>>);
+
+#[experimental]
+type KineticResponse = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
 
 #[experimental]
 struct KineticChannel {
@@ -53,7 +56,7 @@ impl Drop for KineticChannel {
 impl KineticChannel {
 
     #[experimental]
-    fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<KineticChannel> {
+    fn connect<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<KineticChannel> {
         let mut s = try!(io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
@@ -62,7 +65,7 @@ impl KineticChannel {
         let connection_id = cmd.get_header().get_connectionID();
 
         // Other state like pending requests...
-        let pending_mutex = Arc::new(Mutex::new(collections::HashMap::with_capacity(10)));
+        let pending_mutex = Arc::new(Mutex::new(collections::HashMap::with_capacity(max_pending)));
 
         // reader
         let mut reader = s.clone();
@@ -72,26 +75,31 @@ impl KineticChannel {
             loop {
                 let r = ::network::recv(&mut reader);
                 if r.is_err() { break } ; // TODO: this is correct only if we closed it
+
                 let (msg, cmd, value) = r.unwrap();
+
+                // TODO : add support for unsolicited status
                 if msg.get_authType() != ::proto::Message_AuthType::UNSOLICITEDSTATUS
                 {
                     let ack = cmd.get_header().get_ackSequence();
                     let req: Option<Sender<KineticResponse>>;
+                    // lock the pendings and grab the request that matches the ACK
                     {
                         let mut pending = pending_mutex.lock();
-                        req = pending.remove(&ack); // returns the value if it was there
+                        // *remove* returns the value if it was there
+                        req = pending.remove(&ack);
                     }
+
                     match req {
-                        None => println!("No match for ack: {} found.", ack),
+                        None => println!("No match for ack: {} found.", ack), // TODO: error
                         Some(callback) => callback.send((msg, cmd, value))
                     }
                 }
-                //r_tx.send(Ok((msg, cmd, value)));
             }
         });
 
         // writer
-        let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(10); // TODO: move to argument
+        let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(max_pending); // TODO: move to argument
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
         let key = "asdfasdf".as_bytes();
@@ -119,9 +127,8 @@ impl KineticChannel {
                 hmac.input(&buffer);
                 hmac.input(cmd_bytes.as_slice());
 
-                auth.set_hmac(hmac.result().code().to_vec());
+                auth.set_hmac(hmac.result().code().to_vec()); // TODO: Code is backed by a Vec, we should have a method to get it.
                 msg.set_hmacAuth(auth);
-
 
                 msg.set_commandBytes(cmd_bytes);
 
@@ -129,6 +136,7 @@ impl KineticChannel {
                     let mut pending = pending_mutex.lock();
                     pending.insert(seq, callback);
                 }
+                let value = value.unwrap_or(vec::Vec::new());
                 ::network::send(&mut writer, &msg, value.as_slice()).unwrap();
                 seq += 1;
             }
@@ -164,14 +172,14 @@ impl Client {
 
     #[stable]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
-        let c = try!(KineticChannel::connect(addr));
+        let c = try!(KineticChannel::connect(addr, DEFAULT_MAX_PENDING));
         Ok( Client { channel: c,
                      cluster_version: 0 })
     }
 
     /// Sends commands to target device an waits for response
     #[stable]
-    pub fn send<'c,'r, R : Response<'r>, C: Command<'c,'r, R>> (&self, cmd: C) -> KineticResult<R> {
+    pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
 
@@ -184,11 +192,6 @@ impl Client {
         // Message wrapping the command
         let msg = ::proto::Message::new();
 
-        // turn optional value into vec
-        let value = match value {
-                        None => vec![],
-                        Some(v) => v.to_vec() };
-
         // Send to device
         let (tx, rx) = channel();
         self.channel.send((tx, msg, cmd, value));
@@ -197,7 +200,7 @@ impl Client {
         let (msg, cmd, value) = rx.recv();
 
         // create response for the command
-        let r:KineticResult<R> = Response::from_proto(&msg, &cmd, value.as_slice());
+        let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
         r // return it
     }
 

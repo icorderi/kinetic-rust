@@ -24,17 +24,16 @@
 
 //! Kinetic responses for available commands
 
-use core::Response;
-use result::KineticResult;
+use core::{Response, KineticResult};
 use error::KineticError;
 use proto::{Message, Command};
-
+use std::vec;
 
 /// The command doesn't return anything of interest
 #[stable]
-impl<'r> Response<'r> for () {
+impl Response for () {
 
-    fn from_proto<'m,'c,'v:'r>(_: &'m Message, cmd: &'c Command, _: &'v[u8]) -> KineticResult<()> {
+    fn from_proto(_: Message, cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
@@ -49,14 +48,14 @@ impl<'r> Response<'r> for () {
 /// A get command returns the value stored associated with the key requested
 #[experimental]
 #[deriving(Show)]
-pub struct GetResponse<'v> {
-    pub value: Option<&'v[u8]>
+pub struct GetResponse {
+    pub value: Option<vec::Vec<u8>>
 }
 
 #[experimental]
-impl<'r> Response<'r> for GetResponse<'r> {
+impl Response for GetResponse {
 
-    fn from_proto<'m,'c,'v:'r>(_: &'m Message, cmd: &'c Command, value: &'v[u8]) -> KineticResult<GetResponse<'r>> {
+    fn from_proto(_: Message, cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetResponse> {
         let status = cmd.get_status();
 
         if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
