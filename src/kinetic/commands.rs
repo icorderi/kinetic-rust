@@ -36,7 +36,7 @@ pub struct Get {
 #[experimental]
 impl Command<::responses::GetResponse> for Get {
 
-    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 
@@ -68,7 +68,7 @@ pub struct Put {
 #[experimental]
 impl Command<()> for Put {
 
-    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::Command_Header::new();
 

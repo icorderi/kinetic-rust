@@ -32,7 +32,7 @@ pub type KineticResult<T> = Result<T, KineticError>;
 pub trait Command<R: Response> {
 
     /// Build the raw kinetic proto structure for the Command
-    fn build_proto(&self) -> (::proto::Command, Option<vec::Vec<u8>>);
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>);
 
 }
 
