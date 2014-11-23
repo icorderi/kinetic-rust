@@ -178,9 +178,8 @@ impl Client {
                      cluster_version: 0 })
     }
 
-    /// Sends commands to target device an waits for response
-    #[stable]
-    pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
+    #[inline]
+    fn send_raw<R : Response, C: Command<R>> (&self, cmd: C) -> Receiver<KineticResponse> {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
 
@@ -197,40 +196,31 @@ impl Client {
         let (tx, rx) = channel();
         self.channel.send((tx, msg, cmd, value));
 
+        rx // return it
+    }
+
+    #[inline]
+    fn receive_raw<R : Response> (rx: Receiver<KineticResponse>) -> KineticResult<R> {
         // Receive response
         let (msg, cmd, value) = rx.recv();
 
-        // create response for the command
         let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
+
         r // return it
+    }
+
+    /// Sends commands to target device an waits for response
+    #[stable]
+    pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
+        let rx = self.send_raw(cmd);
+        Client::receive_raw(rx)
     }
 
     // Returns a Future<T> instead of waiting for the response
     #[experimental]
     pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
-        // build specific command
-        let (mut cmd, value) = cmd.build_proto();
-
-        // set extra client specific fields on the header
-        {
-        let mut h = cmd.mut_header();
-        h.set_clusterVersion(self.cluster_version);
-        }
-
-        // Message wrapping the command
-        let msg = ::proto::Message::new();
-
-        // Send to device
-        let (tx, rx) = channel();
-        self.channel.send((tx, msg, cmd, value));
-
-        Future::spawn(proc() {
-            // Receive response
-            let (msg, cmd, value) = rx.recv();
-
-            let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
-            r // return it
-        })
+        let rx = self.send_raw(cmd);
+        Future::spawn(proc() { Client::receive_raw(rx) })
     }
 
 }
