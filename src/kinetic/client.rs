@@ -166,7 +166,7 @@ pub struct Client {
 /// use kinetic::commands::Put;
 ///
 /// let c = Client::connect("127.0.0.1:8123").unwrap();
-/// c.send(Put { key: "hello".as_bytes(), value: "world".as_bytes() }).unwrap();
+/// c.send(Put { key: "hello".as_bytes().to_vec(), value: "world".as_bytes().to_vec() }).unwrap();
 /// ```
 #[unstable]
 impl Client {
