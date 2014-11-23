@@ -23,6 +23,9 @@
 #![license = "MIT"]
 #![crate_name = "kinetic-bench"]
 
+// Skip entire crate
+#![cfg(not(test))]
+
 extern crate serialize;
 extern crate docopt;
 extern crate kinetic;
