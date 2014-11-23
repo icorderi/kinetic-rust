@@ -3,8 +3,6 @@
 # Only do it if not acting on a pull request.
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
-  echo "Travis build: $TRAVIS_BUILD_DIR"
-
   GH_REPO="github.com/icorderi/kinetic-rust.git"
 
   # Go to home and setup git
