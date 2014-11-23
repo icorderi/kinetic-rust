@@ -28,7 +28,6 @@ extern crate docopt;
 extern crate kinetic;
 
 use docopt::Docopt;
-use std::sync::Arc;
 use std::time::duration::Duration;
 use std::vec;
 use kinetic::commands::{Put, Get};
@@ -98,7 +97,7 @@ fn main() {
 
     let c = kinetic::Client::connect(format!("{}:8123", target).as_slice()).unwrap();
 
-    c.send(Put { key: "rust".as_bytes().to_vec(), value: format!("Hello from {}!", version()).as_bytes().to_vec()}).unwrap();
+    c.send(Put { key: "rust".as_bytes().to_vec(), value: format!("Hello from {}!", kinetic::version()).as_bytes().to_vec()}).unwrap();
     let v = c.send(Get { key: "rust".as_bytes().to_vec() }).unwrap();
 
     match v.value {
@@ -109,14 +108,14 @@ fn main() {
     let items = cmd.arg_count.unwrap_or(10i);
     // benchmark
     let d = Duration::span(|| {
-        //let data = Arc::new(vec::Vec::from_elem(1024*1024, 0u8)); // 1 MB
         let mut responses = vec::Vec::with_capacity(items as uint);
+
         for i in range(0i, items) {
             let data = vec::Vec::from_elem(1024*1024, 0u8);
-            //let data = data.clone(); // cloning the Arc not the actual data!
             let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(), value: data});
             responses.push(r);
         }
+
         // wait on all
         for r in responses.into_iter() {
             r.unwrap().unwrap();
