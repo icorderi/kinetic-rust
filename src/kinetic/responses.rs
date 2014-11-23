@@ -24,7 +24,8 @@
 
 //! Kinetic responses for available commands
 
-use core::{Response, KineticResult};
+use core::Response;
+use result::KineticResult;
 use error::KineticError;
 use proto::{Message, Command};
 use std::vec;

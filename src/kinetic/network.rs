@@ -22,7 +22,7 @@
 
 use protobuf::{parse_from_reader, parse_from_bytes, Message};
 use std::io;
-use core::KineticResult;
+use result::KineticResult;
 use error::KineticError;
 
 

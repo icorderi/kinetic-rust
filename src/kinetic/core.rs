@@ -20,12 +20,8 @@
 
 // author: Ignacio Corderi
 
-use error::KineticError;
 use std::vec;
-
-
-#[stable]
-pub type KineticResult<T> = Result<T, KineticError>;
+use result::KineticResult;
 
 /// Trait representing a Kinetic command
 #[unstable]

@@ -33,19 +33,20 @@ extern crate serialize;
 
 pub use core::{protocol_version, version};
 pub use core::{Command, Response};
-pub use core::KineticResult;
-pub use client::Client;
+pub use result::KineticResult;
 pub use error::KineticError;
+pub use client::Client;
 pub use proto::Command_Status_StatusCode as StatusCode;
 
 
 pub mod commands;
 pub mod responses;
+pub mod error;
+pub mod result;
 
 
 mod client;
 mod core;
-mod error;
 mod network;
 mod proto;
 

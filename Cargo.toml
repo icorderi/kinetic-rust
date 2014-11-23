@@ -1,14 +1,15 @@
 [package]
 
 name = "kinetic-rust"
-version = "0.0.6"
+version = "0.0.7"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
-license = "MIT"
 homepage = "https://github.com/icorderi/kinetic-rust/"
 repository = "https://github.com/icorderi/kinetic-rust/"
+documentation = "http://icorderi.github.io/kinetic-rust/doc/kinetic/"
 description = "A Kinetic API written in Rust"
 keywords = [ "Protocol", "Kinetic", "Storage" ]
 readme = "README.md"
+license = "MIT"
 
 [lib]
 

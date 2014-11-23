@@ -20,33 +20,10 @@
 
 // author: Ignacio Corderi
 
-#![stable]
+#![frozen]
 
-use std::error::FromError;
-use protobuf::error::ProtobufError;
-use proto::Command_Status_StatusCode;
-use std::io::IoError;
+use error::KineticError;
 
 
-#[deriving(Show,Eq,PartialEq)]
-#[stable]
-pub enum KineticError {
-    IoError(IoError),
-    ProtobufError(ProtobufError),
-    InvalidMagicNumber,
-    RemoteError(Command_Status_StatusCode, String)
-}
-
-#[stable]
-impl FromError<IoError> for KineticError {
-    fn from_error(err: IoError) -> KineticError {
-        KineticError::IoError(err)
-    }
-}
-
-#[stable]
-impl FromError<ProtobufError> for KineticError {
-    fn from_error(err: ProtobufError) -> KineticError {
-        KineticError::ProtobufError(err)
-    }
-}
+#[frozen]
+pub type KineticResult<T> = Result<T, KineticError>;

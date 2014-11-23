@@ -27,7 +27,8 @@ use std::{vec, io, collections};
 use std::io::net::ip::ToSocketAddr;
 use std::sync::{Mutex, Arc, Future};
 use std::num::Int;
-use core::{Command, Response, KineticResult};
+use core::{Command, Response};
+use result::KineticResult;
 
 static DEFAULT_MAX_PENDING: uint = 10;
 
