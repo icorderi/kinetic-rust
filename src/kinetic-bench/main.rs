@@ -109,10 +109,10 @@ fn main() {
     let items = cmd.arg_count.unwrap_or(10i);
     // benchmark
     let d = Duration::span(|| {
-        let data = Arc::new(vec![0u8,..1024*1024]); // 1 MB
+        let data = Arc::new(vec::Vec::from_elem(1024*1024, 0u8)); // 1 MB
         let mut responses = vec::Vec::with_capacity(items as uint);
         for i in range(0i, items) {
-            let data = data.clone();
+            let data = data.clone(); // cloning the Arc not the actual data!
             let r = c.send(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(), value: data});
             responses.push(r);
         }

@@ -30,7 +30,7 @@ use std::vec;
 /// Requests the value stored with the given key
 #[experimental]
 pub struct Get {
-    key: vec::Vec<u8>
+    pub key: vec::Vec<u8>
 }
 
 #[experimental]
@@ -61,8 +61,8 @@ impl Command<::responses::GetResponse> for Get {
 /// Stores the value asociated with the key
 #[experimental]
 pub struct Put {
-    key: vec::Vec<u8>,
-    value: vec::Vec<u8>
+    pub key: vec::Vec<u8>,
+    pub value: vec::Vec<u8>
 }
 
 #[experimental]
