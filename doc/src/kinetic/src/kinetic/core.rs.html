@@ -78,6 +78,8 @@
 <span id='36'>36</span>
 <span id='37'>37</span>
 <span id='38'>38</span>
+<span id='39'>39</span>
+<span id='40'>40</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -101,6 +103,7 @@
 
 <span class='comment'>// author: Ignacio Corderi</span>
 
+<span class='doccomment'>/// Trait representing a Kinetic command</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Command</span><span class='op'>&lt;</span><span class='lifetime'>&#39;v</span>,<span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;&gt;</span> {
 
@@ -108,6 +111,7 @@
 
 }
 
+<span class='doccomment'>/// Trait representing a Kinetic response</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
 
