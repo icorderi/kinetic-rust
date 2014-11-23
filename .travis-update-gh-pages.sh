@@ -14,8 +14,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@${GH_REPO}  gh-pages > /dev/null 2>&1
 
   # Go there, and overwrite everything with the freshly built contents.
-  mkdir -p gh-pages/_docs # in case it's the first time
-  cd gh-pages/_docs
+  mkdir -p gh-pages/doc # in case it's the first time
+  cd gh-pages/doc
   rm -rf *
   cp -Rf $TRAVIS_BUILD_DIR/target/doc/* .
 
