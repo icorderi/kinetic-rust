@@ -151,6 +151,7 @@ impl KineticChannel {
     }
 }
 
+
 #[experimental]
 pub struct Client {
     channel: KineticChannel,
@@ -207,7 +208,29 @@ impl Client {
     // Returns a Future<T> instead of waiting for the response
     #[experimental]
     pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
-        Future::spawn(proc() { self.send(cmd) })
+        // build specific command
+        let (mut cmd, value) = cmd.build_proto();
+
+        // set extra client specific fields on the header
+        {
+        let mut h = cmd.mut_header();
+        h.set_clusterVersion(self.cluster_version);
+        }
+
+        // Message wrapping the command
+        let msg = ::proto::Message::new();
+
+        // Send to device
+        let (tx, rx) = channel();
+        self.channel.send((tx, msg, cmd, value));
+
+        Future::spawn(proc() {
+            // Receive response
+            let (msg, cmd, value) = rx.recv();
+
+            let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
+            r // return it
+        })
     }
 
 }
