@@ -80,6 +80,31 @@
 <span id='38'>38</span>
 <span id='39'>39</span>
 <span id='40'>40</span>
+<span id='41'>41</span>
+<span id='42'>42</span>
+<span id='43'>43</span>
+<span id='44'>44</span>
+<span id='45'>45</span>
+<span id='46'>46</span>
+<span id='47'>47</span>
+<span id='48'>48</span>
+<span id='49'>49</span>
+<span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
+<span id='54'>54</span>
+<span id='55'>55</span>
+<span id='56'>56</span>
+<span id='57'>57</span>
+<span id='58'>58</span>
+<span id='59'>59</span>
+<span id='60'>60</span>
+<span id='61'>61</span>
+<span id='62'>62</span>
+<span id='63'>63</span>
+<span id='64'>64</span>
+<span id='65'>65</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -103,24 +128,49 @@
 
 <span class='comment'>// author: Ignacio Corderi</span>
 
+<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>KineticError</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
+
+
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>KineticError</span><span class='op'>&gt;</span>;
+
 <span class='doccomment'>/// Trait representing a Kinetic command</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Command</span><span class='op'>&lt;</span><span class='lifetime'>&#39;v</span>,<span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Response</span><span class='op'>&gt;</span> : <span class='ident'>Send</span> {
 
-    <span class='kw'>fn</span> <span class='ident'>build_proto</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;v</span>[<span class='ident'>u8</span>]<span class='op'>&gt;</span>);
+    <span class='doccomment'>/// Build the raw kinetic proto structure for the Command</span>
+    <span class='kw'>fn</span> <span class='ident'>build_proto</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>);
 
 }
 
 <span class='doccomment'>/// Trait representing a Kinetic response</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Response</span> : <span class='ident'>Send</span> {
 
-     <span class='kw'>fn</span> <span class='ident'>from_proto</span><span class='op'>&lt;</span><span class='lifetime'>&#39;m</span>,<span class='lifetime'>&#39;c</span>,<span class='lifetime'>&#39;v</span>:<span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;m</span>::<span class='ident'>proto</span>::<span class='ident'>Message</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;c</span>::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;v</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> ::<span class='ident'>result</span>::<span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>Self</span><span class='op'>&gt;</span>;
+    <span class='doccomment'>/// Create a Response un populate it with values from the raw kinetic proto</span>
+    <span class='kw'>fn</span> <span class='ident'>from_proto</span>(::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>Self</span><span class='op'>&gt;</span>;
 
 }
 
-<span class='attribute'>#[<span class='ident'>experimental</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticResponse</span> <span class='op'>=</span> (::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, ::<span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>);
+<span class='doccomment'>/// Returns the version of the Kinetic Protocol</span>
+<span class='attribute'>#[<span class='ident'>frozen</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>protocol_version</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+    ::<span class='ident'>proto</span>::<span class='ident'>Local</span>::<span class='ident'>default_instance</span>().<span class='ident'>get_protocolVersion</span>().<span class='ident'>into_string</span>()
+}
+
+<span class='doccomment'>/// Returns the current version of the package</span>
+<span class='attribute'>#[<span class='ident'>frozen</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+    <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='kw'>match</span> <span class='macro'>option_env</span><span class='macro'>!</span>(<span class='string'>&quot;CFG_VERSION&quot;</span>) {
+        <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='ident'>to_string</span>(),
+        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}.{}.{}{}&quot;</span>,
+                        <span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION_MAJOR&quot;</span>),
+                        <span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION_MINOR&quot;</span>),
+                        <span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION_PATCH&quot;</span>),
+                        <span class='macro'>option_env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION_PRE&quot;</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>))
+    })
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

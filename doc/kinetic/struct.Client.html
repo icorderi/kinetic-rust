@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='responses/index.html'>responses</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Client.html'>Client</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.KineticError.html'>KineticError</a><a class='enum ' href='enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div>
+        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='responses/index.html'>responses</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Client.html'>Client</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.KineticError.html'>KineticError</a><a class='enum ' href='enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.protocol_version.html'>protocol_version</a><a class='fn ' href='fn.version.html'>version</a></div>
     </section>
 
     <nav class="sub">
@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>kinetic</a>::<wbr><a class='struct' href=''>Client</a><wbr><a class='stability Experimental' title=''>Experimental</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-941' href='../src/kinetic/src/kinetic/client.rs.html#147-150'>[src]</a></span></h1>
+        </span><a id='src-925' href='../src/kinetic/src/kinetic/client.rs.html#156-159'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Client {
     // some fields omitted
 }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl <a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a></code></h3><div class='docblock'><p>Kinetic protocol client</p>
@@ -55,12 +55,13 @@
 <span class='kw'>use</span> <span class='ident'>kinetic</span>::<span class='ident'>commands</span>::<span class='ident'>Put</span>;
 
 <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>connect</span>(<span class='string'>&quot;127.0.0.1:8123&quot;</span>).<span class='ident'>unwrap</span>();
-<span class='ident'>c</span>.<span class='ident'>send</span>(<span class='ident'>Put</span> { <span class='ident'>key</span>: <span class='string'>&quot;hello&quot;</span>.<span class='ident'>as_bytes</span>(), <span class='ident'>value</span>: <span class='string'>&quot;world&quot;</span>.<span class='ident'>as_bytes</span>() }).<span class='ident'>unwrap</span>();
+<span class='ident'>c</span>.<span class='ident'>send</span>(<span class='ident'>Put</span> { <span class='ident'>key</span>: <span class='string'>&quot;hello&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>(), <span class='ident'>value</span>: <span class='string'>&quot;world&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>() }).<span class='ident'>unwrap</span>();
 </pre>
 </div><div class='impl-methods'><h4 id='method.connect' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/net/ip/trait.ToSocketAddr.html' title='std::io::net::ip::ToSocketAddr'>ToSocketAddr</a>&gt;(addr: A) -&gt; <a class='type' href='../kinetic/type.KineticResult.html' title='kinetic::KineticResult'>KineticResult</a>&lt;<a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a>&gt;</code></h4>
-<h4 id='method.send' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.send' class='fnname'>send</a>&lt;'c, 'r, R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>&lt;'r&gt;, C: <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;'c, 'r, R&gt;&gt;(&amp;self, cmd: C) -&gt; <a class='type' href='../kinetic/type.KineticResult.html' title='kinetic::KineticResult'>KineticResult</a>&lt;R&gt;</code></h4>
+<h4 id='method.send' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.send' class='fnname'>send</a>&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>, C: <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;R&gt;&gt;(&amp;self, cmd: C) -&gt; <a class='type' href='../kinetic/type.KineticResult.html' title='kinetic::KineticResult'>KineticResult</a>&lt;R&gt;</code></h4>
 <div class='docblock'><p>Sends commands to target device an waits for response</p>
-</div></div></section>
+</div><h4 id='method.send_future' class='method'><a class='stability Experimental' title='Experimental'></a><code>fn <a href='#method.send_future' class='fnname'>send_future</a>&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>, C: <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;R&gt;&gt;(&amp;self, cmd: C) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/std/sync/future/struct.Future.html' title='std::sync::future::Future'>Future</a>&lt;<a class='type' href='../kinetic/type.KineticResult.html' title='kinetic::KineticResult'>KineticResult</a>&lt;R&gt;&gt;</code></h4>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
