@@ -101,10 +101,6 @@
 <span id='59'>59</span>
 <span id='60'>60</span>
 <span id='61'>61</span>
-<span id='62'>62</span>
-<span id='63'>63</span>
-<span id='64'>64</span>
-<span id='65'>65</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -128,12 +124,8 @@
 
 <span class='comment'>// author: Ignacio Corderi</span>
 
-<span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>KineticError</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
-
-
-<span class='attribute'>#[<span class='ident'>stable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>KineticError</span><span class='op'>&gt;</span>;
+<span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
 
 <span class='doccomment'>/// Trait representing a Kinetic command</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>

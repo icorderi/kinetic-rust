@@ -298,6 +298,7 @@
 <span id='256'>256</span>
 <span id='257'>257</span>
 <span id='258'>258</span>
+<span id='259'>259</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -328,7 +329,8 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>ip</span>::<span class='ident'>ToSocketAddr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Mutex</span>, <span class='ident'>Arc</span>, <span class='ident'>Future</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>num</span>::<span class='ident'>Int</span>;
-<span class='kw'>use</span> <span class='ident'>core</span>::{<span class='ident'>Command</span>, <span class='ident'>Response</span>, <span class='ident'>KineticResult</span>};
+<span class='kw'>use</span> <span class='ident'>core</span>::{<span class='ident'>Command</span>, <span class='ident'>Response</span>};
+<span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
 
 <span class='kw'>static</span> <span class='ident'>DEFAULT_MAX_PENDING</span>: <span class='ident'>uint</span> <span class='op'>=</span> <span class='number'>10</span>;
 
