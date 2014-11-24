@@ -12,7 +12,26 @@ The quicket way to get the current nightly build is to run:
 
 If you want other installation options, visit the official [install](http://www.rust-lang.org/install.html) guide.
 
-### Installing Kinetic-rust from source
+### Adding the Kinetic-rust dependency
+If you want to use the latest stable [crate](https://crates.io/crates/kinetic-rust) version available at [crates.io](https://crates.io/) add this to your `Cargo.toml`:
+```toml
+[dependencies.kinetic-rust]
+```
+If you are using [Cargo](http://doc.crates.io/index.html) and want the dependency to be linked directly to the GitHub repo then add this instead:
+```toml
+[dependencies.kinetic-rust]
+git = "https://github.com/icorderi/kinetic-rust.git"
+```
+_Note: For more information on handling [dependencies](http://doc.crates.io/guide.html#adding-dependencies) check the official cargo site._
+
+
+### Importing Kinetic-rust
+To import Kinetic-rust from your code add this statement:
+```rust
+extern crate kinetic; // depend on the kinetic-rust library
+```
+
+### [Optional] Installing Kinetic-rust from source
 
     git clone https://github.com/icorderi/kinetic-rust.git
     cd kinetic-rust
