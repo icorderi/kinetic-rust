@@ -52,7 +52,7 @@ pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto
 
 #[unstable]
 pub fn send(stream: &mut io::Writer, proto: &::proto::Message, value: &[u8]) -> KineticResult<()> {
-    let s = proto.get_cached_size();
+    let s = proto.compute_size();
 
     let mut hw = io::BufferedWriter::with_capacity(9u + s as uint, stream);
     try!(hw.write_u8(70u8)); // Magic number
