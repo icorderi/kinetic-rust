@@ -382,7 +382,7 @@
                 <span class='kw'>let</span> (<span class='ident'>msg</span>, <span class='ident'>cmd</span>, <span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>unwrap</span>();
 
                 <span class='comment'>// TODO : add support for unsolicited status</span>
-                <span class='kw'>if</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>!=</span> ::<span class='ident'>proto</span>::<span class='ident'>Message_AuthType</span>::<span class='ident'>UNSOLICITEDSTATUS</span>
+                <span class='kw'>if</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>!=</span> ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>AuthType</span>::<span class='ident'>UNSOLICITEDSTATUS</span>
                 {
                     <span class='kw'>let</span> <span class='ident'>ack</span> <span class='op'>=</span> <span class='ident'>cmd</span>.<span class='ident'>get_header</span>().<span class='ident'>get_ackSequence</span>();
                     <span class='kw'>let</span> <span class='ident'>req</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;&gt;</span>;
@@ -418,8 +418,8 @@
                 <span class='kw'>let</span> <span class='ident'>cmd_bytes</span> <span class='op'>=</span> <span class='ident'>cmd</span>.<span class='ident'>write_to_bytes</span>().<span class='ident'>unwrap</span>();
 
                 <span class='comment'>// Set message authentication</span>
-                <span class='ident'>msg</span>.<span class='ident'>set_authType</span>(::<span class='ident'>proto</span>::<span class='ident'>Message_AuthType</span>::<span class='ident'>HMACAUTH</span>);
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auth</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Message_HMACauth</span>::<span class='ident'>new</span>();
+                <span class='ident'>msg</span>.<span class='ident'>set_authType</span>(::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>AuthType</span>::<span class='ident'>HMACAUTH</span>);
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auth</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>HmacAuth</span>::<span class='ident'>new</span>();
                 <span class='ident'>auth</span>.<span class='ident'>set_identity</span>(<span class='number'>1</span>); <span class='comment'>// TODO: move to attribute</span>
 
                 <span class='comment'>// Calculate hmac_sha1 of the command</span>

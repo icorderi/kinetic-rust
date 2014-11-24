@@ -176,18 +176,18 @@
 
     <span class='kw'>fn</span> <span class='ident'>build_proto</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cmd</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_Header</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Header</span>::<span class='ident'>new</span>();
 
         <span class='comment'>// Set command type</span>
-        <span class='ident'>header</span>.<span class='ident'>set_messageType</span>(::<span class='ident'>proto</span>::<span class='ident'>Command_MessageType</span>::<span class='ident'>GET</span>);
+        <span class='ident'>header</span>.<span class='ident'>set_messageType</span>(::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>MessageType</span>::<span class='ident'>GET</span>);
         <span class='ident'>cmd</span>.<span class='ident'>set_header</span>(<span class='ident'>header</span>);
 
         <span class='comment'>// Build the actual command</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>kv</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_KeyValue</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>kv</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>KeyValue</span>::<span class='ident'>new</span>();
         <span class='ident'>kv</span>.<span class='ident'>set_key</span>(<span class='self'>self</span>.<span class='ident'>key</span>);
 
         <span class='comment'>// Fill the body</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>body</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_Body</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>body</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Body</span>::<span class='ident'>new</span>();
         <span class='ident'>body</span>.<span class='ident'>set_keyValue</span>(<span class='ident'>kv</span>);
         <span class='ident'>cmd</span>.<span class='ident'>set_body</span>(<span class='ident'>body</span>);
 
@@ -208,22 +208,22 @@
 
     <span class='kw'>fn</span> <span class='ident'>build_proto</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cmd</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_Header</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Header</span>::<span class='ident'>new</span>();
 
         <span class='comment'>// Set command type</span>
-        <span class='ident'>header</span>.<span class='ident'>set_messageType</span>(::<span class='ident'>proto</span>::<span class='ident'>Command_MessageType</span>::<span class='ident'>PUT</span>);
+        <span class='ident'>header</span>.<span class='ident'>set_messageType</span>(::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>MessageType</span>::<span class='ident'>PUT</span>);
         <span class='ident'>cmd</span>.<span class='ident'>set_header</span>(<span class='ident'>header</span>);
 
         <span class='comment'>// Build the actual command</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>kv</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_KeyValue</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>kv</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>KeyValue</span>::<span class='ident'>new</span>();
         <span class='ident'>kv</span>.<span class='ident'>set_key</span>(<span class='self'>self</span>.<span class='ident'>key</span>);
-        <span class='ident'>kv</span>.<span class='ident'>set_synchronization</span>(::<span class='ident'>proto</span>::<span class='ident'>Command_Synchronization</span>::<span class='ident'>WRITEBACK</span>);
+        <span class='ident'>kv</span>.<span class='ident'>set_synchronization</span>(::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Synchronization</span>::<span class='ident'>WRITEBACK</span>);
         <span class='ident'>kv</span>.<span class='ident'>set_force</span>(<span class='boolval'>true</span>);
         <span class='ident'>kv</span>.<span class='ident'>set_tag</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>,<span class='number'>2</span>,<span class='number'>3</span>,<span class='number'>4</span>]);
-        <span class='ident'>kv</span>.<span class='ident'>set_algorithm</span>(::<span class='ident'>proto</span>::<span class='ident'>Command_Algorithm</span>::<span class='ident'>SHA1</span>);
+        <span class='ident'>kv</span>.<span class='ident'>set_algorithm</span>(::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Algorithm</span>::<span class='ident'>SHA1</span>);
 
         <span class='comment'>// Fill the body</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>body</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Command_Body</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>body</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>Body</span>::<span class='ident'>new</span>();
         <span class='ident'>body</span>.<span class='ident'>set_keyValue</span>(<span class='ident'>kv</span>);
         <span class='ident'>cmd</span>.<span class='ident'>set_body</span>(<span class='ident'>body</span>);
 

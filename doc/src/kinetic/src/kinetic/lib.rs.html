@@ -91,7 +91,6 @@
 <span id='49'>49</span>
 <span id='50'>50</span>
 <span id='51'>51</span>
-<span id='52'>52</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -126,25 +125,24 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='string'>&quot;rust-crypto&quot;</span> <span class='kw'>as</span> <span class='ident'>crypto</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>core</span>::{<span class='ident'>protocol_version</span>, <span class='ident'>version</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>version</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>version</span> <span class='kw'>as</span> <span class='ident'>protocol_version</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>core</span>::{<span class='ident'>Command</span>, <span class='ident'>Response</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>KineticError</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>client</span>::<span class='ident'>Client</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>Command_Status_StatusCode</span> <span class='kw'>as</span> <span class='ident'>StatusCode</span>;
 
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>commands</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>responses</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>error</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>result</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>proto</span>;
 
 
 <span class='kw'>mod</span> <span class='ident'>client</span>;
 <span class='kw'>mod</span> <span class='ident'>core</span>;
 <span class='kw'>mod</span> <span class='ident'>network</span>;
-<span class='kw'>mod</span> <span class='ident'>proto</span>;
-
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

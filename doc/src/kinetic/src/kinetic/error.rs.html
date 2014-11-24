@@ -119,7 +119,7 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>FromError</span>;
 <span class='kw'>use</span> <span class='ident'>protobuf</span>::<span class='ident'>error</span>::<span class='ident'>ProtobufError</span>;
-<span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>Command_Status_StatusCode</span>;
+<span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>StatusCode</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>IoError</span>;
 
 
@@ -129,7 +129,7 @@
     <span class='ident'>IoError</span>(<span class='ident'>IoError</span>),
     <span class='ident'>ProtobufError</span>(<span class='ident'>ProtobufError</span>),
     <span class='ident'>InvalidMagicNumber</span>,
-    <span class='ident'>RemoteError</span>(<span class='ident'>Command_Status_StatusCode</span>, <span class='ident'>String</span>)
+    <span class='ident'>RemoteError</span>(<span class='ident'>StatusCode</span>, <span class='ident'>String</span>)
 }
 
 <span class='attribute'>#[<span class='ident'>stable</span>]</span>
