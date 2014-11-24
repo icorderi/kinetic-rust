@@ -24,7 +24,7 @@
 
 use std::error::FromError;
 use protobuf::error::ProtobufError;
-use proto::Command_Status_StatusCode;
+use proto::StatusCode;
 use std::io::IoError;
 
 
@@ -34,7 +34,7 @@ pub enum KineticError {
     IoError(IoError),
     ProtobufError(ProtobufError),
     InvalidMagicNumber,
-    RemoteError(Command_Status_StatusCode, String)
+    RemoteError(StatusCode, String)
 }
 
 #[stable]

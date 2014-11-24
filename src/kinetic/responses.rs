@@ -37,7 +37,7 @@ impl Response for () {
     fn from_proto(_: Message, cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
         let status = cmd.get_status();
 
-        if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
             Ok(())
         } else {
             Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))
@@ -59,7 +59,7 @@ impl Response for GetResponse {
     fn from_proto(_: Message, cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetResponse> {
         let status = cmd.get_status();
 
-        if status.get_code() == ::proto::Command_Status_StatusCode::SUCCESS {
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
             Ok(GetResponse { value: Some(value) })
         } else {
             Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))

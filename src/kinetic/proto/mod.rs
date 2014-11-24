@@ -20,36 +20,43 @@
 
 // author: Ignacio Corderi
 
-use std::vec;
-use result::KineticResult;
+#![stable]
 
-/// Trait representing a Kinetic command
-#[unstable]
-pub trait Command<R: Response> : Send {
+//! Public exports of the raw proto generated files
 
-    /// Build the raw kinetic proto structure for the Command
-    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>);
+pub use proto::raw::Command_Status_StatusCode as StatusCode;
+pub use proto::raw::Command;
+pub use proto::raw::Message;
+
+mod raw;
+
+pub mod message {
+
+    #![stable]
+
+    pub use proto::raw::Message_AuthType as AuthType;
+    pub use proto::raw::Message_HMACauth as HmacAuth;
+    pub use proto::raw::Message_PINauth as PinAuth;
 
 }
 
-/// Trait representing a Kinetic response
-#[unstable]
-pub trait Response : Send {
+pub mod command {
 
-    /// Create a Response un populate it with values from the raw kinetic proto
-    fn from_proto(::proto::Message, ::proto::Command, vec::Vec<u8>) -> KineticResult<Self>;
+    #![stable]
+
+    pub use proto::raw::Command_Header as Header;
+    pub use proto::raw::Command_MessageType as MessageType;
+    pub use proto::raw::Command_Body as Body;
+    pub use proto::raw::Command_Status as Status;
+
+    pub use proto::raw::Command_KeyValue as KeyValue;
+    pub use proto::raw::Command_Algorithm as Algorithm;
+    pub use proto::raw::Command_Synchronization as Synchronization;
 
 }
 
-/// Returns the current version of the package
+/// Returns the version of the Kinetic Protocol
 #[frozen]
 pub fn version() -> String {
-    format!("{}", match option_env!("CFG_VERSION") {
-        Some(s) => s.to_string(),
-        None => format!("{}.{}.{}{}",
-                        env!("CARGO_PKG_VERSION_MAJOR"),
-                        env!("CARGO_PKG_VERSION_MINOR"),
-                        env!("CARGO_PKG_VERSION_PATCH"),
-                        option_env!("CARGO_PKG_VERSION_PRE").unwrap_or(""))
-    })
+    ::proto::raw::Local::default_instance().get_protocolVersion().into_string()
 }

@@ -38,18 +38,18 @@ impl Command<::responses::GetResponse> for Get {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
-        let mut header = ::proto::Command_Header::new();
+        let mut header = ::proto::command::Header::new();
 
         // Set command type
-        header.set_messageType(::proto::Command_MessageType::GET);
+        header.set_messageType(::proto::command::MessageType::GET);
         cmd.set_header(header);
 
         // Build the actual command
-        let mut kv = ::proto::Command_KeyValue::new();
+        let mut kv = ::proto::command::KeyValue::new();
         kv.set_key(self.key);
 
         // Fill the body
-        let mut body = ::proto::Command_Body::new();
+        let mut body = ::proto::command::Body::new();
         body.set_keyValue(kv);
         cmd.set_body(body);
 
@@ -70,22 +70,22 @@ impl Command<()> for Put {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
-        let mut header = ::proto::Command_Header::new();
+        let mut header = ::proto::command::Header::new();
 
         // Set command type
-        header.set_messageType(::proto::Command_MessageType::PUT);
+        header.set_messageType(::proto::command::MessageType::PUT);
         cmd.set_header(header);
 
         // Build the actual command
-        let mut kv = ::proto::Command_KeyValue::new();
+        let mut kv = ::proto::command::KeyValue::new();
         kv.set_key(self.key);
-        kv.set_synchronization(::proto::Command_Synchronization::WRITEBACK);
+        kv.set_synchronization(::proto::command::Synchronization::WRITEBACK);
         kv.set_force(true);
         kv.set_tag(vec![1,2,3,4]);
-        kv.set_algorithm(::proto::Command_Algorithm::SHA1);
+        kv.set_algorithm(::proto::command::Algorithm::SHA1);
 
         // Fill the body
-        let mut body = ::proto::Command_Body::new();
+        let mut body = ::proto::command::Body::new();
         body.set_keyValue(kv);
         cmd.set_body(body);
 

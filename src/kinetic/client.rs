@@ -80,7 +80,7 @@ impl KineticChannel {
                 let (msg, cmd, value) = r.unwrap();
 
                 // TODO : add support for unsolicited status
-                if msg.get_authType() != ::proto::Message_AuthType::UNSOLICITEDSTATUS
+                if msg.get_authType() != ::proto::message::AuthType::UNSOLICITEDSTATUS
                 {
                     let ack = cmd.get_header().get_ackSequence();
                     let req: Option<Sender<KineticResponse>>;
@@ -116,8 +116,8 @@ impl KineticChannel {
                 let cmd_bytes = cmd.write_to_bytes().unwrap();
 
                 // Set message authentication
-                msg.set_authType(::proto::Message_AuthType::HMACAUTH);
-                let mut auth = ::proto::Message_HMACauth::new();
+                msg.set_authType(::proto::message::AuthType::HMACAUTH);
+                let mut auth = ::proto::message::HmacAuth::new();
                 auth.set_identity(1); // TODO: move to attribute
 
                 // Calculate hmac_sha1 of the command
