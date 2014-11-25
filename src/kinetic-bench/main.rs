@@ -92,7 +92,7 @@ fn main() {
 
     if args.cmd_config.is_some() {
         let c = kinetic::Client::connect(format!("{}:8123", args.cmd_config.unwrap().arg_target).as_slice()).unwrap();
-        println!("{}", c.get_config());
+        println!("{}", c.ref_config());
         return;
     }
 

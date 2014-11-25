@@ -44,7 +44,7 @@ pub mod responses;
 pub mod error;
 pub mod result;
 pub mod proto;
-
+pub mod channel;
 
 mod client;
 mod core;
