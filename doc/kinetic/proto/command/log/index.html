@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `message` mod in crate `kinetic`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, message">
+    <meta name="description" content="API documentation for the Rust `log` mod in crate `kinetic`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, log">
 
-    <title>kinetic::proto::message - Rust</title>
+    <title>kinetic::proto::command::log - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../../index.html'>kinetic</a>::<wbr><a href='../index.html'>proto</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../command/index.html'>command</a><a class='mod current' href='../message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.Command.html'>Command</a><a class='struct ' href='../struct.Message.html'>Message</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.StatusCode.html'>StatusCode</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='../fn.version.html'>version</a></div>
+        <p class='location'><a href='../../../index.html'>kinetic</a>::<wbr><a href='../../index.html'>proto</a>::<wbr><a href='../index.html'>command</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../log/index.html'>log</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.Body.html'>Body</a><a class='struct ' href='../struct.GetLog.html'>GetLog</a><a class='struct ' href='../struct.Header.html'>Header</a><a class='struct ' href='../struct.KeyValue.html'>KeyValue</a><a class='struct ' href='../struct.Status.html'>Status</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.Algorithm.html'>Algorithm</a><a class='enum ' href='../enum.LogType.html'>LogType</a><a class='enum ' href='../enum.MessageType.html'>MessageType</a><a class='enum ' href='../enum.Synchronization.html'>Synchronization</a></div>
     </section>
 
     <nav class="sub">
@@ -41,28 +41,21 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>kinetic</a>::<wbr><a href='../index.html'>proto</a>::<wbr><a class='mod' href=''>message</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../../../index.html'>kinetic</a>::<wbr><a href='../../index.html'>proto</a>::<wbr><a href='../index.html'>command</a>::<wbr><a class='mod' href=''>log</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-96323' href='../../../src/kinetic/src/kinetic/proto/mod.rs.html#34-40'>[src]</a></span></h1>
+        </span><a id='src-96339' href='../../../../src/kinetic/src/kinetic/proto/mod.rs.html#58-63'>[src]</a></span></h1>
 <h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Experimental' title='Experimental'></a><a class='struct' href='struct.HmacAuth.html'
-                               title='kinetic::proto::message::HmacAuth'>HmacAuth</a></td>
+                        <td><a class='stability Experimental' title='Experimental'></a><a class='struct' href='struct.Configuration.html'
+                               title='kinetic::proto::command::log::Configuration'>Configuration</a></td>
                         <td class='docblock short'></td>
                     </tr>
                 
                     <tr>
-                        <td><a class='stability Experimental' title='Experimental'></a><a class='struct' href='struct.PinAuth.html'
-                               title='kinetic::proto::message::PinAuth'>PinAuth</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
-<table>
-                    <tr>
-                        <td><a class='stability Experimental' title='Experimental'></a><a class='enum' href='enum.AuthType.html'
-                               title='kinetic::proto::message::AuthType'>AuthType</a></td>
+                        <td><a class='stability Experimental' title='Experimental'></a><a class='struct' href='struct.Limits.html'
+                               title='kinetic::proto::command::log::Limits'>Limits</a></td>
                         <td class='docblock short'></td>
                     </tr>
                 </table></section>
@@ -104,13 +97,13 @@
     
 
     <script>
-        window.rootPath = "../../../";
+        window.rootPath = "../../../../";
         window.currentCrate = "kinetic";
         window.playgroundUrl = "";
     </script>
-    <script src="../../../jquery.js"></script>
-    <script src="../../../main.js"></script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
     
-    <script async src="../../../search-index.js"></script>
+    <script async src="../../../../search-index.js"></script>
 </body>
 </html>
