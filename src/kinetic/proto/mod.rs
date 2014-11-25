@@ -30,9 +30,8 @@ pub use proto::raw::Message;
 
 mod raw;
 
+#[stable]
 pub mod message {
-
-    #![stable]
 
     pub use proto::raw::Message_AuthType as AuthType;
     pub use proto::raw::Message_HMACauth as HmacAuth;
@@ -40,9 +39,8 @@ pub mod message {
 
 }
 
+#[stable]
 pub mod command {
-
-    #![stable]
 
     pub use proto::raw::Command_Header as Header;
     pub use proto::raw::Command_MessageType as MessageType;
@@ -53,6 +51,16 @@ pub mod command {
     pub use proto::raw::Command_Algorithm as Algorithm;
     pub use proto::raw::Command_Synchronization as Synchronization;
 
+    pub use proto::raw::Command_GetLog as GetLog;
+    pub use proto::raw::Command_GetLog_Type as LogType;
+
+    #[unstable]
+    pub mod log {
+
+        pub use proto::raw::Command_GetLog_Configuration as Configuration;
+        pub use proto::raw::Command_GetLog_Limits as Limits;
+
+    }
 }
 
 /// Returns the version of the Kinetic Protocol

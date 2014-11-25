@@ -6,6 +6,7 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
+
 #[deriving(Clone,Default)]
 pub struct Local {
     protocolVersion: ::protobuf::SingularField<::std::string::String>,
@@ -56,6 +57,17 @@ impl<'a> Local {
             self.protocolVersion.set_default();
         };
         self.protocolVersion.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_protocolVersion(self) -> ::std::string::String {
+        self.protocolVersion.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_protocolVersion(&mut self) -> ::std::string::String {
+        self.protocolVersion.take().unwrap()
     }
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
@@ -272,6 +284,17 @@ impl<'a> Message {
         self.hmacAuth.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_hmacAuth(self) -> Message_HMACauth {
+        self.hmacAuth.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_hmacAuth(&mut self) -> Message_HMACauth {
+        self.hmacAuth.take().unwrap()
+    }
+
     pub fn get_hmacAuth(&'a self) -> &'a Message_HMACauth {
         self.hmacAuth.as_ref().unwrap_or_else(|| Message_HMACauth::default_instance())
     }
@@ -300,6 +323,17 @@ impl<'a> Message {
         self.pinAuth.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_pinAuth(self) -> Message_PINauth {
+        self.pinAuth.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_pinAuth(&mut self) -> Message_PINauth {
+        self.pinAuth.take().unwrap()
+    }
+
     pub fn get_pinAuth(&'a self) -> &'a Message_PINauth {
         self.pinAuth.as_ref().unwrap_or_else(|| Message_PINauth::default_instance())
     }
@@ -326,6 +360,17 @@ impl<'a> Message {
             self.commandBytes.set_default();
         };
         self.commandBytes.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_commandBytes(self) -> ::std::vec::Vec<u8> {
+        self.commandBytes.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_commandBytes(&mut self) -> ::std::vec::Vec<u8> {
+        self.commandBytes.take().unwrap()
     }
 
     pub fn get_commandBytes(&'a self) -> &'a [u8] {
@@ -656,6 +701,17 @@ impl<'a> Message_HMACauth {
         self.hmac.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_hmac(self) -> ::std::vec::Vec<u8> {
+        self.hmac.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_hmac(&mut self) -> ::std::vec::Vec<u8> {
+        self.hmac.take().unwrap()
+    }
+
     pub fn get_hmac(&'a self) -> &'a [u8] {
         match self.hmac.as_ref() {
             Some(v) => v.as_slice(),
@@ -880,6 +936,17 @@ impl<'a> Message_PINauth {
             self.pin.set_default();
         };
         self.pin.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_pin(self) -> ::std::vec::Vec<u8> {
+        self.pin.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_pin(&mut self) -> ::std::vec::Vec<u8> {
+        self.pin.take().unwrap()
     }
 
     pub fn get_pin(&'a self) -> &'a [u8] {
@@ -1113,6 +1180,17 @@ impl<'a> Command {
         self.header.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_header(self) -> Command_Header {
+        self.header.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_header(&mut self) -> Command_Header {
+        self.header.take().unwrap()
+    }
+
     pub fn get_header(&'a self) -> &'a Command_Header {
         self.header.as_ref().unwrap_or_else(|| Command_Header::default_instance())
     }
@@ -1141,6 +1219,17 @@ impl<'a> Command {
         self.body.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_body(self) -> Command_Body {
+        self.body.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_body(&mut self) -> Command_Body {
+        self.body.take().unwrap()
+    }
+
     pub fn get_body(&'a self) -> &'a Command_Body {
         self.body.as_ref().unwrap_or_else(|| Command_Body::default_instance())
     }
@@ -1167,6 +1256,17 @@ impl<'a> Command {
             self.status.set_default();
         };
         self.status.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_status(self) -> Command_Status {
+        self.status.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_status(&mut self) -> Command_Status {
+        self.status.take().unwrap()
     }
 
     pub fn get_status(&'a self) -> &'a Command_Status {
@@ -2093,6 +2193,17 @@ impl<'a> Command_Body {
         self.keyValue.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_keyValue(self) -> Command_KeyValue {
+        self.keyValue.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_keyValue(&mut self) -> Command_KeyValue {
+        self.keyValue.take().unwrap()
+    }
+
     pub fn get_keyValue(&'a self) -> &'a Command_KeyValue {
         self.keyValue.as_ref().unwrap_or_else(|| Command_KeyValue::default_instance())
     }
@@ -2119,6 +2230,17 @@ impl<'a> Command_Body {
             self.range.set_default();
         };
         self.range.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_range(self) -> Command_Range {
+        self.range.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_range(&mut self) -> Command_Range {
+        self.range.take().unwrap()
     }
 
     pub fn get_range(&'a self) -> &'a Command_Range {
@@ -2149,6 +2271,17 @@ impl<'a> Command_Body {
         self.setup.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_setup(self) -> Command_Setup {
+        self.setup.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_setup(&mut self) -> Command_Setup {
+        self.setup.take().unwrap()
+    }
+
     pub fn get_setup(&'a self) -> &'a Command_Setup {
         self.setup.as_ref().unwrap_or_else(|| Command_Setup::default_instance())
     }
@@ -2175,6 +2308,17 @@ impl<'a> Command_Body {
             self.p2pOperation.set_default();
         };
         self.p2pOperation.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_p2pOperation(self) -> Command_P2POperation {
+        self.p2pOperation.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_p2pOperation(&mut self) -> Command_P2POperation {
+        self.p2pOperation.take().unwrap()
     }
 
     pub fn get_p2pOperation(&'a self) -> &'a Command_P2POperation {
@@ -2205,6 +2349,17 @@ impl<'a> Command_Body {
         self.getLog.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_getLog(self) -> Command_GetLog {
+        self.getLog.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_getLog(&mut self) -> Command_GetLog {
+        self.getLog.take().unwrap()
+    }
+
     pub fn get_getLog(&'a self) -> &'a Command_GetLog {
         self.getLog.as_ref().unwrap_or_else(|| Command_GetLog::default_instance())
     }
@@ -2233,6 +2388,17 @@ impl<'a> Command_Body {
         self.security.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_security(self) -> Command_Security {
+        self.security.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_security(&mut self) -> Command_Security {
+        self.security.take().unwrap()
+    }
+
     pub fn get_security(&'a self) -> &'a Command_Security {
         self.security.as_ref().unwrap_or_else(|| Command_Security::default_instance())
     }
@@ -2259,6 +2425,17 @@ impl<'a> Command_Body {
             self.pinOp.set_default();
         };
         self.pinOp.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_pinOp(self) -> Command_PinOperation {
+        self.pinOp.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_pinOp(&mut self) -> Command_PinOperation {
+        self.pinOp.take().unwrap()
     }
 
     pub fn get_pinOp(&'a self) -> &'a Command_PinOperation {
@@ -2713,6 +2890,17 @@ impl<'a> Command_Status {
         self.statusMessage.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_statusMessage(self) -> ::std::string::String {
+        self.statusMessage.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_statusMessage(&mut self) -> ::std::string::String {
+        self.statusMessage.take().unwrap()
+    }
+
     pub fn get_statusMessage(&'a self) -> &'a str {
         match self.statusMessage.as_ref() {
             Some(v) => v.as_slice(),
@@ -2742,6 +2930,17 @@ impl<'a> Command_Status {
             self.detailedMessage.set_default();
         };
         self.detailedMessage.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_detailedMessage(self) -> ::std::vec::Vec<u8> {
+        self.detailedMessage.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_detailedMessage(&mut self) -> ::std::vec::Vec<u8> {
+        self.detailedMessage.take().unwrap()
     }
 
     pub fn get_detailedMessage(&'a self) -> &'a [u8] {
@@ -3096,6 +3295,17 @@ impl<'a> Command_KeyValue {
         self.newVersion.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_newVersion(self) -> ::std::vec::Vec<u8> {
+        self.newVersion.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_newVersion(&mut self) -> ::std::vec::Vec<u8> {
+        self.newVersion.take().unwrap()
+    }
+
     pub fn get_newVersion(&'a self) -> &'a [u8] {
         match self.newVersion.as_ref() {
             Some(v) => v.as_slice(),
@@ -3146,6 +3356,17 @@ impl<'a> Command_KeyValue {
         self.key.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
+        self.key.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.key.take().unwrap()
+    }
+
     pub fn get_key(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
             Some(v) => v.as_slice(),
@@ -3177,6 +3398,17 @@ impl<'a> Command_KeyValue {
         self.dbVersion.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_dbVersion(self) -> ::std::vec::Vec<u8> {
+        self.dbVersion.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_dbVersion(&mut self) -> ::std::vec::Vec<u8> {
+        self.dbVersion.take().unwrap()
+    }
+
     pub fn get_dbVersion(&'a self) -> &'a [u8] {
         match self.dbVersion.as_ref() {
             Some(v) => v.as_slice(),
@@ -3206,6 +3438,17 @@ impl<'a> Command_KeyValue {
             self.tag.set_default();
         };
         self.tag.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_tag(self) -> ::std::vec::Vec<u8> {
+        self.tag.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_tag(&mut self) -> ::std::vec::Vec<u8> {
+        self.tag.take().unwrap()
     }
 
     pub fn get_tag(&'a self) -> &'a [u8] {
@@ -3727,6 +3970,17 @@ impl<'a> Command_Range {
         self.startKey.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_startKey(self) -> ::std::vec::Vec<u8> {
+        self.startKey.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_startKey(&mut self) -> ::std::vec::Vec<u8> {
+        self.startKey.take().unwrap()
+    }
+
     pub fn get_startKey(&'a self) -> &'a [u8] {
         match self.startKey.as_ref() {
             Some(v) => v.as_slice(),
@@ -3756,6 +4010,17 @@ impl<'a> Command_Range {
             self.endKey.set_default();
         };
         self.endKey.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_endKey(self) -> ::std::vec::Vec<u8> {
+        self.endKey.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_endKey(&mut self) -> ::std::vec::Vec<u8> {
+        self.endKey.take().unwrap()
     }
 
     pub fn get_endKey(&'a self) -> &'a [u8] {
@@ -4501,6 +4766,17 @@ impl<'a> Command_P2POperation {
         self.peer.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_peer(self) -> Command_P2POperation_Peer {
+        self.peer.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_peer(&mut self) -> Command_P2POperation_Peer {
+        self.peer.take().unwrap()
+    }
+
     pub fn get_peer(&'a self) -> &'a Command_P2POperation_Peer {
         self.peer.as_ref().unwrap_or_else(|| Command_P2POperation_Peer::default_instance())
     }
@@ -4813,6 +5089,17 @@ impl<'a> Command_P2POperation_Operation {
         self.key.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
+        self.key.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.key.take().unwrap()
+    }
+
     pub fn get_key(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
             Some(v) => v.as_slice(),
@@ -4844,6 +5131,17 @@ impl<'a> Command_P2POperation_Operation {
         self.version.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_version(self) -> ::std::vec::Vec<u8> {
+        self.version.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_version(&mut self) -> ::std::vec::Vec<u8> {
+        self.version.take().unwrap()
+    }
+
     pub fn get_version(&'a self) -> &'a [u8] {
         match self.version.as_ref() {
             Some(v) => v.as_slice(),
@@ -4873,6 +5171,17 @@ impl<'a> Command_P2POperation_Operation {
             self.newKey.set_default();
         };
         self.newKey.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_newKey(self) -> ::std::vec::Vec<u8> {
+        self.newKey.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_newKey(&mut self) -> ::std::vec::Vec<u8> {
+        self.newKey.take().unwrap()
     }
 
     pub fn get_newKey(&'a self) -> &'a [u8] {
@@ -4925,6 +5234,17 @@ impl<'a> Command_P2POperation_Operation {
         self.status.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_status(self) -> Command_Status {
+        self.status.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_status(&mut self) -> Command_Status {
+        self.status.take().unwrap()
+    }
+
     pub fn get_status(&'a self) -> &'a Command_Status {
         self.status.as_ref().unwrap_or_else(|| Command_Status::default_instance())
     }
@@ -4951,6 +5271,17 @@ impl<'a> Command_P2POperation_Operation {
             self.p2pop.set_default();
         };
         self.p2pop.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_p2pop(self) -> Command_P2POperation {
+        self.p2pop.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_p2pop(&mut self) -> Command_P2POperation {
+        self.p2pop.take().unwrap()
     }
 
     pub fn get_p2pop(&'a self) -> &'a Command_P2POperation {
@@ -5334,6 +5665,17 @@ impl<'a> Command_P2POperation_Peer {
         self.hostname.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_hostname(self) -> ::std::string::String {
+        self.hostname.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_hostname(&mut self) -> ::std::string::String {
+        self.hostname.take().unwrap()
+    }
+
     pub fn get_hostname(&'a self) -> &'a str {
         match self.hostname.as_ref() {
             Some(v) => v.as_slice(),
@@ -5711,6 +6053,17 @@ impl<'a> Command_GetLog {
         self.capacity.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_capacity(self) -> Command_GetLog_Capacity {
+        self.capacity.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_capacity(&mut self) -> Command_GetLog_Capacity {
+        self.capacity.take().unwrap()
+    }
+
     pub fn get_capacity(&'a self) -> &'a Command_GetLog_Capacity {
         self.capacity.as_ref().unwrap_or_else(|| Command_GetLog_Capacity::default_instance())
     }
@@ -5737,6 +6090,17 @@ impl<'a> Command_GetLog {
             self.configuration.set_default();
         };
         self.configuration.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_configuration(self) -> Command_GetLog_Configuration {
+        self.configuration.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_configuration(&mut self) -> Command_GetLog_Configuration {
+        self.configuration.take().unwrap()
     }
 
     pub fn get_configuration(&'a self) -> &'a Command_GetLog_Configuration {
@@ -5787,6 +6151,17 @@ impl<'a> Command_GetLog {
         self.messages.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_messages(self) -> ::std::vec::Vec<u8> {
+        self.messages.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_messages(&mut self) -> ::std::vec::Vec<u8> {
+        self.messages.take().unwrap()
+    }
+
     pub fn get_messages(&'a self) -> &'a [u8] {
         match self.messages.as_ref() {
             Some(v) => v.as_slice(),
@@ -5818,6 +6193,17 @@ impl<'a> Command_GetLog {
         self.limits.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_limits(self) -> Command_GetLog_Limits {
+        self.limits.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_limits(&mut self) -> Command_GetLog_Limits {
+        self.limits.take().unwrap()
+    }
+
     pub fn get_limits(&'a self) -> &'a Command_GetLog_Limits {
         self.limits.as_ref().unwrap_or_else(|| Command_GetLog_Limits::default_instance())
     }
@@ -5844,6 +6230,17 @@ impl<'a> Command_GetLog {
             self.device.set_default();
         };
         self.device.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_device(self) -> Command_GetLog_Device {
+        self.device.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_device(&mut self) -> Command_GetLog_Device {
+        self.device.take().unwrap()
     }
 
     pub fn get_device(&'a self) -> &'a Command_GetLog_Device {
@@ -6348,6 +6745,17 @@ impl<'a> Command_GetLog_Utilization {
         self.name.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_name(self) -> ::std::string::String {
+        self.name.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_name(&mut self) -> ::std::string::String {
+        self.name.take().unwrap()
+    }
+
     pub fn get_name(&'a self) -> &'a str {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
@@ -6599,6 +7007,17 @@ impl<'a> Command_GetLog_Temperature {
             self.name.set_default();
         };
         self.name.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_name(self) -> ::std::string::String {
+        self.name.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_name(&mut self) -> ::std::string::String {
+        self.name.take().unwrap()
     }
 
     pub fn get_name(&'a self) -> &'a str {
@@ -7273,6 +7692,17 @@ impl<'a> Command_GetLog_Configuration {
         self.vendor.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_vendor(self) -> ::std::string::String {
+        self.vendor.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_vendor(&mut self) -> ::std::string::String {
+        self.vendor.take().unwrap()
+    }
+
     pub fn get_vendor(&'a self) -> &'a str {
         match self.vendor.as_ref() {
             Some(v) => v.as_slice(),
@@ -7302,6 +7732,17 @@ impl<'a> Command_GetLog_Configuration {
             self.model.set_default();
         };
         self.model.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_model(self) -> ::std::string::String {
+        self.model.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_model(&mut self) -> ::std::string::String {
+        self.model.take().unwrap()
     }
 
     pub fn get_model(&'a self) -> &'a str {
@@ -7335,6 +7776,17 @@ impl<'a> Command_GetLog_Configuration {
         self.serialNumber.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_serialNumber(self) -> ::std::vec::Vec<u8> {
+        self.serialNumber.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_serialNumber(&mut self) -> ::std::vec::Vec<u8> {
+        self.serialNumber.take().unwrap()
+    }
+
     pub fn get_serialNumber(&'a self) -> &'a [u8] {
         match self.serialNumber.as_ref() {
             Some(v) => v.as_slice(),
@@ -7364,6 +7816,17 @@ impl<'a> Command_GetLog_Configuration {
             self.worldWideName.set_default();
         };
         self.worldWideName.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_worldWideName(self) -> ::std::vec::Vec<u8> {
+        self.worldWideName.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_worldWideName(&mut self) -> ::std::vec::Vec<u8> {
+        self.worldWideName.take().unwrap()
     }
 
     pub fn get_worldWideName(&'a self) -> &'a [u8] {
@@ -7397,6 +7860,17 @@ impl<'a> Command_GetLog_Configuration {
         self.version.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_version(self) -> ::std::string::String {
+        self.version.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_version(&mut self) -> ::std::string::String {
+        self.version.take().unwrap()
+    }
+
     pub fn get_version(&'a self) -> &'a str {
         match self.version.as_ref() {
             Some(v) => v.as_slice(),
@@ -7426,6 +7900,17 @@ impl<'a> Command_GetLog_Configuration {
             self.compilationDate.set_default();
         };
         self.compilationDate.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_compilationDate(self) -> ::std::string::String {
+        self.compilationDate.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_compilationDate(&mut self) -> ::std::string::String {
+        self.compilationDate.take().unwrap()
     }
 
     pub fn get_compilationDate(&'a self) -> &'a str {
@@ -7459,6 +7944,17 @@ impl<'a> Command_GetLog_Configuration {
         self.sourceHash.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_sourceHash(self) -> ::std::string::String {
+        self.sourceHash.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_sourceHash(&mut self) -> ::std::string::String {
+        self.sourceHash.take().unwrap()
+    }
+
     pub fn get_sourceHash(&'a self) -> &'a str {
         match self.sourceHash.as_ref() {
             Some(v) => v.as_slice(),
@@ -7488,6 +7984,17 @@ impl<'a> Command_GetLog_Configuration {
             self.protocolVersion.set_default();
         };
         self.protocolVersion.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_protocolVersion(self) -> ::std::string::String {
+        self.protocolVersion.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_protocolVersion(&mut self) -> ::std::string::String {
+        self.protocolVersion.take().unwrap()
     }
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
@@ -7521,6 +8028,17 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolCompilationDate.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_protocolCompilationDate(self) -> ::std::string::String {
+        self.protocolCompilationDate.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_protocolCompilationDate(&mut self) -> ::std::string::String {
+        self.protocolCompilationDate.take().unwrap()
+    }
+
     pub fn get_protocolCompilationDate(&'a self) -> &'a str {
         match self.protocolCompilationDate.as_ref() {
             Some(v) => v.as_slice(),
@@ -7550,6 +8068,17 @@ impl<'a> Command_GetLog_Configuration {
             self.protocolSourceHash.set_default();
         };
         self.protocolSourceHash.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_protocolSourceHash(self) -> ::std::string::String {
+        self.protocolSourceHash.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_protocolSourceHash(&mut self) -> ::std::string::String {
+        self.protocolSourceHash.take().unwrap()
     }
 
     pub fn get_protocolSourceHash(&'a self) -> &'a str {
@@ -8249,6 +8778,17 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.name.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_name(self) -> ::std::string::String {
+        self.name.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_name(&mut self) -> ::std::string::String {
+        self.name.take().unwrap()
+    }
+
     pub fn get_name(&'a self) -> &'a str {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
@@ -8278,6 +8818,17 @@ impl<'a> Command_GetLog_Configuration_Interface {
             self.MAC.set_default();
         };
         self.MAC.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_MAC(self) -> ::std::vec::Vec<u8> {
+        self.MAC.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_MAC(&mut self) -> ::std::vec::Vec<u8> {
+        self.MAC.take().unwrap()
     }
 
     pub fn get_MAC(&'a self) -> &'a [u8] {
@@ -8311,6 +8862,17 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.ipv4Address.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_ipv4Address(self) -> ::std::vec::Vec<u8> {
+        self.ipv4Address.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_ipv4Address(&mut self) -> ::std::vec::Vec<u8> {
+        self.ipv4Address.take().unwrap()
+    }
+
     pub fn get_ipv4Address(&'a self) -> &'a [u8] {
         match self.ipv4Address.as_ref() {
             Some(v) => v.as_slice(),
@@ -8340,6 +8902,17 @@ impl<'a> Command_GetLog_Configuration_Interface {
             self.ipv6Address.set_default();
         };
         self.ipv6Address.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_ipv6Address(self) -> ::std::vec::Vec<u8> {
+        self.ipv6Address.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_ipv6Address(&mut self) -> ::std::vec::Vec<u8> {
+        self.ipv6Address.take().unwrap()
     }
 
     pub fn get_ipv6Address(&'a self) -> &'a [u8] {
@@ -9693,6 +10266,17 @@ impl<'a> Command_GetLog_Device {
         self.name.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_name(self) -> ::std::vec::Vec<u8> {
+        self.name.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_name(&mut self) -> ::std::vec::Vec<u8> {
+        self.name.take().unwrap()
+    }
+
     pub fn get_name(&'a self) -> &'a [u8] {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
@@ -9958,6 +10542,17 @@ impl<'a> Command_Security {
         self.oldLockPIN.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_oldLockPIN(self) -> ::std::vec::Vec<u8> {
+        self.oldLockPIN.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_oldLockPIN(&mut self) -> ::std::vec::Vec<u8> {
+        self.oldLockPIN.take().unwrap()
+    }
+
     pub fn get_oldLockPIN(&'a self) -> &'a [u8] {
         match self.oldLockPIN.as_ref() {
             Some(v) => v.as_slice(),
@@ -9987,6 +10582,17 @@ impl<'a> Command_Security {
             self.newLockPIN.set_default();
         };
         self.newLockPIN.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_newLockPIN(self) -> ::std::vec::Vec<u8> {
+        self.newLockPIN.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_newLockPIN(&mut self) -> ::std::vec::Vec<u8> {
+        self.newLockPIN.take().unwrap()
     }
 
     pub fn get_newLockPIN(&'a self) -> &'a [u8] {
@@ -10020,6 +10626,17 @@ impl<'a> Command_Security {
         self.oldErasePIN.as_mut().unwrap()
     }
 
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_oldErasePIN(self) -> ::std::vec::Vec<u8> {
+        self.oldErasePIN.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_oldErasePIN(&mut self) -> ::std::vec::Vec<u8> {
+        self.oldErasePIN.take().unwrap()
+    }
+
     pub fn get_oldErasePIN(&'a self) -> &'a [u8] {
         match self.oldErasePIN.as_ref() {
             Some(v) => v.as_slice(),
@@ -10049,6 +10666,17 @@ impl<'a> Command_Security {
             self.newErasePIN.set_default();
         };
         self.newErasePIN.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_newErasePIN(self) -> ::std::vec::Vec<u8> {
+        self.newErasePIN.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_newErasePIN(&mut self) -> ::std::vec::Vec<u8> {
+        self.newErasePIN.take().unwrap()
     }
 
     pub fn get_newErasePIN(&'a self) -> &'a [u8] {
@@ -10413,6 +11041,17 @@ impl<'a> Command_Security_ACL {
             self.key.set_default();
         };
         self.key.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
+        self.key.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        self.key.take().unwrap()
     }
 
     pub fn get_key(&'a self) -> &'a [u8] {
@@ -10835,6 +11474,17 @@ impl<'a> Command_Security_ACL_Scope {
             self.value.set_default();
         };
         self.value.as_mut().unwrap()
+    }
+
+    // The original message's life ends here
+    // ownership of the field is passed on
+    pub fn unwrap_value(self) -> ::std::vec::Vec<u8> {
+        self.value.unwrap()
+    }
+
+    // Ownership of the field is transferred to the caller
+    pub fn take_value(&mut self) -> ::std::vec::Vec<u8> {
+        self.value.take().unwrap()
     }
 
     pub fn get_value(&'a self) -> &'a [u8] {

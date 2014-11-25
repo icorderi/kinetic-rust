@@ -22,19 +22,51 @@
 
 #![stable]
 
+use std::error::Error;
 use std::error::FromError;
-use protobuf::error::ProtobufError;
-use proto::StatusCode;
 use std::io::IoError;
+use protobuf::error::ProtobufError;
+use proto::command::Status;
 
-
-#[deriving(Show,Eq,PartialEq)]
 #[stable]
+#[deriving(Show)]
 pub enum KineticError {
     IoError(IoError),
     ProtobufError(ProtobufError),
     InvalidMagicNumber,
-    RemoteError(StatusCode, String)
+    RemoteError(Status)
+}
+
+impl Error for KineticError {
+    fn description(&self) -> &str {
+        match *self {
+            KineticError::IoError(_) => "An I/O error occurred",
+            KineticError::ProtobufError(_) => "There was an error with the protobuf library",
+            KineticError::InvalidMagicNumber => "Invalid magic number received",
+            KineticError::RemoteError(ref status) =>
+                format!("{}: {}", status.get_code(), status.get_statusMessage()).as_slice().clone(),
+        }
+    }
+
+    fn detail(&self) -> Option<String> {
+        match *self {
+            KineticError::IoError(ref err) => Some(err.description().to_string()),
+            KineticError::ProtobufError(ref err) => Some(err.description().to_string()),
+            KineticError::RemoteError(ref status) =>
+                if status.has_detailedMessage() {
+                    String::from_utf8(status.get_detailedMessage().to_vec()).ok() }
+                else { None },
+            _ => None,
+        }
+    }
+
+    fn cause(&self) -> Option<&Error> {
+        match *self {
+            KineticError::IoError(ref err) => Some(err as &Error),
+            KineticError::ProtobufError(ref err) => Some(err as &Error),
+            _ => None,
+        }
+    }
 }
 
 #[stable]

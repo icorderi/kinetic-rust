@@ -34,35 +34,50 @@ use std::vec;
 #[stable]
 impl Response for () {
 
-    fn from_proto(_: Message, cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
-        let status = cmd.get_status();
+    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
+        let status = cmd.take_status();
 
         if status.get_code() == ::proto::StatusCode::SUCCESS {
             Ok(())
         } else {
-            Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))
+            Err(KineticError::RemoteError(status))
         }
     }
 
 }
 
 /// A get command returns the value stored associated with the key requested
-#[experimental]
+#[unstable]
 #[deriving(Show)]
 pub struct GetResponse {
     pub value: Option<vec::Vec<u8>>
 }
 
-#[experimental]
+#[unstable]
 impl Response for GetResponse {
 
-    fn from_proto(_: Message, cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetResponse> {
-        let status = cmd.get_status();
+    fn from_proto(_: Message, mut cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetResponse> {
+        let status = cmd.take_status();
 
         if status.get_code() == ::proto::StatusCode::SUCCESS {
             Ok(GetResponse { value: Some(value) })
         } else {
-            Err(KineticError::RemoteError(status.get_code(), String::from_str(status.get_statusMessage())))
+            Err(KineticError::RemoteError(status))
+        }
+    }
+
+}
+
+#[experimental]
+impl Response for ::proto::command::GetLog {
+
+    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<::proto::command::GetLog> {
+        let status = cmd.take_status();
+
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            Ok(cmd.unwrap_body().unwrap_getLog())
+        } else {
+            Err(KineticError::RemoteError(status))
         }
     }
 

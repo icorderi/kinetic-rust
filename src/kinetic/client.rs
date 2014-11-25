@@ -41,7 +41,9 @@ type KineticResponse = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)
 #[experimental]
 struct KineticChannel {
     stream: io::TcpStream,
-    writer_tx: ::std::comm::SyncSender<KineticCommand>
+    writer_tx: ::std::comm::SyncSender<KineticCommand>,
+    pub configuration: ::proto::command::log::Configuration,
+    pub limits: ::proto::command::log::Limits,
 }
 
 #[experimental]
@@ -64,6 +66,9 @@ impl KineticChannel {
         // Handshake
         let (_, cmd, _) = ::network::recv(&mut s).unwrap();
         let connection_id = cmd.get_header().get_connectionID();
+        let mut the_log = cmd.unwrap_body().unwrap_getLog();
+        let configuration = the_log.take_configuration();
+        let limits = the_log.take_limits();
 
         // Other state like pending requests...
         let pending_mutex = Arc::new(Mutex::new(collections::HashMap::with_capacity(max_pending)));
@@ -128,7 +133,8 @@ impl KineticChannel {
                 hmac.input(&buffer);
                 hmac.input(cmd_bytes.as_slice());
 
-                auth.set_hmac(hmac.result().code().to_vec()); // TODO: Code is backed by a Vec, we should have a method to get it.
+                // TODO: Code is backed by a Vec, we should have an unwrap() method to get it.
+                auth.set_hmac(hmac.result().code().to_vec());
                 msg.set_hmacAuth(auth);
 
                 msg.set_commandBytes(cmd_bytes);
@@ -137,13 +143,15 @@ impl KineticChannel {
                     let mut pending = pending_mutex.lock();
                     pending.insert(seq, callback);
                 }
+
                 let value = value.unwrap_or(vec::Vec::new());
                 ::network::send(&mut writer, &msg, value.as_slice()).unwrap();
                 seq += 1;
             }
         });
 
-        Ok(KineticChannel { stream: s, writer_tx: w_tx})
+        Ok(KineticChannel { stream: s, writer_tx: w_tx,
+                            configuration: configuration, limits: limits })
     }
 
     #[experimental]
@@ -177,6 +185,16 @@ impl Client {
         let c = try!(KineticChannel::connect(addr, DEFAULT_MAX_PENDING));
         Ok( Client { channel: c,
                      cluster_version: 0 })
+    }
+
+    // FIXME : Solve this without cloning
+    pub fn get_config(&self) -> ::proto::command::log::Configuration {
+        self.channel.configuration.clone()
+    }
+
+    // FIXME : Solve this without cloning
+    pub fn get_limits(&self) -> ::proto::command::log::Limits {
+        self.channel.limits.clone()
     }
 
     #[inline]

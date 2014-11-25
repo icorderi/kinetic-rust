@@ -40,6 +40,7 @@ static USAGE: &'static str = "
 Kinetic from Rust!
 
 Usage: kinetic-bench write <target> [<count>]
+       kinetic-bench config <target>
        kinetic-bench [options]
 
 Options:
@@ -50,9 +51,10 @@ Options:
 #[deriving(Decodable, Show)]
 struct Args {
    cmd_write: Option<WriteArgs>,
-   cmd_read: Option<ReadArgs>,
+   cmd_read: Option<TargetArgs>,
+   cmd_config: Option<TargetArgs>,
    flag_help: bool,
-   flag_version: bool
+   flag_version: bool,
 }
 
 #[deriving(Decodable, Show)]
@@ -62,7 +64,7 @@ struct WriteArgs{
 }
 
 #[deriving(Decodable, Show)]
-struct ReadArgs{
+struct TargetArgs{
     arg_target: String
 }
 
@@ -85,6 +87,12 @@ fn main() {
 
     if args.flag_version {
         println!("{}", version());
+        return;
+    }
+
+    if args.cmd_config.is_some() {
+        let c = kinetic::Client::connect(format!("{}:8123", args.cmd_config.unwrap().arg_target).as_slice()).unwrap();
+        println!("{}", c.get_config());
         return;
     }
 
