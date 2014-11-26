@@ -154,6 +154,11 @@
 <span id='112'>112</span>
 <span id='113'>113</span>
 <span id='114'>114</span>
+<span id='115'>115</span>
+<span id='116'>116</span>
+<span id='117'>117</span>
+<span id='118'>118</span>
+<span id='119'>119</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -206,6 +211,7 @@
 <span class='kw'>impl</span> <span class='ident'>Client</span> {
 
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToSocketAddr</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>A</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>Client</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>KineticChannel</span>::<span class='ident'>connect</span>(<span class='ident'>addr</span>, <span class='ident'>DEFAULT_MAX_PENDING</span>));
 
@@ -213,12 +219,14 @@
                      <span class='ident'>cluster_version</span>: <span class='number'>0</span>, })
     }
 
-    <span class='comment'>// FIXME : Solve this without cloning</span>
+    <span class='attribute'>#[<span class='ident'>stable</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ref_config</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Configuration</span> {
         <span class='self'>self</span>.<span class='ident'>channel</span>.<span class='ident'>ref_configuration</span>()
     }
 
-    <span class='comment'>// FIXME : Solve this without cloning</span>
+    <span class='attribute'>#[<span class='ident'>stable</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ref_limits</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Limits</span> {
         <span class='self'>self</span>.<span class='ident'>channel</span>.<span class='ident'>ref_limits</span>()
     }
@@ -256,6 +264,7 @@
 
     <span class='doccomment'>/// Sends commands to target device an waits for response</span>
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send</span><span class='op'>&lt;</span><span class='ident'>R</span> : <span class='ident'>Response</span>, <span class='ident'>C</span>: <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>cmd</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>rx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>send_raw</span>(<span class='ident'>cmd</span>);
         <span class='ident'>Client</span>::<span class='ident'>receive_raw</span>(<span class='ident'>rx</span>)
@@ -263,6 +272,7 @@
 
     <span class='comment'>// Returns a Future&lt;T&gt; instead of waiting for the response</span>
     <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_future</span><span class='op'>&lt;</span><span class='ident'>R</span> : <span class='ident'>Response</span>, <span class='ident'>C</span>: <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>cmd</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>Future</span><span class='op'>&lt;</span><span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>rx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>send_raw</span>(<span class='ident'>cmd</span>);
         <span class='ident'>Future</span>::<span class='ident'>spawn</span>(<span class='kw'>proc</span>() { <span class='ident'>Client</span>::<span class='ident'>receive_raw</span>(<span class='ident'>rx</span>) })
