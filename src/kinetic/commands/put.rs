@@ -20,43 +20,11 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
-//! Available Kinetic commands
+#![unstable]
 
 use core::Command;
 use std::vec;
 
-/// Requests the value stored with the given key
-#[unstable]
-pub struct Get {
-    pub key: vec::Vec<u8>
-}
-
-#[unstable]
-impl Command<::responses::GetResponse> for Get {
-
-    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
-        let mut cmd = ::proto::Command::new();
-        let mut header = ::proto::command::Header::new();
-
-        // Set command type
-        header.set_messageType(::proto::command::MessageType::GET);
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut kv = ::proto::command::KeyValue::new();
-        kv.set_key(self.key);
-
-        // Fill the body
-        let mut body = ::proto::command::Body::new();
-        body.set_keyValue(kv);
-        cmd.set_body(body);
-
-        (cmd, None) // return command
-    }
-
-}
 
 /// Stores the value asociated with the key
 #[unstable]
@@ -90,38 +58,6 @@ impl Command<()> for Put {
         cmd.set_body(body);
 
         (cmd, Some(self.value)) // return command
-    }
-
-}
-
-/// Stores the value asociated with the key
-#[unstable]
-pub struct GetLog {
-    // FIXME: The operation actually accepts a **set** of types
-    pub log_type: ::proto::command::LogType
-}
-
-#[unstable]
-impl Command<::proto::command::GetLog> for GetLog {
-
-    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
-        let mut cmd = ::proto::Command::new();
-        let mut header = ::proto::command::Header::new();
-
-        // Set command type
-        header.set_messageType(::proto::command::MessageType::GETLOG);
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut get_log = ::proto::command::GetLog::new();
-        get_log.set_types(vec![self.log_type]);
-
-        // Fill the body
-        let mut body = ::proto::command::Body::new();
-        body.set_getLog(get_log);
-        cmd.set_body(body);
-
-        (cmd, None) // return command
     }
 
 }
