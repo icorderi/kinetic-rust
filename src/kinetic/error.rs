@@ -71,6 +71,7 @@ impl Error for KineticError {
 
 #[stable]
 impl FromError<IoError> for KineticError {
+    #[inline]
     fn from_error(err: IoError) -> KineticError {
         KineticError::IoError(err)
     }
@@ -78,6 +79,7 @@ impl FromError<IoError> for KineticError {
 
 #[stable]
 impl FromError<ProtobufError> for KineticError {
+    #[inline]
     fn from_error(err: ProtobufError) -> KineticError {
         KineticError::ProtobufError(err)
     }

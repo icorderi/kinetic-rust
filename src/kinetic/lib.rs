@@ -31,6 +31,7 @@ extern crate protobuf;
 extern crate "rust-crypto" as crypto;
 extern crate serialize;
 
+
 pub use core::version;
 pub use proto::version as protocol_version;
 pub use core::{Command, Response};
@@ -45,6 +46,7 @@ pub mod error;
 pub mod result;
 pub mod proto;
 pub mod channel;
+
 
 mod client;
 mod core;

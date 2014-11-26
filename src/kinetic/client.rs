@@ -49,6 +49,7 @@ pub struct Client {
 impl Client {
 
     #[stable]
+    #[inline]
     pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
         let c = try!(KineticChannel::connect(addr, DEFAULT_MAX_PENDING));
 
@@ -56,12 +57,14 @@ impl Client {
                      cluster_version: 0, })
     }
 
-    // FIXME : Solve this without cloning
+    #[stable]
+    #[inline]
     pub fn ref_config<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
         self.channel.ref_configuration()
     }
 
-    // FIXME : Solve this without cloning
+    #[stable]
+    #[inline]
     pub fn ref_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
         self.channel.ref_limits()
     }
@@ -99,6 +102,7 @@ impl Client {
 
     /// Sends commands to target device an waits for response
     #[stable]
+    #[inline]
     pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
         let rx = self.send_raw(cmd);
         Client::receive_raw(rx)
@@ -106,6 +110,7 @@ impl Client {
 
     // Returns a Future<T> instead of waiting for the response
     #[experimental]
+    #[inline]
     pub fn send_future<R : Response, C: Command<R>> (&self, cmd: C) -> Future<KineticResult<R>> {
         let rx = self.send_raw(cmd);
         Future::spawn(proc() { Client::receive_raw(rx) })

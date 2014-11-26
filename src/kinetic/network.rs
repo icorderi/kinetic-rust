@@ -26,7 +26,8 @@ use result::KineticResult;
 use error::KineticError;
 
 
-#[unstable]
+#[stable]
+#[inline]
 pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)> {
     let mut header = [0u8,..9];
     try!(stream.read_at_least(9, &mut header));
@@ -50,7 +51,8 @@ pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto
     Ok((msg, cmd, value))
 }
 
-#[unstable]
+#[stable]
+#[inline]
 pub fn send(stream: &mut io::Writer, proto: &::proto::Message, value: &[u8]) -> KineticResult<()> {
     let s = proto.compute_size();
 

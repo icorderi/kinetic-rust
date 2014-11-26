@@ -49,6 +49,7 @@ pub struct KineticChannel {
 impl Drop for KineticChannel {
 
     #[unstable]
+    #[inline]
     fn drop(&mut self) {
         self.closed = true;
         self.stream.close_read().unwrap();
