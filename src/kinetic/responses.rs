@@ -75,7 +75,7 @@ impl Response for ::proto::command::GetLog {
         let status = cmd.take_status();
 
         if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(cmd.unwrap_body().unwrap_getLog())
+            Ok(cmd.take_body().take_getLog())
         } else {
             Err(KineticError::RemoteError(status))
         }

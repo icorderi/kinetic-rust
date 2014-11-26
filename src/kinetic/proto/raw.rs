@@ -6,6 +6,8 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
+use protobuf::Message as Message_imported_for_functions;
+use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
 
 #[deriving(Clone,Default)]
 pub struct Local {
@@ -59,15 +61,9 @@ impl<'a> Local {
         self.protocolVersion.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_protocolVersion(self) -> ::std::string::String {
-        self.protocolVersion.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_protocolVersion(&mut self) -> ::std::string::String {
-        self.protocolVersion.take().unwrap()
+        self.protocolVersion.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
@@ -109,7 +105,6 @@ impl ::protobuf::Message for Local {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.protocolVersion.iter() {
             my_size += ::protobuf::rt::string_size(1, value.as_slice());
@@ -120,7 +115,6 @@ impl ::protobuf::Message for Local {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.protocolVersion.as_ref() {
             Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
@@ -183,7 +177,6 @@ impl ::std::cmp::PartialEq for Local {
 
 impl ::std::fmt::Show for Local {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -284,15 +277,9 @@ impl<'a> Message {
         self.hmacAuth.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_hmacAuth(self) -> Message_HMACauth {
-        self.hmacAuth.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_hmacAuth(&mut self) -> Message_HMACauth {
-        self.hmacAuth.take().unwrap()
+        self.hmacAuth.take().unwrap_or_else(|| Message_HMACauth::new())
     }
 
     pub fn get_hmacAuth(&'a self) -> &'a Message_HMACauth {
@@ -323,15 +310,9 @@ impl<'a> Message {
         self.pinAuth.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_pinAuth(self) -> Message_PINauth {
-        self.pinAuth.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_pinAuth(&mut self) -> Message_PINauth {
-        self.pinAuth.take().unwrap()
+        self.pinAuth.take().unwrap_or_else(|| Message_PINauth::new())
     }
 
     pub fn get_pinAuth(&'a self) -> &'a Message_PINauth {
@@ -362,15 +343,9 @@ impl<'a> Message {
         self.commandBytes.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_commandBytes(self) -> ::std::vec::Vec<u8> {
-        self.commandBytes.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_commandBytes(&mut self) -> ::std::vec::Vec<u8> {
-        self.commandBytes.take().unwrap()
+        self.commandBytes.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_commandBytes(&'a self) -> &'a [u8] {
@@ -398,7 +373,7 @@ impl ::protobuf::Message for Message {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Message_AuthType::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.authType = ::std::option::Some(tmp);
                 },
                 5 => {
@@ -433,7 +408,6 @@ impl ::protobuf::Message for Message {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.authType.iter() {
             my_size += ::protobuf::rt::enum_size(4, *value);
@@ -455,7 +429,6 @@ impl ::protobuf::Message for Message {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.authType {
             Some(v) => {
                 try!(os.write_enum(4, v as i32));
@@ -549,7 +522,6 @@ impl ::std::cmp::PartialEq for Message {
 
 impl ::std::fmt::Show for Message {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -569,7 +541,6 @@ impl ::protobuf::reflect::FieldAccessor<Message> for Message_authType_acc_type {
     }
 
     fn get_enum<'a>(&self, m: &Message) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_authType().descriptor()
     }
 }
@@ -701,15 +672,9 @@ impl<'a> Message_HMACauth {
         self.hmac.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_hmac(self) -> ::std::vec::Vec<u8> {
-        self.hmac.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_hmac(&mut self) -> ::std::vec::Vec<u8> {
-        self.hmac.take().unwrap()
+        self.hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_hmac(&'a self) -> &'a [u8] {
@@ -758,7 +723,6 @@ impl ::protobuf::Message for Message_HMACauth {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.identity.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -772,7 +736,6 @@ impl ::protobuf::Message for Message_HMACauth {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.identity {
             Some(v) => {
                 try!(os.write_int64(1, v));
@@ -844,7 +807,6 @@ impl ::std::cmp::PartialEq for Message_HMACauth {
 
 impl ::std::fmt::Show for Message_HMACauth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -938,15 +900,9 @@ impl<'a> Message_PINauth {
         self.pin.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_pin(self) -> ::std::vec::Vec<u8> {
-        self.pin.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_pin(&mut self) -> ::std::vec::Vec<u8> {
-        self.pin.take().unwrap()
+        self.pin.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_pin(&'a self) -> &'a [u8] {
@@ -988,7 +944,6 @@ impl ::protobuf::Message for Message_PINauth {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.pin.iter() {
             my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
@@ -999,7 +954,6 @@ impl ::protobuf::Message for Message_PINauth {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.pin.as_ref() {
             Some(v) => {
                 try!(os.write_bytes(1, v.as_slice()));
@@ -1062,7 +1016,6 @@ impl ::std::cmp::PartialEq for Message_PINauth {
 
 impl ::std::fmt::Show for Message_PINauth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -1094,21 +1047,20 @@ pub enum Message_AuthType {
     UNSOLICITEDSTATUS = 3,
 }
 
-impl Message_AuthType {
-    pub fn new(value: i32) -> Message_AuthType {
-        match value {
-            -1 => Message_AuthType::INVALID_AUTH_TYPE,
-            1 => Message_AuthType::HMACAUTH,
-            2 => Message_AuthType::PINAUTH,
-            3 => Message_AuthType::UNSOLICITEDSTATUS,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Message_AuthType {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Message_AuthType> {
+        match value {
+            -1 => ::std::option::Some(Message_AuthType::INVALID_AUTH_TYPE),
+            1 => ::std::option::Some(Message_AuthType::HMACAUTH),
+            2 => ::std::option::Some(Message_AuthType::PINAUTH),
+            3 => ::std::option::Some(Message_AuthType::UNSOLICITEDSTATUS),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Message_AuthType>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -1180,15 +1132,9 @@ impl<'a> Command {
         self.header.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_header(self) -> Command_Header {
-        self.header.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_header(&mut self) -> Command_Header {
-        self.header.take().unwrap()
+        self.header.take().unwrap_or_else(|| Command_Header::new())
     }
 
     pub fn get_header(&'a self) -> &'a Command_Header {
@@ -1219,15 +1165,9 @@ impl<'a> Command {
         self.body.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_body(self) -> Command_Body {
-        self.body.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_body(&mut self) -> Command_Body {
-        self.body.take().unwrap()
+        self.body.take().unwrap_or_else(|| Command_Body::new())
     }
 
     pub fn get_body(&'a self) -> &'a Command_Body {
@@ -1258,15 +1198,9 @@ impl<'a> Command {
         self.status.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_status(self) -> Command_Status {
-        self.status.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_status(&mut self) -> Command_Status {
-        self.status.take().unwrap()
+        self.status.take().unwrap_or_else(|| Command_Status::new())
     }
 
     pub fn get_status(&'a self) -> &'a Command_Status {
@@ -1319,7 +1253,6 @@ impl ::protobuf::Message for Command {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.header.iter() {
             let len = value.compute_size();
@@ -1339,7 +1272,6 @@ impl ::protobuf::Message for Command {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.header.as_ref() {
             Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
@@ -1426,7 +1358,6 @@ impl ::std::cmp::PartialEq for Command {
 
 impl ::std::fmt::Show for Command {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -1747,7 +1678,7 @@ impl ::protobuf::Message for Command_Header {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_MessageType::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.messageType = ::std::option::Some(tmp);
                 },
                 9 => {
@@ -1768,7 +1699,7 @@ impl ::protobuf::Message for Command_Header {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Priority::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.priority = ::std::option::Some(tmp);
                 },
                 13 => {
@@ -1789,7 +1720,6 @@ impl ::protobuf::Message for Command_Header {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.clusterVersion.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -1824,7 +1754,6 @@ impl ::protobuf::Message for Command_Header {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.clusterVersion {
             Some(v) => {
                 try!(os.write_int64(1, v));
@@ -1959,7 +1888,6 @@ impl ::std::cmp::PartialEq for Command_Header {
 
 impl ::std::fmt::Show for Command_Header {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -2051,7 +1979,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_messa
     }
 
     fn get_enum<'a>(&self, m: &Command_Header) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_messageType().descriptor()
     }
 }
@@ -2106,7 +2033,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_prior
     }
 
     fn get_enum<'a>(&self, m: &Command_Header) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_priority().descriptor()
     }
 }
@@ -2193,15 +2119,9 @@ impl<'a> Command_Body {
         self.keyValue.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_keyValue(self) -> Command_KeyValue {
-        self.keyValue.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_keyValue(&mut self) -> Command_KeyValue {
-        self.keyValue.take().unwrap()
+        self.keyValue.take().unwrap_or_else(|| Command_KeyValue::new())
     }
 
     pub fn get_keyValue(&'a self) -> &'a Command_KeyValue {
@@ -2232,15 +2152,9 @@ impl<'a> Command_Body {
         self.range.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_range(self) -> Command_Range {
-        self.range.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_range(&mut self) -> Command_Range {
-        self.range.take().unwrap()
+        self.range.take().unwrap_or_else(|| Command_Range::new())
     }
 
     pub fn get_range(&'a self) -> &'a Command_Range {
@@ -2271,15 +2185,9 @@ impl<'a> Command_Body {
         self.setup.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_setup(self) -> Command_Setup {
-        self.setup.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_setup(&mut self) -> Command_Setup {
-        self.setup.take().unwrap()
+        self.setup.take().unwrap_or_else(|| Command_Setup::new())
     }
 
     pub fn get_setup(&'a self) -> &'a Command_Setup {
@@ -2310,15 +2218,9 @@ impl<'a> Command_Body {
         self.p2pOperation.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_p2pOperation(self) -> Command_P2POperation {
-        self.p2pOperation.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_p2pOperation(&mut self) -> Command_P2POperation {
-        self.p2pOperation.take().unwrap()
+        self.p2pOperation.take().unwrap_or_else(|| Command_P2POperation::new())
     }
 
     pub fn get_p2pOperation(&'a self) -> &'a Command_P2POperation {
@@ -2349,15 +2251,9 @@ impl<'a> Command_Body {
         self.getLog.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_getLog(self) -> Command_GetLog {
-        self.getLog.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_getLog(&mut self) -> Command_GetLog {
-        self.getLog.take().unwrap()
+        self.getLog.take().unwrap_or_else(|| Command_GetLog::new())
     }
 
     pub fn get_getLog(&'a self) -> &'a Command_GetLog {
@@ -2388,15 +2284,9 @@ impl<'a> Command_Body {
         self.security.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_security(self) -> Command_Security {
-        self.security.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_security(&mut self) -> Command_Security {
-        self.security.take().unwrap()
+        self.security.take().unwrap_or_else(|| Command_Security::new())
     }
 
     pub fn get_security(&'a self) -> &'a Command_Security {
@@ -2427,15 +2317,9 @@ impl<'a> Command_Body {
         self.pinOp.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_pinOp(self) -> Command_PinOperation {
-        self.pinOp.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_pinOp(&mut self) -> Command_PinOperation {
-        self.pinOp.take().unwrap()
+        self.pinOp.take().unwrap_or_else(|| Command_PinOperation::new())
     }
 
     pub fn get_pinOp(&'a self) -> &'a Command_PinOperation {
@@ -2516,7 +2400,6 @@ impl ::protobuf::Message for Command_Body {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.keyValue.iter() {
             let len = value.compute_size();
@@ -2552,7 +2435,6 @@ impl ::protobuf::Message for Command_Body {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.keyValue.as_ref() {
             Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
@@ -2683,7 +2565,6 @@ impl ::std::cmp::PartialEq for Command_Body {
 
 impl ::std::fmt::Show for Command_Body {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -2890,15 +2771,9 @@ impl<'a> Command_Status {
         self.statusMessage.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_statusMessage(self) -> ::std::string::String {
-        self.statusMessage.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_statusMessage(&mut self) -> ::std::string::String {
-        self.statusMessage.take().unwrap()
+        self.statusMessage.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_statusMessage(&'a self) -> &'a str {
@@ -2932,15 +2807,9 @@ impl<'a> Command_Status {
         self.detailedMessage.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_detailedMessage(self) -> ::std::vec::Vec<u8> {
-        self.detailedMessage.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_detailedMessage(&mut self) -> ::std::vec::Vec<u8> {
-        self.detailedMessage.take().unwrap()
+        self.detailedMessage.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_detailedMessage(&'a self) -> &'a [u8] {
@@ -2968,7 +2837,7 @@ impl ::protobuf::Message for Command_Status {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Status_StatusCode::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.code = ::std::option::Some(tmp);
                 },
                 2 => {
@@ -2996,7 +2865,6 @@ impl ::protobuf::Message for Command_Status {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.code.iter() {
             my_size += ::protobuf::rt::enum_size(1, *value);
@@ -3013,7 +2881,6 @@ impl ::protobuf::Message for Command_Status {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.code {
             Some(v) => {
                 try!(os.write_enum(1, v as i32));
@@ -3094,7 +2961,6 @@ impl ::std::cmp::PartialEq for Command_Status {
 
 impl ::std::fmt::Show for Command_Status {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -3114,7 +2980,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Status> for Command_Status_code_
     }
 
     fn get_enum<'a>(&self, m: &Command_Status) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_code().descriptor()
     }
 }
@@ -3181,39 +3046,38 @@ pub enum Command_Status_StatusCode {
     CONNECTION_TERMINATED = 20,
 }
 
-impl Command_Status_StatusCode {
-    pub fn new(value: i32) -> Command_Status_StatusCode {
-        match value {
-            -1 => Command_Status_StatusCode::INVALID_STATUS_CODE,
-            0 => Command_Status_StatusCode::NOT_ATTEMPTED,
-            1 => Command_Status_StatusCode::SUCCESS,
-            2 => Command_Status_StatusCode::HMAC_FAILURE,
-            3 => Command_Status_StatusCode::NOT_AUTHORIZED,
-            4 => Command_Status_StatusCode::VERSION_FAILURE,
-            5 => Command_Status_StatusCode::INTERNAL_ERROR,
-            6 => Command_Status_StatusCode::HEADER_REQUIRED,
-            7 => Command_Status_StatusCode::NOT_FOUND,
-            8 => Command_Status_StatusCode::VERSION_MISMATCH,
-            9 => Command_Status_StatusCode::SERVICE_BUSY,
-            10 => Command_Status_StatusCode::EXPIRED,
-            11 => Command_Status_StatusCode::DATA_ERROR,
-            12 => Command_Status_StatusCode::PERM_DATA_ERROR,
-            13 => Command_Status_StatusCode::REMOTE_CONNECTION_ERROR,
-            14 => Command_Status_StatusCode::NO_SPACE,
-            15 => Command_Status_StatusCode::NO_SUCH_HMAC_ALGORITHM,
-            16 => Command_Status_StatusCode::INVALID_REQUEST,
-            17 => Command_Status_StatusCode::NESTED_OPERATION_ERRORS,
-            18 => Command_Status_StatusCode::DEVICE_LOCKED,
-            19 => Command_Status_StatusCode::DEVICE_ALREADY_UNLOCKED,
-            20 => Command_Status_StatusCode::CONNECTION_TERMINATED,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Status_StatusCode {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Status_StatusCode> {
+        match value {
+            -1 => ::std::option::Some(Command_Status_StatusCode::INVALID_STATUS_CODE),
+            0 => ::std::option::Some(Command_Status_StatusCode::NOT_ATTEMPTED),
+            1 => ::std::option::Some(Command_Status_StatusCode::SUCCESS),
+            2 => ::std::option::Some(Command_Status_StatusCode::HMAC_FAILURE),
+            3 => ::std::option::Some(Command_Status_StatusCode::NOT_AUTHORIZED),
+            4 => ::std::option::Some(Command_Status_StatusCode::VERSION_FAILURE),
+            5 => ::std::option::Some(Command_Status_StatusCode::INTERNAL_ERROR),
+            6 => ::std::option::Some(Command_Status_StatusCode::HEADER_REQUIRED),
+            7 => ::std::option::Some(Command_Status_StatusCode::NOT_FOUND),
+            8 => ::std::option::Some(Command_Status_StatusCode::VERSION_MISMATCH),
+            9 => ::std::option::Some(Command_Status_StatusCode::SERVICE_BUSY),
+            10 => ::std::option::Some(Command_Status_StatusCode::EXPIRED),
+            11 => ::std::option::Some(Command_Status_StatusCode::DATA_ERROR),
+            12 => ::std::option::Some(Command_Status_StatusCode::PERM_DATA_ERROR),
+            13 => ::std::option::Some(Command_Status_StatusCode::REMOTE_CONNECTION_ERROR),
+            14 => ::std::option::Some(Command_Status_StatusCode::NO_SPACE),
+            15 => ::std::option::Some(Command_Status_StatusCode::NO_SUCH_HMAC_ALGORITHM),
+            16 => ::std::option::Some(Command_Status_StatusCode::INVALID_REQUEST),
+            17 => ::std::option::Some(Command_Status_StatusCode::NESTED_OPERATION_ERRORS),
+            18 => ::std::option::Some(Command_Status_StatusCode::DEVICE_LOCKED),
+            19 => ::std::option::Some(Command_Status_StatusCode::DEVICE_ALREADY_UNLOCKED),
+            20 => ::std::option::Some(Command_Status_StatusCode::CONNECTION_TERMINATED),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Status_StatusCode>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -3295,15 +3159,9 @@ impl<'a> Command_KeyValue {
         self.newVersion.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_newVersion(self) -> ::std::vec::Vec<u8> {
-        self.newVersion.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_newVersion(&mut self) -> ::std::vec::Vec<u8> {
-        self.newVersion.take().unwrap()
+        self.newVersion.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_newVersion(&'a self) -> &'a [u8] {
@@ -3356,15 +3214,9 @@ impl<'a> Command_KeyValue {
         self.key.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
-        self.key.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
-        self.key.take().unwrap()
+        self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_key(&'a self) -> &'a [u8] {
@@ -3398,15 +3250,9 @@ impl<'a> Command_KeyValue {
         self.dbVersion.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_dbVersion(self) -> ::std::vec::Vec<u8> {
-        self.dbVersion.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_dbVersion(&mut self) -> ::std::vec::Vec<u8> {
-        self.dbVersion.take().unwrap()
+        self.dbVersion.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_dbVersion(&'a self) -> &'a [u8] {
@@ -3440,15 +3286,9 @@ impl<'a> Command_KeyValue {
         self.tag.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_tag(self) -> ::std::vec::Vec<u8> {
-        self.tag.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_tag(&mut self) -> ::std::vec::Vec<u8> {
-        self.tag.take().unwrap()
+        self.tag.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_tag(&'a self) -> &'a [u8] {
@@ -3568,7 +3408,7 @@ impl ::protobuf::Message for Command_KeyValue {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Algorithm::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.algorithm = ::std::option::Some(tmp);
                 },
                 7 => {
@@ -3582,7 +3422,7 @@ impl ::protobuf::Message for Command_KeyValue {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Synchronization::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.synchronization = ::std::option::Some(tmp);
                 },
                 _ => {
@@ -3596,7 +3436,6 @@ impl ::protobuf::Message for Command_KeyValue {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.newVersion.iter() {
             my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
@@ -3628,7 +3467,6 @@ impl ::protobuf::Message for Command_KeyValue {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.newVersion.as_ref() {
             Some(v) => {
                 try!(os.write_bytes(2, v.as_slice()));
@@ -3754,7 +3592,6 @@ impl ::std::cmp::PartialEq for Command_KeyValue {
 
 impl ::std::fmt::Show for Command_KeyValue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -3864,7 +3701,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_a
     }
 
     fn get_enum<'a>(&self, m: &Command_KeyValue) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_algorithm().descriptor()
     }
 }
@@ -3901,7 +3737,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_s
     }
 
     fn get_enum<'a>(&self, m: &Command_KeyValue) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_synchronization().descriptor()
     }
 }
@@ -3970,15 +3805,9 @@ impl<'a> Command_Range {
         self.startKey.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_startKey(self) -> ::std::vec::Vec<u8> {
-        self.startKey.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_startKey(&mut self) -> ::std::vec::Vec<u8> {
-        self.startKey.take().unwrap()
+        self.startKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_startKey(&'a self) -> &'a [u8] {
@@ -4012,15 +3841,9 @@ impl<'a> Command_Range {
         self.endKey.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_endKey(self) -> ::std::vec::Vec<u8> {
-        self.endKey.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_endKey(&mut self) -> ::std::vec::Vec<u8> {
-        self.endKey.take().unwrap()
+        self.endKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_endKey(&'a self) -> &'a [u8] {
@@ -4122,6 +3945,11 @@ impl<'a> Command_Range {
         &mut self.keys
     }
 
+    // Take field
+    pub fn take_keys(&mut self) -> ::protobuf::RepeatedField<::std::vec::Vec<u8>> {
+        ::std::mem::replace(&mut self.keys, ::protobuf::RepeatedField::new())
+    }
+
     pub fn get_keys(&'a self) -> &'a [::std::vec::Vec<u8>] {
         self.keys.as_slice()
     }
@@ -4200,7 +4028,6 @@ impl ::protobuf::Message for Command_Range {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.startKey.iter() {
             my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
@@ -4229,7 +4056,6 @@ impl ::protobuf::Message for Command_Range {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.startKey.as_ref() {
             Some(v) => {
                 try!(os.write_bytes(1, v.as_slice()));
@@ -4343,7 +4169,6 @@ impl ::std::cmp::PartialEq for Command_Range {
 
 impl ::std::fmt::Show for Command_Range {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -4582,7 +4407,6 @@ impl ::protobuf::Message for Command_Setup {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.newClusterVersion.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -4596,7 +4420,6 @@ impl ::protobuf::Message for Command_Setup {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.newClusterVersion {
             Some(v) => {
                 try!(os.write_int64(1, v));
@@ -4668,7 +4491,6 @@ impl ::std::cmp::PartialEq for Command_Setup {
 
 impl ::std::fmt::Show for Command_Setup {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -4766,15 +4588,9 @@ impl<'a> Command_P2POperation {
         self.peer.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_peer(self) -> Command_P2POperation_Peer {
-        self.peer.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_peer(&mut self) -> Command_P2POperation_Peer {
-        self.peer.take().unwrap()
+        self.peer.take().unwrap_or_else(|| Command_P2POperation_Peer::new())
     }
 
     pub fn get_peer(&'a self) -> &'a Command_P2POperation_Peer {
@@ -4795,6 +4611,11 @@ impl<'a> Command_P2POperation {
     // Mutable pointer to the field.
     pub fn mut_operation(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_P2POperation_Operation> {
         &mut self.operation
+    }
+
+    // Take field
+    pub fn take_operation(&mut self) -> ::protobuf::RepeatedField<Command_P2POperation_Operation> {
+        ::std::mem::replace(&mut self.operation, ::protobuf::RepeatedField::new())
     }
 
     pub fn get_operation(&'a self) -> &'a [Command_P2POperation_Operation] {
@@ -4866,7 +4687,6 @@ impl ::protobuf::Message for Command_P2POperation {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.peer.iter() {
             let len = value.compute_size();
@@ -4885,7 +4705,6 @@ impl ::protobuf::Message for Command_P2POperation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.peer.as_ref() {
             Some(v) => {
                 try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
@@ -4967,7 +4786,6 @@ impl ::std::cmp::PartialEq for Command_P2POperation {
 
 impl ::std::fmt::Show for Command_P2POperation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -5089,15 +4907,9 @@ impl<'a> Command_P2POperation_Operation {
         self.key.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
-        self.key.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
-        self.key.take().unwrap()
+        self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_key(&'a self) -> &'a [u8] {
@@ -5131,15 +4943,9 @@ impl<'a> Command_P2POperation_Operation {
         self.version.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_version(self) -> ::std::vec::Vec<u8> {
-        self.version.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_version(&mut self) -> ::std::vec::Vec<u8> {
-        self.version.take().unwrap()
+        self.version.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_version(&'a self) -> &'a [u8] {
@@ -5173,15 +4979,9 @@ impl<'a> Command_P2POperation_Operation {
         self.newKey.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_newKey(self) -> ::std::vec::Vec<u8> {
-        self.newKey.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_newKey(&mut self) -> ::std::vec::Vec<u8> {
-        self.newKey.take().unwrap()
+        self.newKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_newKey(&'a self) -> &'a [u8] {
@@ -5234,15 +5034,9 @@ impl<'a> Command_P2POperation_Operation {
         self.status.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_status(self) -> Command_Status {
-        self.status.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_status(&mut self) -> Command_Status {
-        self.status.take().unwrap()
+        self.status.take().unwrap_or_else(|| Command_Status::new())
     }
 
     pub fn get_status(&'a self) -> &'a Command_Status {
@@ -5273,15 +5067,9 @@ impl<'a> Command_P2POperation_Operation {
         self.p2pop.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_p2pop(self) -> Command_P2POperation {
-        self.p2pop.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_p2pop(&mut self) -> Command_P2POperation {
-        self.p2pop.take().unwrap()
+        self.p2pop.take().unwrap_or_else(|| Command_P2POperation::new())
     }
 
     pub fn get_p2pop(&'a self) -> &'a Command_P2POperation {
@@ -5355,7 +5143,6 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.key.iter() {
             my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
@@ -5383,7 +5170,6 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.key.as_ref() {
             Some(v) => {
                 try!(os.write_bytes(3, v.as_slice()));
@@ -5495,7 +5281,6 @@ impl ::std::cmp::PartialEq for Command_P2POperation_Operation {
 
 impl ::std::fmt::Show for Command_P2POperation_Operation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -5665,15 +5450,9 @@ impl<'a> Command_P2POperation_Peer {
         self.hostname.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_hostname(self) -> ::std::string::String {
-        self.hostname.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_hostname(&mut self) -> ::std::string::String {
-        self.hostname.take().unwrap()
+        self.hostname.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_hostname(&'a self) -> &'a str {
@@ -5767,7 +5546,6 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.hostname.iter() {
             my_size += ::protobuf::rt::string_size(1, value.as_slice());
@@ -5784,7 +5562,6 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.hostname.as_ref() {
             Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
@@ -5865,7 +5642,6 @@ impl ::std::cmp::PartialEq for Command_P2POperation_Peer {
 
 impl ::std::fmt::Show for Command_P2POperation_Peer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -5985,6 +5761,11 @@ impl<'a> Command_GetLog {
         &mut self.types
     }
 
+    // Take field
+    pub fn take_types(&mut self) -> ::std::vec::Vec<Command_GetLog_Type> {
+        ::std::mem::replace(&mut self.types, ::std::vec::Vec::new())
+    }
+
     pub fn get_types(&'a self) -> &'a [Command_GetLog_Type] {
         self.types.as_slice()
     }
@@ -6005,6 +5786,11 @@ impl<'a> Command_GetLog {
         &mut self.utilizations
     }
 
+    // Take field
+    pub fn take_utilizations(&mut self) -> ::protobuf::RepeatedField<Command_GetLog_Utilization> {
+        ::std::mem::replace(&mut self.utilizations, ::protobuf::RepeatedField::new())
+    }
+
     pub fn get_utilizations(&'a self) -> &'a [Command_GetLog_Utilization] {
         self.utilizations.as_slice()
     }
@@ -6023,6 +5809,11 @@ impl<'a> Command_GetLog {
     // Mutable pointer to the field.
     pub fn mut_temperatures(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Temperature> {
         &mut self.temperatures
+    }
+
+    // Take field
+    pub fn take_temperatures(&mut self) -> ::protobuf::RepeatedField<Command_GetLog_Temperature> {
+        ::std::mem::replace(&mut self.temperatures, ::protobuf::RepeatedField::new())
     }
 
     pub fn get_temperatures(&'a self) -> &'a [Command_GetLog_Temperature] {
@@ -6053,15 +5844,9 @@ impl<'a> Command_GetLog {
         self.capacity.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_capacity(self) -> Command_GetLog_Capacity {
-        self.capacity.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_capacity(&mut self) -> Command_GetLog_Capacity {
-        self.capacity.take().unwrap()
+        self.capacity.take().unwrap_or_else(|| Command_GetLog_Capacity::new())
     }
 
     pub fn get_capacity(&'a self) -> &'a Command_GetLog_Capacity {
@@ -6092,15 +5877,9 @@ impl<'a> Command_GetLog {
         self.configuration.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_configuration(self) -> Command_GetLog_Configuration {
-        self.configuration.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_configuration(&mut self) -> Command_GetLog_Configuration {
-        self.configuration.take().unwrap()
+        self.configuration.take().unwrap_or_else(|| Command_GetLog_Configuration::new())
     }
 
     pub fn get_configuration(&'a self) -> &'a Command_GetLog_Configuration {
@@ -6121,6 +5900,11 @@ impl<'a> Command_GetLog {
     // Mutable pointer to the field.
     pub fn mut_statistics(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Statistics> {
         &mut self.statistics
+    }
+
+    // Take field
+    pub fn take_statistics(&mut self) -> ::protobuf::RepeatedField<Command_GetLog_Statistics> {
+        ::std::mem::replace(&mut self.statistics, ::protobuf::RepeatedField::new())
     }
 
     pub fn get_statistics(&'a self) -> &'a [Command_GetLog_Statistics] {
@@ -6151,15 +5935,9 @@ impl<'a> Command_GetLog {
         self.messages.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_messages(self) -> ::std::vec::Vec<u8> {
-        self.messages.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_messages(&mut self) -> ::std::vec::Vec<u8> {
-        self.messages.take().unwrap()
+        self.messages.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_messages(&'a self) -> &'a [u8] {
@@ -6193,15 +5971,9 @@ impl<'a> Command_GetLog {
         self.limits.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_limits(self) -> Command_GetLog_Limits {
-        self.limits.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_limits(&mut self) -> Command_GetLog_Limits {
-        self.limits.take().unwrap()
+        self.limits.take().unwrap_or_else(|| Command_GetLog_Limits::new())
     }
 
     pub fn get_limits(&'a self) -> &'a Command_GetLog_Limits {
@@ -6232,15 +6004,9 @@ impl<'a> Command_GetLog {
         self.device.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_device(self) -> Command_GetLog_Device {
-        self.device.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_device(&mut self) -> Command_GetLog_Device {
-        self.device.take().unwrap()
+        self.device.take().unwrap_or_else(|| Command_GetLog_Device::new())
     }
 
     pub fn get_device(&'a self) -> &'a Command_GetLog_Device {
@@ -6262,19 +6028,17 @@ impl ::protobuf::Message for Command_GetLog {
             let (field_number, wire_type) = try!(is.read_tag_unpack());
             match field_number {
                 1 => {
-                    if wire_type == ::protobuf::wire_format::WireTypeLengthDelimited {
-                        let len = try!(is.read_raw_varint32());
-                        let old_limit = is.push_limit(len);
-                        while !try!(is.eof()) {
-                            self.types.push(Command_GetLog_Type::new(try!(is.read_int32())));
-                        }
-                        is.pop_limit(old_limit);
-                    } else {
-                        if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                    match wire_type {
+                        ::protobuf::wire_format::WireTypeLengthDelimited => {
+                            try!(is.read_repeated_packed_enum_into(&mut self.types));
+                        },
+                        ::protobuf::wire_format::WireTypeVarint => {
+                            self.types.push(try!(is.read_enum()));
+                        },
+                        _ => {
                             return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                        };
-                        self.types.push(Command_GetLog_Type::new(try!(is.read_int32())));
-                    }
+                        },
+                    };
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
@@ -6343,7 +6107,6 @@ impl ::protobuf::Message for Command_GetLog {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.types.iter() {
             my_size += ::protobuf::rt::enum_size(1, *value);
@@ -6385,7 +6148,6 @@ impl ::protobuf::Message for Command_GetLog {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         for v in self.types.iter() {
             try!(os.write_enum(1, *v as i32));
         };
@@ -6522,7 +6284,6 @@ impl ::std::cmp::PartialEq for Command_GetLog {
 
 impl ::std::fmt::Show for Command_GetLog {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -6542,7 +6303,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_types
     }
 
     fn get_rep_enum_item<'a>(&self, m: &Command_GetLog, index: uint) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_types()[index].descriptor()
     }
 }
@@ -6745,15 +6505,9 @@ impl<'a> Command_GetLog_Utilization {
         self.name.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_name(self) -> ::std::string::String {
-        self.name.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_name(&mut self) -> ::std::string::String {
-        self.name.take().unwrap()
+        self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_name(&'a self) -> &'a str {
@@ -6821,7 +6575,6 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.name.iter() {
             my_size += ::protobuf::rt::string_size(1, value.as_slice());
@@ -6835,7 +6588,6 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.name.as_ref() {
             Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
@@ -6907,7 +6659,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Utilization {
 
 impl ::std::fmt::Show for Command_GetLog_Utilization {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -7009,15 +6760,9 @@ impl<'a> Command_GetLog_Temperature {
         self.name.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_name(self) -> ::std::string::String {
-        self.name.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_name(&mut self) -> ::std::string::String {
-        self.name.take().unwrap()
+        self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_name(&'a self) -> &'a str {
@@ -7163,7 +6908,6 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.name.iter() {
             my_size += ::protobuf::rt::string_size(1, value.as_slice());
@@ -7186,7 +6930,6 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.name.as_ref() {
             Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
@@ -7285,7 +7028,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Temperature {
 
 impl ::std::fmt::Show for Command_GetLog_Temperature {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -7488,7 +7230,6 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.nominalCapacityInBytes.iter() {
             my_size += ::protobuf::rt::value_size(4, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -7502,7 +7243,6 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.nominalCapacityInBytes {
             Some(v) => {
                 try!(os.write_uint64(4, v));
@@ -7574,7 +7314,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Capacity {
 
 impl ::std::fmt::Show for Command_GetLog_Capacity {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -7692,15 +7431,9 @@ impl<'a> Command_GetLog_Configuration {
         self.vendor.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_vendor(self) -> ::std::string::String {
-        self.vendor.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_vendor(&mut self) -> ::std::string::String {
-        self.vendor.take().unwrap()
+        self.vendor.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_vendor(&'a self) -> &'a str {
@@ -7734,15 +7467,9 @@ impl<'a> Command_GetLog_Configuration {
         self.model.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_model(self) -> ::std::string::String {
-        self.model.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_model(&mut self) -> ::std::string::String {
-        self.model.take().unwrap()
+        self.model.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_model(&'a self) -> &'a str {
@@ -7776,15 +7503,9 @@ impl<'a> Command_GetLog_Configuration {
         self.serialNumber.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_serialNumber(self) -> ::std::vec::Vec<u8> {
-        self.serialNumber.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_serialNumber(&mut self) -> ::std::vec::Vec<u8> {
-        self.serialNumber.take().unwrap()
+        self.serialNumber.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_serialNumber(&'a self) -> &'a [u8] {
@@ -7818,15 +7539,9 @@ impl<'a> Command_GetLog_Configuration {
         self.worldWideName.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_worldWideName(self) -> ::std::vec::Vec<u8> {
-        self.worldWideName.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_worldWideName(&mut self) -> ::std::vec::Vec<u8> {
-        self.worldWideName.take().unwrap()
+        self.worldWideName.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_worldWideName(&'a self) -> &'a [u8] {
@@ -7860,15 +7575,9 @@ impl<'a> Command_GetLog_Configuration {
         self.version.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_version(self) -> ::std::string::String {
-        self.version.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_version(&mut self) -> ::std::string::String {
-        self.version.take().unwrap()
+        self.version.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_version(&'a self) -> &'a str {
@@ -7902,15 +7611,9 @@ impl<'a> Command_GetLog_Configuration {
         self.compilationDate.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_compilationDate(self) -> ::std::string::String {
-        self.compilationDate.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_compilationDate(&mut self) -> ::std::string::String {
-        self.compilationDate.take().unwrap()
+        self.compilationDate.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_compilationDate(&'a self) -> &'a str {
@@ -7944,15 +7647,9 @@ impl<'a> Command_GetLog_Configuration {
         self.sourceHash.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_sourceHash(self) -> ::std::string::String {
-        self.sourceHash.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_sourceHash(&mut self) -> ::std::string::String {
-        self.sourceHash.take().unwrap()
+        self.sourceHash.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_sourceHash(&'a self) -> &'a str {
@@ -7986,15 +7683,9 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolVersion.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_protocolVersion(self) -> ::std::string::String {
-        self.protocolVersion.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_protocolVersion(&mut self) -> ::std::string::String {
-        self.protocolVersion.take().unwrap()
+        self.protocolVersion.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_protocolVersion(&'a self) -> &'a str {
@@ -8028,15 +7719,9 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolCompilationDate.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_protocolCompilationDate(self) -> ::std::string::String {
-        self.protocolCompilationDate.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_protocolCompilationDate(&mut self) -> ::std::string::String {
-        self.protocolCompilationDate.take().unwrap()
+        self.protocolCompilationDate.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_protocolCompilationDate(&'a self) -> &'a str {
@@ -8070,15 +7755,9 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolSourceHash.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_protocolSourceHash(self) -> ::std::string::String {
-        self.protocolSourceHash.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_protocolSourceHash(&mut self) -> ::std::string::String {
-        self.protocolSourceHash.take().unwrap()
+        self.protocolSourceHash.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_protocolSourceHash(&'a self) -> &'a str {
@@ -8102,6 +7781,11 @@ impl<'a> Command_GetLog_Configuration {
     // Mutable pointer to the field.
     pub fn mut_interface(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Configuration_Interface> {
         &mut self.interface
+    }
+
+    // Take field
+    pub fn take_interface(&mut self) -> ::protobuf::RepeatedField<Command_GetLog_Configuration_Interface> {
+        ::std::mem::replace(&mut self.interface, ::protobuf::RepeatedField::new())
     }
 
     pub fn get_interface(&'a self) -> &'a [Command_GetLog_Configuration_Interface] {
@@ -8262,7 +7946,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.vendor.iter() {
             my_size += ::protobuf::rt::string_size(5, value.as_slice());
@@ -8310,7 +7993,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.vendor.as_ref() {
             Some(v) => {
                 try!(os.write_string(5, v.as_slice()));
@@ -8480,7 +8162,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Configuration {
 
 impl ::std::fmt::Show for Command_GetLog_Configuration {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -8778,15 +8459,9 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.name.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_name(self) -> ::std::string::String {
-        self.name.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_name(&mut self) -> ::std::string::String {
-        self.name.take().unwrap()
+        self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
     pub fn get_name(&'a self) -> &'a str {
@@ -8820,15 +8495,9 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.MAC.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_MAC(self) -> ::std::vec::Vec<u8> {
-        self.MAC.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_MAC(&mut self) -> ::std::vec::Vec<u8> {
-        self.MAC.take().unwrap()
+        self.MAC.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_MAC(&'a self) -> &'a [u8] {
@@ -8862,15 +8531,9 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.ipv4Address.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_ipv4Address(self) -> ::std::vec::Vec<u8> {
-        self.ipv4Address.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_ipv4Address(&mut self) -> ::std::vec::Vec<u8> {
-        self.ipv4Address.take().unwrap()
+        self.ipv4Address.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_ipv4Address(&'a self) -> &'a [u8] {
@@ -8904,15 +8567,9 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.ipv6Address.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_ipv6Address(self) -> ::std::vec::Vec<u8> {
-        self.ipv6Address.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_ipv6Address(&mut self) -> ::std::vec::Vec<u8> {
-        self.ipv6Address.take().unwrap()
+        self.ipv6Address.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_ipv6Address(&'a self) -> &'a [u8] {
@@ -8975,7 +8632,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.name.iter() {
             my_size += ::protobuf::rt::string_size(1, value.as_slice());
@@ -8995,7 +8651,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.name.as_ref() {
             Some(v) => {
                 try!(os.write_string(1, v.as_slice()));
@@ -9085,7 +8740,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Configuration_Interface {
 
 impl ::std::fmt::Show for Command_GetLog_Configuration_Interface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -9270,7 +8924,7 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_MessageType::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.messageType = ::std::option::Some(tmp);
                 },
                 4 => {
@@ -9298,7 +8952,6 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.messageType.iter() {
             my_size += ::protobuf::rt::enum_size(1, *value);
@@ -9315,7 +8968,6 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.messageType {
             Some(v) => {
                 try!(os.write_enum(1, v as i32));
@@ -9396,7 +9048,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Statistics {
 
 impl ::std::fmt::Show for Command_GetLog_Statistics {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -9416,7 +9067,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics> for Command_G
     }
 
     fn get_enum<'a>(&self, m: &Command_GetLog_Statistics) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_messageType().descriptor()
     }
 }
@@ -9816,7 +9466,6 @@ impl ::protobuf::Message for Command_GetLog_Limits {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.maxKeySize.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -9857,7 +9506,6 @@ impl ::protobuf::Message for Command_GetLog_Limits {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.maxKeySize {
             Some(v) => {
                 try!(os.write_uint32(1, v));
@@ -10010,7 +9658,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Limits {
 
 impl ::std::fmt::Show for Command_GetLog_Limits {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -10266,15 +9913,9 @@ impl<'a> Command_GetLog_Device {
         self.name.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_name(self) -> ::std::vec::Vec<u8> {
-        self.name.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_name(&mut self) -> ::std::vec::Vec<u8> {
-        self.name.take().unwrap()
+        self.name.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_name(&'a self) -> &'a [u8] {
@@ -10316,7 +9957,6 @@ impl ::protobuf::Message for Command_GetLog_Device {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.name.iter() {
             my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
@@ -10327,7 +9967,6 @@ impl ::protobuf::Message for Command_GetLog_Device {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.name.as_ref() {
             Some(v) => {
                 try!(os.write_bytes(1, v.as_slice()));
@@ -10390,7 +10029,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Device {
 
 impl ::std::fmt::Show for Command_GetLog_Device {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -10427,26 +10065,25 @@ pub enum Command_GetLog_Type {
     DEVICE = 7,
 }
 
-impl Command_GetLog_Type {
-    pub fn new(value: i32) -> Command_GetLog_Type {
-        match value {
-            -1 => Command_GetLog_Type::INVALID_TYPE,
-            0 => Command_GetLog_Type::UTILIZATIONS,
-            1 => Command_GetLog_Type::TEMPERATURES,
-            2 => Command_GetLog_Type::CAPACITIES,
-            3 => Command_GetLog_Type::CONFIGURATION,
-            4 => Command_GetLog_Type::STATISTICS,
-            5 => Command_GetLog_Type::MESSAGES,
-            6 => Command_GetLog_Type::LIMITS,
-            7 => Command_GetLog_Type::DEVICE,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_GetLog_Type {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_GetLog_Type> {
+        match value {
+            -1 => ::std::option::Some(Command_GetLog_Type::INVALID_TYPE),
+            0 => ::std::option::Some(Command_GetLog_Type::UTILIZATIONS),
+            1 => ::std::option::Some(Command_GetLog_Type::TEMPERATURES),
+            2 => ::std::option::Some(Command_GetLog_Type::CAPACITIES),
+            3 => ::std::option::Some(Command_GetLog_Type::CONFIGURATION),
+            4 => ::std::option::Some(Command_GetLog_Type::STATISTICS),
+            5 => ::std::option::Some(Command_GetLog_Type::MESSAGES),
+            6 => ::std::option::Some(Command_GetLog_Type::LIMITS),
+            7 => ::std::option::Some(Command_GetLog_Type::DEVICE),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_GetLog_Type>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -10514,6 +10151,11 @@ impl<'a> Command_Security {
         &mut self.acl
     }
 
+    // Take field
+    pub fn take_acl(&mut self) -> ::protobuf::RepeatedField<Command_Security_ACL> {
+        ::std::mem::replace(&mut self.acl, ::protobuf::RepeatedField::new())
+    }
+
     pub fn get_acl(&'a self) -> &'a [Command_Security_ACL] {
         self.acl.as_slice()
     }
@@ -10542,15 +10184,9 @@ impl<'a> Command_Security {
         self.oldLockPIN.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_oldLockPIN(self) -> ::std::vec::Vec<u8> {
-        self.oldLockPIN.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_oldLockPIN(&mut self) -> ::std::vec::Vec<u8> {
-        self.oldLockPIN.take().unwrap()
+        self.oldLockPIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_oldLockPIN(&'a self) -> &'a [u8] {
@@ -10584,15 +10220,9 @@ impl<'a> Command_Security {
         self.newLockPIN.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_newLockPIN(self) -> ::std::vec::Vec<u8> {
-        self.newLockPIN.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_newLockPIN(&mut self) -> ::std::vec::Vec<u8> {
-        self.newLockPIN.take().unwrap()
+        self.newLockPIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_newLockPIN(&'a self) -> &'a [u8] {
@@ -10626,15 +10256,9 @@ impl<'a> Command_Security {
         self.oldErasePIN.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_oldErasePIN(self) -> ::std::vec::Vec<u8> {
-        self.oldErasePIN.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_oldErasePIN(&mut self) -> ::std::vec::Vec<u8> {
-        self.oldErasePIN.take().unwrap()
+        self.oldErasePIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_oldErasePIN(&'a self) -> &'a [u8] {
@@ -10668,15 +10292,9 @@ impl<'a> Command_Security {
         self.newErasePIN.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_newErasePIN(self) -> ::std::vec::Vec<u8> {
-        self.newErasePIN.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_newErasePIN(&mut self) -> ::std::vec::Vec<u8> {
-        self.newErasePIN.take().unwrap()
+        self.newErasePIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_newErasePIN(&'a self) -> &'a [u8] {
@@ -10746,7 +10364,6 @@ impl ::protobuf::Message for Command_Security {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.acl.iter() {
             let len = value.compute_size();
@@ -10770,7 +10387,6 @@ impl ::protobuf::Message for Command_Security {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         for v in self.acl.iter() {
             try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
             try!(os.write_raw_varint32(v.get_cached_size()));
@@ -10868,7 +10484,6 @@ impl ::std::cmp::PartialEq for Command_Security {
 
 impl ::std::fmt::Show for Command_Security {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -11043,15 +10658,9 @@ impl<'a> Command_Security_ACL {
         self.key.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_key(self) -> ::std::vec::Vec<u8> {
-        self.key.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
-        self.key.take().unwrap()
+        self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_key(&'a self) -> &'a [u8] {
@@ -11094,6 +10703,11 @@ impl<'a> Command_Security_ACL {
     // Mutable pointer to the field.
     pub fn mut_scope(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_Security_ACL_Scope> {
         &mut self.scope
+    }
+
+    // Take field
+    pub fn take_scope(&mut self) -> ::protobuf::RepeatedField<Command_Security_ACL_Scope> {
+        ::std::mem::replace(&mut self.scope, ::protobuf::RepeatedField::new())
     }
 
     pub fn get_scope(&'a self) -> &'a [Command_Security_ACL_Scope] {
@@ -11151,7 +10765,7 @@ impl ::protobuf::Message for Command_Security_ACL {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Security_ACL_HMACAlgorithm::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.hmacAlgorithm = ::std::option::Some(tmp);
                 },
                 4 => {
@@ -11165,7 +10779,7 @@ impl ::protobuf::Message for Command_Security_ACL {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_Priority::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.maxPriority = ::std::option::Some(tmp);
                 },
                 _ => {
@@ -11179,7 +10793,6 @@ impl ::protobuf::Message for Command_Security_ACL {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.identity.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -11203,7 +10816,6 @@ impl ::protobuf::Message for Command_Security_ACL {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.identity {
             Some(v) => {
                 try!(os.write_int64(1, v));
@@ -11301,7 +10913,6 @@ impl ::std::cmp::PartialEq for Command_Security_ACL {
 
 impl ::std::fmt::Show for Command_Security_ACL {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -11357,7 +10968,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Securi
     }
 
     fn get_enum<'a>(&self, m: &Command_Security_ACL) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_hmacAlgorithm().descriptor()
     }
 }
@@ -11394,7 +11004,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Securi
     }
 
     fn get_enum<'a>(&self, m: &Command_Security_ACL) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_maxPriority().descriptor()
     }
 }
@@ -11476,15 +11085,9 @@ impl<'a> Command_Security_ACL_Scope {
         self.value.as_mut().unwrap()
     }
 
-    // The original message's life ends here
-    // ownership of the field is passed on
-    pub fn unwrap_value(self) -> ::std::vec::Vec<u8> {
-        self.value.unwrap()
-    }
-
-    // Ownership of the field is transferred to the caller
+    // Take field
     pub fn take_value(&mut self) -> ::std::vec::Vec<u8> {
-        self.value.take().unwrap()
+        self.value.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
     pub fn get_value(&'a self) -> &'a [u8] {
@@ -11508,6 +11111,11 @@ impl<'a> Command_Security_ACL_Scope {
     // Mutable pointer to the field.
     pub fn mut_permission(&'a mut self) -> &'a mut ::std::vec::Vec<Command_Security_ACL_Permission> {
         &mut self.permission
+    }
+
+    // Take field
+    pub fn take_permission(&mut self) -> ::std::vec::Vec<Command_Security_ACL_Permission> {
+        ::std::mem::replace(&mut self.permission, ::std::vec::Vec::new())
     }
 
     pub fn get_permission(&'a self) -> &'a [Command_Security_ACL_Permission] {
@@ -11562,19 +11170,17 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
-                    if wire_type == ::protobuf::wire_format::WireTypeLengthDelimited {
-                        let len = try!(is.read_raw_varint32());
-                        let old_limit = is.push_limit(len);
-                        while !try!(is.eof()) {
-                            self.permission.push(Command_Security_ACL_Permission::new(try!(is.read_int32())));
-                        }
-                        is.pop_limit(old_limit);
-                    } else {
-                        if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                    match wire_type {
+                        ::protobuf::wire_format::WireTypeLengthDelimited => {
+                            try!(is.read_repeated_packed_enum_into(&mut self.permission));
+                        },
+                        ::protobuf::wire_format::WireTypeVarint => {
+                            self.permission.push(try!(is.read_enum()));
+                        },
+                        _ => {
                             return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                        };
-                        self.permission.push(Command_Security_ACL_Permission::new(try!(is.read_int32())));
-                    }
+                        },
+                    };
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -11594,7 +11200,6 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.offset.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -11614,7 +11219,6 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.offset {
             Some(v) => {
                 try!(os.write_int64(1, v));
@@ -11701,7 +11305,6 @@ impl ::std::cmp::PartialEq for Command_Security_ACL_Scope {
 
 impl ::std::fmt::Show for Command_Security_ACL_Scope {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -11757,7 +11360,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_
     }
 
     fn get_rep_enum_item<'a>(&self, m: &Command_Security_ACL_Scope, index: uint) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_permission()[index].descriptor()
     }
 }
@@ -11786,19 +11388,18 @@ pub enum Command_Security_ACL_HMACAlgorithm {
     HmacSHA1 = 1,
 }
 
-impl Command_Security_ACL_HMACAlgorithm {
-    pub fn new(value: i32) -> Command_Security_ACL_HMACAlgorithm {
-        match value {
-            -1 => Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM,
-            1 => Command_Security_ACL_HMACAlgorithm::HmacSHA1,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Security_ACL_HMACAlgorithm> {
+        match value {
+            -1 => ::std::option::Some(Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM),
+            1 => ::std::option::Some(Command_Security_ACL_HMACAlgorithm::HmacSHA1),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Security_ACL_HMACAlgorithm>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -11827,26 +11428,25 @@ pub enum Command_Security_ACL_Permission {
     SECURITY = 8,
 }
 
-impl Command_Security_ACL_Permission {
-    pub fn new(value: i32) -> Command_Security_ACL_Permission {
-        match value {
-            -1 => Command_Security_ACL_Permission::INVALID_PERMISSION,
-            0 => Command_Security_ACL_Permission::READ,
-            1 => Command_Security_ACL_Permission::WRITE,
-            2 => Command_Security_ACL_Permission::DELETE,
-            3 => Command_Security_ACL_Permission::RANGE,
-            4 => Command_Security_ACL_Permission::SETUP,
-            5 => Command_Security_ACL_Permission::P2POP,
-            7 => Command_Security_ACL_Permission::GETLOG,
-            8 => Command_Security_ACL_Permission::SECURITY,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Security_ACL_Permission {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Security_ACL_Permission> {
+        match value {
+            -1 => ::std::option::Some(Command_Security_ACL_Permission::INVALID_PERMISSION),
+            0 => ::std::option::Some(Command_Security_ACL_Permission::READ),
+            1 => ::std::option::Some(Command_Security_ACL_Permission::WRITE),
+            2 => ::std::option::Some(Command_Security_ACL_Permission::DELETE),
+            3 => ::std::option::Some(Command_Security_ACL_Permission::RANGE),
+            4 => ::std::option::Some(Command_Security_ACL_Permission::SETUP),
+            5 => ::std::option::Some(Command_Security_ACL_Permission::P2POP),
+            7 => ::std::option::Some(Command_Security_ACL_Permission::GETLOG),
+            8 => ::std::option::Some(Command_Security_ACL_Permission::SECURITY),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Security_ACL_Permission>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -11927,7 +11527,7 @@ impl ::protobuf::Message for Command_PinOperation {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
-                    let tmp = Command_PinOperation_PinOpType::new(try!(is.read_int32()));
+                    let tmp = try!(is.read_enum());
                     self.pinOpType = ::std::option::Some(tmp);
                 },
                 _ => {
@@ -11941,7 +11541,6 @@ impl ::protobuf::Message for Command_PinOperation {
 
     // Compute sizes of nested messages
     fn compute_size(&self) -> u32 {
-        use protobuf::{Message};
         let mut my_size = 0;
         for value in self.pinOpType.iter() {
             my_size += ::protobuf::rt::enum_size(1, *value);
@@ -11952,7 +11551,6 @@ impl ::protobuf::Message for Command_PinOperation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        use protobuf::{Message};
         match self.pinOpType {
             Some(v) => {
                 try!(os.write_enum(1, v as i32));
@@ -12015,7 +11613,6 @@ impl ::std::cmp::PartialEq for Command_PinOperation {
 
 impl ::std::fmt::Show for Command_PinOperation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        use protobuf::{Message};
         self.fmt_impl(f)
     }
 }
@@ -12035,7 +11632,6 @@ impl ::protobuf::reflect::FieldAccessor<Command_PinOperation> for Command_PinOpe
     }
 
     fn get_enum<'a>(&self, m: &Command_PinOperation) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        use protobuf::{ProtobufEnum};
         m.get_pinOpType().descriptor()
     }
 }
@@ -12049,22 +11645,21 @@ pub enum Command_PinOperation_PinOpType {
     SECURE_ERASE_PINOP = 4,
 }
 
-impl Command_PinOperation_PinOpType {
-    pub fn new(value: i32) -> Command_PinOperation_PinOpType {
-        match value {
-            -1 => Command_PinOperation_PinOpType::INVALID_PINOP,
-            1 => Command_PinOperation_PinOpType::UNLOCK_PINOP,
-            2 => Command_PinOperation_PinOpType::LOCK_PINOP,
-            3 => Command_PinOperation_PinOpType::ERASE_PINOP,
-            4 => Command_PinOperation_PinOpType::SECURE_ERASE_PINOP,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_PinOperation_PinOpType {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_PinOperation_PinOpType> {
+        match value {
+            -1 => ::std::option::Some(Command_PinOperation_PinOpType::INVALID_PINOP),
+            1 => ::std::option::Some(Command_PinOperation_PinOpType::UNLOCK_PINOP),
+            2 => ::std::option::Some(Command_PinOperation_PinOpType::LOCK_PINOP),
+            3 => ::std::option::Some(Command_PinOperation_PinOpType::ERASE_PINOP),
+            4 => ::std::option::Some(Command_PinOperation_PinOpType::SECURE_ERASE_PINOP),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_PinOperation_PinOpType>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -12088,21 +11683,20 @@ pub enum Command_Synchronization {
     FLUSH = 3,
 }
 
-impl Command_Synchronization {
-    pub fn new(value: i32) -> Command_Synchronization {
-        match value {
-            -1 => Command_Synchronization::INVALID_SYNCHRONIZATION,
-            1 => Command_Synchronization::WRITETHROUGH,
-            2 => Command_Synchronization::WRITEBACK,
-            3 => Command_Synchronization::FLUSH,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Synchronization {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Synchronization> {
+        match value {
+            -1 => ::std::option::Some(Command_Synchronization::INVALID_SYNCHRONIZATION),
+            1 => ::std::option::Some(Command_Synchronization::WRITETHROUGH),
+            2 => ::std::option::Some(Command_Synchronization::WRITEBACK),
+            3 => ::std::option::Some(Command_Synchronization::FLUSH),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Synchronization>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -12127,22 +11721,21 @@ pub enum Command_Priority {
     HIGHEST = 9,
 }
 
-impl Command_Priority {
-    pub fn new(value: i32) -> Command_Priority {
-        match value {
-            5 => Command_Priority::NORMAL,
-            1 => Command_Priority::LOWEST,
-            3 => Command_Priority::LOWER,
-            7 => Command_Priority::HIGHER,
-            9 => Command_Priority::HIGHEST,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Priority {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Priority> {
+        match value {
+            5 => ::std::option::Some(Command_Priority::NORMAL),
+            1 => ::std::option::Some(Command_Priority::LOWEST),
+            3 => ::std::option::Some(Command_Priority::LOWER),
+            7 => ::std::option::Some(Command_Priority::HIGHER),
+            9 => ::std::option::Some(Command_Priority::HIGHEST),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Priority>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -12168,23 +11761,22 @@ pub enum Command_Algorithm {
     CRC64 = 5,
 }
 
-impl Command_Algorithm {
-    pub fn new(value: i32) -> Command_Algorithm {
-        match value {
-            -1 => Command_Algorithm::INVALID_ALGORITHM,
-            1 => Command_Algorithm::SHA1,
-            2 => Command_Algorithm::SHA2,
-            3 => Command_Algorithm::SHA3,
-            4 => Command_Algorithm::CRC32,
-            5 => Command_Algorithm::CRC64,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_Algorithm {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_Algorithm> {
+        match value {
+            -1 => ::std::option::Some(Command_Algorithm::INVALID_ALGORITHM),
+            1 => ::std::option::Some(Command_Algorithm::SHA1),
+            2 => ::std::option::Some(Command_Algorithm::SHA2),
+            3 => ::std::option::Some(Command_Algorithm::SHA3),
+            4 => ::std::option::Some(Command_Algorithm::CRC32),
+            5 => ::std::option::Some(Command_Algorithm::CRC64),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_Algorithm>) -> &'static ::protobuf::reflect::EnumDescriptor {
@@ -12237,50 +11829,49 @@ pub enum Command_MessageType {
     MEDIAOPTIMIZE_RESPONSE = 39,
 }
 
-impl Command_MessageType {
-    pub fn new(value: i32) -> Command_MessageType {
-        match value {
-            -1 => Command_MessageType::INVALID_MESSAGE_TYPE,
-            2 => Command_MessageType::GET,
-            1 => Command_MessageType::GET_RESPONSE,
-            4 => Command_MessageType::PUT,
-            3 => Command_MessageType::PUT_RESPONSE,
-            6 => Command_MessageType::DELETE,
-            5 => Command_MessageType::DELETE_RESPONSE,
-            8 => Command_MessageType::GETNEXT,
-            7 => Command_MessageType::GETNEXT_RESPONSE,
-            10 => Command_MessageType::GETPREVIOUS,
-            9 => Command_MessageType::GETPREVIOUS_RESPONSE,
-            12 => Command_MessageType::GETKEYRANGE,
-            11 => Command_MessageType::GETKEYRANGE_RESPONSE,
-            16 => Command_MessageType::GETVERSION,
-            15 => Command_MessageType::GETVERSION_RESPONSE,
-            22 => Command_MessageType::SETUP,
-            21 => Command_MessageType::SETUP_RESPONSE,
-            24 => Command_MessageType::GETLOG,
-            23 => Command_MessageType::GETLOG_RESPONSE,
-            26 => Command_MessageType::SECURITY,
-            25 => Command_MessageType::SECURITY_RESPONSE,
-            28 => Command_MessageType::PEER2PEERPUSH,
-            27 => Command_MessageType::PEER2PEERPUSH_RESPONSE,
-            30 => Command_MessageType::NOOP,
-            29 => Command_MessageType::NOOP_RESPONSE,
-            32 => Command_MessageType::FLUSHALLDATA,
-            31 => Command_MessageType::FLUSHALLDATA_RESPONSE,
-            36 => Command_MessageType::PINOP,
-            35 => Command_MessageType::PINOP_RESPONSE,
-            38 => Command_MessageType::MEDIASCAN,
-            37 => Command_MessageType::MEDIASCAN_RESPONSE,
-            40 => Command_MessageType::MEDIAOPTIMIZE,
-            39 => Command_MessageType::MEDIAOPTIMIZE_RESPONSE,
-            _ => panic!()
-        }
-    }
-}
 
 impl ::protobuf::ProtobufEnum for Command_MessageType {
     fn value(&self) -> i32 {
         *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Command_MessageType> {
+        match value {
+            -1 => ::std::option::Some(Command_MessageType::INVALID_MESSAGE_TYPE),
+            2 => ::std::option::Some(Command_MessageType::GET),
+            1 => ::std::option::Some(Command_MessageType::GET_RESPONSE),
+            4 => ::std::option::Some(Command_MessageType::PUT),
+            3 => ::std::option::Some(Command_MessageType::PUT_RESPONSE),
+            6 => ::std::option::Some(Command_MessageType::DELETE),
+            5 => ::std::option::Some(Command_MessageType::DELETE_RESPONSE),
+            8 => ::std::option::Some(Command_MessageType::GETNEXT),
+            7 => ::std::option::Some(Command_MessageType::GETNEXT_RESPONSE),
+            10 => ::std::option::Some(Command_MessageType::GETPREVIOUS),
+            9 => ::std::option::Some(Command_MessageType::GETPREVIOUS_RESPONSE),
+            12 => ::std::option::Some(Command_MessageType::GETKEYRANGE),
+            11 => ::std::option::Some(Command_MessageType::GETKEYRANGE_RESPONSE),
+            16 => ::std::option::Some(Command_MessageType::GETVERSION),
+            15 => ::std::option::Some(Command_MessageType::GETVERSION_RESPONSE),
+            22 => ::std::option::Some(Command_MessageType::SETUP),
+            21 => ::std::option::Some(Command_MessageType::SETUP_RESPONSE),
+            24 => ::std::option::Some(Command_MessageType::GETLOG),
+            23 => ::std::option::Some(Command_MessageType::GETLOG_RESPONSE),
+            26 => ::std::option::Some(Command_MessageType::SECURITY),
+            25 => ::std::option::Some(Command_MessageType::SECURITY_RESPONSE),
+            28 => ::std::option::Some(Command_MessageType::PEER2PEERPUSH),
+            27 => ::std::option::Some(Command_MessageType::PEER2PEERPUSH_RESPONSE),
+            30 => ::std::option::Some(Command_MessageType::NOOP),
+            29 => ::std::option::Some(Command_MessageType::NOOP_RESPONSE),
+            32 => ::std::option::Some(Command_MessageType::FLUSHALLDATA),
+            31 => ::std::option::Some(Command_MessageType::FLUSHALLDATA_RESPONSE),
+            36 => ::std::option::Some(Command_MessageType::PINOP),
+            35 => ::std::option::Some(Command_MessageType::PINOP_RESPONSE),
+            38 => ::std::option::Some(Command_MessageType::MEDIASCAN),
+            37 => ::std::option::Some(Command_MessageType::MEDIASCAN_RESPONSE),
+            40 => ::std::option::Some(Command_MessageType::MEDIAOPTIMIZE),
+            39 => ::std::option::Some(Command_MessageType::MEDIAOPTIMIZE_RESPONSE),
+            _ => ::std::option::None
+        }
     }
 
     fn enum_descriptor_static(_: Option<Command_MessageType>) -> &'static ::protobuf::reflect::EnumDescriptor {

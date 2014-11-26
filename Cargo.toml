@@ -18,7 +18,8 @@ path = "src/kinetic/lib.rs"
 
 [dependencies.protobuf]
 
-git = "https://github.com/stepancheg/rust-protobuf.git"
+git = "https://github.com/icorderi/rust-protobuf.git"
+branch = "fix/sync"
 
 [dependencies.rust-crypto]
 
