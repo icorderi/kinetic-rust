@@ -24,13 +24,37 @@
 
 use core::Command;
 use std::vec;
-
+use proto::command;
+use std::default::Default;
 
 /// Stores the value asociated with the key
 #[unstable]
 pub struct Put {
     pub key: vec::Vec<u8>,
-    pub value: vec::Vec<u8>
+    pub value: vec::Vec<u8>,
+    pub new_version: vec::Vec<u8>,
+    pub current_version: vec::Vec<u8>,
+    pub force: bool,
+    pub synchronization: command::Synchronization,
+    pub integrity: Option<Integrity>,
+}
+
+// FIXME: Rust doesn't seem to supprot having only **some** attributes with default values
+impl Default for Put {
+    fn default() -> Put {
+        Put { key: vec![],
+              value: vec![],
+              new_version: vec![],
+              current_version: vec![],
+              force: false,
+              synchronization: command::Synchronization::WRITEBACK,
+              integrity: None }
+    }
+}
+
+pub struct Integrity {
+    pub tag : vec::Vec<u8>,
+    pub algorithm: command::Algorithm,
 }
 
 #[unstable]
@@ -41,19 +65,30 @@ impl Command<::responses::PutResponse> for Put {
         let mut header = ::proto::command::Header::new();
 
         // Set command type
-        header.set_messageType(::proto::command::MessageType::PUT);
+        header.set_messageType(command::MessageType::PUT);
         cmd.set_header(header);
 
         // Build the actual command
-        let mut kv = ::proto::command::KeyValue::new();
+        let mut kv = command::KeyValue::new();
         kv.set_key(self.key);
-        kv.set_synchronization(::proto::command::Synchronization::WRITEBACK);
-        kv.set_force(true);
-        kv.set_tag(vec![1,2,3,4]);
-        kv.set_algorithm(::proto::command::Algorithm::SHA1);
+        kv.set_dbVersion(self.current_version);
+        kv.set_newVersion(self.new_version);
+        kv.set_synchronization(self.synchronization);
+        kv.set_force(self.force);
+        match self.integrity {
+            Some(integrity) => {
+                kv.set_tag(integrity.tag);
+                kv.set_algorithm(integrity.algorithm);
+            },
+            None => {
+                // FIXME: this should probable be changed... the simulator barks if no tag is sent
+                kv.set_tag(vec![1,2,3,4]);
+                kv.set_algorithm(command::Algorithm::SHA1);
+            },
+        }
 
         // Fill the body
-        let mut body = ::proto::command::Body::new();
+        let mut body = command::Body::new();
         body.set_keyValue(kv);
         cmd.set_body(body);
 

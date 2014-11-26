@@ -33,6 +33,7 @@ extern crate kinetic;
 use docopt::Docopt;
 use std::time::duration::Duration;
 use std::vec;
+use std::default::Default;
 use kinetic::commands::{Put, Get};
 
 // Write the Docopt usage string.
@@ -108,7 +109,9 @@ fn main() {
 
     let c = kinetic::Client::connect(format!("{}:8123", target).as_slice()).unwrap();
 
-    c.send(Put { key: "rust".as_bytes().to_vec(), value: format!("Hello from {}!", kinetic::version()).as_bytes().to_vec()}).unwrap();
+    c.send(Put { key: "rust".as_bytes().to_vec(),
+                 value: format!("Hello from {}!", kinetic::version()).as_bytes().to_vec(),
+                 ..Default::default() }).unwrap();
     let v = c.send(Get { key: "rust".as_bytes().to_vec() }).unwrap();
 
     match v.value {
@@ -123,7 +126,9 @@ fn main() {
 
         for i in range(0i, items) {
             let data = vec::Vec::from_elem(1024*1024, 0u8);
-            let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(), value: data});
+            let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
+                                        value: data,
+                                        ..Default::default()});
             responses.push(r);
         }
 

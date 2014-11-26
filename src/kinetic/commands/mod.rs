@@ -26,8 +26,9 @@
 
 pub use commands::get::Get;
 pub use commands::put::Put;
+pub use commands::put::Integrity; // FIXME: move somewhere else, not a command...
 pub use commands::get_log::GetLog;
 
 mod get;
-mod put;
 mod get_log;
+mod put;

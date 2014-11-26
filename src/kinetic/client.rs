@@ -41,9 +41,12 @@ pub struct Client {
 /// ```no_run
 /// use kinetic::Client;
 /// use kinetic::commands::Put;
+/// use std::default::Default;
 ///
 /// let c = Client::connect("127.0.0.1:8123").unwrap();
-/// c.send(Put { key: "hello".as_bytes().to_vec(), value: "world".as_bytes().to_vec() }).unwrap();
+/// c.send(Put { key: "hello".as_bytes().to_vec(),
+///              value: "world".as_bytes().to_vec(),
+///              ..Default::default() }).unwrap();
 /// ```
 #[unstable]
 impl Client {
