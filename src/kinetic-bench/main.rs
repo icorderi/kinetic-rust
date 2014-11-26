@@ -129,7 +129,7 @@ fn main() {
 
         // wait on all
         for r in responses.into_iter() {
-            r.unwrap().unwrap();
+            r.into_inner().unwrap();
         }
     });
     let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);

@@ -62,7 +62,7 @@ pub fn send(stream: &mut io::Writer, proto: &::proto::Message, value: &[u8]) -> 
     try!(hw.write_be_i32(value.len() as i32));
     try!(proto.write_to_writer(&mut hw));
 
-    let stream = hw.unwrap();
+    let stream = hw.into_inner();
 
     if value.len() > 0 {
         try!(stream.write(value));
