@@ -65,9 +65,13 @@ impl KineticChannel {
         try!(s.set_nodelay(true));
 
         // Handshake
-        let (_, cmd, _) = ::network::recv(&mut s).unwrap();
+        let (_, mut cmd, _) = ::network::recv(&mut s).unwrap();
+        if cmd.get_status().get_code() != ::proto::StatusCode::SUCCESS {
+            return Err(::error::KineticError::RemoteError(cmd.take_status()));
+        }
+
         let connection_id = cmd.get_header().get_connectionID();
-        let mut the_log = cmd.unwrap_body().unwrap_getLog();
+        let mut the_log = cmd.take_body().take_getLog();
         let configuration = the_log.take_configuration();
         let limits = the_log.take_limits();
 
