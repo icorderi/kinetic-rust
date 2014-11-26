@@ -22,39 +22,12 @@
 
 #![unstable]
 
-use core::Command;
-use std::vec;
-use proto::command;
+//! Kinetic responses for available commands
 
+pub use responses::get::GetResponse;
+pub use responses::put::PutResponse;
+pub use responses::get_log::GetLogResponse;
 
-/// Stores the value asociated with the key
-#[unstable]
-pub struct GetLog {
-    // FIXME: The operation actually accepts a **set** of types
-    pub log_types: vec::Vec<command::LogType>
-}
-
-#[unstable]
-impl Command<::responses::GetLogResponse> for GetLog {
-
-    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
-        let mut cmd = ::proto::Command::new();
-        let mut header = command::Header::new();
-
-        // Set command type
-        header.set_messageType(command::MessageType::GETLOG);
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut get_log = command::GetLog::new();
-        get_log.set_types(self.log_types);
-
-        // Fill the body
-        let mut body = command::Body::new();
-        body.set_getLog(get_log);
-        cmd.set_body(body);
-
-        (cmd, None) // return command
-    }
-
-}
+mod get;
+mod put;
+mod get_log;

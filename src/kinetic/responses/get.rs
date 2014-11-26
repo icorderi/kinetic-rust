@@ -20,9 +20,7 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
-//! Kinetic responses for available commands
+#![unstable]
 
 use core::Response;
 use result::KineticResult;
@@ -30,21 +28,6 @@ use error::KineticError;
 use proto::{Message, Command};
 use std::vec;
 
-/// The command doesn't return anything of interest
-#[stable]
-impl Response for () {
-
-    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
-        let status = cmd.take_status();
-
-        if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(())
-        } else {
-            Err(KineticError::RemoteError(status))
-        }
-    }
-
-}
 
 /// A get command returns the value stored associated with the key requested
 #[unstable]
@@ -67,19 +50,3 @@ impl Response for GetResponse {
     }
 
 }
-
-#[experimental]
-impl Response for ::proto::command::GetLog {
-
-    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<::proto::command::GetLog> {
-        let status = cmd.take_status();
-
-        if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(cmd.take_body().take_getLog())
-        } else {
-            Err(KineticError::RemoteError(status))
-        }
-    }
-
-}
-

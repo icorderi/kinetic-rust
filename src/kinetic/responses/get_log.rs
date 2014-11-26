@@ -20,41 +20,30 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
+#![experimental]
 
-use core::Command;
+use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
 use std::vec;
-use proto::command;
 
 
-/// Stores the value asociated with the key
-#[unstable]
-pub struct GetLog {
-    // FIXME: The operation actually accepts a **set** of types
-    pub log_types: vec::Vec<command::LogType>
-}
+#[experimental]
+pub type GetLogResponse = ::proto::command::GetLog;
 
-#[unstable]
-impl Command<::responses::GetLogResponse> for GetLog {
+#[experimental]
+impl Response for GetLogResponse {
 
-    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
-        let mut cmd = ::proto::Command::new();
-        let mut header = command::Header::new();
+    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<::proto::command::GetLog> {
+        let status = cmd.take_status();
 
-        // Set command type
-        header.set_messageType(command::MessageType::GETLOG);
-        cmd.set_header(header);
-
-        // Build the actual command
-        let mut get_log = command::GetLog::new();
-        get_log.set_types(self.log_types);
-
-        // Fill the body
-        let mut body = command::Body::new();
-        body.set_getLog(get_log);
-        cmd.set_body(body);
-
-        (cmd, None) // return command
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            Ok(cmd.take_body().take_getLog())
+        } else {
+            Err(KineticError::RemoteError(status))
+        }
     }
 
 }
+

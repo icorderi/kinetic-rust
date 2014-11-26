@@ -34,7 +34,7 @@ pub struct Put {
 }
 
 #[unstable]
-impl Command<()> for Put {
+impl Command<::responses::PutResponse> for Put {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
