@@ -29,6 +29,8 @@ use proto::{Message, Command};
 use std::vec;
 use commands::common::Integrity;
 
+/// A `GetNext` command result
+///
 /// A `GetNext` command returns the value following the given key
 #[unstable]
 #[deriving(Show)]

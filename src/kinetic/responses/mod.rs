@@ -38,9 +38,13 @@ mod get_version;
 mod get_next;
 mod get_previous;
 
+/// A `Put` command result
 #[unstable] pub type PutResponse = ();
+/// A `Delete` command result
 #[unstable] pub type DeleteResponse = ();
+/// A `Noop` command result
 #[unstable] pub type NoopResponse = ();
+/// A `Flush` command result
 #[unstable] pub type FlushResponse = ();
 
 #[unstable]

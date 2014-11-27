@@ -28,7 +28,9 @@ use error::KineticError;
 use proto::{Message, Command};
 use std::vec;
 
-
+/// A `GetLog` command result
+///
+/// A `GetLog` command returns the corresponding log entries requested
 #[experimental]
 pub type GetLogResponse = ::proto::command::GetLog;
 

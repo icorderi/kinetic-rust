@@ -29,6 +29,8 @@ use proto::{Message, Command};
 use std::vec;
 use commands::common::Integrity;
 
+/// A `GetPrevious` command result
+///
 /// A `GetPrevious` command returns the value before the given key
 #[unstable]
 #[deriving(Show)]

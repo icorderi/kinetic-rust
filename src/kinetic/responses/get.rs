@@ -29,7 +29,9 @@ use proto::{Message, Command};
 use std::vec;
 use commands::common::Integrity;
 
-/// A get command returns the value stored associated with the key requested
+/// A `Get` command result
+///
+/// A `Get` command returns the value stored associated with the key requested
 #[unstable]
 #[deriving(Show)]
 pub struct GetResponse {

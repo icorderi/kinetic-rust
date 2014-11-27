@@ -28,7 +28,10 @@ use error::KineticError;
 use proto::{Message, Command};
 use std::vec;
 
-
+/// A `GetKeyRange` command result
+///
+/// A `GetKeyRange` command result contains an ordered list of keys contained
+/// between the `start` key and the `end` key.
 #[experimental]
 pub struct GetKeyRangeResponse {
     pub keys: vec::Vec<vec::Vec<u8>>

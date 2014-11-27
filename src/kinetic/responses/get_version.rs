@@ -29,7 +29,9 @@ use proto::{Message, Command};
 use std::vec;
 use commands::common::Integrity;
 
-/// The version and integrity information for the requested key
+/// A `GetVersion` command result
+///
+/// A `GetVersion` command returns the version and integrity information for the requested key
 #[unstable]
 #[deriving(Show)]
 pub struct GetVersionResponse {

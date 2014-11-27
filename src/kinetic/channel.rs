@@ -20,6 +20,9 @@
 
 // author: Ignacio Corderi
 
+#![unstable]
+//! Module representing raw communication channels with a kinetic device
+
 use protobuf::Message;
 use crypto::digest::Digest;
 use crypto::mac::Mac;

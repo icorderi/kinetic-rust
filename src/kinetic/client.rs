@@ -20,6 +20,7 @@
 
 // author: Ignacio Corderi
 
+#![unstable]
 
 use std::io::net::ip::ToSocketAddr;
 use std::sync::Future;
@@ -29,14 +30,10 @@ use channel::{KineticResponse, KineticChannel};
 
 static DEFAULT_MAX_PENDING: uint = 10;
 
-#[unstable]
-pub struct Client {
-    channel: KineticChannel,
-    cluster_version: i64
-}
-
-
-/// Kinetic protocol client
+/// The Kinetic device client
+///
+/// The Kinetic device client represents the main point of access for this library
+///
 /// # Example
 /// ```no_run
 /// use kinetic::Client;
@@ -48,6 +45,13 @@ pub struct Client {
 ///              value: "world".as_bytes().to_vec(),
 ///              ..Default::default() }).unwrap();
 /// ```
+///
+#[unstable]
+pub struct Client {
+    channel: KineticChannel,
+    cluster_version: i64
+}
+
 #[unstable]
 impl Client {
 

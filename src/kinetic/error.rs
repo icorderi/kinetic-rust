@@ -22,12 +22,15 @@
 
 #![stable]
 
+//! Kinetic error handling
+
 use std::error::Error;
 use std::error::FromError;
 use std::io::IoError;
 use protobuf::error::ProtobufError;
 use proto::command::Status;
 
+/// Enum representing possible Kinetic errors
 #[stable]
 #[deriving(Show)]
 pub enum KineticError {
