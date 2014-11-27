@@ -95,6 +95,10 @@
 <span id='53'>53</span>
 <span id='54'>54</span>
 <span id='55'>55</span>
+<span id='56'>56</span>
+<span id='57'>57</span>
+<span id='58'>58</span>
+<span id='59'>59</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -126,11 +130,15 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>responses</span>::<span class='ident'>get_log</span>::<span class='ident'>GetLogResponse</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>responses</span>::<span class='ident'>get_key_range</span>::<span class='ident'>GetKeyRangeResponse</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>responses</span>::<span class='ident'>get_version</span>::<span class='ident'>GetVersionResponse</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>responses</span>::<span class='ident'>get_next</span>::<span class='ident'>GetNextResponse</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>responses</span>::<span class='ident'>get_previous</span>::<span class='ident'>GetPreviousResponse</span>;
 
 <span class='kw'>mod</span> <span class='ident'>get</span>;
 <span class='kw'>mod</span> <span class='ident'>get_log</span>;
 <span class='kw'>mod</span> <span class='ident'>get_key_range</span>;
 <span class='kw'>mod</span> <span class='ident'>get_version</span>;
+<span class='kw'>mod</span> <span class='ident'>get_next</span>;
+<span class='kw'>mod</span> <span class='ident'>get_previous</span>;
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>     <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>PutResponse</span> <span class='op'>=</span> ();
 <span class='attribute'>#[<span class='ident'>experimental</span>]</span> <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>DeleteResponse</span> <span class='op'>=</span> ();
