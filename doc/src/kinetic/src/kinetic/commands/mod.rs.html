@@ -73,6 +73,7 @@
 <span id='31'>31</span>
 <span id='32'>32</span>
 <span id='33'>33</span>
+<span id='34'>34</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -102,11 +103,12 @@
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>get</span>::<span class='ident'>Get</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>put</span>::<span class='ident'>Put</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>put</span>::<span class='ident'>Integrity</span>; <span class='comment'>// FIXME: move somewhere else, not a command...</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>get_log</span>::<span class='ident'>GetLog</span>;
 
 <span class='kw'>mod</span> <span class='ident'>get</span>;
-<span class='kw'>mod</span> <span class='ident'>put</span>;
 <span class='kw'>mod</span> <span class='ident'>get_log</span>;
+<span class='kw'>mod</span> <span class='ident'>put</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

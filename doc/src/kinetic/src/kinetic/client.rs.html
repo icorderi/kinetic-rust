@@ -159,6 +159,9 @@
 <span id='117'>117</span>
 <span id='118'>118</span>
 <span id='119'>119</span>
+<span id='120'>120</span>
+<span id='121'>121</span>
+<span id='122'>122</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -203,9 +206,12 @@
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use kinetic::Client;</span>
 <span class='doccomment'>/// use kinetic::commands::Put;</span>
+<span class='doccomment'>/// use std::default::Default;</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// let c = Client::connect(&quot;127.0.0.1:8123&quot;).unwrap();</span>
-<span class='doccomment'>/// c.send(Put { key: &quot;hello&quot;.as_bytes().to_vec(), value: &quot;world&quot;.as_bytes().to_vec() }).unwrap();</span>
+<span class='doccomment'>/// c.send(Put { key: &quot;hello&quot;.as_bytes().to_vec(),</span>
+<span class='doccomment'>///              value: &quot;world&quot;.as_bytes().to_vec(),</span>
+<span class='doccomment'>///              ..Default::default() }).unwrap();</span>
 <span class='doccomment'>/// ```</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>impl</span> <span class='ident'>Client</span> {
