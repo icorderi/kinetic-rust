@@ -22,37 +22,37 @@
 
 #![unstable]
 
-//! Kinetic responses for available commands
+use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
+use std::vec;
+use commands::common::Integrity;
 
-pub use responses::get::GetResponse;
-pub use responses::get_log::GetLogResponse;
-pub use responses::get_key_range::GetKeyRangeResponse;
-pub use responses::get_version::GetVersionResponse;
-pub use responses::get_next::GetNextResponse;
-pub use responses::get_previous::GetPreviousResponse;
-
-mod get;
-mod get_log;
-mod get_key_range;
-mod get_version;
-mod get_next;
-mod get_previous;
-
-#[unstable]     pub type PutResponse = ();
-#[experimental] pub type DeleteResponse = ();
+/// A `GetPrevious` command returns the value before the given key
+#[unstable]
+#[deriving(Show)]
+pub struct GetPreviousResponse {
+    pub value: vec::Vec<u8>,
+    pub version: vec::Vec<u8>,
+    pub integrity: Integrity,
+}
 
 #[unstable]
-impl ::core::Response for () {
+impl Response for GetPreviousResponse {
 
-    fn from_proto(_: ::proto::Message, mut cmd: ::proto::Command, _: ::std::vec::Vec<u8>)
-        -> ::result::KineticResult<()> {
-
+    fn from_proto(_: Message, mut cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetPreviousResponse> {
         let status = cmd.take_status();
 
         if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(())
+            let mut kv = cmd.take_body().take_keyValue();
+
+            Ok(GetPreviousResponse { value: value,
+                                     version: kv.take_dbVersion(),
+                                     integrity: Integrity { tag: kv.take_tag(),
+                                                            algorithm: kv.get_algorithm() }})
         } else {
-            Err(::error::KineticError::RemoteError(status))
+            Err(KineticError::RemoteError(status))
         }
     }
 

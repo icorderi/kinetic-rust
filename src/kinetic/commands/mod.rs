@@ -31,7 +31,7 @@ pub use commands::delete::Delete;
 pub use commands::get_key_range::GetKeyRange;
 pub use commands::get_version::GetVersion;
 pub use commands::get_next::GetNext;
-
+pub use commands::get_previous::GetPrevious;
 
 mod get;
 mod put;
@@ -40,7 +40,7 @@ mod delete;
 mod get_key_range;
 mod get_version;
 mod get_next;
-
+mod get_previous;
 
 pub mod common {
 
