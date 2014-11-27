@@ -20,33 +20,49 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
+#![unstable]
 
-//! Kinetic responses for available commands
-
-use core::Response;
-use result::KineticResult;
-use error::KineticError;
-use proto::{Message, Command};
+use core::Command;
 use std::vec;
 
-
-#[experimental]
-pub type PutResponse = ();
-
-/// The command doesn't return anything of interest
+/// Deletes the key if the version matches
 #[unstable]
-impl Response for PutResponse {
+pub enum Delete {
+    Versioned { key: vec::Vec<u8>,
+                version: vec::Vec<u8>, },
+    Forced { key: vec::Vec<u8>, },
+}
 
-    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<()> {
-        let status = cmd.take_status();
+#[unstable]
+impl Command<::responses::DeleteResponse> for Delete {
 
-        if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(())
-        } else {
-            Err(KineticError::RemoteError(status))
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::command::Header::new();
+
+        // Set command type
+        header.set_messageType(::proto::command::MessageType::DELETE);
+        cmd.set_header(header);
+
+        // Build the actual command
+        let mut kv = ::proto::command::KeyValue::new();
+        match self {
+            Versioned { key, version } => {
+                kv.set_key(key);
+                kv.set_dbVersion(version);
+            },
+            Forced { key } => {
+                kv.set_key(key);
+                kv.set_forced(true);
+            },
         }
+
+        // Fill the body
+        let mut body = ::proto::command::Body::new();
+        body.set_keyValue(kv);
+        cmd.set_body(body);
+
+        (cmd, None) // return command
     }
 
 }
-

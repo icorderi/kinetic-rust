@@ -25,9 +25,27 @@
 //! Kinetic responses for available commands
 
 pub use responses::get::GetResponse;
-pub use responses::put::PutResponse;
 pub use responses::get_log::GetLogResponse;
 
 mod get;
-mod put;
 mod get_log;
+
+#[unstable]     pub type PutResponse = ();
+#[experimental] pub type DeleteResponse = ();
+
+#[unstable]
+impl ::core::Response for () {
+
+    fn from_proto(_: ::proto::Message, mut cmd: ::proto::Command, _: ::std::vec::Vec<u8>)
+        -> ::result::KineticResult<()> {
+
+        let status = cmd.take_status();
+
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            Ok(())
+        } else {
+            Err(::error::KineticError::RemoteError(status))
+        }
+    }
+
+}
