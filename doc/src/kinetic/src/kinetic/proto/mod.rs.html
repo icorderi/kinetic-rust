@@ -112,6 +112,10 @@
 <span id='70'>70</span>
 <span id='71'>71</span>
 <span id='72'>72</span>
+<span id='73'>73</span>
+<span id='74'>74</span>
+<span id='75'>75</span>
+<span id='76'>76</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -174,7 +178,11 @@
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>log</span> {
 
+        <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Utilization</span> <span class='kw'>as</span> <span class='ident'>Utilization</span>;
+        <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Temperature</span> <span class='kw'>as</span> <span class='ident'>Temperature</span>;
+        <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Capacity</span> <span class='kw'>as</span> <span class='ident'>Capacity</span>;
         <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Configuration</span> <span class='kw'>as</span> <span class='ident'>Configuration</span>;
+        <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Statistics</span> <span class='kw'>as</span> <span class='ident'>Statistics</span>;
         <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>raw</span>::<span class='ident'>Command_GetLog_Limits</span> <span class='kw'>as</span> <span class='ident'>Limits</span>;
 
     }
