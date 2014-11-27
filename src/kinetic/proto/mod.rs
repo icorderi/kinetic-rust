@@ -59,7 +59,11 @@ pub mod command {
     #[unstable]
     pub mod log {
 
+        pub use proto::raw::Command_GetLog_Utilization as Utilization;
+        pub use proto::raw::Command_GetLog_Temperature as Temperature;
+        pub use proto::raw::Command_GetLog_Capacity as Capacity;
         pub use proto::raw::Command_GetLog_Configuration as Configuration;
+        pub use proto::raw::Command_GetLog_Statistics as Statistics;
         pub use proto::raw::Command_GetLog_Limits as Limits;
 
     }
