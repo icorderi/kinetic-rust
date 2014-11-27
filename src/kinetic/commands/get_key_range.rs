@@ -25,49 +25,40 @@
 use core::Command;
 use std::vec;
 
-/// Deletes the key if the version matches
-/// # Example
-/// ```no_run
-/// use kinetic::Client;
-/// use kinetic::commands::Delete;
-///
-/// let c = Client::connect("127.0.0.1:8123").unwrap();
-/// c.send(Delete::Forced { key: "hello".as_bytes().to_vec() }).unwrap();
-/// ```
+/// Requests a range of keys between two given keys
 #[unstable]
-pub enum Delete {
-    Versioned { key: vec::Vec<u8>,
-                version: vec::Vec<u8>, },
-    Forced { key: vec::Vec<u8>, },
+pub struct GetKeyRange {
+    pub start: vec::Vec<u8>,
+    pub end: vec::Vec<u8>,
+    pub start_inclusive: bool,
+    pub end_inclusive: bool,
+    pub max_returned: i32,
+    pub reverse: bool,
 }
 
 #[unstable]
-impl Command<::responses::DeleteResponse> for Delete {
+impl Command<::responses::GetKeyRangeResponse> for GetKeyRange {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
         let mut cmd = ::proto::Command::new();
         let mut header = ::proto::command::Header::new();
 
         // Set command type
-        header.set_messageType(::proto::command::MessageType::DELETE);
+        header.set_messageType(::proto::command::MessageType::GET);
         cmd.set_header(header);
 
         // Build the actual command
-        let mut kv = ::proto::command::KeyValue::new();
-        match self {
-            Delete::Versioned { key, version } => {
-                kv.set_key(key);
-                kv.set_dbVersion(version);
-            },
-            Delete::Forced { key } => {
-                kv.set_key(key);
-                kv.set_force(true);
-            },
-        }
+        let mut range = ::proto::command::Range::new();
+        range.set_startKey(self.start);
+        range.set_endKey(self.end);
+        range.set_startKeyInclusive(self.start_inclusive);
+        range.set_endKeyInclusive(self.end_inclusive);
+        range.set_maxReturned(self.max_returned); // FIXME: check device limit
+        range.set_reverse(self.reverse);
 
         // Fill the body
         let mut body = ::proto::command::Body::new();
-        body.set_keyValue(kv);
+        body.set_range(range);
         cmd.set_body(body);
 
         (cmd, None) // return command

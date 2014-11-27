@@ -51,6 +51,8 @@ pub mod command {
     pub use proto::raw::Command_Algorithm as Algorithm;
     pub use proto::raw::Command_Synchronization as Synchronization;
 
+    pub use proto::raw::Command_Range as Range;
+
     pub use proto::raw::Command_GetLog as GetLog;
     pub use proto::raw::Command_GetLog_Type as LogType;
 

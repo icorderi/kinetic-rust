@@ -23,6 +23,7 @@
 #![license = "MIT"]
 #![crate_type = "lib"]
 #![crate_name = "kinetic"]
+
 #![experimental]
 
 //! Kinetic protocol library in Rust

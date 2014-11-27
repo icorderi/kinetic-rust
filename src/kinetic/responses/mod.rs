@@ -26,9 +26,11 @@
 
 pub use responses::get::GetResponse;
 pub use responses::get_log::GetLogResponse;
+pub use responses::get_key_range::GetKeyRangeResponse;
 
 mod get;
 mod get_log;
+mod get_key_range;
 
 #[unstable]     pub type PutResponse = ();
 #[experimental] pub type DeleteResponse = ();

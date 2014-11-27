@@ -20,24 +20,31 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
+#![experimental]
 
-//! Available Kinetic commands
+use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
+use std::vec;
 
-pub use commands::get::Get;
-pub use commands::put_command::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
 
-mod get;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod put_command;
+#[experimental]
+pub struct GetKeyRangeResponse {
+    pub keys: vec::Vec<vec::Vec<u8>>
+}
 
-pub mod put {
+#[unstable]
+impl Response for GetKeyRangeResponse {
 
-  pub use commands::put_command::Integrity; // FIXME: move somewhere else, not a command...
+    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<GetKeyRangeResponse> {
+        let status = cmd.take_status();
+
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            Ok(GetKeyRangeResponse { keys: cmd.take_body().take_range().take_keys().into_vec() })
+        } else {
+            Err(KineticError::RemoteError(status))
+        }
+    }
 
 }
