@@ -22,39 +22,26 @@
 
 #![unstable]
 
-//! Kinetic responses for available commands
+use core::Command;
+use std::vec;
+use proto::command;
 
-pub use responses::get::GetResponse;
-pub use responses::get_log::GetLogResponse;
-pub use responses::get_key_range::GetKeyRangeResponse;
-pub use responses::get_version::GetVersionResponse;
-pub use responses::get_next::GetNextResponse;
-pub use responses::get_previous::GetPreviousResponse;
-
-mod get;
-mod get_log;
-mod get_key_range;
-mod get_version;
-mod get_next;
-mod get_previous;
-
-#[unstable]     pub type PutResponse = ();
-#[experimental] pub type DeleteResponse = ();
-#[unstable]     pub type NoopResponse = ();
+/// Sends a Noop to the Kinetic device
+#[unstable]
+pub struct Noop;
 
 #[unstable]
-impl ::core::Response for () {
+impl Command<::responses::NoopResponse> for Noop {
 
-    fn from_proto(_: ::proto::Message, mut cmd: ::proto::Command, _: ::std::vec::Vec<u8>)
-        -> ::result::KineticResult<()> {
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::command::Header::new();
 
-        let status = cmd.take_status();
+        // Set command type
+        header.set_messageType(command::MessageType::NOOP);
+        cmd.set_header(header);
 
-        if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(())
-        } else {
-            Err(::error::KineticError::RemoteError(status))
-        }
+        (cmd, None) // return command
     }
 
 }

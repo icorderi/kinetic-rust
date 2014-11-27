@@ -32,6 +32,7 @@ pub use commands::get_key_range::GetKeyRange;
 pub use commands::get_version::GetVersion;
 pub use commands::get_next::GetNext;
 pub use commands::get_previous::GetPrevious;
+pub use commands::noop::Noop;
 
 mod get;
 mod put;
@@ -41,6 +42,7 @@ mod get_key_range;
 mod get_version;
 mod get_next;
 mod get_previous;
+mod noop;
 
 pub mod common {
 
