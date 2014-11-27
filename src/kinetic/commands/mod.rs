@@ -33,6 +33,7 @@ pub use commands::get_version::GetVersion;
 pub use commands::get_next::GetNext;
 pub use commands::get_previous::GetPrevious;
 pub use commands::noop::Noop;
+pub use commands::flush::Flush;
 
 mod get;
 mod put;
@@ -43,6 +44,7 @@ mod get_version;
 mod get_next;
 mod get_previous;
 mod noop;
+mod flush;
 
 pub mod common {
 
