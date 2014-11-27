@@ -26,6 +26,7 @@ use core::Command;
 use std::vec;
 use proto::command;
 use std::default::Default;
+use commands::common;
 
 /// Stores the value asociated with the key
 #[unstable]
@@ -37,16 +38,11 @@ pub struct Put {
     /// The version of the `value` being stored.
     pub new_version: vec::Vec<u8>,
     /// The version of value currently stored in the device.
-    ///
-    /// If this version does not match the version currently in store,
-    /// the operation will fail.
-    pub current_version: vec::Vec<u8>,
-    /// Force the put, skipping the version check
-    pub force: bool,
+    pub current_version: common::Versioning,
     /// Write synchronization mode
     pub synchronization: command::Synchronization,
     /// End to end data integrity
-    pub integrity: Option<Integrity>,
+    pub integrity: Option<common::Integrity>,
 }
 
 // FIXME: Rust doesn't seem to supprot having only **some** attributes with default values
@@ -55,18 +51,10 @@ impl Default for Put {
         Put { key: vec![],
               value: vec![],
               new_version: vec![],
-              current_version: vec![],
-              force: false,
+              current_version: common::Versioning::Match(vec![]),
               synchronization: command::Synchronization::WRITEBACK,
               integrity: None }
     }
-}
-
-#[unstable]
-#[deriving(Show)]
-pub struct Integrity {
-    pub tag : vec::Vec<u8>,
-    pub algorithm: command::Algorithm,
 }
 
 #[unstable]
@@ -83,10 +71,12 @@ impl Command<::responses::PutResponse> for Put {
         // Build the actual command
         let mut kv = command::KeyValue::new();
         kv.set_key(self.key);
-        kv.set_dbVersion(self.current_version);
         kv.set_newVersion(self.new_version);
         kv.set_synchronization(self.synchronization);
-        kv.set_force(self.force);
+        match self.current_version {
+            common::Versioning::Match(v) => kv.set_dbVersion(v),
+            common::Versioning::Force    => kv.set_force(true),
+        };
         match self.integrity {
             Some(integrity) => {
                 kv.set_tag(integrity.tag);

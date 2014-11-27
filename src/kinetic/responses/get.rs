@@ -27,7 +27,7 @@ use result::KineticResult;
 use error::KineticError;
 use proto::{Message, Command};
 use std::vec;
-use commands::put::Integrity;
+use commands::common::Integrity;
 
 /// A get command returns the value stored associated with the key requested
 #[unstable]
