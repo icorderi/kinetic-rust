@@ -22,49 +22,38 @@
 
 #![unstable]
 
-//! Available Kinetic commands
+use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
+use std::vec;
+use commands::common::Integrity;
 
-pub use commands::get::Get;
-pub use commands::put::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
-pub use commands::get_version::GetVersion;
-pub use commands::get_next::GetNext;
+/// A `GetNext` command returns the value following the given key
+#[unstable]
+#[deriving(Show)]
+pub struct GetNextResponse {
+    pub value: vec::Vec<u8>,
+    pub version: vec::Vec<u8>,
+    pub integrity: Integrity,
+}
 
+#[unstable]
+impl Response for GetNextResponse {
 
-mod get;
-mod put;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod get_version;
-mod get_next;
+    fn from_proto(_: Message, mut cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetNextResponse> {
+        let status = cmd.take_status();
 
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            let mut kv = cmd.take_body().take_keyValue();
 
-pub mod common {
-
-    use std::vec;
-    use proto::command;
-
-    /// Version checking modes for operations
-    #[unstable]
-    pub enum Versioning {
-        /// Match current version
-        Match(vec::Vec<u8>),
-        /// Force the operation without checks
-        Force,
+            Ok(GetNextResponse { value: value,
+                                 version: kv.take_dbVersion(),
+                                 integrity: Integrity { tag: kv.take_tag(),
+                                                        algorithm: kv.get_algorithm() }})
+        } else {
+            Err(KineticError::RemoteError(status))
+        }
     }
-
-    /// Point-to-point data integrity
-    ///
-    /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
-    #[deriving(Show)]
-    pub struct Integrity {
-        pub tag : vec::Vec<u8>,
-        pub algorithm: command::Algorithm,
-    }
-
 
 }

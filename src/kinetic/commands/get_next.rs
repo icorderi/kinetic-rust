@@ -22,49 +22,36 @@
 
 #![unstable]
 
-//! Available Kinetic commands
+use core::Command;
+use std::vec;
 
-pub use commands::get::Get;
-pub use commands::put::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
-pub use commands::get_version::GetVersion;
-pub use commands::get_next::GetNext;
+/// Get's the value and the metadata for the given key following the given key
+#[unstable]
+pub struct GetNext {
+    pub key: vec::Vec<u8>
+}
 
+#[unstable]
+impl Command<::responses::GetNextResponse> for GetNext {
 
-mod get;
-mod put;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod get_version;
-mod get_next;
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::command::Header::new();
 
+        // Set command type
+        header.set_messageType(::proto::command::MessageType::GETNEXT);
+        cmd.set_header(header);
 
-pub mod common {
+        // Build the actual command
+        let mut kv = ::proto::command::KeyValue::new();
+        kv.set_key(self.key);
 
-    use std::vec;
-    use proto::command;
+        // Fill the body
+        let mut body = ::proto::command::Body::new();
+        body.set_keyValue(kv);
+        cmd.set_body(body);
 
-    /// Version checking modes for operations
-    #[unstable]
-    pub enum Versioning {
-        /// Match current version
-        Match(vec::Vec<u8>),
-        /// Force the operation without checks
-        Force,
+        (cmd, None) // return command
     }
-
-    /// Point-to-point data integrity
-    ///
-    /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
-    #[deriving(Show)]
-    pub struct Integrity {
-        pub tag : vec::Vec<u8>,
-        pub algorithm: command::Algorithm,
-    }
-
 
 }
