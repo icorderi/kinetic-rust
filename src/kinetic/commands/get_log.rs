@@ -27,7 +27,7 @@ use std::vec;
 use proto::command;
 
 
-/// Stores the value asociated with the key
+/// Get's the requested logs
 #[unstable]
 pub struct GetLog {
     // FIXME: The operation actually accepts a **set** of types

@@ -25,7 +25,7 @@
 use core::Command;
 use std::vec;
 
-/// Requests the value stored with the given key
+/// Get's the value and the metadata for the given key
 #[unstable]
 pub struct Get {
     pub key: vec::Vec<u8>

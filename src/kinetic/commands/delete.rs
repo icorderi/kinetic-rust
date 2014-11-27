@@ -25,8 +25,29 @@
 use core::Command;
 use std::vec;
 
-/// Deletes the key if the version matches
-/// # Example
+/// Deletes the key
+///
+/// There are two kinds of delete operations: `Versioned` and `Forced`.
+/// A `Versioned` delete will delete the key only if the version matches
+/// while a `Forced` delete will delete the key without doing a version check.
+///
+/// # Return value
+/// Deleting a key will return `Ok()` if the key was deleted or an `Err(...)` if
+/// it failed to find the key or match the version.
+///
+/// # Examples
+///
+/// ## Deleting a specific version
+/// ```no_run
+/// use kinetic::Client;
+/// use kinetic::commands::Delete;
+///
+/// let c = Client::connect("127.0.0.1:8123").unwrap();
+/// c.send(Delete::Versioned { key: "hello".as_bytes().to_vec(),
+///                            version: "1.0.0".as_bytes().to_vec() }).unwrap();
+/// ```
+///
+/// ## Forcing a delete
 /// ```no_run
 /// use kinetic::Client;
 /// use kinetic::commands::Delete;
@@ -34,6 +55,11 @@ use std::vec;
 /// let c = Client::connect("127.0.0.1:8123").unwrap();
 /// c.send(Delete::Forced { key: "hello".as_bytes().to_vec() }).unwrap();
 /// ```
+///
+/// # Performance notes
+/// A `Forced` delete will perform faster on certaing devices given that
+/// it does not require a metadata version check.
+///
 #[unstable]
 pub enum Delete {
     Versioned { key: vec::Vec<u8>,

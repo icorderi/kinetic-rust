@@ -30,12 +30,22 @@ use std::default::Default;
 /// Stores the value asociated with the key
 #[unstable]
 pub struct Put {
+    /// Key to store.
     pub key: vec::Vec<u8>,
+    /// Value to store associated with the `key`.
     pub value: vec::Vec<u8>,
+    /// The version of the `value` being stored.
     pub new_version: vec::Vec<u8>,
+    /// The version of value currently stored in the device.
+    ///
+    /// If this version does not match the version currently in store,
+    /// the operation will fail.
     pub current_version: vec::Vec<u8>,
+    /// Force the put, skipping the version check
     pub force: bool,
+    /// Write synchronization mode
     pub synchronization: command::Synchronization,
+    /// End to end data integrity
     pub integrity: Option<Integrity>,
 }
 
@@ -52,6 +62,8 @@ impl Default for Put {
     }
 }
 
+#[unstable]
+#[deriving(Show)]
 pub struct Integrity {
     pub tag : vec::Vec<u8>,
     pub algorithm: command::Algorithm,

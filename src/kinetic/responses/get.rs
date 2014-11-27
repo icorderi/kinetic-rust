@@ -27,13 +27,15 @@ use result::KineticResult;
 use error::KineticError;
 use proto::{Message, Command};
 use std::vec;
-
+use commands::put::Integrity;
 
 /// A get command returns the value stored associated with the key requested
 #[unstable]
 #[deriving(Show)]
 pub struct GetResponse {
-    pub value: Option<vec::Vec<u8>>
+    pub value: vec::Vec<u8>,
+    pub version: vec::Vec<u8>,
+    pub integrity: Integrity,
 }
 
 #[unstable]
@@ -43,7 +45,12 @@ impl Response for GetResponse {
         let status = cmd.take_status();
 
         if status.get_code() == ::proto::StatusCode::SUCCESS {
-            Ok(GetResponse { value: Some(value) })
+            let mut kv = cmd.take_body().take_keyValue();
+
+            Ok(GetResponse { value: value,
+                             version: kv.take_dbVersion(),
+                             integrity: Integrity { tag: kv.take_tag(),
+                                                    algorithm: kv.get_algorithm() }})
         } else {
             Err(KineticError::RemoteError(status))
         }

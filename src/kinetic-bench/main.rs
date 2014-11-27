@@ -114,10 +114,7 @@ fn main() {
                  ..Default::default() }).unwrap();
     let v = c.send(Get { key: "rust".as_bytes().to_vec() }).unwrap();
 
-    match v.value {
-        Some(value) => println!("Read back: {}", String::from_utf8(value).unwrap()),
-        None =>  println!("Read nada")
-    }
+    println!("Read back: {}", String::from_utf8(v.value).unwrap())
 
     let items = cmd.arg_count.unwrap_or(10i);
     // benchmark
