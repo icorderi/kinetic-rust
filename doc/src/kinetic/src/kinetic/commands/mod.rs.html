@@ -83,6 +83,27 @@
 <span id='41'>41</span>
 <span id='42'>42</span>
 <span id='43'>43</span>
+<span id='44'>44</span>
+<span id='45'>45</span>
+<span id='46'>46</span>
+<span id='47'>47</span>
+<span id='48'>48</span>
+<span id='49'>49</span>
+<span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
+<span id='54'>54</span>
+<span id='55'>55</span>
+<span id='56'>56</span>
+<span id='57'>57</span>
+<span id='58'>58</span>
+<span id='59'>59</span>
+<span id='60'>60</span>
+<span id='61'>61</span>
+<span id='62'>62</span>
+<span id='63'>63</span>
+<span id='64'>64</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -111,7 +132,7 @@
 <span class='doccomment'>//! Available Kinetic commands</span>
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>get</span>::<span class='ident'>Get</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>put_command</span>::<span class='ident'>Put</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>put</span>::<span class='ident'>Put</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>get_log</span>::<span class='ident'>GetLog</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>delete</span>::<span class='ident'>Delete</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>get_key_range</span>::<span class='ident'>GetKeyRange</span>;
@@ -120,11 +141,32 @@
 <span class='kw'>mod</span> <span class='ident'>get_log</span>;
 <span class='kw'>mod</span> <span class='ident'>delete</span>;
 <span class='kw'>mod</span> <span class='ident'>get_key_range</span>;
-<span class='kw'>mod</span> <span class='ident'>put_command</span>;
+<span class='kw'>mod</span> <span class='ident'>put</span>;
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>put</span> {
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>common</span> {
 
-  <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>put_command</span>::<span class='ident'>Integrity</span>; <span class='comment'>// FIXME: move somewhere else, not a command...</span>
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
+    <span class='kw'>use</span> <span class='ident'>proto</span>::<span class='ident'>command</span>;
+
+    <span class='doccomment'>/// Version checking modes for operations</span>
+    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Versioning</span> {
+        <span class='doccomment'>/// Match current version</span>
+        <span class='ident'>Match</span>(<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
+        <span class='doccomment'>/// Force the operation without checks</span>
+        <span class='ident'>Force</span>,
+    }
+
+    <span class='doccomment'>/// Point-to-point data integrity</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The drive can check the data integrity if the `algorithm` used is known.</span>
+    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+    <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Show</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Integrity</span> {
+        <span class='kw'>pub</span> <span class='ident'>tag</span> : <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+        <span class='kw'>pub</span> <span class='ident'>algorithm</span>: <span class='ident'>command</span>::<span class='ident'>Algorithm</span>,
+    }
+
 
 }
 </pre>

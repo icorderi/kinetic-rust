@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `version` fn in crate `kinetic`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, version">
+    <meta name="description" content="API documentation for the Rust `Versioning` enum in crate `kinetic`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Versioning">
 
-    <title>kinetic::version - Rust</title>
+    <title>kinetic::commands::common::Versioning - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='channel/index.html'>channel</a><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='error/index.html'>error</a><a class='mod ' href='proto/index.html'>proto</a><a class='mod ' href='responses/index.html'>responses</a><a class='mod ' href='result/index.html'>result</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Client.html'>Client</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn current' href='fn.version.html'>version</a></div>
+        <p class='location'><a href='../../index.html'>kinetic</a>::<wbr><a href='../index.html'>commands</a>::<wbr><a href='index.html'>common</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Integrity.html'>Integrity</a></div><div class='block enum'><h2>Enums</h2><a class='enum current' href='enum.Versioning.html'>Versioning</a></div>
     </section>
 
     <nav class="sub">
@@ -40,13 +40,19 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>kinetic</a>::<wbr><a class='fn' href=''>version</a><wbr><a class='stability Frozen' title=''>Frozen</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>kinetic</a>::<wbr><a href='../index.html'>commands</a>::<wbr><a href='index.html'>common</a>::<wbr><a class='enum' href=''>Versioning</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-97472' href='../src/kinetic/src/kinetic/core.rs.html#46-55'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn version() -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></pre><div class='docblock'><p>Returns the current version of the package</p>
-</div></section>
+        </span><a id='src-676' href='../../../src/kinetic/src/kinetic/commands/mod.rs.html#46-51'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Versioning {
+    Match(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
+    Force,
+}</pre><div class='docblock'><p>Version checking modes for operations</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Match'><a class='stability Unstable' title='Unstable'></a><code>Match</code></td><td><div class='docblock'><p>Match current version</p>
+</div></td></tr><tr><td id='variant.Force'><a class='stability Unstable' title='Unstable'></a><code>Force</code></td><td><div class='docblock'><p>Force the operation without checks</p>
+</div></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -85,13 +91,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../../";
         window.currentCrate = "kinetic";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../../search-index.js"></script>
 </body>
 </html>
