@@ -90,6 +90,9 @@
 <span id='48'>48</span>
 <span id='49'>49</span>
 <span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -121,7 +124,10 @@
 <span class='kw'>use</span> <span class='ident'>proto</span>::{<span class='ident'>Message</span>, <span class='ident'>Command</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
 
-
+<span class='doccomment'>/// A `GetKeyRange` command result</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// A `GetKeyRange` command result contains an ordered list of keys contained</span>
+<span class='doccomment'>/// between the `start` key and the `end` key.</span>
 <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>GetKeyRangeResponse</span> {
     <span class='kw'>pub</span> <span class='ident'>keys</span>: <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>

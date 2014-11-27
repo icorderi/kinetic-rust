@@ -44,13 +44,14 @@
 <h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>error</a>::<wbr><a class='enum' href=''>KineticError</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-2044' href='../../src/kinetic/src/kinetic/error.rs.html#33-38'>[src]</a></span></h1>
+        </span><a id='src-2044' href='../../src/kinetic/src/kinetic/error.rs.html#36-41'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum KineticError {
     IoError(<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>),
     ProtobufError(ProtobufError),
     InvalidMagicNumber,
     RemoteError(<a class='struct' href='../../kinetic/proto/command/struct.Status.html' title='kinetic::proto::command::Status'>Status</a>),
-}</pre><h2 class='variants'>Variants</h2>
+}</pre><div class='docblock'><p>Enum representing possible Kinetic errors</p>
+</div><h2 class='variants'>Variants</h2>
 <table><tr><td id='variant.IoError'><a class='stability Experimental' title='Experimental'></a><code>IoError</code></td><td></td></tr><tr><td id='variant.ProtobufError'><a class='stability Experimental' title='Experimental'></a><code>ProtobufError</code></td><td></td></tr><tr><td id='variant.InvalidMagicNumber'><a class='stability Experimental' title='Experimental'></a><code>InvalidMagicNumber</code></td><td></td></tr><tr><td id='variant.RemoteError'><a class='stability Experimental' title='Experimental'></a><code>RemoteError</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Experimental' title='Experimental'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../kinetic/error/enum.KineticError.html' title='kinetic::error::KineticError'>KineticError</a></code></h3><div class='impl-items'><h4 id='method.description' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></h4>
 <h4 id='method.detail' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.detail' class='fnname'>detail</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>
 <h4 id='method.cause' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.cause' class='fnname'>cause</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='trait' href='http://doc.rust-lang.org/nightly/std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt;</code></h4>

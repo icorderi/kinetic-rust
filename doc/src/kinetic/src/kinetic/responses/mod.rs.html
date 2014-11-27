@@ -101,6 +101,10 @@
 <span id='59'>59</span>
 <span id='60'>60</span>
 <span id='61'>61</span>
+<span id='62'>62</span>
+<span id='63'>63</span>
+<span id='64'>64</span>
+<span id='65'>65</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -142,9 +146,13 @@
 <span class='kw'>mod</span> <span class='ident'>get_next</span>;
 <span class='kw'>mod</span> <span class='ident'>get_previous</span>;
 
+<span class='doccomment'>/// A `Put` command result</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span> <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>PutResponse</span> <span class='op'>=</span> ();
+<span class='doccomment'>/// A `Delete` command result</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span> <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>DeleteResponse</span> <span class='op'>=</span> ();
+<span class='doccomment'>/// A `Noop` command result</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span> <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>NoopResponse</span> <span class='op'>=</span> ();
+<span class='doccomment'>/// A `Flush` command result</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span> <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>FlushResponse</span> <span class='op'>=</span> ();
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>

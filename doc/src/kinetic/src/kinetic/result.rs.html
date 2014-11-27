@@ -69,6 +69,8 @@
 <span id='27'>27</span>
 <span id='28'>28</span>
 <span id='29'>29</span>
+<span id='30'>30</span>
+<span id='31'>31</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -94,9 +96,11 @@
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>frozen</span>]</span>
 
+<span class='doccomment'>//! Kinetic result</span>
+
 <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>KineticError</span>;
 
-
+<span class='doccomment'>/// Kinetic result</span>
 <span class='attribute'>#[<span class='ident'>frozen</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>KineticError</span><span class='op'>&gt;</span>;
 </pre>

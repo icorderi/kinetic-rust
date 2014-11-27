@@ -162,6 +162,10 @@
 <span id='120'>120</span>
 <span id='121'>121</span>
 <span id='122'>122</span>
+<span id='123'>123</span>
+<span id='124'>124</span>
+<span id='125'>125</span>
+<span id='126'>126</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -185,6 +189,7 @@
 
 <span class='comment'>// author: Ignacio Corderi</span>
 
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>ip</span>::<span class='ident'>ToSocketAddr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Future</span>;
@@ -194,14 +199,10 @@
 
 <span class='kw'>static</span> <span class='ident'>DEFAULT_MAX_PENDING</span>: <span class='ident'>uint</span> <span class='op'>=</span> <span class='number'>10</span>;
 
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Client</span> {
-    <span class='ident'>channel</span>: <span class='ident'>KineticChannel</span>,
-    <span class='ident'>cluster_version</span>: <span class='ident'>i64</span>
-}
-
-
-<span class='doccomment'>/// Kinetic protocol client</span>
+<span class='doccomment'>/// The Kinetic device client</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The Kinetic device client represents the main point of access for this library</span>
+<span class='doccomment'>///</span>
 <span class='doccomment'>/// # Example</span>
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use kinetic::Client;</span>
@@ -213,6 +214,13 @@
 <span class='doccomment'>///              value: &quot;world&quot;.as_bytes().to_vec(),</span>
 <span class='doccomment'>///              ..Default::default() }).unwrap();</span>
 <span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Client</span> {
+    <span class='ident'>channel</span>: <span class='ident'>KineticChannel</span>,
+    <span class='ident'>cluster_version</span>: <span class='ident'>i64</span>
+}
+
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>impl</span> <span class='ident'>Client</span> {
 

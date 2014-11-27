@@ -44,10 +44,12 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>kinetic</a>::<wbr><a class='struct' href=''>Client</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-98066' href='../src/kinetic/src/kinetic/client.rs.html#33-36'>[src]</a></span></h1>
+        </span><a id='src-98066' href='../src/kinetic/src/kinetic/client.rs.html#50-53'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Client {
     // some fields omitted
-}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl <a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a></code></h3><div class='docblock'><p>Kinetic protocol client</p>
+}</pre><div class='docblock'><p>The Kinetic device client</p>
+
+<p>The Kinetic device client represents the main point of access for this library</p>
 
 <h1 id="example" class='section-header'><a
                            href="#example">Example</a></h1><pre class='rust '>
@@ -60,7 +62,7 @@
              <span class='ident'>value</span>: <span class='string'>&quot;world&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>(),
              ..<span class='ident'>Default</span>::<span class='ident'>default</span>() }).<span class='ident'>unwrap</span>();
 </pre>
-</div><div class='impl-items'><h4 id='method.connect' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/net/ip/trait.ToSocketAddr.html' title='std::io::net::ip::ToSocketAddr'>ToSocketAddr</a>&gt;(addr: A) -&gt; <a class='type' href='../kinetic/result/type.KineticResult.html' title='kinetic::result::KineticResult'>KineticResult</a>&lt;<a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a>&gt;</code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl <a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a></code></h3><div class='impl-items'><h4 id='method.connect' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/net/ip/trait.ToSocketAddr.html' title='std::io::net::ip::ToSocketAddr'>ToSocketAddr</a>&gt;(addr: A) -&gt; <a class='type' href='../kinetic/result/type.KineticResult.html' title='kinetic::result::KineticResult'>KineticResult</a>&lt;<a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a>&gt;</code></h4>
 <h4 id='method.ref_config' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.ref_config' class='fnname'>ref_config</a>&lt;'r&gt;(&amp;'r self) -&gt; &amp;'r <a class='struct' href='../kinetic/proto/command/log/struct.Configuration.html' title='kinetic::proto::command::log::Configuration'>Configuration</a></code></h4>
 <h4 id='method.ref_limits' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.ref_limits' class='fnname'>ref_limits</a>&lt;'r&gt;(&amp;'r self) -&gt; &amp;'r <a class='struct' href='../kinetic/proto/command/log/struct.Limits.html' title='kinetic::proto::command::log::Limits'>Limits</a></code></h4>
 <h4 id='method.send' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.send' class='fnname'>send</a>&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>, C: <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;R&gt;&gt;(&amp;self, cmd: C) -&gt; <a class='type' href='../kinetic/result/type.KineticResult.html' title='kinetic::result::KineticResult'>KineticResult</a>&lt;R&gt;</code></h4>
