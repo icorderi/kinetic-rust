@@ -27,10 +27,12 @@
 pub use responses::get::GetResponse;
 pub use responses::get_log::GetLogResponse;
 pub use responses::get_key_range::GetKeyRangeResponse;
+pub use responses::get_version::GetVersionResponse;
 
 mod get;
 mod get_log;
 mod get_key_range;
+mod get_version;
 
 #[unstable]     pub type PutResponse = ();
 #[experimental] pub type DeleteResponse = ();

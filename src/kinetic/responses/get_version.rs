@@ -22,45 +22,36 @@
 
 #![unstable]
 
-//! Available Kinetic commands
+use core::Response;
+use result::KineticResult;
+use error::KineticError;
+use proto::{Message, Command};
+use std::vec;
+use commands::common::Integrity;
 
-pub use commands::get::Get;
-pub use commands::put::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
-pub use commands::get_version::GetVersion;
+/// The version and integrity information for the requested key
+#[unstable]
+#[deriving(Show)]
+pub struct GetVersionResponse {
+    pub version: vec::Vec<u8>,
+    pub integrity: Integrity,
+}
 
-mod get;
-mod put;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod get_version;
+#[unstable]
+impl Response for GetVersionResponse {
 
-pub mod common {
+    fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<GetVersionResponse> {
+        let status = cmd.take_status();
 
-    use std::vec;
-    use proto::command;
+        if status.get_code() == ::proto::StatusCode::SUCCESS {
+            let mut kv = cmd.take_body().take_keyValue();
 
-    /// Version checking modes for operations
-    #[unstable]
-    pub enum Versioning {
-        /// Match current version
-        Match(vec::Vec<u8>),
-        /// Force the operation without checks
-        Force,
+            Ok(GetVersionResponse { version: kv.take_dbVersion(),
+                                    integrity: Integrity { tag: kv.take_tag(),
+                                                           algorithm: kv.get_algorithm() }})
+        } else {
+            Err(KineticError::RemoteError(status))
+        }
     }
-
-    /// Point-to-point data integrity
-    ///
-    /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
-    #[deriving(Show)]
-    pub struct Integrity {
-        pub tag : vec::Vec<u8>,
-        pub algorithm: command::Algorithm,
-    }
-
 
 }
