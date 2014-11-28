@@ -264,6 +264,44 @@
 <span id='222'>222</span>
 <span id='223'>223</span>
 <span id='224'>224</span>
+<span id='225'>225</span>
+<span id='226'>226</span>
+<span id='227'>227</span>
+<span id='228'>228</span>
+<span id='229'>229</span>
+<span id='230'>230</span>
+<span id='231'>231</span>
+<span id='232'>232</span>
+<span id='233'>233</span>
+<span id='234'>234</span>
+<span id='235'>235</span>
+<span id='236'>236</span>
+<span id='237'>237</span>
+<span id='238'>238</span>
+<span id='239'>239</span>
+<span id='240'>240</span>
+<span id='241'>241</span>
+<span id='242'>242</span>
+<span id='243'>243</span>
+<span id='244'>244</span>
+<span id='245'>245</span>
+<span id='246'>246</span>
+<span id='247'>247</span>
+<span id='248'>248</span>
+<span id='249'>249</span>
+<span id='250'>250</span>
+<span id='251'>251</span>
+<span id='252'>252</span>
+<span id='253'>253</span>
+<span id='254'>254</span>
+<span id='255'>255</span>
+<span id='256'>256</span>
+<span id='257'>257</span>
+<span id='258'>258</span>
+<span id='259'>259</span>
+<span id='260'>260</span>
+<span id='261'>261</span>
+<span id='262'>262</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -300,23 +338,46 @@
 <span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticCommand</span> <span class='op'>=</span> (<span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;</span>, ::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>);
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Operation</span> <span class='op'>=</span> (::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>);
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>KineticResponse</span> <span class='op'>=</span> (::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, ::<span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>);
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> (::<span class='ident'>proto</span>::<span class='ident'>Message</span>, ::<span class='ident'>proto</span>::<span class='ident'>Command</span>, ::<span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>);
+
+<span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>KineticChannel</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>is_closed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>get_configuration</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Configuration</span>;
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>get_limits</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Limits</span>;
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>send</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>Operation</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>;
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>receive</span>(<span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span>;
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>get_unsolicited_receiver</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span>;
+
+}
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>KineticChannel</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AsyncChannel</span> {
     <span class='ident'>stream</span>: <span class='ident'>io</span>::<span class='ident'>TcpStream</span>,
-    <span class='ident'>writer_tx</span>: ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>SyncSender</span><span class='op'>&lt;</span><span class='ident'>KineticCommand</span><span class='op'>&gt;</span>,
-    <span class='ident'>unsol_rx</span>: ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;</span>,
+    <span class='ident'>writer_tx</span>: ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>SyncSender</span><span class='op'>&lt;</span>(<span class='ident'>Operation</span>,<span class='ident'>Sender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>,
+    <span class='ident'>unsol_rx</span>: ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span>,
     <span class='ident'>closed</span>: <span class='ident'>bool</span>,
     <span class='ident'>configuration</span>: ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Configuration</span>,
     <span class='ident'>limits</span>: ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Limits</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>KineticChannel</span> {
+<span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>AsyncChannel</span> {
 
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -327,11 +388,12 @@
 
 }
 
+
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>impl</span> <span class='ident'>KineticChannel</span> {
+<span class='kw'>impl</span> <span class='ident'>AsyncChannel</span> {
 
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToSocketAddr</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>A</span>, <span class='ident'>max_pending</span>: <span class='ident'>uint</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>KineticChannel</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToSocketAddr</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>A</span>, <span class='ident'>max_pending</span>: <span class='ident'>uint</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>AsyncChannel</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>io</span>::<span class='ident'>TcpStream</span>::<span class='ident'>connect</span>(<span class='ident'>addr</span>));
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>set_nodelay</span>(<span class='boolval'>true</span>));
 
@@ -367,7 +429,7 @@
                     ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>AuthType</span>::<span class='ident'>HMACAUTH</span> <span class='op'>=&gt;</span> {
                         <span class='comment'>// FIXME: verify HMAC integrity</span>
                         <span class='kw'>let</span> <span class='ident'>ack</span> <span class='op'>=</span> <span class='ident'>cmd</span>.<span class='ident'>get_header</span>().<span class='ident'>get_ackSequence</span>();
-                        <span class='kw'>let</span> <span class='ident'>req</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;&gt;</span>;
+                        <span class='kw'>let</span> <span class='ident'>req</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;&gt;</span>;
                         <span class='comment'>// lock the pendings and grab the request that matches the ACK</span>
                         {
                             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pending</span> <span class='op'>=</span> <span class='ident'>pending_mutex</span>.<span class='ident'>lock</span>();
@@ -385,7 +447,7 @@
                     ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>AuthType</span>::<span class='ident'>PINAUTH</span> <span class='op'>=&gt;</span> {
                         <span class='comment'>// FIXME: duplicate code with HMACAUTH except no need to veriy HMAC, refactor.</span>
                         <span class='kw'>let</span> <span class='ident'>ack</span> <span class='op'>=</span> <span class='ident'>cmd</span>.<span class='ident'>get_header</span>().<span class='ident'>get_ackSequence</span>();
-                        <span class='kw'>let</span> <span class='ident'>req</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;&gt;</span>;
+                        <span class='kw'>let</span> <span class='ident'>req</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;&gt;</span>;
                         <span class='comment'>// lock the pendings and grab the request that matches the ACK</span>
                         {
                             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pending</span> <span class='op'>=</span> <span class='ident'>pending_mutex</span>.<span class='ident'>lock</span>();
@@ -408,7 +470,7 @@
         });
 
         <span class='comment'>// writer</span>
-        <span class='kw'>let</span> (<span class='ident'>w_tx</span>, <span class='ident'>w_rx</span>): (_, <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>KineticCommand</span><span class='op'>&gt;</span>) <span class='op'>=</span> <span class='ident'>sync_channel</span>(<span class='ident'>max_pending</span>);
+        <span class='kw'>let</span> (<span class='ident'>w_tx</span>, <span class='ident'>w_rx</span>): (_, <span class='ident'>Receiver</span><span class='op'>&lt;</span>(<span class='ident'>Operation</span>,<span class='ident'>Sender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>) <span class='op'>=</span> <span class='ident'>sync_channel</span>(<span class='ident'>max_pending</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>clone</span>();
         <span class='kw'>let</span> <span class='ident'>pending_mutex_writer</span> <span class='op'>=</span> <span class='ident'>pending_mutex</span>.<span class='ident'>clone</span>();
         <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='string'>&quot;asdfasdf&quot;</span>.<span class='ident'>as_bytes</span>();
@@ -417,7 +479,7 @@
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>seq</span> <span class='op'>=</span> <span class='number'>0</span>;
 
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span>: [<span class='ident'>u8</span>, ..<span class='number'>4</span>];
-            <span class='kw'>for</span> (<span class='ident'>callback</span>, <span class='kw-2'>mut</span> <span class='ident'>msg</span>, <span class='kw-2'>mut</span> <span class='ident'>cmd</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='ident'>w_rx</span>.<span class='ident'>iter</span>(){
+            <span class='kw'>for</span> ((<span class='kw-2'>mut</span> <span class='ident'>msg</span>, <span class='kw-2'>mut</span> <span class='ident'>cmd</span>, <span class='ident'>value</span>), <span class='ident'>callback</span>) <span class='kw'>in</span> <span class='ident'>w_rx</span>.<span class='ident'>iter</span>(){
                 <span class='ident'>cmd</span>.<span class='ident'>mut_header</span>().<span class='ident'>set_sequence</span>(<span class='ident'>seq</span>);
                 <span class='ident'>cmd</span>.<span class='ident'>mut_header</span>().<span class='ident'>set_connectionID</span>(<span class='ident'>connection_id</span>);
 
@@ -453,41 +515,55 @@
             }
         });
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>KineticChannel</span> { <span class='ident'>stream</span>: <span class='ident'>s</span>,
-                            <span class='ident'>writer_tx</span>: <span class='ident'>w_tx</span>,
-                            <span class='ident'>unsol_rx</span>: <span class='ident'>unsol_rx</span>,
-                            <span class='ident'>configuration</span>: <span class='ident'>configuration</span>,
-                            <span class='ident'>limits</span>: <span class='ident'>limits</span>,
-                            <span class='ident'>closed</span>: <span class='boolval'>false</span>, })
+        <span class='prelude-val'>Ok</span>(<span class='ident'>AsyncChannel</span> { <span class='ident'>stream</span>: <span class='ident'>s</span>,
+                          <span class='ident'>writer_tx</span>: <span class='ident'>w_tx</span>,
+                          <span class='ident'>unsol_rx</span>: <span class='ident'>unsol_rx</span>,
+                          <span class='ident'>configuration</span>: <span class='ident'>configuration</span>,
+                          <span class='ident'>limits</span>: <span class='ident'>limits</span>,
+                          <span class='ident'>closed</span>: <span class='boolval'>false</span>, })
     }
+
+}
+
+<span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+<span class='kw'>impl</span> <span class='ident'>KineticChannel</span><span class='op'>&lt;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>AsyncChannel</span> {
 
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_closed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='self'>self</span>.<span class='ident'>closed</span> }
+    <span class='kw'>fn</span> <span class='ident'>is_closed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='self'>self</span>.<span class='ident'>closed</span> }
 
     <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ref_unsolicited_receiver</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>KineticResponse</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>get_unsolicited_receiver</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>std</span>::<span class='ident'>comm</span>::<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>unsol_rx</span>
     }
 
     <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ref_configuration</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Configuration</span> {
+    <span class='kw'>fn</span> <span class='ident'>get_configuration</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Configuration</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>configuration</span>
     }
 
     <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ref_limits</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Limits</span> {
+    <span class='kw'>fn</span> <span class='ident'>get_limits</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> ::<span class='ident'>proto</span>::<span class='ident'>command</span>::<span class='ident'>log</span>::<span class='ident'>Limits</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>limits</span>
     }
 
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>p</span>: <span class='ident'>KineticCommand</span>) {
-        <span class='self'>self</span>.<span class='ident'>writer_tx</span>.<span class='ident'>send</span>(<span class='ident'>p</span>);
+    <span class='kw'>fn</span> <span class='ident'>send</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>op</span>: <span class='ident'>Operation</span>) <span class='op'>-&gt;</span> <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='ident'>tx</span>,<span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
+        <span class='self'>self</span>.<span class='ident'>writer_tx</span>.<span class='ident'>send</span>((<span class='ident'>op</span>,<span class='ident'>tx</span>));
+        <span class='ident'>rx</span> <span class='comment'>//return rx</span>
     }
+
+    <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>receive</span>(<span class='ident'>rx</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span> {
+        <span class='ident'>rx</span>.<span class='ident'>recv</span>()
+    }
+
 }
 </pre>
 </section>

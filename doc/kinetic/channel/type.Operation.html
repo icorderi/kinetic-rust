@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `version` fn in crate `kinetic`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, version">
+    <meta name="description" content="API documentation for the Rust `Operation` type in crate `kinetic`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Operation">
 
-    <title>kinetic::version - Rust</title>
+    <title>kinetic::channel::Operation - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='channel/index.html'>channel</a><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='error/index.html'>error</a><a class='mod ' href='proto/index.html'>proto</a><a class='mod ' href='responses/index.html'>responses</a><a class='mod ' href='result/index.html'>result</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Client.html'>Client</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn current' href='fn.version.html'>version</a></div>
+        <p class='location'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>channel</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.AsyncChannel.html'>AsyncChannel</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.KineticChannel.html'>KineticChannel</a></div>
     </section>
 
     <nav class="sub">
@@ -40,13 +40,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>kinetic</a>::<wbr><a class='fn' href=''>version</a><wbr><a class='stability Frozen' title=''>Frozen</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content type">
+<h1 class='fqn'><span class='in-band'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>channel</a>::<wbr><a class='type' href=''>Operation</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-98487' href='../src/kinetic/src/kinetic/core.rs.html#46-55'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn version() -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></pre><div class='docblock'><p>Returns the current version of the package</p>
-</div></section>
+        </span><a id='src-97300' href='../../src/kinetic/src/kinetic/channel.rs.html#36'>[src]</a></span></h1>
+<pre class='rust typedef'>type Operation = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../../kinetic/proto/struct.Message.html' title='kinetic::proto::Message'>Message</a>, <a class='struct' href='../../kinetic/proto/struct.Command.html' title='kinetic::proto::Command'>Command</a>, <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;&gt;)</a>;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -85,13 +84,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "kinetic";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>
