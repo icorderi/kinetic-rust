@@ -26,7 +26,7 @@ use std::io::net::ip::ToSocketAddr;
 use std::sync::Future;
 use core::{Command, Response};
 use result::KineticResult;
-use channel::{KineticResponse, KineticChannel};
+use channel::Result;
 
 static DEFAULT_MAX_PENDING: uint = 10;
 
@@ -47,37 +47,28 @@ static DEFAULT_MAX_PENDING: uint = 10;
 /// ```
 ///
 #[unstable]
-pub struct Client {
-    channel: KineticChannel,
+pub struct Client<T: ::channel::KineticChannel<U>,U> {
+    channel: T,
     cluster_version: i64
 }
 
 #[unstable]
-impl Client {
+impl<T: ::channel::KineticChannel<U>, U> Client<T,U> {
 
     #[stable]
     #[inline]
-    pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client> {
-        let c = try!(KineticChannel::connect(addr, DEFAULT_MAX_PENDING));
-
-        Ok( Client { channel: c,
-                     cluster_version: 0, })
+    pub fn get_config<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
+        self.channel.get_configuration()
     }
 
     #[stable]
     #[inline]
-    pub fn ref_config<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
-        self.channel.ref_configuration()
-    }
-
-    #[stable]
-    #[inline]
-    pub fn ref_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
-        self.channel.ref_limits()
+    pub fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
+        self.channel.get_limits()
     }
 
     #[inline]
-    fn send_raw<R : Response, C: Command<R>> (&self, cmd: C) -> Receiver<KineticResponse> {
+    fn send_raw<R : Response, C: Command<R>> (&self, cmd: C) -> U {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
 
@@ -91,28 +82,39 @@ impl Client {
         let msg = ::proto::Message::new();
 
         // Send to device
-        let (tx, rx) = channel();
-        self.channel.send((tx, msg, cmd, value));
-
-        rx // return it
+        self.channel.send((msg, cmd, value)) //return
     }
 
     #[inline]
-    fn receive_raw<R : Response> (rx: Receiver<KineticResponse>) -> KineticResult<R> {
+    fn receive_raw<R : Response> (token: U) -> KineticResult<R> {
         // Receive response
-        let (msg, cmd, value) = rx.recv();
+        let (msg, cmd, value) = ::channel::KineticChannel::receive(token);
 
         let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
 
-        r // return it
+        r // return
     }
 
     /// Sends commands to target device an waits for response
     #[stable]
     #[inline]
     pub fn send<R : Response, C: Command<R>> (&self, cmd: C) -> KineticResult<R> {
-        let rx = self.send_raw(cmd);
-        Client::receive_raw(rx)
+        let token = self.send_raw(cmd);
+        Client::receive_raw(token) // return
+    }
+
+}
+
+#[experimental]
+impl Client<::channel::AsyncChannel, Receiver<Result>> {
+
+    #[unstable]
+    #[inline]
+    pub fn connect<A: ToSocketAddr>(addr: A) -> KineticResult<Client<::channel::AsyncChannel, Receiver<Result>>> {
+        let c = try!(::channel::AsyncChannel::connect(addr, DEFAULT_MAX_PENDING));
+
+        Ok( Client { channel: c,
+                     cluster_version: 0, })
     }
 
     // Returns a Future<T> instead of waiting for the response

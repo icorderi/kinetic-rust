@@ -33,23 +33,46 @@ use std::num::Int;
 use result::KineticResult;
 
 #[unstable]
-pub type KineticCommand = (Sender<KineticResponse>, ::proto::Message, ::proto::Command, Option<::std::vec::Vec<u8>>);
+pub type Operation = (::proto::Message, ::proto::Command, Option<::std::vec::Vec<u8>>);
 
 #[unstable]
-pub type KineticResponse = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
+pub type Result = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
+
+#[experimental]
+pub trait KineticChannel<T> {
+
+    #[experimental]
+    fn is_closed(&self) -> bool;
+
+    #[experimental]
+    fn get_configuration<'r>(&'r self) -> &'r ::proto::command::log::Configuration;
+
+    #[experimental]
+    fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits;
+
+    #[experimental]
+    fn send(&self, op: Operation) -> T;
+
+    #[experimental]
+    fn receive(T) -> Result;
+
+    #[experimental]
+    fn get_unsolicited_receiver<'r>(&'r self) -> &'r ::std::comm::Receiver<Result>;
+
+}
 
 #[unstable]
-pub struct KineticChannel {
+pub struct AsyncChannel {
     stream: io::TcpStream,
-    writer_tx: ::std::comm::SyncSender<KineticCommand>,
-    unsol_rx: ::std::comm::Receiver<KineticResponse>,
+    writer_tx: ::std::comm::SyncSender<(Operation,Sender<Result>)>,
+    unsol_rx: ::std::comm::Receiver<Result>,
     closed: bool,
     configuration: ::proto::command::log::Configuration,
     limits: ::proto::command::log::Limits,
 }
 
 #[unstable]
-impl Drop for KineticChannel {
+impl Drop for AsyncChannel {
 
     #[unstable]
     #[inline]
@@ -60,11 +83,12 @@ impl Drop for KineticChannel {
 
 }
 
+
 #[unstable]
-impl KineticChannel {
+impl AsyncChannel {
 
     #[unstable]
-    pub fn connect<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<KineticChannel> {
+    pub fn connect<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<AsyncChannel> {
         let mut s = try!(io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
@@ -100,7 +124,7 @@ impl KineticChannel {
                     ::proto::message::AuthType::HMACAUTH => {
                         // FIXME: verify HMAC integrity
                         let ack = cmd.get_header().get_ackSequence();
-                        let req: Option<Sender<KineticResponse>>;
+                        let req: Option<Sender<Result>>;
                         // lock the pendings and grab the request that matches the ACK
                         {
                             let mut pending = pending_mutex.lock();
@@ -118,7 +142,7 @@ impl KineticChannel {
                     ::proto::message::AuthType::PINAUTH => {
                         // FIXME: duplicate code with HMACAUTH except no need to veriy HMAC, refactor.
                         let ack = cmd.get_header().get_ackSequence();
-                        let req: Option<Sender<KineticResponse>>;
+                        let req: Option<Sender<Result>>;
                         // lock the pendings and grab the request that matches the ACK
                         {
                             let mut pending = pending_mutex.lock();
@@ -141,7 +165,7 @@ impl KineticChannel {
         });
 
         // writer
-        let (w_tx, w_rx): (_, Receiver<KineticCommand>) = sync_channel(max_pending);
+        let (w_tx, w_rx): (_, Receiver<(Operation,Sender<Result>)>) = sync_channel(max_pending);
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
         let key = "asdfasdf".as_bytes();
@@ -150,7 +174,7 @@ impl KineticChannel {
             let mut seq = 0;
 
             let mut buffer: [u8, ..4];
-            for (callback, mut msg, mut cmd, value) in w_rx.iter(){
+            for ((mut msg, mut cmd, value), callback) in w_rx.iter(){
                 cmd.mut_header().set_sequence(seq);
                 cmd.mut_header().set_connectionID(connection_id);
 
@@ -186,39 +210,53 @@ impl KineticChannel {
             }
         });
 
-        Ok(KineticChannel { stream: s,
-                            writer_tx: w_tx,
-                            unsol_rx: unsol_rx,
-                            configuration: configuration,
-                            limits: limits,
-                            closed: false, })
+        Ok(AsyncChannel { stream: s,
+                          writer_tx: w_tx,
+                          unsol_rx: unsol_rx,
+                          configuration: configuration,
+                          limits: limits,
+                          closed: false, })
     }
+
+}
+
+#[experimental]
+impl KineticChannel<Receiver<Result>> for AsyncChannel {
 
     #[stable]
     #[inline]
-    pub fn is_closed(&self) -> bool { self.closed }
+    fn is_closed(&self) -> bool { self.closed }
 
     #[experimental]
     #[inline]
-    pub fn ref_unsolicited_receiver<'r>(&'r self) -> &'r ::std::comm::Receiver<KineticResponse> {
+    fn get_unsolicited_receiver<'r>(&'r self) -> &'r ::std::comm::Receiver<Result> {
         &self.unsol_rx
     }
 
     #[experimental]
     #[inline]
-    pub fn ref_configuration<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
+    fn get_configuration<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
         &self.configuration
     }
 
     #[experimental]
     #[inline]
-    pub fn ref_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
+    fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
         &self.limits
     }
 
     #[unstable]
     #[inline]
-    pub fn send(&self, p: KineticCommand) {
-        self.writer_tx.send(p);
+    fn send(&self, op: Operation) -> Receiver<Result> {
+        let (tx,rx) = channel();
+        self.writer_tx.send((op,tx));
+        rx //return rx
     }
+
+    #[experimental]
+    #[inline]
+    fn receive(rx: Receiver<Result>) -> Result {
+        rx.recv()
+    }
+
 }
