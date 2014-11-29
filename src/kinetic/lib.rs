@@ -47,7 +47,7 @@ pub mod error;
 pub mod result;
 pub mod proto;
 pub mod channel;
-
+pub mod authentication;
 
 mod client;
 mod core;

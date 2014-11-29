@@ -42,7 +42,7 @@ use std::vec;
 /// use kinetic::Client;
 /// use kinetic::commands::Delete;
 ///
-/// let c = Client::connect("127.0.0.1:8123").unwrap();
+/// let c = Client::new("127.0.0.1:8123").unwrap();
 /// c.send(Delete::Versioned { key: "hello".as_bytes().to_vec(),
 ///                            version: "1.0.0".as_bytes().to_vec() }).unwrap();
 /// ```
@@ -52,7 +52,7 @@ use std::vec;
 /// use kinetic::Client;
 /// use kinetic::commands::Delete;
 ///
-/// let c = Client::connect("127.0.0.1:8123").unwrap();
+/// let c = Client::new("127.0.0.1:8123").unwrap();
 /// c.send(Delete::Forced { key: "hello".as_bytes().to_vec() }).unwrap();
 /// ```
 ///

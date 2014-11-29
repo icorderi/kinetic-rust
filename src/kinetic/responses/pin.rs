@@ -20,57 +20,9 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
+#![experimental]
 
-//! Available Kinetic commands
+//! Kinetic responses for available pin commands
 
-pub use commands::get::Get;
-pub use commands::put::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
-pub use commands::get_version::GetVersion;
-pub use commands::get_next::GetNext;
-pub use commands::get_previous::GetPrevious;
-pub use commands::noop::Noop;
-pub use commands::flush::Flush;
-
-mod get;
-mod put;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod get_version;
-mod get_next;
-mod get_previous;
-mod noop;
-mod flush;
-
-pub mod pin;
-
-pub mod common {
-
-    use std::vec;
-    use proto::command;
-
-    /// Version checking modes for operations
-    #[unstable]
-    pub enum Versioning {
-        /// Match current version
-        Match(vec::Vec<u8>),
-        /// Force the operation without checks
-        Force,
-    }
-
-    /// Point-to-point data integrity
-    ///
-    /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
-    #[deriving(Show)]
-    pub struct Integrity {
-        pub tag : vec::Vec<u8>,
-        pub algorithm: command::Algorithm,
-    }
-
-
-}
+/// An `Unlock` command result
+#[unstable] pub type UnlockResponse = ();

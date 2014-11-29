@@ -1,7 +1,7 @@
 [package]
 
 name = "kinetic-rust"
-version = "0.0.13"
+version = "0.0.14"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 homepage = "https://github.com/icorderi/kinetic-rust/"
 repository = "https://github.com/icorderi/kinetic-rust/"

@@ -92,7 +92,7 @@ fn main() {
     }
 
     if args.cmd_config.is_some() {
-        let c = kinetic::Client::connect(format!("{}:8123", args.cmd_config.unwrap().arg_target).as_slice()).unwrap();
+        let c = kinetic::Client::new(format!("{}:8123", args.cmd_config.unwrap().arg_target).as_slice()).unwrap();
         println!("{}", c.get_config());
         return;
     }
@@ -107,7 +107,7 @@ fn main() {
 
     println!("Connecting to {}", target);
 
-    let c = kinetic::Client::connect(format!("{}:8123", target).as_slice()).unwrap();
+    let c = kinetic::Client::new(format!("{}:8123", target).as_slice()).unwrap();
 
     c.send(Put { key: "rust".as_bytes().to_vec(),
                  value: format!("Hello from {}!", kinetic::version()).as_bytes().to_vec(),

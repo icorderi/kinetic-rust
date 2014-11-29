@@ -20,57 +20,40 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
+#![experimental]
 
-//! Available Kinetic commands
+use core::Command;
+use commands::pin::PinCommand;
+use std::vec;
+use proto::command;
 
-pub use commands::get::Get;
-pub use commands::put::Put;
-pub use commands::get_log::GetLog;
-pub use commands::delete::Delete;
-pub use commands::get_key_range::GetKeyRange;
-pub use commands::get_version::GetVersion;
-pub use commands::get_next::GetNext;
-pub use commands::get_previous::GetPrevious;
-pub use commands::noop::Noop;
-pub use commands::flush::Flush;
+/// Unlocks the device
+#[experimental]
+pub struct Unlock;
 
-mod get;
-mod put;
-mod get_log;
-mod delete;
-mod get_key_range;
-mod get_version;
-mod get_next;
-mod get_previous;
-mod noop;
-mod flush;
+impl PinCommand<::responses::pin::UnlockResponse> for Unlock { }
 
-pub mod pin;
+#[experimental]
+impl Command<::responses::pin::UnlockResponse> for Unlock {
 
-pub mod common {
+    fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
+        let mut cmd = ::proto::Command::new();
+        let mut header = ::proto::command::Header::new();
 
-    use std::vec;
-    use proto::command;
+        // Set command type
+        header.set_messageType(command::MessageType::PINOP);
+        cmd.set_header(header);
 
-    /// Version checking modes for operations
-    #[unstable]
-    pub enum Versioning {
-        /// Match current version
-        Match(vec::Vec<u8>),
-        /// Force the operation without checks
-        Force,
+        // Build the actual command
+        let mut pin_op  = ::proto::command::PinOperation::new();
+        pin_op.set_pinOpType(::proto::command::PinOpTypes::UNLOCK_PINOP);
+
+        // Fill the body
+        let mut body = ::proto::command::Body::new();
+        body.set_pinOp(pin_op);
+        cmd.set_body(body);
+
+        (cmd, None) // return command
     }
-
-    /// Point-to-point data integrity
-    ///
-    /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
-    #[deriving(Show)]
-    pub struct Integrity {
-        pub tag : vec::Vec<u8>,
-        pub algorithm: command::Algorithm,
-    }
-
 
 }

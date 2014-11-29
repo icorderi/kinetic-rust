@@ -56,6 +56,9 @@ pub mod command {
     pub use proto::raw::Command_GetLog as GetLog;
     pub use proto::raw::Command_GetLog_Type as LogType;
 
+    pub use proto::raw::Command_PinOperation as PinOperation;
+    pub use proto::raw::Command_PinOperation_PinOpType as  PinOpTypes;
+
     #[unstable]
     pub mod log {
 

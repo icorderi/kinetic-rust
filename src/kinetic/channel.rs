@@ -24,16 +24,14 @@
 //! Module representing raw communication channels with a kinetic device
 
 use protobuf::Message;
-use crypto::digest::Digest;
-use crypto::mac::Mac;
 use std::{vec, io, collections};
 use std::io::net::ip::ToSocketAddr;
 use std::sync::{Mutex, Arc};
-use std::num::Int;
 use result::KineticResult;
 
+
 #[unstable]
-pub type Operation = (::proto::Message, ::proto::Command, Option<::std::vec::Vec<u8>>);
+pub type Operation= (::authentication::Method, ::proto::Command, Option<::std::vec::Vec<u8>>);
 
 #[unstable]
 pub type Result = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
@@ -88,7 +86,7 @@ impl Drop for AsyncChannel {
 impl AsyncChannel {
 
     #[unstable]
-    pub fn connect<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<AsyncChannel> {
+    pub fn new<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<AsyncChannel> {
         let mut s = try!(io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
@@ -168,35 +166,17 @@ impl AsyncChannel {
         let (w_tx, w_rx): (_, Receiver<(Operation,Sender<Result>)>) = sync_channel(max_pending);
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
-        let key = "asdfasdf".as_bytes();
         spawn(proc() {
             let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 
-            let mut buffer: [u8, ..4];
-            for ((mut msg, mut cmd, value), callback) in w_rx.iter(){
+            for ((auth, mut cmd, value), callback) in w_rx.iter(){
                 cmd.mut_header().set_sequence(seq);
                 cmd.mut_header().set_connectionID(connection_id);
 
                 let cmd_bytes = cmd.write_to_bytes().unwrap();
 
-                // Set message authentication
-                msg.set_authType(::proto::message::AuthType::HMACAUTH);
-                let mut auth = ::proto::message::HmacAuth::new();
-                auth.set_identity(1); // TODO: move to attribute
-
-                // Calculate hmac_sha1 of the command
-                let mut hmac = ::crypto::hmac::Hmac::new (::crypto::sha1::Sha1::new(), key); // TODO: move to attribute
-
-                buffer = unsafe { ::std::mem::transmute((cmd_bytes.len() as u32).to_be()) };
-
-                hmac.input(&buffer);
-                hmac.input(cmd_bytes.as_slice());
-
-                // TODO: Code is backed by a Vec, we should have an unwrap() method to get it.
-                auth.set_hmac(hmac.result().code().to_vec());
-                msg.set_hmacAuth(auth);
-
+                let mut msg = auth.authenticate_proto(&cmd_bytes);
                 msg.set_commandBytes(cmd_bytes);
 
                 {

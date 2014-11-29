@@ -38,6 +38,8 @@ mod get_version;
 mod get_next;
 mod get_previous;
 
+pub mod pin;
+
 /// A `Put` command result
 #[unstable] pub type PutResponse = ();
 /// A `Delete` command result
