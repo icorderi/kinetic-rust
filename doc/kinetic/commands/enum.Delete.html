@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>commands</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='common/index.html'>common</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Flush.html'>Flush</a><a class='struct ' href='struct.Get.html'>Get</a><a class='struct ' href='struct.GetKeyRange.html'>GetKeyRange</a><a class='struct ' href='struct.GetLog.html'>GetLog</a><a class='struct ' href='struct.GetNext.html'>GetNext</a><a class='struct ' href='struct.GetPrevious.html'>GetPrevious</a><a class='struct ' href='struct.GetVersion.html'>GetVersion</a><a class='struct ' href='struct.Noop.html'>Noop</a><a class='struct ' href='struct.Put.html'>Put</a></div><div class='block enum'><h2>Enums</h2><a class='enum current' href='enum.Delete.html'>Delete</a></div>
+        <p class='location'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>commands</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='common/index.html'>common</a><a class='mod ' href='pin/index.html'>pin</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Flush.html'>Flush</a><a class='struct ' href='struct.Get.html'>Get</a><a class='struct ' href='struct.GetKeyRange.html'>GetKeyRange</a><a class='struct ' href='struct.GetLog.html'>GetLog</a><a class='struct ' href='struct.GetNext.html'>GetNext</a><a class='struct ' href='struct.GetPrevious.html'>GetPrevious</a><a class='struct ' href='struct.GetVersion.html'>GetVersion</a><a class='struct ' href='struct.Noop.html'>Noop</a><a class='struct ' href='struct.Put.html'>Put</a></div><div class='block enum'><h2>Enums</h2><a class='enum current' href='enum.Delete.html'>Delete</a></div>
     </section>
 
     <nav class="sub">
@@ -70,7 +70,7 @@ it failed to find the key or match the version.</p>
 <span class='kw'>use</span> <span class='ident'>kinetic</span>::<span class='ident'>Client</span>;
 <span class='kw'>use</span> <span class='ident'>kinetic</span>::<span class='ident'>commands</span>::<span class='ident'>Delete</span>;
 
-<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>connect</span>(<span class='string'>&quot;127.0.0.1:8123&quot;</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='string'>&quot;127.0.0.1:8123&quot;</span>).<span class='ident'>unwrap</span>();
 <span class='ident'>c</span>.<span class='ident'>send</span>(<span class='ident'>Delete</span>::<span class='ident'>Versioned</span> { <span class='ident'>key</span>: <span class='string'>&quot;hello&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>(),
                            <span class='ident'>version</span>: <span class='string'>&quot;1.0.0&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>() }).<span class='ident'>unwrap</span>();
 </pre>
@@ -80,7 +80,7 @@ it failed to find the key or match the version.</p>
 <span class='kw'>use</span> <span class='ident'>kinetic</span>::<span class='ident'>Client</span>;
 <span class='kw'>use</span> <span class='ident'>kinetic</span>::<span class='ident'>commands</span>::<span class='ident'>Delete</span>;
 
-<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>connect</span>(<span class='string'>&quot;127.0.0.1:8123&quot;</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='string'>&quot;127.0.0.1:8123&quot;</span>).<span class='ident'>unwrap</span>();
 <span class='ident'>c</span>.<span class='ident'>send</span>(<span class='ident'>Delete</span>::<span class='ident'>Forced</span> { <span class='ident'>key</span>: <span class='string'>&quot;hello&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>() }).<span class='ident'>unwrap</span>();
 </pre>
 

@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='channel/index.html'>channel</a><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='error/index.html'>error</a><a class='mod ' href='proto/index.html'>proto</a><a class='mod ' href='responses/index.html'>responses</a><a class='mod ' href='result/index.html'>result</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Client.html'>Client</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.version.html'>version</a></div>
+        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='authentication/index.html'>authentication</a><a class='mod ' href='channel/index.html'>channel</a><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='error/index.html'>error</a><a class='mod ' href='proto/index.html'>proto</a><a class='mod ' href='responses/index.html'>responses</a><a class='mod ' href='result/index.html'>result</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Client.html'>Client</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.version.html'>version</a></div>
     </section>
 
     <nav class="sub">
@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>kinetic</a>::<wbr><a class='trait' href=''>Command</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-98445' href='../src/kinetic/src/kinetic/core.rs.html#28-33'>[src]</a></span></h1>
+        </span><a id='src-98928' href='../src/kinetic/src/kinetic/core.rs.html#28-33'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Command&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> {
     fn <a href='#tymethod.build_proto' class='fnname'>build_proto</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../kinetic/proto/struct.Command.html' title='kinetic::proto::Command'>Command</a>, <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;&gt;)</a>;
 }</pre><div class='docblock'><p>Trait representing a Kinetic command</p>
@@ -65,6 +65,7 @@
 <li><a class='stability Unstable' title='Unstable'></a><code>impl <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;<a class='struct' href='../kinetic/responses/struct.GetResponse.html' title='kinetic::responses::GetResponse'>GetResponse</a>&gt; for <a class='struct' href='../kinetic/commands/struct.GetPrevious.html' title='kinetic::commands::GetPrevious'>GetPrevious</a></code></li>
 <li><a class='stability Unstable' title='Unstable'></a><code>impl <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;<a class='type' href='../kinetic/responses/type.NoopResponse.html' title='kinetic::responses::NoopResponse'>NoopResponse</a>&gt; for <a class='struct' href='../kinetic/commands/struct.Noop.html' title='kinetic::commands::Noop'>Noop</a></code></li>
 <li><a class='stability Unstable' title='Unstable'></a><code>impl <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;<a class='type' href='../kinetic/responses/type.FlushResponse.html' title='kinetic::responses::FlushResponse'>FlushResponse</a>&gt; for <a class='struct' href='../kinetic/commands/struct.Flush.html' title='kinetic::commands::Flush'>Flush</a></code></li>
+<li><a class='stability Experimental' title='Experimental'></a><code>impl <a class='trait' href='../kinetic/trait.Command.html' title='kinetic::Command'>Command</a>&lt;<a class='type' href='../kinetic/responses/pin/type.UnlockResponse.html' title='kinetic::responses::pin::UnlockResponse'>UnlockResponse</a>&gt; for <a class='struct' href='../kinetic/commands/pin/struct.Unlock.html' title='kinetic::commands::pin::Unlock'>Unlock</a></code></li>
 </ul><script type="text/javascript" async
                               src="../implementors/kinetic/trait.Command.js">
                       </script></section>

@@ -187,7 +187,7 @@
 <span class='doccomment'>/// use kinetic::Client;</span>
 <span class='doccomment'>/// use kinetic::commands::Delete;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let c = Client::connect(&quot;127.0.0.1:8123&quot;).unwrap();</span>
+<span class='doccomment'>/// let c = Client::new(&quot;127.0.0.1:8123&quot;).unwrap();</span>
 <span class='doccomment'>/// c.send(Delete::Versioned { key: &quot;hello&quot;.as_bytes().to_vec(),</span>
 <span class='doccomment'>///                            version: &quot;1.0.0&quot;.as_bytes().to_vec() }).unwrap();</span>
 <span class='doccomment'>/// ```</span>
@@ -197,7 +197,7 @@
 <span class='doccomment'>/// use kinetic::Client;</span>
 <span class='doccomment'>/// use kinetic::commands::Delete;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let c = Client::connect(&quot;127.0.0.1:8123&quot;).unwrap();</span>
+<span class='doccomment'>/// let c = Client::new(&quot;127.0.0.1:8123&quot;).unwrap();</span>
 <span class='doccomment'>/// c.send(Delete::Forced { key: &quot;hello&quot;.as_bytes().to_vec() }).unwrap();</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
