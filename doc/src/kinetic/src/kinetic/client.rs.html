@@ -253,7 +253,7 @@
 <span class='kw'>use</span> <span class='ident'>core</span>::{<span class='ident'>Command</span>, <span class='ident'>Response</span>};
 <span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
 <span class='kw'>use</span> <span class='ident'>channel</span>::<span class='prelude-ty'>Result</span>;
-<span class='kw'>use</span> <span class='ident'>authentication</span>::<span class='ident'>Method</span>::<span class='ident'>Pin</span>;
+<span class='kw'>use</span> <span class='ident'>authentication</span>::<span class='ident'>Credentials</span>::<span class='ident'>Pin</span>;
 <span class='kw'>use</span> <span class='ident'>commands</span>::<span class='ident'>pin</span>::<span class='ident'>PinCommand</span>;
 
 <span class='kw'>static</span> <span class='ident'>DEFAULT_MAX_PENDING</span>: <span class='ident'>uint</span> <span class='op'>=</span> <span class='number'>10</span>;
@@ -278,7 +278,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Client</span><span class='op'>&lt;</span><span class='ident'>Ch</span>: ::<span class='ident'>channel</span>::<span class='ident'>KineticChannel</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,<span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>channel</span>: <span class='ident'>Ch</span>,
     <span class='ident'>cluster_version</span>: <span class='ident'>i64</span>,
-    <span class='ident'>default_credentials</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Method</span>,
+    <span class='ident'>default_credentials</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Credentials</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
@@ -333,7 +333,7 @@
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>send_raw</span><span class='op'>&lt;</span><span class='ident'>R</span> : <span class='ident'>Response</span>, <span class='ident'>C</span>: <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>auth</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Method</span>, <span class='ident'>cmd</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
+    <span class='kw'>fn</span> <span class='ident'>send_raw</span><span class='op'>&lt;</span><span class='ident'>R</span> : <span class='ident'>Response</span>, <span class='ident'>C</span>: <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>auth</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Credentials</span>, <span class='ident'>cmd</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
         <span class='comment'>// build specific command</span>
         <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>cmd</span>, <span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>cmd</span>.<span class='ident'>build_proto</span>();
 
@@ -388,7 +388,7 @@
 
     <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_credentials</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToSocketAddr</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>A</span>, <span class='ident'>credentials</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Method</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_credentials</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToSocketAddr</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>A</span>, <span class='ident'>credentials</span>: ::<span class='ident'>authentication</span>::<span class='ident'>Credentials</span>)
             <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span><span class='ident'>Client</span><span class='op'>&lt;</span>::<span class='ident'>channel</span>::<span class='ident'>AsyncChannel</span>, <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
 
         <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(::<span class='ident'>channel</span>::<span class='ident'>AsyncChannel</span>::<span class='ident'>new</span>(<span class='ident'>addr</span>, <span class='ident'>DEFAULT_MAX_PENDING</span>));

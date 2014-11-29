@@ -186,18 +186,18 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>num</span>::<span class='ident'>Int</span>;
 
 
-<span class='doccomment'>/// Kinetic authentication methods</span>
+<span class='doccomment'>/// Kinetic authentication credentials</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// Kinetic authentication methods include `Hmac` and `Pin`.</span>
+<span class='doccomment'>/// Kinetic authentication credentials include `Hmac` and `Pin`.</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Method</span> {
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Credentials</span> {
     <span class='doccomment'>/// Authenticates a message with an `identity` and a `key`</span>
     <span class='ident'>Hmac</span> { <span class='ident'>identity</span>: <span class='ident'>i64</span>, <span class='ident'>key</span>: <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, },
     <span class='doccomment'>/// Authenticates a message with an `pin`</span>
     <span class='ident'>Pin</span> { <span class='ident'>pin</span>: <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Method</span> {
+<span class='kw'>impl</span> <span class='ident'>Credentials</span> {
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>data</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
@@ -216,15 +216,15 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>msg</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>Message</span>::<span class='ident'>new</span>();
 
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Method</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>, <span class='kw-2'>ref</span> <span class='ident'>key</span> } <span class='op'>=&gt;</span> {
+            <span class='ident'>Credentials</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>, <span class='kw-2'>ref</span> <span class='ident'>key</span> } <span class='op'>=&gt;</span> {
                 <span class='ident'>msg</span>.<span class='ident'>set_authType</span>(<span class='ident'>AuthType</span>::<span class='ident'>HMACAUTH</span>);
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auth</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>HmacAuth</span>::<span class='ident'>new</span>();
                 <span class='ident'>auth</span>.<span class='ident'>set_identity</span>(<span class='ident'>identity</span>);
 
-                <span class='ident'>auth</span>.<span class='ident'>set_hmac</span>(<span class='ident'>Method</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>command_bytes</span>.<span class='ident'>as_slice</span>()));
+                <span class='ident'>auth</span>.<span class='ident'>set_hmac</span>(<span class='ident'>Credentials</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>command_bytes</span>.<span class='ident'>as_slice</span>()));
                 <span class='ident'>msg</span>.<span class='ident'>set_hmacAuth</span>(<span class='ident'>auth</span>);
             },
-            <span class='ident'>Method</span>::<span class='ident'>Pin</span> { <span class='kw-2'>ref</span> <span class='ident'>pin</span> } <span class='op'>=&gt;</span> {
+            <span class='ident'>Credentials</span>::<span class='ident'>Pin</span> { <span class='kw-2'>ref</span> <span class='ident'>pin</span> } <span class='op'>=&gt;</span> {
                 <span class='ident'>msg</span>.<span class='ident'>set_authType</span>(<span class='ident'>AuthType</span>::<span class='ident'>PINAUTH</span>);
 
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pin_auth</span> <span class='op'>=</span> ::<span class='ident'>proto</span>::<span class='ident'>message</span>::<span class='ident'>PinAuth</span>::<span class='ident'>new</span>();
@@ -239,27 +239,27 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>verify_proto</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='kw-2'>&amp;</span>::<span class='ident'>proto</span>::<span class='ident'>Message</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Method</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>, <span class='kw-2'>ref</span> <span class='ident'>key</span> } <span class='op'>=&gt;</span> {
+            <span class='ident'>Credentials</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>, <span class='kw-2'>ref</span> <span class='ident'>key</span> } <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>!=</span> <span class='ident'>AuthType</span>::<span class='ident'>HMACAUTH</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; }
                 <span class='kw'>if</span> <span class='ident'>msg</span>.<span class='ident'>get_hmacAuth</span>().<span class='ident'>get_identity</span>() <span class='op'>!=</span> <span class='ident'>identity</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; }
 
                 <span class='kw'>let</span> <span class='ident'>received_hmac</span> <span class='op'>=</span> <span class='ident'>msg</span>.<span class='ident'>get_hmacAuth</span>().<span class='ident'>get_hmac</span>();
-                <span class='kw'>let</span> <span class='ident'>calculated_hmac</span> <span class='op'>=</span> <span class='ident'>Method</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>msg</span>.<span class='ident'>get_commandBytes</span>());
+                <span class='kw'>let</span> <span class='ident'>calculated_hmac</span> <span class='op'>=</span> <span class='ident'>Credentials</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>msg</span>.<span class='ident'>get_commandBytes</span>());
 
                 (<span class='ident'>received_hmac</span> <span class='op'>==</span> <span class='ident'>calculated_hmac</span>.<span class='ident'>as_slice</span>())
             },
-            <span class='ident'>Method</span>::<span class='ident'>Pin</span> { .. } <span class='op'>=&gt;</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>==</span> <span class='ident'>AuthType</span>::<span class='ident'>PINAUTH</span>
+            <span class='ident'>Credentials</span>::<span class='ident'>Pin</span> { .. } <span class='op'>=&gt;</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>==</span> <span class='ident'>AuthType</span>::<span class='ident'>PINAUTH</span>
         }
     }
 }
 
 
 
-<span class='kw'>impl</span> ::<span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Method</span> {
+<span class='kw'>impl</span> ::<span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Credentials</span> {
 
-    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>Method</span> {
-        <span class='ident'>Method</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>: <span class='number'>1</span>,
-                       <span class='ident'>key</span>: <span class='string'>&quot;asdfasdf&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>(), }
+    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>Credentials</span> {
+        <span class='ident'>Credentials</span>::<span class='ident'>Hmac</span> { <span class='ident'>identity</span>: <span class='number'>1</span>,
+                            <span class='ident'>key</span>: <span class='string'>&quot;asdfasdf&quot;</span>.<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>(), }
     }
 
 }
