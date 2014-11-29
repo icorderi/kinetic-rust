@@ -31,7 +31,7 @@ use result::KineticResult;
 
 
 #[unstable]
-pub type Operation= (::authentication::Method, ::proto::Command, Option<::std::vec::Vec<u8>>);
+pub type Operation= (::authentication::Credentials, ::proto::Command, Option<::std::vec::Vec<u8>>);
 
 #[unstable]
 pub type Result = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);

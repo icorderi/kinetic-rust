@@ -32,18 +32,18 @@ use crypto::mac::Mac;
 use std::num::Int;
 
 
-/// Kinetic authentication methods
+/// Kinetic authentication credentials
 ///
-/// Kinetic authentication methods include `Hmac` and `Pin`.
+/// Kinetic authentication credentials include `Hmac` and `Pin`.
 #[deriving(Clone)]
-pub enum Method {
+pub enum Credentials {
     /// Authenticates a message with an `identity` and a `key`
     Hmac { identity: i64, key: vec::Vec<u8>, },
     /// Authenticates a message with an `pin`
     Pin { pin: vec::Vec<u8> }
 }
 
-impl Method {
+impl Credentials {
 
     #[inline]
     fn calculate_hmac(key: &vec::Vec<u8>, data: &[u8]) -> vec::Vec<u8> {
@@ -62,15 +62,15 @@ impl Method {
         let mut msg = ::proto::Message::new();
 
         match *self {
-            Method::Hmac { identity, ref key } => {
+            Credentials::Hmac { identity, ref key } => {
                 msg.set_authType(AuthType::HMACAUTH);
                 let mut auth = ::proto::message::HmacAuth::new();
                 auth.set_identity(identity);
 
-                auth.set_hmac(Method::calculate_hmac(key, command_bytes.as_slice()));
+                auth.set_hmac(Credentials::calculate_hmac(key, command_bytes.as_slice()));
                 msg.set_hmacAuth(auth);
             },
-            Method::Pin { ref pin } => {
+            Credentials::Pin { ref pin } => {
                 msg.set_authType(AuthType::PINAUTH);
 
                 let mut pin_auth = ::proto::message::PinAuth::new();
@@ -85,27 +85,27 @@ impl Method {
 
     pub fn verify_proto(&self, msg: &::proto::Message) -> bool {
         match *self {
-            Method::Hmac { identity, ref key } => {
+            Credentials::Hmac { identity, ref key } => {
                 if msg.get_authType() != AuthType::HMACAUTH { return false; }
                 if msg.get_hmacAuth().get_identity() != identity { return false; }
 
                 let received_hmac = msg.get_hmacAuth().get_hmac();
-                let calculated_hmac = Method::calculate_hmac(key, msg.get_commandBytes());
+                let calculated_hmac = Credentials::calculate_hmac(key, msg.get_commandBytes());
 
                 (received_hmac == calculated_hmac.as_slice())
             },
-            Method::Pin { .. } => msg.get_authType() == AuthType::PINAUTH
+            Credentials::Pin { .. } => msg.get_authType() == AuthType::PINAUTH
         }
     }
 }
 
 
 
-impl ::std::default::Default for Method {
+impl ::std::default::Default for Credentials {
 
-    fn default() -> Method {
-        Method::Hmac { identity: 1,
-                       key: "asdfasdf".as_bytes().to_vec(), }
+    fn default() -> Credentials {
+        Credentials::Hmac { identity: 1,
+                            key: "asdfasdf".as_bytes().to_vec(), }
     }
 
 }

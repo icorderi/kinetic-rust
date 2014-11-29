@@ -27,7 +27,7 @@ use std::sync::Future;
 use core::{Command, Response};
 use result::KineticResult;
 use channel::Result;
-use authentication::Method::Pin;
+use authentication::Credentials::Pin;
 use commands::pin::PinCommand;
 
 static DEFAULT_MAX_PENDING: uint = 10;
@@ -52,7 +52,7 @@ static DEFAULT_MAX_PENDING: uint = 10;
 pub struct Client<Ch: ::channel::KineticChannel<T>,T> {
     channel: Ch,
     cluster_version: i64,
-    default_credentials: ::authentication::Method,
+    default_credentials: ::authentication::Credentials,
 }
 
 #[unstable]
@@ -107,7 +107,7 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     }
 
     #[inline]
-    fn send_raw<R : Response, C: Command<R>> (&self, auth: ::authentication::Method, cmd: C) -> T {
+    fn send_raw<R : Response, C: Command<R>> (&self, auth: ::authentication::Credentials, cmd: C) -> T {
         // build specific command
         let (mut cmd, value) = cmd.build_proto();
 
@@ -162,7 +162,7 @@ impl Client<::channel::AsyncChannel, Receiver<Result>> {
 
     #[experimental]
     #[inline]
-    pub fn new_with_credentials<A: ToSocketAddr>(addr: A, credentials: ::authentication::Method)
+    pub fn new_with_credentials<A: ToSocketAddr>(addr: A, credentials: ::authentication::Credentials)
             -> KineticResult<Client<::channel::AsyncChannel, Receiver<Result>>> {
 
         let c = try!(::channel::AsyncChannel::new(addr, DEFAULT_MAX_PENDING));
