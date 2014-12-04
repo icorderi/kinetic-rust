@@ -83,6 +83,9 @@
 <span id='41'>41</span>
 <span id='42'>42</span>
 <span id='43'>43</span>
+<span id='44'>44</span>
+<span id='45'>45</span>
+<span id='46'>46</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -111,6 +114,8 @@
 <span class='comment'>// Skip entire crate</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>test</span>))]</span>
 
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>macro_rules</span>)]</span>
+
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>docopt</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>kinetic</span>;
@@ -118,6 +123,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>;
 
 <span class='kw'>mod</span> <span class='ident'>cli</span>;
+<span class='kw'>mod</span> <span class='ident'>cli_macros</span>;
 <span class='kw'>mod</span> <span class='ident'>main</span>;
 <span class='kw'>mod</span> <span class='ident'>help</span>;
 <span class='kw'>mod</span> <span class='ident'>info</span>;
