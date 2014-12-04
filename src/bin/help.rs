@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-use docopt::Docopt;
-use std::vec;
 use kinetic::KineticResult;
 use std::ascii::OwnedAsciiExt;
 
@@ -43,23 +41,12 @@ Options:
   -v, --verbose         Use verbose output
 ";
 
-impl ::cli::CliCommand for HelpArgs {
+fn execute(cmd: &HelpArgs) -> KineticResult<()> {
+    let argv = vec!["kinetic-rust".to_string(),
+                    format!("{}", cmd.arg_command).into_ascii_lower(),
+                    "-h".to_string()];
 
-    // FIXME: do I really need to clone the args? find a way to avoid this...
-    fn from_argv(argv: vec::Vec<String>) -> HelpArgs {
-        Docopt::new(::cli::CliCommand::usage(None::<HelpArgs>))
-            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
-            .unwrap_or_else(|e| e.exit())
-    }
-
-    fn execute(&self) -> KineticResult<()> {
-        let argv = vec!["kinetic-rust".to_string(),
-                        format!("{}", self.arg_command).into_ascii_lower(),
-                        "-h".to_string()];
-
-        ::main::main_with_args(argv) //return
-    }
-
-    fn usage(_: Option<HelpArgs>) -> &'static str { USAGE }
-
+    ::main::main_with_args(argv) //return
 }
+
+cmd!(HelpArgs, execute, USAGE)

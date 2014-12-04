@@ -25,6 +25,8 @@
 // Skip entire crate
 #![cfg(not(test))]
 
+#![feature(macro_rules)]
+
 extern crate serialize;
 extern crate docopt;
 extern crate kinetic;
@@ -32,6 +34,7 @@ extern crate kinetic;
 use std::os;
 
 mod cli;
+mod cli_macros;
 mod main;
 mod help;
 mod info;

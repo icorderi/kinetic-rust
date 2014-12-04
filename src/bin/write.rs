@@ -20,7 +20,6 @@
 
 // author: Ignacio Corderi
 
-use docopt::Docopt;
 use std::time::duration::Duration;
 use std::vec;
 use std::default::Default;
@@ -49,51 +48,40 @@ Options:
   -v, --verbose            Use verbose output
 ";
 
-impl ::cli::CliCommand for WriteArgs {
+fn execute(cmd: &WriteArgs) -> KineticResult<()> {
+    println!("Connecting to {}", cmd.arg_target);
 
-    // FIXME: do I really need to clone the args? find a way to avoid this...
-    fn from_argv(argv: vec::Vec<String>) -> WriteArgs {
-        Docopt::new(::cli::CliCommand::usage(None::<WriteArgs>))
-            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
-            .unwrap_or_else(|e| e.exit())
-    }
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
 
-    fn execute(&self) -> KineticResult<()> {
-        println!("Connecting to {}", self.arg_target);
+    c.send(Put { key: "rust".as_bytes().to_vec(),
+                 value: format!("Hello from {}!", ::kinetic::version()).as_bytes().to_vec(),
+                 ..Default::default() }).unwrap();
+    let v = try!(c.send(Get { key: "rust".as_bytes().to_vec() }));
 
-        let c = try!(::kinetic::Client::new(format!("{}:8123", self.arg_target).as_slice()));
+    println!("Read back: {}", String::from_utf8(v.value).unwrap());
 
-        c.send(Put { key: "rust".as_bytes().to_vec(),
-                     value: format!("Hello from {}!", ::kinetic::version()).as_bytes().to_vec(),
-                     ..Default::default() }).unwrap();
-        let v = try!(c.send(Get { key: "rust".as_bytes().to_vec() }));
-
-        println!("Read back: {}", String::from_utf8(v.value).unwrap());
-
-        let items = self.flag_count.unwrap_or(10u);
+    let items = cmd.flag_count.unwrap_or(10u);
         // benchmark
-        let d = Duration::span(|| {
-            let mut responses = vec::Vec::with_capacity(items);
+    let d = Duration::span(|| {
+        let mut responses = vec::Vec::with_capacity(items);
 
-            for i in range(0u, items) {
-                let data = vec::Vec::from_elem(self.flag_size.unwrap_or(1024*1024u), 0u8);
-                let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
-                                            value: data,
-                                            ..Default::default()});
-                responses.push(r);
-            }
+        for i in range(0u, items) {
+            let data = vec::Vec::from_elem(cmd.flag_size.unwrap_or(1024*1024u), 0u8);
+            let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
+                                        value: data,
+                                        ..Default::default()});
+            responses.push(r);
+        }
 
-            // wait on all
-            for r in responses.into_iter() {
-                r.into_inner().unwrap();
-            }
-        });
-        let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);
-        println!("Benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw);
+        // wait on all
+        for r in responses.into_iter() {
+            r.into_inner().unwrap();
+        }
+    });
+    let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);
+    println!("Benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw);
 
-        Ok(()) //return
-    }
-
-    fn usage(_: Option<WriteArgs>) -> &'static str { USAGE }
-
+    Ok(()) //return
 }
+
+cmd!(WriteArgs, execute, USAGE)

@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-use docopt::Docopt;
-use std::vec;
 use kinetic::KineticResult;
 
 
@@ -30,7 +28,6 @@ pub struct InfoArgs {
     flag_verbose: bool,
     arg_target: String,
 }
-
 
 static USAGE: &'static str = "
 Get info from kinetic device
@@ -43,22 +40,11 @@ Options:
   -v, --verbose         Use verbose output
 ";
 
-impl ::cli::CliCommand for InfoArgs {
+fn execute(cmd: &InfoArgs) -> KineticResult<()> {
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
+    println!("{}", c.get_config());
 
-    // FIXME: do I really need to clone the args? find a way to avoid this...
-    fn from_argv(argv: vec::Vec<String>) -> InfoArgs {
-        Docopt::new(::cli::CliCommand::usage(None::<InfoArgs>))
-            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
-            .unwrap_or_else(|e| e.exit())
-    }
-
-    fn execute(&self) -> KineticResult<()> {
-        let c = try!(::kinetic::Client::new(format!("{}:8123", self.arg_target).as_slice()));
-        println!("{}", c.get_config());
-
-        Ok(()) //return
-    }
-
-    fn usage(_: Option<InfoArgs>) -> &'static str { USAGE }
-
+    Ok(()) //return
 }
+
+cmd!(InfoArgs, execute, USAGE)
