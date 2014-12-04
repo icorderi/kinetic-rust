@@ -20,7 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![license = "MIT"]
 #![crate_name = "kinetic-bench"]
 
 // Skip entire crate

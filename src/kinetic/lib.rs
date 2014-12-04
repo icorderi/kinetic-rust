@@ -20,7 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![license = "MIT"]
 #![crate_type = "lib"]
 #![crate_name = "kinetic"]
 
