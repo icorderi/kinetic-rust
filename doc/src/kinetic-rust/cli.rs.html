@@ -115,7 +115,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>from_argv</span>(<span class='ident'>argv</span>: <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>execute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>execute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>shell</span>::<span class='ident'>MultiShell</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
 
     <span class='comment'>// the marker is a hack until a missing compiler feature gets finished</span>
     <span class='kw'>fn</span> <span class='ident'>usage</span>(_:<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>;
@@ -124,7 +124,7 @@
 <span class='attribute'>#[<span class='ident'>experimental</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>CliDispatcher</span> {
 
-    <span class='kw'>fn</span> <span class='ident'>dispatch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>dispatch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,  <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>shell</span>::<span class='ident'>MultiShell</span>) <span class='op'>-&gt;</span> <span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
 
 }
 </pre>

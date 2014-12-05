@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>kinetic-rust</a></p><div class='block macro'><h2>Macros</h2><a class='macro current' href='macro.cmd!.html'>cmd!</a></div>
+        <p class='location'><a href='index.html'>kinetic-rust</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='shell/index.html'>shell</a></div><div class='block macro'><h2>Macros</h2><a class='macro current' href='macro.cmd!.html'>cmd!</a></div>
     </section>
 
     <nav class="sub">
@@ -55,8 +55,8 @@
         }
 
         <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-        <span class='kw'>fn</span> <span class='ident'>execute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> ::<span class='ident'>kinetic</span>::<span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-            <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>execute</span>(<span class='self'>self</span>)
+        <span class='kw'>fn</span> <span class='ident'>execute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>shell</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>shell</span>::<span class='ident'>MultiShell</span>) <span class='op'>-&gt;</span> ::<span class='ident'>kinetic</span>::<span class='ident'>KineticResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+            <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>execute</span>(<span class='self'>self</span>, <span class='ident'>shell</span>)
         }
 
         <span class='attribute'>#[<span class='ident'>inline</span>]</span>
