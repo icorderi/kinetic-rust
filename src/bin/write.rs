@@ -65,11 +65,12 @@ fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
 
     let items = cmd.flag_count.unwrap_or(10u);
         // benchmark
+    let size = cmd.flag_size.unwrap_or(1024*1024u);
     let d = Duration::span(|| {
         let mut responses = vec::Vec::with_capacity(items);
 
         for i in range(0u, items) {
-            let data = vec::Vec::from_elem(cmd.flag_size.unwrap_or(1024*1024u), 0u8);
+            let data = vec::Vec::from_elem(size, 0u8);
             let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
                                         value: data,
                                         ..Default::default()});
@@ -81,8 +82,11 @@ fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
             r.into_inner().unwrap();
         }
     });
-    let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);
-    try!(shell.status("Done", format!("benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw)));
+    let ops = items as f64  / (d.num_milliseconds() as f64 / 1000.0);
+    let transfered = (items as f64 * size as f64) / (1024.0 * 1024.0);
+    let bw = transfered / (d.num_milliseconds() as f64 / 1000.0);
+
+    try!(shell.status("Done", format!("benchmark took {}ms ({:.2} MB/s, {:.2} op/s)", d.num_milliseconds(), bw, ops)));
 
     Ok(()) //return
 }
