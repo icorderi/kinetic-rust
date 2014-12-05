@@ -25,11 +25,13 @@
 // Skip entire crate
 #![cfg(not(test))]
 
-#![feature(macro_rules)]
+#![feature(phase, macro_rules)]
 
 extern crate serialize;
 extern crate docopt;
 extern crate kinetic;
+extern crate term;
+#[phase(plugin, link)] extern crate log;
 
 use std::os;
 
@@ -39,8 +41,15 @@ mod main;
 mod help;
 mod info;
 mod write;
+mod bench;
+pub mod shell;
 
 #[cfg(not(test))]
 fn main() {
-    main::main_with_args(os::args()).unwrap();
+    let mut shell = ::shell::MultiShell::new_stdio(false);
+    let r = main::main_with_args(os::args(), &mut shell);
+    match r {
+        Ok(_) => (),
+        Err(e) => shell.error_full(&e, true).unwrap(),
+    }
 }

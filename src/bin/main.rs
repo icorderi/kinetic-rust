@@ -34,6 +34,7 @@ pub struct Args {
     flag_list: bool,
     flag_help: bool,
     flag_version: bool,
+    flag_verbose: bool,
 }
 
 #[deriving(Decodable, Show)]
@@ -41,11 +42,12 @@ pub enum Command {
     Help,
     Write,
     Info,
+    Bench,
 }
 
 impl CliDispatcher for Command {
 
-    fn dispatch(&self, mut argv: vec::Vec<String>) -> KineticResult<()> {
+    fn dispatch(&self, mut argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
         argv.insert(0, format!("{}", self).into_ascii_lower());
         argv.insert(0, "kinetic-rust".to_string());
 
@@ -56,13 +58,16 @@ impl CliDispatcher for Command {
                 },
                 Command::Info  => {
                     let x: ::info::InfoArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                },
+                Command::Bench  => {
+                    let x: ::bench::BenchArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
                 }
                 Command::Help => {
                     let x: ::help::HelpArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
                 }
             };
 
-        let result = try!(cmd.execute());
+        let result = try!(cmd.execute(shell));
         Ok(result) // return
     }
 
@@ -94,7 +99,7 @@ Some common kinetic-rust commands are:
 
 See 'kinetic-rust help <command>' for more information on a specific command.
 ";
-pub fn main_with_args(argv: vec::Vec<String>) -> KineticResult<()> {
+pub fn main_with_args(argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
     let docopt = Docopt::new(USAGE).unwrap()
                             .options_first(true)
                             .argv(argv.into_iter())
@@ -102,18 +107,20 @@ pub fn main_with_args(argv: vec::Vec<String>) -> KineticResult<()> {
                             .version(Some(version()));
 
     let args: Args = docopt.decode().unwrap_or_else(|e| e.exit());
+    shell.set_verbose(args.flag_verbose);
 
     // FIXME: figure how to make generic...
     if args.flag_list {
         println!("Installed Commands:");
         println!("    write");
         println!("    info");
+        println!("    bench");
         println!("    help");
         return Ok(());
     }
 
     match args.arg_command {
-        Some(cmd) => cmd.dispatch(args.arg_args),
+        Some(cmd) => cmd.dispatch(args.arg_args, shell),
         None => {
             println!("{}", USAGE)
             Ok(())

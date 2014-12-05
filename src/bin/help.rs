@@ -41,12 +41,15 @@ Options:
   -v, --verbose         Use verbose output
 ";
 
-fn execute(cmd: &HelpArgs) -> KineticResult<()> {
+fn execute(cmd: &HelpArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
+    debug!("executing; cmd=kinetic-rust-help; args={}", ::std::os::args());
+    shell.set_verbose(cmd.flag_verbose);
+
     let argv = vec!["kinetic-rust".to_string(),
                     format!("{}", cmd.arg_command).into_ascii_lower(),
                     "-h".to_string()];
 
-    ::main::main_with_args(argv) //return
+    ::main::main_with_args(argv, shell) //return
 }
 
 cmd!(HelpArgs, execute, USAGE)

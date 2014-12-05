@@ -29,7 +29,7 @@ pub trait CliCommand {
 
     fn from_argv(argv: vec::Vec<String>) -> Self;
 
-    fn execute(&self) -> KineticResult<()>;
+    fn execute(&self, &mut ::shell::MultiShell) -> KineticResult<()>;
 
     // the marker is a hack until a missing compiler feature gets finished
     fn usage(_:Option<Self>) -> &'static str;
@@ -38,6 +38,6 @@ pub trait CliCommand {
 #[experimental]
 pub trait CliDispatcher {
 
-    fn dispatch(&self, vec::Vec<String>) -> KineticResult<()>;
+    fn dispatch(&self, vec::Vec<String>,  &mut ::shell::MultiShell) -> KineticResult<()>;
 
 }

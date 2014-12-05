@@ -10,8 +10,8 @@ macro_rules! cmd( ($name:ident, $execute:ident, $usage: ident) => (
         }
 
         #[inline]
-        fn execute(&self) -> ::kinetic::KineticResult<()> {
-            $execute(self)
+        fn execute(&self, shell: &mut ::shell::MultiShell) -> ::kinetic::KineticResult<()> {
+            $execute(self, shell)
         }
 
         #[inline]

@@ -48,8 +48,11 @@ Options:
   -v, --verbose            Use verbose output
 ";
 
-fn execute(cmd: &WriteArgs) -> KineticResult<()> {
-    println!("Connecting to {}", cmd.arg_target);
+fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
+    debug!("executing; cmd=kinetic-rust-write; args={}", ::std::os::args());
+    shell.set_verbose(cmd.flag_verbose);
+
+    try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
 
     let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
 
@@ -58,7 +61,7 @@ fn execute(cmd: &WriteArgs) -> KineticResult<()> {
                  ..Default::default() }).unwrap();
     let v = try!(c.send(Get { key: "rust".as_bytes().to_vec() }));
 
-    println!("Read back: {}", String::from_utf8(v.value).unwrap());
+    try!(shell.status("Response", format!("{}", String::from_utf8(v.value).unwrap())));
 
     let items = cmd.flag_count.unwrap_or(10u);
         // benchmark
@@ -79,7 +82,7 @@ fn execute(cmd: &WriteArgs) -> KineticResult<()> {
         }
     });
     let bw = items as f64 / (d.num_milliseconds() as f64 / 1000.0);
-    println!("Benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw);
+    try!(shell.status("Done", format!("benchmark took {}ms ({} MB/s)", d.num_milliseconds(), bw)));
 
     Ok(()) //return
 }

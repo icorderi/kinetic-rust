@@ -21,36 +21,43 @@
 // author: Ignacio Corderi
 
 use kinetic::KineticResult;
-
+use std::io::BufferedReader;
+use std::io::File;
 
 #[deriving(Decodable, Show)]
-pub struct InfoArgs {
+pub struct BenchArgs {
     flag_verbose: bool,
-    arg_target: String,
+    flag_count: Option<uint>,
+    flag_size: Option<uint>,
+    flag_path: Option<String>,
 }
 
 static USAGE: &'static str = "
-Get info from kinetic device
+Writes to a set of drives
 
-Usage: kinetic-rust info [options] <target>
-       kinetic-rust info (-h | --help)
+Usage: kinetic-rust bench [options]
+       kinetic-rust bench (-h | --help)
 
 Options:
-  -h, --help            Print this message
-  -v, --verbose         Use verbose output
+  -h, --help               Print this message
+  -s, --size BYTES         Size of the value in bytes (default: 1 MB)
+  -c, --count COUNT        Number of key/value pairs to send (default: 10)
+  -p, --path PATH          Path to the file with the kinetic devices (default: drives)
+  -v, --verbose            Use verbose output
 ";
 
-fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    debug!("executing; cmd=kinetic-rust-info; args={}", ::std::os::args());
+fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
+    debug!("executing; cmd=kinetic-rust-bench; args={}", ::std::os::args());
     shell.set_verbose(cmd.flag_verbose);
 
-    try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
+    let path = Path::new(cmd.flag_path.clone().unwrap_or("drives".to_string()));
+    let file = try!(File::open(&path));
+    let mut file = BufferedReader::new(file);
+    let lines: Vec<String> = file.lines().map(|x| x.unwrap()).collect();
 
-    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
-
-    println!("{}", c.get_config());
+    try!(shell.error("Code me"));
 
     Ok(()) //return
 }
 
-cmd!(InfoArgs, execute, USAGE)
+cmd!(BenchArgs, execute, USAGE)
