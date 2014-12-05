@@ -26,6 +26,7 @@ use kinetic::KineticResult;
 #[deriving(Decodable, Show)]
 pub struct InfoArgs {
     flag_verbose: bool,
+    flag_detailed: bool,
     arg_target: String,
 }
 
@@ -37,8 +38,13 @@ Usage: kinetic-rust info [options] <target>
 
 Options:
   -h, --help            Print this message
+  -d, --detailed        Shows more detailed information
   -v, --verbose         Use verbose output
 ";
+
+fn to_utf8(s: &[u8]) -> String {
+    String::from_utf8(s.to_vec()).unwrap()
+}
 
 fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
     debug!("executing; cmd=kinetic-rust-info; args={}", ::std::os::args());
@@ -48,7 +54,79 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
 
     let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
 
-    println!("{}", c.get_config());
+    if cmd.flag_detailed {
+        try!(shell.header("Device"));
+        try!(shell.tag("Vendor", c.get_config().get_vendor()));
+        if c.get_config().get_model() == "Simulator" {
+            try!(shell.tag_color("Model", c.get_config().get_model(), ::term::color::BRIGHT_YELLOW));
+        } else {
+            try!(shell.tag("Model", c.get_config().get_model()));
+        }
+        try!(shell.tag("SN", to_utf8(c.get_config().get_serialNumber())));
+    } else {
+        if c.get_config().get_model() == "Simulator" {
+            try!(shell.tag_color("Simulator", to_utf8(c.get_config().get_serialNumber()), ::term::color::BRIGHT_YELLOW));
+        } else {
+            let msg = format!("{} {} (SN: {})", c.get_config().get_vendor(),
+                            c.get_config().get_model(), to_utf8(c.get_config().get_serialNumber()));
+            try!(shell.tag("Device", msg));
+        }
+    }
+    try!(shell.tag("WWN", to_utf8(c.get_config().get_worldWideName())));
+
+    if cmd.flag_detailed {
+        try!(shell.header("Device firmware"));
+        try!(shell.tag("Version", c.get_config().get_version()));
+        try!(shell.tag(".(date)", c.get_config().get_compilationDate()));
+        try!(shell.tag(".(hash)", c.get_config().get_sourceHash()));
+    } else {
+        try!(shell.tag("Firmware", c.get_config().get_version()));
+    }
+
+    let v = ::kinetic::protocol_version();
+    if cmd.flag_detailed {
+        try!(shell.header("Kinetic protocol"));
+        if v.as_slice() == c.get_config().get_protocolVersion() {
+            try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::GREEN));
+        } else {
+            try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));
+        }
+        try!(shell.tag(".(date)", c.get_config().get_protocolCompilationDate()));
+        try!(shell.tag(".(hash)", c.get_config().get_protocolSourceHash()));
+    } else {
+        if v.as_slice() == c.get_config().get_protocolVersion() {
+            try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::GREEN));
+        } else {
+            try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));
+        }
+    }
+
+    if cmd.flag_detailed {
+        try!(shell.header("Network"));
+        try!(shell.tag("Port", c.get_config().get_port()));
+        try!(shell.tag("Tls port", c.get_config().get_tlsPort()));
+
+        for interface in c.get_config().get_interface().iter() {
+            try!(shell.tag("Interface", interface.get_name()));
+            if interface.has_MAC() {
+                try!(shell.tag(".(MAC)", to_utf8(interface.get_MAC())));
+            }
+            if interface.has_ipv4Address() {
+                try!(shell.tag(".(IPv4)", to_utf8(interface.get_ipv4Address())));
+            }
+            if interface.has_ipv6Address() {
+                try!(shell.tag(".(IPv6)", to_utf8(interface.get_ipv6Address())));
+            }
+        }
+    } else {
+        for interface in c.get_config().get_interface().iter() {
+            if interface.has_MAC() && interface.has_ipv4Address() {
+                try!(shell.tag("Network", format!("{} ({})",
+                                                  to_utf8(interface.get_ipv4Address()),
+                                                  to_utf8(interface.get_MAC()))));
+            }
+        }
+    }
 
     Ok(()) //return
 }

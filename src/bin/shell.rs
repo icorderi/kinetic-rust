@@ -13,6 +13,8 @@ use std::error::Error;
 
 use self::AdequateTerminal::{NoColor, Colored};
 
+static GREY: u16 = 8;
+
 pub struct ShellConfig {
     pub color: bool,
     pub verbose: bool,
@@ -99,6 +101,22 @@ impl MultiShell {
 
     pub fn set_verbose(&mut self, verbose: bool) {
         self.verbose = verbose;
+    }
+
+    pub fn tag<T: Show, U: Show>(&mut self, tag: T, message: U) -> IoResult<()>{
+        self.out().say_status(tag, message, BLACK)
+    }
+
+    pub fn header<T: Show>(&mut self, message: T) -> IoResult<()> {
+        self.out().say_attr(message, BLACK, Attr::Underline(true), true)
+    }
+
+    pub fn comment<T: Show>(&mut self, message: T) -> IoResult<()> {
+        self.out().say_attr(message, GREY, Attr::Dim, true)
+    }
+
+    pub fn tag_color<T: Show, U: Show>(&mut self, tag: T, message: U, color: Color) -> IoResult<()>{
+        self.out().say_status(tag, message, color)
     }
 
     pub fn error_full(&mut self, e: &Error, mut show_cause: bool) -> IoResult<()>{

@@ -68,7 +68,7 @@ pub mod command {
         pub use proto::raw::Command_GetLog_Configuration as Configuration;
         pub use proto::raw::Command_GetLog_Statistics as Statistics;
         pub use proto::raw::Command_GetLog_Limits as Limits;
-
+        pub use proto::raw::Command_GetLog_Configuration_Interface as Interface;
     }
 }
 
