@@ -23,6 +23,7 @@
 use kinetic::KineticResult;
 use std::io::BufferedReader;
 use std::io::File;
+use std::iter::IteratorExt;
 
 #[deriving(Decodable, Show)]
 pub struct BenchArgs {
@@ -46,6 +47,10 @@ Options:
   -v, --verbose            Use verbose output
 ";
 
+fn bench(client: ::kinetic::AsyncClient) -> KineticResult<()> {
+    Ok(())
+}
+
 fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
     debug!("executing; cmd=kinetic-rust-bench; args={}", ::std::os::args());
     shell.set_verbose(cmd.flag_verbose);
@@ -55,7 +60,27 @@ fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
     let mut file = BufferedReader::new(file);
     let lines: Vec<String> = file.lines().map(|x| x.unwrap()).collect();
 
-    try!(shell.error("Code me"));
+    let clients: Vec<KineticResult<::kinetic::AsyncClient>> = lines.into_iter().map(
+        |mut x| {
+            x = x.replace("\n","");
+            if ! x.contains(":") {
+                x = x + ":8123";
+            }
+            println!("{}", x);
+            ::kinetic::Client::new(x.as_slice())
+        }).collect();;
+
+    for c in clients.into_iter() {
+        match c {
+            Ok(c)  => {
+                try!(shell.status("Connected", c.get_config().get_serialNumber()));
+                spawn(proc() {
+                    bench(c).unwrap();
+                });
+            },
+            Err(e) => try!(shell.error_full(&e, true)),
+        };
+    }
 
     Ok(()) //return
 }

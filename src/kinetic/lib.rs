@@ -38,7 +38,7 @@ pub use core::{Command, Response};
 pub use result::KineticResult;
 pub use error::KineticError;
 pub use client::Client;
-
+pub use client::AsyncClient;
 
 pub mod commands;
 pub mod responses;

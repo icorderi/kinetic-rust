@@ -156,6 +156,8 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     }
 }
 
+pub type AsyncClient = Client<::channel::AsyncChannel, Receiver<Result>>;
+
 /// `Client` backed by an `AsyncChannel`
 #[experimental]
 impl Client<::channel::AsyncChannel, Receiver<Result>> {
