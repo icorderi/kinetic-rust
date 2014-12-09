@@ -4,7 +4,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
-#![allow(non_snake_case)]
+#![allow(non_snake_case)] 
 
 use protobuf::Message as Message_imported_for_functions;
 use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
@@ -16,7 +16,7 @@ pub struct Local {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Local {
+impl Local {
     pub fn new() -> Local {
         ::std::default::Default::default()
     }
@@ -54,7 +54,7 @@ impl<'a> Local {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_protocolVersion(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_protocolVersion<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.protocolVersion.is_none() {
             self.protocolVersion.set_default();
         };
@@ -66,7 +66,7 @@ impl<'a> Local {
         self.protocolVersion.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_protocolVersion(&'a self) -> &'a str {
+    pub fn get_protocolVersion<'a>(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
             Some(v) => v.as_slice(),
             None => "3.0.5",
@@ -115,11 +115,8 @@ impl ::protobuf::Message for Local {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.protocolVersion.as_ref() {
-            Some(v) => {
-                try!(os.write_string(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.protocolVersion.as_ref() {
+            try!(os.write_string(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -145,8 +142,12 @@ impl ::protobuf::Message for Local {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Local>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Local_protocolVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Local>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "protocolVersion",
+                    Local::has_protocolVersion,
+                    Local::get_protocolVersion,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Local>(
                     "Local",
                     fields,
@@ -181,25 +182,6 @@ impl ::std::fmt::Show for Local {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Local_protocolVersion_acc_type;
-static Local_protocolVersion_acc: Local_protocolVersion_acc_type = Local_protocolVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Local> for Local_protocolVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "protocolVersion"
-    }
-
-    fn has_field(&self, m: &Local) -> bool {
-        m.has_protocolVersion()
-    }
-
-    fn get_str<'a>(&self, m: &'a Local) -> &'a str {
-        m.get_protocolVersion()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Message {
     authType: ::std::option::Option<Message_AuthType>,
@@ -210,7 +192,7 @@ pub struct Message {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Message {
+impl Message {
     pub fn new() -> Message {
         ::std::default::Default::default()
     }
@@ -249,7 +231,7 @@ impl<'a> Message {
         self.authType = ::std::option::Some(v);
     }
 
-    pub fn get_authType(&self) -> Message_AuthType {
+    pub fn get_authType<'a>(&self) -> Message_AuthType {
         self.authType.unwrap_or(Message_AuthType::INVALID_AUTH_TYPE)
     }
 
@@ -270,7 +252,7 @@ impl<'a> Message {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_hmacAuth(&'a mut self) -> &'a mut Message_HMACauth {
+    pub fn mut_hmacAuth<'a>(&'a mut self) -> &'a mut Message_HMACauth {
         if self.hmacAuth.is_none() {
             self.hmacAuth.set_default();
         };
@@ -282,7 +264,7 @@ impl<'a> Message {
         self.hmacAuth.take().unwrap_or_else(|| Message_HMACauth::new())
     }
 
-    pub fn get_hmacAuth(&'a self) -> &'a Message_HMACauth {
+    pub fn get_hmacAuth<'a>(&'a self) -> &'a Message_HMACauth {
         self.hmacAuth.as_ref().unwrap_or_else(|| Message_HMACauth::default_instance())
     }
 
@@ -303,7 +285,7 @@ impl<'a> Message {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_pinAuth(&'a mut self) -> &'a mut Message_PINauth {
+    pub fn mut_pinAuth<'a>(&'a mut self) -> &'a mut Message_PINauth {
         if self.pinAuth.is_none() {
             self.pinAuth.set_default();
         };
@@ -315,7 +297,7 @@ impl<'a> Message {
         self.pinAuth.take().unwrap_or_else(|| Message_PINauth::new())
     }
 
-    pub fn get_pinAuth(&'a self) -> &'a Message_PINauth {
+    pub fn get_pinAuth<'a>(&'a self) -> &'a Message_PINauth {
         self.pinAuth.as_ref().unwrap_or_else(|| Message_PINauth::default_instance())
     }
 
@@ -336,7 +318,7 @@ impl<'a> Message {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_commandBytes(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_commandBytes<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.commandBytes.is_none() {
             self.commandBytes.set_default();
         };
@@ -348,7 +330,7 @@ impl<'a> Message {
         self.commandBytes.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_commandBytes(&'a self) -> &'a [u8] {
+    pub fn get_commandBytes<'a>(&'a self) -> &'a [u8] {
         match self.commandBytes.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -429,33 +411,21 @@ impl ::protobuf::Message for Message {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.authType {
-            Some(v) => {
-                try!(os.write_enum(4, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.authType {
+            try!(os.write_enum(4, v as i32));
         };
-        match self.hmacAuth.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.hmacAuth.as_ref() {
+            try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.pinAuth.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.pinAuth.as_ref() {
+            try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.commandBytes.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(7, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.commandBytes.as_ref() {
+            try!(os.write_bytes(7, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -481,11 +451,27 @@ impl ::protobuf::Message for Message {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Message>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Message_authType_acc as &'static ::protobuf::reflect::FieldAccessor<Message>) });
-                fields.push(unsafe { ::std::mem::transmute(&Message_hmacAuth_acc as &'static ::protobuf::reflect::FieldAccessor<Message>) });
-                fields.push(unsafe { ::std::mem::transmute(&Message_pinAuth_acc as &'static ::protobuf::reflect::FieldAccessor<Message>) });
-                fields.push(unsafe { ::std::mem::transmute(&Message_commandBytes_acc as &'static ::protobuf::reflect::FieldAccessor<Message>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "authType",
+                    Message::has_authType,
+                    Message::get_authType,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "hmacAuth",
+                    Message::has_hmacAuth,
+                    Message::get_hmacAuth,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "pinAuth",
+                    Message::has_pinAuth,
+                    Message::get_pinAuth,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "commandBytes",
+                    Message::has_commandBytes,
+                    Message::get_commandBytes,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Message>(
                     "Message",
                     fields,
@@ -526,79 +512,6 @@ impl ::std::fmt::Show for Message {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Message_authType_acc_type;
-static Message_authType_acc: Message_authType_acc_type = Message_authType_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message> for Message_authType_acc_type {
-    fn name(&self) -> &'static str {
-        "authType"
-    }
-
-    fn has_field(&self, m: &Message) -> bool {
-        m.has_authType()
-    }
-
-    fn get_enum<'a>(&self, m: &Message) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_authType().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Message_hmacAuth_acc_type;
-static Message_hmacAuth_acc: Message_hmacAuth_acc_type = Message_hmacAuth_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message> for Message_hmacAuth_acc_type {
-    fn name(&self) -> &'static str {
-        "hmacAuth"
-    }
-
-    fn has_field(&self, m: &Message) -> bool {
-        m.has_hmacAuth()
-    }
-
-    fn get_message<'a>(&self, m: &'a Message) -> &'a ::protobuf::Message {
-        m.get_hmacAuth() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Message_pinAuth_acc_type;
-static Message_pinAuth_acc: Message_pinAuth_acc_type = Message_pinAuth_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message> for Message_pinAuth_acc_type {
-    fn name(&self) -> &'static str {
-        "pinAuth"
-    }
-
-    fn has_field(&self, m: &Message) -> bool {
-        m.has_pinAuth()
-    }
-
-    fn get_message<'a>(&self, m: &'a Message) -> &'a ::protobuf::Message {
-        m.get_pinAuth() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Message_commandBytes_acc_type;
-static Message_commandBytes_acc: Message_commandBytes_acc_type = Message_commandBytes_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message> for Message_commandBytes_acc_type {
-    fn name(&self) -> &'static str {
-        "commandBytes"
-    }
-
-    fn has_field(&self, m: &Message) -> bool {
-        m.has_commandBytes()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Message) -> &'a [u8] {
-        m.get_commandBytes()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Message_HMACauth {
     identity: ::std::option::Option<i64>,
@@ -607,7 +520,7 @@ pub struct Message_HMACauth {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Message_HMACauth {
+impl Message_HMACauth {
     pub fn new() -> Message_HMACauth {
         ::std::default::Default::default()
     }
@@ -644,7 +557,7 @@ impl<'a> Message_HMACauth {
         self.identity = ::std::option::Some(v);
     }
 
-    pub fn get_identity(&self) -> i64 {
+    pub fn get_identity<'a>(&self) -> i64 {
         self.identity.unwrap_or(0)
     }
 
@@ -665,7 +578,7 @@ impl<'a> Message_HMACauth {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_hmac(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_hmac<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.hmac.is_none() {
             self.hmac.set_default();
         };
@@ -677,7 +590,7 @@ impl<'a> Message_HMACauth {
         self.hmac.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_hmac(&'a self) -> &'a [u8] {
+    pub fn get_hmac<'a>(&'a self) -> &'a [u8] {
         match self.hmac.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -736,17 +649,11 @@ impl ::protobuf::Message for Message_HMACauth {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.identity {
-            Some(v) => {
-                try!(os.write_int64(1, v));
-            },
-            None => {},
+        if let Some(v) = self.identity {
+            try!(os.write_int64(1, v));
         };
-        match self.hmac.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.hmac.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -772,9 +679,17 @@ impl ::protobuf::Message for Message_HMACauth {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Message_HMACauth>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Message_HMACauth_identity_acc as &'static ::protobuf::reflect::FieldAccessor<Message_HMACauth>) });
-                fields.push(unsafe { ::std::mem::transmute(&Message_HMACauth_hmac_acc as &'static ::protobuf::reflect::FieldAccessor<Message_HMACauth>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "identity",
+                    Message_HMACauth::has_identity,
+                    Message_HMACauth::get_identity,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "hmac",
+                    Message_HMACauth::has_hmac,
+                    Message_HMACauth::get_hmac,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Message_HMACauth>(
                     "Message_HMACauth",
                     fields,
@@ -811,43 +726,6 @@ impl ::std::fmt::Show for Message_HMACauth {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Message_HMACauth_identity_acc_type;
-static Message_HMACauth_identity_acc: Message_HMACauth_identity_acc_type = Message_HMACauth_identity_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message_HMACauth> for Message_HMACauth_identity_acc_type {
-    fn name(&self) -> &'static str {
-        "identity"
-    }
-
-    fn has_field(&self, m: &Message_HMACauth) -> bool {
-        m.has_identity()
-    }
-
-    fn get_i64(&self, m: &Message_HMACauth) -> i64 {
-        m.get_identity()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Message_HMACauth_hmac_acc_type;
-static Message_HMACauth_hmac_acc: Message_HMACauth_hmac_acc_type = Message_HMACauth_hmac_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message_HMACauth> for Message_HMACauth_hmac_acc_type {
-    fn name(&self) -> &'static str {
-        "hmac"
-    }
-
-    fn has_field(&self, m: &Message_HMACauth) -> bool {
-        m.has_hmac()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Message_HMACauth) -> &'a [u8] {
-        m.get_hmac()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Message_PINauth {
     pin: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -855,7 +733,7 @@ pub struct Message_PINauth {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Message_PINauth {
+impl Message_PINauth {
     pub fn new() -> Message_PINauth {
         ::std::default::Default::default()
     }
@@ -893,7 +771,7 @@ impl<'a> Message_PINauth {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_pin(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_pin<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.pin.is_none() {
             self.pin.set_default();
         };
@@ -905,7 +783,7 @@ impl<'a> Message_PINauth {
         self.pin.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_pin(&'a self) -> &'a [u8] {
+    pub fn get_pin<'a>(&'a self) -> &'a [u8] {
         match self.pin.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -954,11 +832,8 @@ impl ::protobuf::Message for Message_PINauth {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.pin.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.pin.as_ref() {
+            try!(os.write_bytes(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -984,8 +859,12 @@ impl ::protobuf::Message for Message_PINauth {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Message_PINauth>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Message_PINauth_pin_acc as &'static ::protobuf::reflect::FieldAccessor<Message_PINauth>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "pin",
+                    Message_PINauth::has_pin,
+                    Message_PINauth::get_pin,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Message_PINauth>(
                     "Message_PINauth",
                     fields,
@@ -1017,25 +896,6 @@ impl ::std::cmp::PartialEq for Message_PINauth {
 impl ::std::fmt::Show for Message_PINauth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         self.fmt_impl(f)
-    }
-}
-
-
-#[allow(non_camel_case_types)]
-struct Message_PINauth_pin_acc_type;
-static Message_PINauth_pin_acc: Message_PINauth_pin_acc_type = Message_PINauth_pin_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Message_PINauth> for Message_PINauth_pin_acc_type {
-    fn name(&self) -> &'static str {
-        "pin"
-    }
-
-    fn has_field(&self, m: &Message_PINauth) -> bool {
-        m.has_pin()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Message_PINauth) -> &'a [u8] {
-        m.get_pin()
     }
 }
 
@@ -1085,7 +945,7 @@ pub struct Command {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command {
+impl Command {
     pub fn new() -> Command {
         ::std::default::Default::default()
     }
@@ -1125,7 +985,7 @@ impl<'a> Command {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_header(&'a mut self) -> &'a mut Command_Header {
+    pub fn mut_header<'a>(&'a mut self) -> &'a mut Command_Header {
         if self.header.is_none() {
             self.header.set_default();
         };
@@ -1137,7 +997,7 @@ impl<'a> Command {
         self.header.take().unwrap_or_else(|| Command_Header::new())
     }
 
-    pub fn get_header(&'a self) -> &'a Command_Header {
+    pub fn get_header<'a>(&'a self) -> &'a Command_Header {
         self.header.as_ref().unwrap_or_else(|| Command_Header::default_instance())
     }
 
@@ -1158,7 +1018,7 @@ impl<'a> Command {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_body(&'a mut self) -> &'a mut Command_Body {
+    pub fn mut_body<'a>(&'a mut self) -> &'a mut Command_Body {
         if self.body.is_none() {
             self.body.set_default();
         };
@@ -1170,7 +1030,7 @@ impl<'a> Command {
         self.body.take().unwrap_or_else(|| Command_Body::new())
     }
 
-    pub fn get_body(&'a self) -> &'a Command_Body {
+    pub fn get_body<'a>(&'a self) -> &'a Command_Body {
         self.body.as_ref().unwrap_or_else(|| Command_Body::default_instance())
     }
 
@@ -1191,7 +1051,7 @@ impl<'a> Command {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_status(&'a mut self) -> &'a mut Command_Status {
+    pub fn mut_status<'a>(&'a mut self) -> &'a mut Command_Status {
         if self.status.is_none() {
             self.status.set_default();
         };
@@ -1203,7 +1063,7 @@ impl<'a> Command {
         self.status.take().unwrap_or_else(|| Command_Status::new())
     }
 
-    pub fn get_status(&'a self) -> &'a Command_Status {
+    pub fn get_status<'a>(&'a self) -> &'a Command_Status {
         self.status.as_ref().unwrap_or_else(|| Command_Status::default_instance())
     }
 }
@@ -1272,29 +1132,20 @@ impl ::protobuf::Message for Command {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.header.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.header.as_ref() {
+            try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.body.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.body.as_ref() {
+            try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.status.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.status.as_ref() {
+            try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -1320,10 +1171,22 @@ impl ::protobuf::Message for Command {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_header_acc as &'static ::protobuf::reflect::FieldAccessor<Command>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_body_acc as &'static ::protobuf::reflect::FieldAccessor<Command>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_status_acc as &'static ::protobuf::reflect::FieldAccessor<Command>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "header",
+                    Command::has_header,
+                    Command::get_header,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "body",
+                    Command::has_body,
+                    Command::get_body,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "status",
+                    Command::has_status,
+                    Command::get_status,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command>(
                     "Command",
                     fields,
@@ -1362,61 +1225,6 @@ impl ::std::fmt::Show for Command {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_header_acc_type;
-static Command_header_acc: Command_header_acc_type = Command_header_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command> for Command_header_acc_type {
-    fn name(&self) -> &'static str {
-        "header"
-    }
-
-    fn has_field(&self, m: &Command) -> bool {
-        m.has_header()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command) -> &'a ::protobuf::Message {
-        m.get_header() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_body_acc_type;
-static Command_body_acc: Command_body_acc_type = Command_body_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command> for Command_body_acc_type {
-    fn name(&self) -> &'static str {
-        "body"
-    }
-
-    fn has_field(&self, m: &Command) -> bool {
-        m.has_body()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command) -> &'a ::protobuf::Message {
-        m.get_body() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_status_acc_type;
-static Command_status_acc: Command_status_acc_type = Command_status_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command> for Command_status_acc_type {
-    fn name(&self) -> &'static str {
-        "status"
-    }
-
-    fn has_field(&self, m: &Command) -> bool {
-        m.has_status()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command) -> &'a ::protobuf::Message {
-        m.get_status() as &'a ::protobuf::Message
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Header {
     clusterVersion: ::std::option::Option<i64>,
@@ -1432,7 +1240,7 @@ pub struct Command_Header {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Header {
+impl Command_Header {
     pub fn new() -> Command_Header {
         ::std::default::Default::default()
     }
@@ -1476,7 +1284,7 @@ impl<'a> Command_Header {
         self.clusterVersion = ::std::option::Some(v);
     }
 
-    pub fn get_clusterVersion(&self) -> i64 {
+    pub fn get_clusterVersion<'a>(&self) -> i64 {
         self.clusterVersion.unwrap_or(0)
     }
 
@@ -1495,7 +1303,7 @@ impl<'a> Command_Header {
         self.connectionID = ::std::option::Some(v);
     }
 
-    pub fn get_connectionID(&self) -> i64 {
+    pub fn get_connectionID<'a>(&self) -> i64 {
         self.connectionID.unwrap_or(0)
     }
 
@@ -1514,7 +1322,7 @@ impl<'a> Command_Header {
         self.sequence = ::std::option::Some(v);
     }
 
-    pub fn get_sequence(&self) -> i64 {
+    pub fn get_sequence<'a>(&self) -> i64 {
         self.sequence.unwrap_or(0)
     }
 
@@ -1533,7 +1341,7 @@ impl<'a> Command_Header {
         self.ackSequence = ::std::option::Some(v);
     }
 
-    pub fn get_ackSequence(&self) -> i64 {
+    pub fn get_ackSequence<'a>(&self) -> i64 {
         self.ackSequence.unwrap_or(0)
     }
 
@@ -1552,7 +1360,7 @@ impl<'a> Command_Header {
         self.messageType = ::std::option::Some(v);
     }
 
-    pub fn get_messageType(&self) -> Command_MessageType {
+    pub fn get_messageType<'a>(&self) -> Command_MessageType {
         self.messageType.unwrap_or(Command_MessageType::INVALID_MESSAGE_TYPE)
     }
 
@@ -1571,7 +1379,7 @@ impl<'a> Command_Header {
         self.timeout = ::std::option::Some(v);
     }
 
-    pub fn get_timeout(&self) -> i64 {
+    pub fn get_timeout<'a>(&self) -> i64 {
         self.timeout.unwrap_or(0)
     }
 
@@ -1590,7 +1398,7 @@ impl<'a> Command_Header {
         self.earlyExit = ::std::option::Some(v);
     }
 
-    pub fn get_earlyExit(&self) -> bool {
+    pub fn get_earlyExit<'a>(&self) -> bool {
         self.earlyExit.unwrap_or(false)
     }
 
@@ -1609,7 +1417,7 @@ impl<'a> Command_Header {
         self.priority = ::std::option::Some(v);
     }
 
-    pub fn get_priority(&self) -> Command_Priority {
+    pub fn get_priority<'a>(&self) -> Command_Priority {
         self.priority.unwrap_or(Command_Priority::NORMAL)
     }
 
@@ -1628,7 +1436,7 @@ impl<'a> Command_Header {
         self.TimeQuanta = ::std::option::Some(v);
     }
 
-    pub fn get_TimeQuanta(&self) -> i64 {
+    pub fn get_TimeQuanta<'a>(&self) -> i64 {
         self.TimeQuanta.unwrap_or(0)
     }
 }
@@ -1754,59 +1562,32 @@ impl ::protobuf::Message for Command_Header {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.clusterVersion {
-            Some(v) => {
-                try!(os.write_int64(1, v));
-            },
-            None => {},
+        if let Some(v) = self.clusterVersion {
+            try!(os.write_int64(1, v));
         };
-        match self.connectionID {
-            Some(v) => {
-                try!(os.write_int64(3, v));
-            },
-            None => {},
+        if let Some(v) = self.connectionID {
+            try!(os.write_int64(3, v));
         };
-        match self.sequence {
-            Some(v) => {
-                try!(os.write_int64(4, v));
-            },
-            None => {},
+        if let Some(v) = self.sequence {
+            try!(os.write_int64(4, v));
         };
-        match self.ackSequence {
-            Some(v) => {
-                try!(os.write_int64(6, v));
-            },
-            None => {},
+        if let Some(v) = self.ackSequence {
+            try!(os.write_int64(6, v));
         };
-        match self.messageType {
-            Some(v) => {
-                try!(os.write_enum(7, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.messageType {
+            try!(os.write_enum(7, v as i32));
         };
-        match self.timeout {
-            Some(v) => {
-                try!(os.write_int64(9, v));
-            },
-            None => {},
+        if let Some(v) = self.timeout {
+            try!(os.write_int64(9, v));
         };
-        match self.earlyExit {
-            Some(v) => {
-                try!(os.write_bool(10, v));
-            },
-            None => {},
+        if let Some(v) = self.earlyExit {
+            try!(os.write_bool(10, v));
         };
-        match self.priority {
-            Some(v) => {
-                try!(os.write_enum(12, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.priority {
+            try!(os.write_enum(12, v as i32));
         };
-        match self.TimeQuanta {
-            Some(v) => {
-                try!(os.write_int64(13, v));
-            },
-            None => {},
+        if let Some(v) = self.TimeQuanta {
+            try!(os.write_int64(13, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -1832,16 +1613,52 @@ impl ::protobuf::Message for Command_Header {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Header>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_clusterVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_connectionID_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_sequence_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_ackSequence_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_messageType_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_timeout_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_earlyExit_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_priority_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Header_TimeQuanta_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Header>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "clusterVersion",
+                    Command_Header::has_clusterVersion,
+                    Command_Header::get_clusterVersion,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "connectionID",
+                    Command_Header::has_connectionID,
+                    Command_Header::get_connectionID,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "sequence",
+                    Command_Header::has_sequence,
+                    Command_Header::get_sequence,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "ackSequence",
+                    Command_Header::has_ackSequence,
+                    Command_Header::get_ackSequence,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "messageType",
+                    Command_Header::has_messageType,
+                    Command_Header::get_messageType,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "timeout",
+                    Command_Header::has_timeout,
+                    Command_Header::get_timeout,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "earlyExit",
+                    Command_Header::has_earlyExit,
+                    Command_Header::get_earlyExit,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "priority",
+                    Command_Header::has_priority,
+                    Command_Header::get_priority,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "TimeQuanta",
+                    Command_Header::has_TimeQuanta,
+                    Command_Header::get_TimeQuanta,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Header>(
                     "Command_Header",
                     fields,
@@ -1892,169 +1709,6 @@ impl ::std::fmt::Show for Command_Header {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Header_clusterVersion_acc_type;
-static Command_Header_clusterVersion_acc: Command_Header_clusterVersion_acc_type = Command_Header_clusterVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_clusterVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "clusterVersion"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_clusterVersion()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_clusterVersion()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_connectionID_acc_type;
-static Command_Header_connectionID_acc: Command_Header_connectionID_acc_type = Command_Header_connectionID_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_connectionID_acc_type {
-    fn name(&self) -> &'static str {
-        "connectionID"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_connectionID()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_connectionID()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_sequence_acc_type;
-static Command_Header_sequence_acc: Command_Header_sequence_acc_type = Command_Header_sequence_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_sequence_acc_type {
-    fn name(&self) -> &'static str {
-        "sequence"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_sequence()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_sequence()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_ackSequence_acc_type;
-static Command_Header_ackSequence_acc: Command_Header_ackSequence_acc_type = Command_Header_ackSequence_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_ackSequence_acc_type {
-    fn name(&self) -> &'static str {
-        "ackSequence"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_ackSequence()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_ackSequence()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_messageType_acc_type;
-static Command_Header_messageType_acc: Command_Header_messageType_acc_type = Command_Header_messageType_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_messageType_acc_type {
-    fn name(&self) -> &'static str {
-        "messageType"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_messageType()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_Header) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_messageType().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_timeout_acc_type;
-static Command_Header_timeout_acc: Command_Header_timeout_acc_type = Command_Header_timeout_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_timeout_acc_type {
-    fn name(&self) -> &'static str {
-        "timeout"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_timeout()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_timeout()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_earlyExit_acc_type;
-static Command_Header_earlyExit_acc: Command_Header_earlyExit_acc_type = Command_Header_earlyExit_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_earlyExit_acc_type {
-    fn name(&self) -> &'static str {
-        "earlyExit"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_earlyExit()
-    }
-
-    fn get_bool(&self, m: &Command_Header) -> bool {
-        m.get_earlyExit()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_priority_acc_type;
-static Command_Header_priority_acc: Command_Header_priority_acc_type = Command_Header_priority_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_priority_acc_type {
-    fn name(&self) -> &'static str {
-        "priority"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_priority()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_Header) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_priority().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Header_TimeQuanta_acc_type;
-static Command_Header_TimeQuanta_acc: Command_Header_TimeQuanta_acc_type = Command_Header_TimeQuanta_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Header> for Command_Header_TimeQuanta_acc_type {
-    fn name(&self) -> &'static str {
-        "TimeQuanta"
-    }
-
-    fn has_field(&self, m: &Command_Header) -> bool {
-        m.has_TimeQuanta()
-    }
-
-    fn get_i64(&self, m: &Command_Header) -> i64 {
-        m.get_TimeQuanta()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Body {
     keyValue: ::protobuf::SingularPtrField<Command_KeyValue>,
@@ -2068,7 +1722,7 @@ pub struct Command_Body {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Body {
+impl Command_Body {
     pub fn new() -> Command_Body {
         ::std::default::Default::default()
     }
@@ -2112,7 +1766,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_keyValue(&'a mut self) -> &'a mut Command_KeyValue {
+    pub fn mut_keyValue<'a>(&'a mut self) -> &'a mut Command_KeyValue {
         if self.keyValue.is_none() {
             self.keyValue.set_default();
         };
@@ -2124,7 +1778,7 @@ impl<'a> Command_Body {
         self.keyValue.take().unwrap_or_else(|| Command_KeyValue::new())
     }
 
-    pub fn get_keyValue(&'a self) -> &'a Command_KeyValue {
+    pub fn get_keyValue<'a>(&'a self) -> &'a Command_KeyValue {
         self.keyValue.as_ref().unwrap_or_else(|| Command_KeyValue::default_instance())
     }
 
@@ -2145,7 +1799,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_range(&'a mut self) -> &'a mut Command_Range {
+    pub fn mut_range<'a>(&'a mut self) -> &'a mut Command_Range {
         if self.range.is_none() {
             self.range.set_default();
         };
@@ -2157,7 +1811,7 @@ impl<'a> Command_Body {
         self.range.take().unwrap_or_else(|| Command_Range::new())
     }
 
-    pub fn get_range(&'a self) -> &'a Command_Range {
+    pub fn get_range<'a>(&'a self) -> &'a Command_Range {
         self.range.as_ref().unwrap_or_else(|| Command_Range::default_instance())
     }
 
@@ -2178,7 +1832,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_setup(&'a mut self) -> &'a mut Command_Setup {
+    pub fn mut_setup<'a>(&'a mut self) -> &'a mut Command_Setup {
         if self.setup.is_none() {
             self.setup.set_default();
         };
@@ -2190,7 +1844,7 @@ impl<'a> Command_Body {
         self.setup.take().unwrap_or_else(|| Command_Setup::new())
     }
 
-    pub fn get_setup(&'a self) -> &'a Command_Setup {
+    pub fn get_setup<'a>(&'a self) -> &'a Command_Setup {
         self.setup.as_ref().unwrap_or_else(|| Command_Setup::default_instance())
     }
 
@@ -2211,7 +1865,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_p2pOperation(&'a mut self) -> &'a mut Command_P2POperation {
+    pub fn mut_p2pOperation<'a>(&'a mut self) -> &'a mut Command_P2POperation {
         if self.p2pOperation.is_none() {
             self.p2pOperation.set_default();
         };
@@ -2223,7 +1877,7 @@ impl<'a> Command_Body {
         self.p2pOperation.take().unwrap_or_else(|| Command_P2POperation::new())
     }
 
-    pub fn get_p2pOperation(&'a self) -> &'a Command_P2POperation {
+    pub fn get_p2pOperation<'a>(&'a self) -> &'a Command_P2POperation {
         self.p2pOperation.as_ref().unwrap_or_else(|| Command_P2POperation::default_instance())
     }
 
@@ -2244,7 +1898,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_getLog(&'a mut self) -> &'a mut Command_GetLog {
+    pub fn mut_getLog<'a>(&'a mut self) -> &'a mut Command_GetLog {
         if self.getLog.is_none() {
             self.getLog.set_default();
         };
@@ -2256,7 +1910,7 @@ impl<'a> Command_Body {
         self.getLog.take().unwrap_or_else(|| Command_GetLog::new())
     }
 
-    pub fn get_getLog(&'a self) -> &'a Command_GetLog {
+    pub fn get_getLog<'a>(&'a self) -> &'a Command_GetLog {
         self.getLog.as_ref().unwrap_or_else(|| Command_GetLog::default_instance())
     }
 
@@ -2277,7 +1931,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_security(&'a mut self) -> &'a mut Command_Security {
+    pub fn mut_security<'a>(&'a mut self) -> &'a mut Command_Security {
         if self.security.is_none() {
             self.security.set_default();
         };
@@ -2289,7 +1943,7 @@ impl<'a> Command_Body {
         self.security.take().unwrap_or_else(|| Command_Security::new())
     }
 
-    pub fn get_security(&'a self) -> &'a Command_Security {
+    pub fn get_security<'a>(&'a self) -> &'a Command_Security {
         self.security.as_ref().unwrap_or_else(|| Command_Security::default_instance())
     }
 
@@ -2310,7 +1964,7 @@ impl<'a> Command_Body {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_pinOp(&'a mut self) -> &'a mut Command_PinOperation {
+    pub fn mut_pinOp<'a>(&'a mut self) -> &'a mut Command_PinOperation {
         if self.pinOp.is_none() {
             self.pinOp.set_default();
         };
@@ -2322,7 +1976,7 @@ impl<'a> Command_Body {
         self.pinOp.take().unwrap_or_else(|| Command_PinOperation::new())
     }
 
-    pub fn get_pinOp(&'a self) -> &'a Command_PinOperation {
+    pub fn get_pinOp<'a>(&'a self) -> &'a Command_PinOperation {
         self.pinOp.as_ref().unwrap_or_else(|| Command_PinOperation::default_instance())
     }
 }
@@ -2435,61 +2089,40 @@ impl ::protobuf::Message for Command_Body {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.keyValue.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.keyValue.as_ref() {
+            try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.range.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.range.as_ref() {
+            try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.setup.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.setup.as_ref() {
+            try!(os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.p2pOperation.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.p2pOperation.as_ref() {
+            try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.getLog.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.getLog.as_ref() {
+            try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.security.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.security.as_ref() {
+            try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.pinOp.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.pinOp.as_ref() {
+            try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -2515,14 +2148,42 @@ impl ::protobuf::Message for Command_Body {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Body>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_keyValue_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_range_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_setup_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_p2pOperation_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_getLog_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_security_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Body_pinOp_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Body>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "keyValue",
+                    Command_Body::has_keyValue,
+                    Command_Body::get_keyValue,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "range",
+                    Command_Body::has_range,
+                    Command_Body::get_range,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "setup",
+                    Command_Body::has_setup,
+                    Command_Body::get_setup,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "p2pOperation",
+                    Command_Body::has_p2pOperation,
+                    Command_Body::get_p2pOperation,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "getLog",
+                    Command_Body::has_getLog,
+                    Command_Body::get_getLog,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "security",
+                    Command_Body::has_security,
+                    Command_Body::get_security,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "pinOp",
+                    Command_Body::has_pinOp,
+                    Command_Body::get_pinOp,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Body>(
                     "Command_Body",
                     fields,
@@ -2569,133 +2230,6 @@ impl ::std::fmt::Show for Command_Body {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Body_keyValue_acc_type;
-static Command_Body_keyValue_acc: Command_Body_keyValue_acc_type = Command_Body_keyValue_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_keyValue_acc_type {
-    fn name(&self) -> &'static str {
-        "keyValue"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_keyValue()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_keyValue() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_range_acc_type;
-static Command_Body_range_acc: Command_Body_range_acc_type = Command_Body_range_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_range_acc_type {
-    fn name(&self) -> &'static str {
-        "range"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_range()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_range() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_setup_acc_type;
-static Command_Body_setup_acc: Command_Body_setup_acc_type = Command_Body_setup_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_setup_acc_type {
-    fn name(&self) -> &'static str {
-        "setup"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_setup()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_setup() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_p2pOperation_acc_type;
-static Command_Body_p2pOperation_acc: Command_Body_p2pOperation_acc_type = Command_Body_p2pOperation_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_p2pOperation_acc_type {
-    fn name(&self) -> &'static str {
-        "p2pOperation"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_p2pOperation()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_p2pOperation() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_getLog_acc_type;
-static Command_Body_getLog_acc: Command_Body_getLog_acc_type = Command_Body_getLog_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_getLog_acc_type {
-    fn name(&self) -> &'static str {
-        "getLog"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_getLog()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_getLog() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_security_acc_type;
-static Command_Body_security_acc: Command_Body_security_acc_type = Command_Body_security_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_security_acc_type {
-    fn name(&self) -> &'static str {
-        "security"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_security()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_security() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Body_pinOp_acc_type;
-static Command_Body_pinOp_acc: Command_Body_pinOp_acc_type = Command_Body_pinOp_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Body> for Command_Body_pinOp_acc_type {
-    fn name(&self) -> &'static str {
-        "pinOp"
-    }
-
-    fn has_field(&self, m: &Command_Body) -> bool {
-        m.has_pinOp()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_Body) -> &'a ::protobuf::Message {
-        m.get_pinOp() as &'a ::protobuf::Message
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Status {
     code: ::std::option::Option<Command_Status_StatusCode>,
@@ -2705,7 +2239,7 @@ pub struct Command_Status {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Status {
+impl Command_Status {
     pub fn new() -> Command_Status {
         ::std::default::Default::default()
     }
@@ -2743,7 +2277,7 @@ impl<'a> Command_Status {
         self.code = ::std::option::Some(v);
     }
 
-    pub fn get_code(&self) -> Command_Status_StatusCode {
+    pub fn get_code<'a>(&self) -> Command_Status_StatusCode {
         self.code.unwrap_or(Command_Status_StatusCode::INVALID_STATUS_CODE)
     }
 
@@ -2764,7 +2298,7 @@ impl<'a> Command_Status {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_statusMessage(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_statusMessage<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.statusMessage.is_none() {
             self.statusMessage.set_default();
         };
@@ -2776,7 +2310,7 @@ impl<'a> Command_Status {
         self.statusMessage.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_statusMessage(&'a self) -> &'a str {
+    pub fn get_statusMessage<'a>(&'a self) -> &'a str {
         match self.statusMessage.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -2800,7 +2334,7 @@ impl<'a> Command_Status {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_detailedMessage(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_detailedMessage<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.detailedMessage.is_none() {
             self.detailedMessage.set_default();
         };
@@ -2812,7 +2346,7 @@ impl<'a> Command_Status {
         self.detailedMessage.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_detailedMessage(&'a self) -> &'a [u8] {
+    pub fn get_detailedMessage<'a>(&'a self) -> &'a [u8] {
         match self.detailedMessage.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -2881,23 +2415,14 @@ impl ::protobuf::Message for Command_Status {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.code {
-            Some(v) => {
-                try!(os.write_enum(1, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.code {
+            try!(os.write_enum(1, v as i32));
         };
-        match self.statusMessage.as_ref() {
-            Some(v) => {
-                try!(os.write_string(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.statusMessage.as_ref() {
+            try!(os.write_string(2, v.as_slice()));
         };
-        match self.detailedMessage.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(3, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.detailedMessage.as_ref() {
+            try!(os.write_bytes(3, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -2923,10 +2448,22 @@ impl ::protobuf::Message for Command_Status {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Status>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Status_code_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Status>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Status_statusMessage_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Status>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Status_detailedMessage_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Status>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "code",
+                    Command_Status::has_code,
+                    Command_Status::get_code,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "statusMessage",
+                    Command_Status::has_statusMessage,
+                    Command_Status::get_statusMessage,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "detailedMessage",
+                    Command_Status::has_detailedMessage,
+                    Command_Status::get_detailedMessage,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Status>(
                     "Command_Status",
                     fields,
@@ -2962,61 +2499,6 @@ impl ::std::cmp::PartialEq for Command_Status {
 impl ::std::fmt::Show for Command_Status {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         self.fmt_impl(f)
-    }
-}
-
-
-#[allow(non_camel_case_types)]
-struct Command_Status_code_acc_type;
-static Command_Status_code_acc: Command_Status_code_acc_type = Command_Status_code_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Status> for Command_Status_code_acc_type {
-    fn name(&self) -> &'static str {
-        "code"
-    }
-
-    fn has_field(&self, m: &Command_Status) -> bool {
-        m.has_code()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_Status) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_code().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Status_statusMessage_acc_type;
-static Command_Status_statusMessage_acc: Command_Status_statusMessage_acc_type = Command_Status_statusMessage_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Status> for Command_Status_statusMessage_acc_type {
-    fn name(&self) -> &'static str {
-        "statusMessage"
-    }
-
-    fn has_field(&self, m: &Command_Status) -> bool {
-        m.has_statusMessage()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_Status) -> &'a str {
-        m.get_statusMessage()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Status_detailedMessage_acc_type;
-static Command_Status_detailedMessage_acc: Command_Status_detailedMessage_acc_type = Command_Status_detailedMessage_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Status> for Command_Status_detailedMessage_acc_type {
-    fn name(&self) -> &'static str {
-        "detailedMessage"
-    }
-
-    fn has_field(&self, m: &Command_Status) -> bool {
-        m.has_detailedMessage()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Status) -> &'a [u8] {
-        m.get_detailedMessage()
     }
 }
 
@@ -3107,7 +2589,7 @@ pub struct Command_KeyValue {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_KeyValue {
+impl Command_KeyValue {
     pub fn new() -> Command_KeyValue {
         ::std::default::Default::default()
     }
@@ -3152,7 +2634,7 @@ impl<'a> Command_KeyValue {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_newVersion(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_newVersion<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.newVersion.is_none() {
             self.newVersion.set_default();
         };
@@ -3164,7 +2646,7 @@ impl<'a> Command_KeyValue {
         self.newVersion.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_newVersion(&'a self) -> &'a [u8] {
+    pub fn get_newVersion<'a>(&'a self) -> &'a [u8] {
         match self.newVersion.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3186,7 +2668,7 @@ impl<'a> Command_KeyValue {
         self.force = ::std::option::Some(v);
     }
 
-    pub fn get_force(&self) -> bool {
+    pub fn get_force<'a>(&self) -> bool {
         self.force.unwrap_or(false)
     }
 
@@ -3207,7 +2689,7 @@ impl<'a> Command_KeyValue {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_key(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_key<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.key.is_none() {
             self.key.set_default();
         };
@@ -3219,7 +2701,7 @@ impl<'a> Command_KeyValue {
         self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_key(&'a self) -> &'a [u8] {
+    pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3243,7 +2725,7 @@ impl<'a> Command_KeyValue {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_dbVersion(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_dbVersion<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.dbVersion.is_none() {
             self.dbVersion.set_default();
         };
@@ -3255,7 +2737,7 @@ impl<'a> Command_KeyValue {
         self.dbVersion.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_dbVersion(&'a self) -> &'a [u8] {
+    pub fn get_dbVersion<'a>(&'a self) -> &'a [u8] {
         match self.dbVersion.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3279,7 +2761,7 @@ impl<'a> Command_KeyValue {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_tag(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_tag<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.tag.is_none() {
             self.tag.set_default();
         };
@@ -3291,7 +2773,7 @@ impl<'a> Command_KeyValue {
         self.tag.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_tag(&'a self) -> &'a [u8] {
+    pub fn get_tag<'a>(&'a self) -> &'a [u8] {
         match self.tag.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3313,7 +2795,7 @@ impl<'a> Command_KeyValue {
         self.algorithm = ::std::option::Some(v);
     }
 
-    pub fn get_algorithm(&self) -> Command_Algorithm {
+    pub fn get_algorithm<'a>(&self) -> Command_Algorithm {
         self.algorithm.unwrap_or(Command_Algorithm::INVALID_ALGORITHM)
     }
 
@@ -3332,7 +2814,7 @@ impl<'a> Command_KeyValue {
         self.metadataOnly = ::std::option::Some(v);
     }
 
-    pub fn get_metadataOnly(&self) -> bool {
+    pub fn get_metadataOnly<'a>(&self) -> bool {
         self.metadataOnly.unwrap_or(false)
     }
 
@@ -3351,7 +2833,7 @@ impl<'a> Command_KeyValue {
         self.synchronization = ::std::option::Some(v);
     }
 
-    pub fn get_synchronization(&self) -> Command_Synchronization {
+    pub fn get_synchronization<'a>(&self) -> Command_Synchronization {
         self.synchronization.unwrap_or(Command_Synchronization::INVALID_SYNCHRONIZATION)
     }
 }
@@ -3467,53 +2949,29 @@ impl ::protobuf::Message for Command_KeyValue {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.newVersion.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.newVersion.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
-        match self.force {
-            Some(v) => {
-                try!(os.write_bool(8, v));
-            },
-            None => {},
+        if let Some(v) = self.force {
+            try!(os.write_bool(8, v));
         };
-        match self.key.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(3, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.key.as_ref() {
+            try!(os.write_bytes(3, v.as_slice()));
         };
-        match self.dbVersion.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(4, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.dbVersion.as_ref() {
+            try!(os.write_bytes(4, v.as_slice()));
         };
-        match self.tag.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(5, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.tag.as_ref() {
+            try!(os.write_bytes(5, v.as_slice()));
         };
-        match self.algorithm {
-            Some(v) => {
-                try!(os.write_enum(6, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.algorithm {
+            try!(os.write_enum(6, v as i32));
         };
-        match self.metadataOnly {
-            Some(v) => {
-                try!(os.write_bool(7, v));
-            },
-            None => {},
+        if let Some(v) = self.metadataOnly {
+            try!(os.write_bool(7, v));
         };
-        match self.synchronization {
-            Some(v) => {
-                try!(os.write_enum(9, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.synchronization {
+            try!(os.write_enum(9, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -3539,15 +2997,47 @@ impl ::protobuf::Message for Command_KeyValue {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_newVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_force_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_key_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_dbVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_tag_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_algorithm_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_metadataOnly_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_KeyValue_synchronization_acc as &'static ::protobuf::reflect::FieldAccessor<Command_KeyValue>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "newVersion",
+                    Command_KeyValue::has_newVersion,
+                    Command_KeyValue::get_newVersion,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "force",
+                    Command_KeyValue::has_force,
+                    Command_KeyValue::get_force,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "key",
+                    Command_KeyValue::has_key,
+                    Command_KeyValue::get_key,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "dbVersion",
+                    Command_KeyValue::has_dbVersion,
+                    Command_KeyValue::get_dbVersion,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "tag",
+                    Command_KeyValue::has_tag,
+                    Command_KeyValue::get_tag,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "algorithm",
+                    Command_KeyValue::has_algorithm,
+                    Command_KeyValue::get_algorithm,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "metadataOnly",
+                    Command_KeyValue::has_metadataOnly,
+                    Command_KeyValue::get_metadataOnly,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "synchronization",
+                    Command_KeyValue::has_synchronization,
+                    Command_KeyValue::get_synchronization,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_KeyValue>(
                     "Command_KeyValue",
                     fields,
@@ -3596,151 +3086,6 @@ impl ::std::fmt::Show for Command_KeyValue {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_newVersion_acc_type;
-static Command_KeyValue_newVersion_acc: Command_KeyValue_newVersion_acc_type = Command_KeyValue_newVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_newVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "newVersion"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_newVersion()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_KeyValue) -> &'a [u8] {
-        m.get_newVersion()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_force_acc_type;
-static Command_KeyValue_force_acc: Command_KeyValue_force_acc_type = Command_KeyValue_force_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_force_acc_type {
-    fn name(&self) -> &'static str {
-        "force"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_force()
-    }
-
-    fn get_bool(&self, m: &Command_KeyValue) -> bool {
-        m.get_force()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_key_acc_type;
-static Command_KeyValue_key_acc: Command_KeyValue_key_acc_type = Command_KeyValue_key_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_key_acc_type {
-    fn name(&self) -> &'static str {
-        "key"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_key()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_KeyValue) -> &'a [u8] {
-        m.get_key()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_dbVersion_acc_type;
-static Command_KeyValue_dbVersion_acc: Command_KeyValue_dbVersion_acc_type = Command_KeyValue_dbVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_dbVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "dbVersion"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_dbVersion()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_KeyValue) -> &'a [u8] {
-        m.get_dbVersion()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_tag_acc_type;
-static Command_KeyValue_tag_acc: Command_KeyValue_tag_acc_type = Command_KeyValue_tag_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_tag_acc_type {
-    fn name(&self) -> &'static str {
-        "tag"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_tag()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_KeyValue) -> &'a [u8] {
-        m.get_tag()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_algorithm_acc_type;
-static Command_KeyValue_algorithm_acc: Command_KeyValue_algorithm_acc_type = Command_KeyValue_algorithm_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_algorithm_acc_type {
-    fn name(&self) -> &'static str {
-        "algorithm"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_algorithm()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_KeyValue) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_algorithm().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_metadataOnly_acc_type;
-static Command_KeyValue_metadataOnly_acc: Command_KeyValue_metadataOnly_acc_type = Command_KeyValue_metadataOnly_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_metadataOnly_acc_type {
-    fn name(&self) -> &'static str {
-        "metadataOnly"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_metadataOnly()
-    }
-
-    fn get_bool(&self, m: &Command_KeyValue) -> bool {
-        m.get_metadataOnly()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_KeyValue_synchronization_acc_type;
-static Command_KeyValue_synchronization_acc: Command_KeyValue_synchronization_acc_type = Command_KeyValue_synchronization_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_KeyValue> for Command_KeyValue_synchronization_acc_type {
-    fn name(&self) -> &'static str {
-        "synchronization"
-    }
-
-    fn has_field(&self, m: &Command_KeyValue) -> bool {
-        m.has_synchronization()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_KeyValue) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_synchronization().descriptor()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Range {
     startKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -3754,7 +3099,7 @@ pub struct Command_Range {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Range {
+impl Command_Range {
     pub fn new() -> Command_Range {
         ::std::default::Default::default()
     }
@@ -3798,7 +3143,7 @@ impl<'a> Command_Range {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_startKey(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_startKey<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.startKey.is_none() {
             self.startKey.set_default();
         };
@@ -3810,7 +3155,7 @@ impl<'a> Command_Range {
         self.startKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_startKey(&'a self) -> &'a [u8] {
+    pub fn get_startKey<'a>(&'a self) -> &'a [u8] {
         match self.startKey.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3834,7 +3179,7 @@ impl<'a> Command_Range {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_endKey(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_endKey<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.endKey.is_none() {
             self.endKey.set_default();
         };
@@ -3846,7 +3191,7 @@ impl<'a> Command_Range {
         self.endKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_endKey(&'a self) -> &'a [u8] {
+    pub fn get_endKey<'a>(&'a self) -> &'a [u8] {
         match self.endKey.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -3868,7 +3213,7 @@ impl<'a> Command_Range {
         self.startKeyInclusive = ::std::option::Some(v);
     }
 
-    pub fn get_startKeyInclusive(&self) -> bool {
+    pub fn get_startKeyInclusive<'a>(&self) -> bool {
         self.startKeyInclusive.unwrap_or(false)
     }
 
@@ -3887,7 +3232,7 @@ impl<'a> Command_Range {
         self.endKeyInclusive = ::std::option::Some(v);
     }
 
-    pub fn get_endKeyInclusive(&self) -> bool {
+    pub fn get_endKeyInclusive<'a>(&self) -> bool {
         self.endKeyInclusive.unwrap_or(false)
     }
 
@@ -3906,7 +3251,7 @@ impl<'a> Command_Range {
         self.maxReturned = ::std::option::Some(v);
     }
 
-    pub fn get_maxReturned(&self) -> i32 {
+    pub fn get_maxReturned<'a>(&self) -> i32 {
         self.maxReturned.unwrap_or(0)
     }
 
@@ -3925,7 +3270,7 @@ impl<'a> Command_Range {
         self.reverse = ::std::option::Some(v);
     }
 
-    pub fn get_reverse(&self) -> bool {
+    pub fn get_reverse<'a>(&self) -> bool {
         self.reverse.unwrap_or(false)
     }
 
@@ -3941,7 +3286,7 @@ impl<'a> Command_Range {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_keys(&'a mut self) -> &'a mut ::protobuf::RepeatedField<::std::vec::Vec<u8>> {
+    pub fn mut_keys<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<::std::vec::Vec<u8>> {
         &mut self.keys
     }
 
@@ -3950,7 +3295,7 @@ impl<'a> Command_Range {
         ::std::mem::replace(&mut self.keys, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_keys(&'a self) -> &'a [::std::vec::Vec<u8>] {
+    pub fn get_keys<'a>(&'a self) -> &'a [::std::vec::Vec<u8>] {
         self.keys.as_slice()
     }
 }
@@ -4056,41 +3401,23 @@ impl ::protobuf::Message for Command_Range {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.startKey.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.startKey.as_ref() {
+            try!(os.write_bytes(1, v.as_slice()));
         };
-        match self.endKey.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.endKey.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
-        match self.startKeyInclusive {
-            Some(v) => {
-                try!(os.write_bool(3, v));
-            },
-            None => {},
+        if let Some(v) = self.startKeyInclusive {
+            try!(os.write_bool(3, v));
         };
-        match self.endKeyInclusive {
-            Some(v) => {
-                try!(os.write_bool(4, v));
-            },
-            None => {},
+        if let Some(v) = self.endKeyInclusive {
+            try!(os.write_bool(4, v));
         };
-        match self.maxReturned {
-            Some(v) => {
-                try!(os.write_int32(5, v));
-            },
-            None => {},
+        if let Some(v) = self.maxReturned {
+            try!(os.write_int32(5, v));
         };
-        match self.reverse {
-            Some(v) => {
-                try!(os.write_bool(6, v));
-            },
-            None => {},
+        if let Some(v) = self.reverse {
+            try!(os.write_bool(6, v));
         };
         for v in self.keys.iter() {
             try!(os.write_bytes(8, v.as_slice()));
@@ -4119,14 +3446,41 @@ impl ::protobuf::Message for Command_Range {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Range>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_startKey_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_endKey_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_startKeyInclusive_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_endKeyInclusive_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_maxReturned_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_reverse_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Range_keys_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Range>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "startKey",
+                    Command_Range::has_startKey,
+                    Command_Range::get_startKey,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "endKey",
+                    Command_Range::has_endKey,
+                    Command_Range::get_endKey,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "startKeyInclusive",
+                    Command_Range::has_startKeyInclusive,
+                    Command_Range::get_startKeyInclusive,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "endKeyInclusive",
+                    Command_Range::has_endKeyInclusive,
+                    Command_Range::get_endKeyInclusive,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i32_accessor(
+                    "maxReturned",
+                    Command_Range::has_maxReturned,
+                    Command_Range::get_maxReturned,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "reverse",
+                    Command_Range::has_reverse,
+                    Command_Range::get_reverse,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_bytes_accessor(
+                    "keys",
+                    Command_Range::get_keys,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Range>(
                     "Command_Range",
                     fields,
@@ -4173,133 +3527,6 @@ impl ::std::fmt::Show for Command_Range {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Range_startKey_acc_type;
-static Command_Range_startKey_acc: Command_Range_startKey_acc_type = Command_Range_startKey_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_startKey_acc_type {
-    fn name(&self) -> &'static str {
-        "startKey"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_startKey()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Range) -> &'a [u8] {
-        m.get_startKey()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_endKey_acc_type;
-static Command_Range_endKey_acc: Command_Range_endKey_acc_type = Command_Range_endKey_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_endKey_acc_type {
-    fn name(&self) -> &'static str {
-        "endKey"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_endKey()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Range) -> &'a [u8] {
-        m.get_endKey()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_startKeyInclusive_acc_type;
-static Command_Range_startKeyInclusive_acc: Command_Range_startKeyInclusive_acc_type = Command_Range_startKeyInclusive_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_startKeyInclusive_acc_type {
-    fn name(&self) -> &'static str {
-        "startKeyInclusive"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_startKeyInclusive()
-    }
-
-    fn get_bool(&self, m: &Command_Range) -> bool {
-        m.get_startKeyInclusive()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_endKeyInclusive_acc_type;
-static Command_Range_endKeyInclusive_acc: Command_Range_endKeyInclusive_acc_type = Command_Range_endKeyInclusive_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_endKeyInclusive_acc_type {
-    fn name(&self) -> &'static str {
-        "endKeyInclusive"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_endKeyInclusive()
-    }
-
-    fn get_bool(&self, m: &Command_Range) -> bool {
-        m.get_endKeyInclusive()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_maxReturned_acc_type;
-static Command_Range_maxReturned_acc: Command_Range_maxReturned_acc_type = Command_Range_maxReturned_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_maxReturned_acc_type {
-    fn name(&self) -> &'static str {
-        "maxReturned"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_maxReturned()
-    }
-
-    fn get_i32(&self, m: &Command_Range) -> i32 {
-        m.get_maxReturned()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_reverse_acc_type;
-static Command_Range_reverse_acc: Command_Range_reverse_acc_type = Command_Range_reverse_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_reverse_acc_type {
-    fn name(&self) -> &'static str {
-        "reverse"
-    }
-
-    fn has_field(&self, m: &Command_Range) -> bool {
-        m.has_reverse()
-    }
-
-    fn get_bool(&self, m: &Command_Range) -> bool {
-        m.get_reverse()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Range_keys_acc_type;
-static Command_Range_keys_acc: Command_Range_keys_acc_type = Command_Range_keys_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Range> for Command_Range_keys_acc_type {
-    fn name(&self) -> &'static str {
-        "keys"
-    }
-
-    fn len_field(&self, m: &Command_Range) -> uint {
-        m.get_keys().len()
-    }
-
-    fn get_rep_bytes<'a>(&self, m: &'a Command_Range) -> &'a [::std::vec::Vec<u8>] {
-        m.get_keys()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Setup {
     newClusterVersion: ::std::option::Option<i64>,
@@ -4308,7 +3535,7 @@ pub struct Command_Setup {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Setup {
+impl Command_Setup {
     pub fn new() -> Command_Setup {
         ::std::default::Default::default()
     }
@@ -4345,7 +3572,7 @@ impl<'a> Command_Setup {
         self.newClusterVersion = ::std::option::Some(v);
     }
 
-    pub fn get_newClusterVersion(&self) -> i64 {
+    pub fn get_newClusterVersion<'a>(&self) -> i64 {
         self.newClusterVersion.unwrap_or(0)
     }
 
@@ -4364,7 +3591,7 @@ impl<'a> Command_Setup {
         self.firmwareDownload = ::std::option::Some(v);
     }
 
-    pub fn get_firmwareDownload(&self) -> bool {
+    pub fn get_firmwareDownload<'a>(&self) -> bool {
         self.firmwareDownload.unwrap_or(false)
     }
 }
@@ -4420,17 +3647,11 @@ impl ::protobuf::Message for Command_Setup {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.newClusterVersion {
-            Some(v) => {
-                try!(os.write_int64(1, v));
-            },
-            None => {},
+        if let Some(v) = self.newClusterVersion {
+            try!(os.write_int64(1, v));
         };
-        match self.firmwareDownload {
-            Some(v) => {
-                try!(os.write_bool(5, v));
-            },
-            None => {},
+        if let Some(v) = self.firmwareDownload {
+            try!(os.write_bool(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -4456,9 +3677,17 @@ impl ::protobuf::Message for Command_Setup {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Setup>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Setup_newClusterVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Setup>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Setup_firmwareDownload_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Setup>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "newClusterVersion",
+                    Command_Setup::has_newClusterVersion,
+                    Command_Setup::get_newClusterVersion,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "firmwareDownload",
+                    Command_Setup::has_firmwareDownload,
+                    Command_Setup::get_firmwareDownload,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Setup>(
                     "Command_Setup",
                     fields,
@@ -4495,43 +3724,6 @@ impl ::std::fmt::Show for Command_Setup {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Setup_newClusterVersion_acc_type;
-static Command_Setup_newClusterVersion_acc: Command_Setup_newClusterVersion_acc_type = Command_Setup_newClusterVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Setup> for Command_Setup_newClusterVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "newClusterVersion"
-    }
-
-    fn has_field(&self, m: &Command_Setup) -> bool {
-        m.has_newClusterVersion()
-    }
-
-    fn get_i64(&self, m: &Command_Setup) -> i64 {
-        m.get_newClusterVersion()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Setup_firmwareDownload_acc_type;
-static Command_Setup_firmwareDownload_acc: Command_Setup_firmwareDownload_acc_type = Command_Setup_firmwareDownload_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Setup> for Command_Setup_firmwareDownload_acc_type {
-    fn name(&self) -> &'static str {
-        "firmwareDownload"
-    }
-
-    fn has_field(&self, m: &Command_Setup) -> bool {
-        m.has_firmwareDownload()
-    }
-
-    fn get_bool(&self, m: &Command_Setup) -> bool {
-        m.get_firmwareDownload()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_P2POperation {
     peer: ::protobuf::SingularPtrField<Command_P2POperation_Peer>,
@@ -4541,7 +3733,7 @@ pub struct Command_P2POperation {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_P2POperation {
+impl Command_P2POperation {
     pub fn new() -> Command_P2POperation {
         ::std::default::Default::default()
     }
@@ -4581,7 +3773,7 @@ impl<'a> Command_P2POperation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_peer(&'a mut self) -> &'a mut Command_P2POperation_Peer {
+    pub fn mut_peer<'a>(&'a mut self) -> &'a mut Command_P2POperation_Peer {
         if self.peer.is_none() {
             self.peer.set_default();
         };
@@ -4593,7 +3785,7 @@ impl<'a> Command_P2POperation {
         self.peer.take().unwrap_or_else(|| Command_P2POperation_Peer::new())
     }
 
-    pub fn get_peer(&'a self) -> &'a Command_P2POperation_Peer {
+    pub fn get_peer<'a>(&'a self) -> &'a Command_P2POperation_Peer {
         self.peer.as_ref().unwrap_or_else(|| Command_P2POperation_Peer::default_instance())
     }
 
@@ -4609,7 +3801,7 @@ impl<'a> Command_P2POperation {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_operation(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_P2POperation_Operation> {
+    pub fn mut_operation<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_P2POperation_Operation> {
         &mut self.operation
     }
 
@@ -4618,7 +3810,7 @@ impl<'a> Command_P2POperation {
         ::std::mem::replace(&mut self.operation, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_operation(&'a self) -> &'a [Command_P2POperation_Operation] {
+    pub fn get_operation<'a>(&'a self) -> &'a [Command_P2POperation_Operation] {
         self.operation.as_slice()
     }
 
@@ -4637,7 +3829,7 @@ impl<'a> Command_P2POperation {
         self.allChildOperationsSucceeded = ::std::option::Some(v);
     }
 
-    pub fn get_allChildOperationsSucceeded(&self) -> bool {
+    pub fn get_allChildOperationsSucceeded<'a>(&self) -> bool {
         self.allChildOperationsSucceeded.unwrap_or(false)
     }
 }
@@ -4705,24 +3897,18 @@ impl ::protobuf::Message for Command_P2POperation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.peer.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.peer.as_ref() {
+            try!(os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         for v in self.operation.iter() {
             try!(os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited));
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.allChildOperationsSucceeded {
-            Some(v) => {
-                try!(os.write_bool(3, v));
-            },
-            None => {},
+        if let Some(v) = self.allChildOperationsSucceeded {
+            try!(os.write_bool(3, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -4748,10 +3934,21 @@ impl ::protobuf::Message for Command_P2POperation {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_P2POperation>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_peer_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_operation_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_allChildOperationsSucceeded_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "peer",
+                    Command_P2POperation::has_peer,
+                    Command_P2POperation::get_peer,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "operation",
+                    Command_P2POperation::get_operation,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "allChildOperationsSucceeded",
+                    Command_P2POperation::has_allChildOperationsSucceeded,
+                    Command_P2POperation::get_allChildOperationsSucceeded,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_P2POperation>(
                     "Command_P2POperation",
                     fields,
@@ -4790,61 +3987,6 @@ impl ::std::fmt::Show for Command_P2POperation {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_peer_acc_type;
-static Command_P2POperation_peer_acc: Command_P2POperation_peer_acc_type = Command_P2POperation_peer_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation> for Command_P2POperation_peer_acc_type {
-    fn name(&self) -> &'static str {
-        "peer"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation) -> bool {
-        m.has_peer()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_P2POperation) -> &'a ::protobuf::Message {
-        m.get_peer() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_operation_acc_type;
-static Command_P2POperation_operation_acc: Command_P2POperation_operation_acc_type = Command_P2POperation_operation_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation> for Command_P2POperation_operation_acc_type {
-    fn name(&self) -> &'static str {
-        "operation"
-    }
-
-    fn len_field(&self, m: &Command_P2POperation) -> uint {
-        m.get_operation().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_P2POperation, index: uint) -> &'a ::protobuf::Message {
-        &m.get_operation()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_allChildOperationsSucceeded_acc_type;
-static Command_P2POperation_allChildOperationsSucceeded_acc: Command_P2POperation_allChildOperationsSucceeded_acc_type = Command_P2POperation_allChildOperationsSucceeded_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation> for Command_P2POperation_allChildOperationsSucceeded_acc_type {
-    fn name(&self) -> &'static str {
-        "allChildOperationsSucceeded"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation) -> bool {
-        m.has_allChildOperationsSucceeded()
-    }
-
-    fn get_bool(&self, m: &Command_P2POperation) -> bool {
-        m.get_allChildOperationsSucceeded()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_P2POperation_Operation {
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -4857,7 +3999,7 @@ pub struct Command_P2POperation_Operation {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_P2POperation_Operation {
+impl Command_P2POperation_Operation {
     pub fn new() -> Command_P2POperation_Operation {
         ::std::default::Default::default()
     }
@@ -4900,7 +4042,7 @@ impl<'a> Command_P2POperation_Operation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_key(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_key<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.key.is_none() {
             self.key.set_default();
         };
@@ -4912,7 +4054,7 @@ impl<'a> Command_P2POperation_Operation {
         self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_key(&'a self) -> &'a [u8] {
+    pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -4936,7 +4078,7 @@ impl<'a> Command_P2POperation_Operation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_version(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_version<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.version.is_none() {
             self.version.set_default();
         };
@@ -4948,7 +4090,7 @@ impl<'a> Command_P2POperation_Operation {
         self.version.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_version(&'a self) -> &'a [u8] {
+    pub fn get_version<'a>(&'a self) -> &'a [u8] {
         match self.version.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -4972,7 +4114,7 @@ impl<'a> Command_P2POperation_Operation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_newKey(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_newKey<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.newKey.is_none() {
             self.newKey.set_default();
         };
@@ -4984,7 +4126,7 @@ impl<'a> Command_P2POperation_Operation {
         self.newKey.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_newKey(&'a self) -> &'a [u8] {
+    pub fn get_newKey<'a>(&'a self) -> &'a [u8] {
         match self.newKey.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -5006,7 +4148,7 @@ impl<'a> Command_P2POperation_Operation {
         self.force = ::std::option::Some(v);
     }
 
-    pub fn get_force(&self) -> bool {
+    pub fn get_force<'a>(&self) -> bool {
         self.force.unwrap_or(false)
     }
 
@@ -5027,7 +4169,7 @@ impl<'a> Command_P2POperation_Operation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_status(&'a mut self) -> &'a mut Command_Status {
+    pub fn mut_status<'a>(&'a mut self) -> &'a mut Command_Status {
         if self.status.is_none() {
             self.status.set_default();
         };
@@ -5039,7 +4181,7 @@ impl<'a> Command_P2POperation_Operation {
         self.status.take().unwrap_or_else(|| Command_Status::new())
     }
 
-    pub fn get_status(&'a self) -> &'a Command_Status {
+    pub fn get_status<'a>(&'a self) -> &'a Command_Status {
         self.status.as_ref().unwrap_or_else(|| Command_Status::default_instance())
     }
 
@@ -5060,7 +4202,7 @@ impl<'a> Command_P2POperation_Operation {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_p2pop(&'a mut self) -> &'a mut Command_P2POperation {
+    pub fn mut_p2pop<'a>(&'a mut self) -> &'a mut Command_P2POperation {
         if self.p2pop.is_none() {
             self.p2pop.set_default();
         };
@@ -5072,7 +4214,7 @@ impl<'a> Command_P2POperation_Operation {
         self.p2pop.take().unwrap_or_else(|| Command_P2POperation::new())
     }
 
-    pub fn get_p2pop(&'a self) -> &'a Command_P2POperation {
+    pub fn get_p2pop<'a>(&'a self) -> &'a Command_P2POperation {
         self.p2pop.as_ref().unwrap_or_else(|| Command_P2POperation::default_instance())
     }
 }
@@ -5170,45 +4312,27 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.key.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(3, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.key.as_ref() {
+            try!(os.write_bytes(3, v.as_slice()));
         };
-        match self.version.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(4, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.version.as_ref() {
+            try!(os.write_bytes(4, v.as_slice()));
         };
-        match self.newKey.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(5, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.newKey.as_ref() {
+            try!(os.write_bytes(5, v.as_slice()));
         };
-        match self.force {
-            Some(v) => {
-                try!(os.write_bool(6, v));
-            },
-            None => {},
+        if let Some(v) = self.force {
+            try!(os.write_bool(6, v));
         };
-        match self.status.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.status.as_ref() {
+            try!(os.write_tag(7, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.p2pop.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.p2pop.as_ref() {
+            try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -5234,13 +4358,37 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_key_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_version_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_newKey_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_force_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_status_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Operation_p2pop_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "key",
+                    Command_P2POperation_Operation::has_key,
+                    Command_P2POperation_Operation::get_key,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "version",
+                    Command_P2POperation_Operation::has_version,
+                    Command_P2POperation_Operation::get_version,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "newKey",
+                    Command_P2POperation_Operation::has_newKey,
+                    Command_P2POperation_Operation::get_newKey,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "force",
+                    Command_P2POperation_Operation::has_force,
+                    Command_P2POperation_Operation::get_force,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "status",
+                    Command_P2POperation_Operation::has_status,
+                    Command_P2POperation_Operation::get_status,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "p2pop",
+                    Command_P2POperation_Operation::has_p2pop,
+                    Command_P2POperation_Operation::get_p2pop,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_P2POperation_Operation>(
                     "Command_P2POperation_Operation",
                     fields,
@@ -5285,115 +4433,6 @@ impl ::std::fmt::Show for Command_P2POperation_Operation {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_key_acc_type;
-static Command_P2POperation_Operation_key_acc: Command_P2POperation_Operation_key_acc_type = Command_P2POperation_Operation_key_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_key_acc_type {
-    fn name(&self) -> &'static str {
-        "key"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_key()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_P2POperation_Operation) -> &'a [u8] {
-        m.get_key()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_version_acc_type;
-static Command_P2POperation_Operation_version_acc: Command_P2POperation_Operation_version_acc_type = Command_P2POperation_Operation_version_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_version_acc_type {
-    fn name(&self) -> &'static str {
-        "version"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_version()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_P2POperation_Operation) -> &'a [u8] {
-        m.get_version()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_newKey_acc_type;
-static Command_P2POperation_Operation_newKey_acc: Command_P2POperation_Operation_newKey_acc_type = Command_P2POperation_Operation_newKey_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_newKey_acc_type {
-    fn name(&self) -> &'static str {
-        "newKey"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_newKey()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_P2POperation_Operation) -> &'a [u8] {
-        m.get_newKey()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_force_acc_type;
-static Command_P2POperation_Operation_force_acc: Command_P2POperation_Operation_force_acc_type = Command_P2POperation_Operation_force_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_force_acc_type {
-    fn name(&self) -> &'static str {
-        "force"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_force()
-    }
-
-    fn get_bool(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.get_force()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_status_acc_type;
-static Command_P2POperation_Operation_status_acc: Command_P2POperation_Operation_status_acc_type = Command_P2POperation_Operation_status_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_status_acc_type {
-    fn name(&self) -> &'static str {
-        "status"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_status()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_P2POperation_Operation) -> &'a ::protobuf::Message {
-        m.get_status() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Operation_p2pop_acc_type;
-static Command_P2POperation_Operation_p2pop_acc: Command_P2POperation_Operation_p2pop_acc_type = Command_P2POperation_Operation_p2pop_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Operation> for Command_P2POperation_Operation_p2pop_acc_type {
-    fn name(&self) -> &'static str {
-        "p2pop"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Operation) -> bool {
-        m.has_p2pop()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_P2POperation_Operation) -> &'a ::protobuf::Message {
-        m.get_p2pop() as &'a ::protobuf::Message
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_P2POperation_Peer {
     hostname: ::protobuf::SingularField<::std::string::String>,
@@ -5403,7 +4442,7 @@ pub struct Command_P2POperation_Peer {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_P2POperation_Peer {
+impl Command_P2POperation_Peer {
     pub fn new() -> Command_P2POperation_Peer {
         ::std::default::Default::default()
     }
@@ -5443,7 +4482,7 @@ impl<'a> Command_P2POperation_Peer {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_hostname(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_hostname<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.hostname.is_none() {
             self.hostname.set_default();
         };
@@ -5455,7 +4494,7 @@ impl<'a> Command_P2POperation_Peer {
         self.hostname.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_hostname(&'a self) -> &'a str {
+    pub fn get_hostname<'a>(&'a self) -> &'a str {
         match self.hostname.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -5477,7 +4516,7 @@ impl<'a> Command_P2POperation_Peer {
         self.port = ::std::option::Some(v);
     }
 
-    pub fn get_port(&self) -> i32 {
+    pub fn get_port<'a>(&self) -> i32 {
         self.port.unwrap_or(0)
     }
 
@@ -5496,7 +4535,7 @@ impl<'a> Command_P2POperation_Peer {
         self.tls = ::std::option::Some(v);
     }
 
-    pub fn get_tls(&self) -> bool {
+    pub fn get_tls<'a>(&self) -> bool {
         self.tls.unwrap_or(false)
     }
 }
@@ -5562,23 +4601,14 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.hostname.as_ref() {
-            Some(v) => {
-                try!(os.write_string(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.hostname.as_ref() {
+            try!(os.write_string(1, v.as_slice()));
         };
-        match self.port {
-            Some(v) => {
-                try!(os.write_int32(2, v));
-            },
-            None => {},
+        if let Some(v) = self.port {
+            try!(os.write_int32(2, v));
         };
-        match self.tls {
-            Some(v) => {
-                try!(os.write_bool(3, v));
-            },
-            None => {},
+        if let Some(v) = self.tls {
+            try!(os.write_bool(3, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -5604,10 +4634,22 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Peer_hostname_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Peer_port_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_P2POperation_Peer_tls_acc as &'static ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "hostname",
+                    Command_P2POperation_Peer::has_hostname,
+                    Command_P2POperation_Peer::get_hostname,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i32_accessor(
+                    "port",
+                    Command_P2POperation_Peer::has_port,
+                    Command_P2POperation_Peer::get_port,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "tls",
+                    Command_P2POperation_Peer::has_tls,
+                    Command_P2POperation_Peer::get_tls,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_P2POperation_Peer>(
                     "Command_P2POperation_Peer",
                     fields,
@@ -5646,61 +4688,6 @@ impl ::std::fmt::Show for Command_P2POperation_Peer {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Peer_hostname_acc_type;
-static Command_P2POperation_Peer_hostname_acc: Command_P2POperation_Peer_hostname_acc_type = Command_P2POperation_Peer_hostname_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer> for Command_P2POperation_Peer_hostname_acc_type {
-    fn name(&self) -> &'static str {
-        "hostname"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Peer) -> bool {
-        m.has_hostname()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_P2POperation_Peer) -> &'a str {
-        m.get_hostname()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Peer_port_acc_type;
-static Command_P2POperation_Peer_port_acc: Command_P2POperation_Peer_port_acc_type = Command_P2POperation_Peer_port_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer> for Command_P2POperation_Peer_port_acc_type {
-    fn name(&self) -> &'static str {
-        "port"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Peer) -> bool {
-        m.has_port()
-    }
-
-    fn get_i32(&self, m: &Command_P2POperation_Peer) -> i32 {
-        m.get_port()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_P2POperation_Peer_tls_acc_type;
-static Command_P2POperation_Peer_tls_acc: Command_P2POperation_Peer_tls_acc_type = Command_P2POperation_Peer_tls_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_P2POperation_Peer> for Command_P2POperation_Peer_tls_acc_type {
-    fn name(&self) -> &'static str {
-        "tls"
-    }
-
-    fn has_field(&self, m: &Command_P2POperation_Peer) -> bool {
-        m.has_tls()
-    }
-
-    fn get_bool(&self, m: &Command_P2POperation_Peer) -> bool {
-        m.get_tls()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog {
     types: ::std::vec::Vec<Command_GetLog_Type>,
@@ -5716,7 +4703,7 @@ pub struct Command_GetLog {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog {
+impl Command_GetLog {
     pub fn new() -> Command_GetLog {
         ::std::default::Default::default()
     }
@@ -5757,7 +4744,7 @@ impl<'a> Command_GetLog {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_types(&'a mut self) -> &'a mut ::std::vec::Vec<Command_GetLog_Type> {
+    pub fn mut_types<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<Command_GetLog_Type> {
         &mut self.types
     }
 
@@ -5766,7 +4753,7 @@ impl<'a> Command_GetLog {
         ::std::mem::replace(&mut self.types, ::std::vec::Vec::new())
     }
 
-    pub fn get_types(&'a self) -> &'a [Command_GetLog_Type] {
+    pub fn get_types<'a>(&'a self) -> &'a [Command_GetLog_Type] {
         self.types.as_slice()
     }
 
@@ -5782,7 +4769,7 @@ impl<'a> Command_GetLog {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_utilizations(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Utilization> {
+    pub fn mut_utilizations<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Utilization> {
         &mut self.utilizations
     }
 
@@ -5791,7 +4778,7 @@ impl<'a> Command_GetLog {
         ::std::mem::replace(&mut self.utilizations, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_utilizations(&'a self) -> &'a [Command_GetLog_Utilization] {
+    pub fn get_utilizations<'a>(&'a self) -> &'a [Command_GetLog_Utilization] {
         self.utilizations.as_slice()
     }
 
@@ -5807,7 +4794,7 @@ impl<'a> Command_GetLog {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_temperatures(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Temperature> {
+    pub fn mut_temperatures<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Temperature> {
         &mut self.temperatures
     }
 
@@ -5816,7 +4803,7 @@ impl<'a> Command_GetLog {
         ::std::mem::replace(&mut self.temperatures, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_temperatures(&'a self) -> &'a [Command_GetLog_Temperature] {
+    pub fn get_temperatures<'a>(&'a self) -> &'a [Command_GetLog_Temperature] {
         self.temperatures.as_slice()
     }
 
@@ -5837,7 +4824,7 @@ impl<'a> Command_GetLog {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_capacity(&'a mut self) -> &'a mut Command_GetLog_Capacity {
+    pub fn mut_capacity<'a>(&'a mut self) -> &'a mut Command_GetLog_Capacity {
         if self.capacity.is_none() {
             self.capacity.set_default();
         };
@@ -5849,7 +4836,7 @@ impl<'a> Command_GetLog {
         self.capacity.take().unwrap_or_else(|| Command_GetLog_Capacity::new())
     }
 
-    pub fn get_capacity(&'a self) -> &'a Command_GetLog_Capacity {
+    pub fn get_capacity<'a>(&'a self) -> &'a Command_GetLog_Capacity {
         self.capacity.as_ref().unwrap_or_else(|| Command_GetLog_Capacity::default_instance())
     }
 
@@ -5870,7 +4857,7 @@ impl<'a> Command_GetLog {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_configuration(&'a mut self) -> &'a mut Command_GetLog_Configuration {
+    pub fn mut_configuration<'a>(&'a mut self) -> &'a mut Command_GetLog_Configuration {
         if self.configuration.is_none() {
             self.configuration.set_default();
         };
@@ -5882,7 +4869,7 @@ impl<'a> Command_GetLog {
         self.configuration.take().unwrap_or_else(|| Command_GetLog_Configuration::new())
     }
 
-    pub fn get_configuration(&'a self) -> &'a Command_GetLog_Configuration {
+    pub fn get_configuration<'a>(&'a self) -> &'a Command_GetLog_Configuration {
         self.configuration.as_ref().unwrap_or_else(|| Command_GetLog_Configuration::default_instance())
     }
 
@@ -5898,7 +4885,7 @@ impl<'a> Command_GetLog {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_statistics(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Statistics> {
+    pub fn mut_statistics<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Statistics> {
         &mut self.statistics
     }
 
@@ -5907,7 +4894,7 @@ impl<'a> Command_GetLog {
         ::std::mem::replace(&mut self.statistics, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_statistics(&'a self) -> &'a [Command_GetLog_Statistics] {
+    pub fn get_statistics<'a>(&'a self) -> &'a [Command_GetLog_Statistics] {
         self.statistics.as_slice()
     }
 
@@ -5928,7 +4915,7 @@ impl<'a> Command_GetLog {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_messages(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_messages<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.messages.is_none() {
             self.messages.set_default();
         };
@@ -5940,7 +4927,7 @@ impl<'a> Command_GetLog {
         self.messages.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_messages(&'a self) -> &'a [u8] {
+    pub fn get_messages<'a>(&'a self) -> &'a [u8] {
         match self.messages.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -5964,7 +4951,7 @@ impl<'a> Command_GetLog {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_limits(&'a mut self) -> &'a mut Command_GetLog_Limits {
+    pub fn mut_limits<'a>(&'a mut self) -> &'a mut Command_GetLog_Limits {
         if self.limits.is_none() {
             self.limits.set_default();
         };
@@ -5976,7 +4963,7 @@ impl<'a> Command_GetLog {
         self.limits.take().unwrap_or_else(|| Command_GetLog_Limits::new())
     }
 
-    pub fn get_limits(&'a self) -> &'a Command_GetLog_Limits {
+    pub fn get_limits<'a>(&'a self) -> &'a Command_GetLog_Limits {
         self.limits.as_ref().unwrap_or_else(|| Command_GetLog_Limits::default_instance())
     }
 
@@ -5997,7 +4984,7 @@ impl<'a> Command_GetLog {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_device(&'a mut self) -> &'a mut Command_GetLog_Device {
+    pub fn mut_device<'a>(&'a mut self) -> &'a mut Command_GetLog_Device {
         if self.device.is_none() {
             self.device.set_default();
         };
@@ -6009,7 +4996,7 @@ impl<'a> Command_GetLog {
         self.device.take().unwrap_or_else(|| Command_GetLog_Device::new())
     }
 
-    pub fn get_device(&'a self) -> &'a Command_GetLog_Device {
+    pub fn get_device<'a>(&'a self) -> &'a Command_GetLog_Device {
         self.device.as_ref().unwrap_or_else(|| Command_GetLog_Device::default_instance())
     }
 }
@@ -6161,48 +5148,33 @@ impl ::protobuf::Message for Command_GetLog {
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.capacity.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.capacity.as_ref() {
+            try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.configuration.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.configuration.as_ref() {
+            try!(os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         for v in self.statistics.iter() {
             try!(os.write_tag(6, ::protobuf::wire_format::WireTypeLengthDelimited));
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.messages.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(7, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.messages.as_ref() {
+            try!(os.write_bytes(7, v.as_slice()));
         };
-        match self.limits.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.limits.as_ref() {
+            try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
-        match self.device.as_ref() {
-            Some(v) => {
-                try!(os.write_tag(9, ::protobuf::wire_format::WireTypeLengthDelimited));
-                try!(os.write_raw_varint32(v.get_cached_size()));
-                try!(v.write_to_with_cached_sizes(os));
-            },
-            None => {},
+        if let Some(v) = self.device.as_ref() {
+            try!(os.write_tag(9, ::protobuf::wire_format::WireTypeLengthDelimited));
+            try!(os.write_raw_varint32(v.get_cached_size()));
+            try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -6228,16 +5200,48 @@ impl ::protobuf::Message for Command_GetLog {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_types_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_utilizations_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_temperatures_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_capacity_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_configuration_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_statistics_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_messages_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_limits_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_device_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_repeated_enum_accessor(
+                    "types",
+                    Command_GetLog::get_types,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "utilizations",
+                    Command_GetLog::get_utilizations,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "temperatures",
+                    Command_GetLog::get_temperatures,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "capacity",
+                    Command_GetLog::has_capacity,
+                    Command_GetLog::get_capacity,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "configuration",
+                    Command_GetLog::has_configuration,
+                    Command_GetLog::get_configuration,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "statistics",
+                    Command_GetLog::get_statistics,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "messages",
+                    Command_GetLog::has_messages,
+                    Command_GetLog::get_messages,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "limits",
+                    Command_GetLog::has_limits,
+                    Command_GetLog::get_limits,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor(
+                    "device",
+                    Command_GetLog::has_device,
+                    Command_GetLog::get_device,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog>(
                     "Command_GetLog",
                     fields,
@@ -6288,169 +5292,6 @@ impl ::std::fmt::Show for Command_GetLog {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_types_acc_type;
-static Command_GetLog_types_acc: Command_GetLog_types_acc_type = Command_GetLog_types_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_types_acc_type {
-    fn name(&self) -> &'static str {
-        "types"
-    }
-
-    fn len_field(&self, m: &Command_GetLog) -> uint {
-        m.get_types().len()
-    }
-
-    fn get_rep_enum_item<'a>(&self, m: &Command_GetLog, index: uint) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_types()[index].descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_utilizations_acc_type;
-static Command_GetLog_utilizations_acc: Command_GetLog_utilizations_acc_type = Command_GetLog_utilizations_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_utilizations_acc_type {
-    fn name(&self) -> &'static str {
-        "utilizations"
-    }
-
-    fn len_field(&self, m: &Command_GetLog) -> uint {
-        m.get_utilizations().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_GetLog, index: uint) -> &'a ::protobuf::Message {
-        &m.get_utilizations()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_temperatures_acc_type;
-static Command_GetLog_temperatures_acc: Command_GetLog_temperatures_acc_type = Command_GetLog_temperatures_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_temperatures_acc_type {
-    fn name(&self) -> &'static str {
-        "temperatures"
-    }
-
-    fn len_field(&self, m: &Command_GetLog) -> uint {
-        m.get_temperatures().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_GetLog, index: uint) -> &'a ::protobuf::Message {
-        &m.get_temperatures()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_capacity_acc_type;
-static Command_GetLog_capacity_acc: Command_GetLog_capacity_acc_type = Command_GetLog_capacity_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_capacity_acc_type {
-    fn name(&self) -> &'static str {
-        "capacity"
-    }
-
-    fn has_field(&self, m: &Command_GetLog) -> bool {
-        m.has_capacity()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_GetLog) -> &'a ::protobuf::Message {
-        m.get_capacity() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_configuration_acc_type;
-static Command_GetLog_configuration_acc: Command_GetLog_configuration_acc_type = Command_GetLog_configuration_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_configuration_acc_type {
-    fn name(&self) -> &'static str {
-        "configuration"
-    }
-
-    fn has_field(&self, m: &Command_GetLog) -> bool {
-        m.has_configuration()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_GetLog) -> &'a ::protobuf::Message {
-        m.get_configuration() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_statistics_acc_type;
-static Command_GetLog_statistics_acc: Command_GetLog_statistics_acc_type = Command_GetLog_statistics_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_statistics_acc_type {
-    fn name(&self) -> &'static str {
-        "statistics"
-    }
-
-    fn len_field(&self, m: &Command_GetLog) -> uint {
-        m.get_statistics().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_GetLog, index: uint) -> &'a ::protobuf::Message {
-        &m.get_statistics()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_messages_acc_type;
-static Command_GetLog_messages_acc: Command_GetLog_messages_acc_type = Command_GetLog_messages_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_messages_acc_type {
-    fn name(&self) -> &'static str {
-        "messages"
-    }
-
-    fn has_field(&self, m: &Command_GetLog) -> bool {
-        m.has_messages()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog) -> &'a [u8] {
-        m.get_messages()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_limits_acc_type;
-static Command_GetLog_limits_acc: Command_GetLog_limits_acc_type = Command_GetLog_limits_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_limits_acc_type {
-    fn name(&self) -> &'static str {
-        "limits"
-    }
-
-    fn has_field(&self, m: &Command_GetLog) -> bool {
-        m.has_limits()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_GetLog) -> &'a ::protobuf::Message {
-        m.get_limits() as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_device_acc_type;
-static Command_GetLog_device_acc: Command_GetLog_device_acc_type = Command_GetLog_device_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog> for Command_GetLog_device_acc_type {
-    fn name(&self) -> &'static str {
-        "device"
-    }
-
-    fn has_field(&self, m: &Command_GetLog) -> bool {
-        m.has_device()
-    }
-
-    fn get_message<'a>(&self, m: &'a Command_GetLog) -> &'a ::protobuf::Message {
-        m.get_device() as &'a ::protobuf::Message
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Utilization {
     name: ::protobuf::SingularField<::std::string::String>,
@@ -6459,7 +5300,7 @@ pub struct Command_GetLog_Utilization {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Utilization {
+impl Command_GetLog_Utilization {
     pub fn new() -> Command_GetLog_Utilization {
         ::std::default::Default::default()
     }
@@ -6498,7 +5339,7 @@ impl<'a> Command_GetLog_Utilization {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_name<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.name.is_none() {
             self.name.set_default();
         };
@@ -6510,7 +5351,7 @@ impl<'a> Command_GetLog_Utilization {
         self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_name(&'a self) -> &'a str {
+    pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -6532,7 +5373,7 @@ impl<'a> Command_GetLog_Utilization {
         self.value = ::std::option::Some(v);
     }
 
-    pub fn get_value(&self) -> f32 {
+    pub fn get_value<'a>(&self) -> f32 {
         self.value.unwrap_or(0.)
     }
 }
@@ -6588,17 +5429,11 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.name.as_ref() {
-            Some(v) => {
-                try!(os.write_string(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.name.as_ref() {
+            try!(os.write_string(1, v.as_slice()));
         };
-        match self.value {
-            Some(v) => {
-                try!(os.write_float(2, v));
-            },
-            None => {},
+        if let Some(v) = self.value {
+            try!(os.write_float(2, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -6624,9 +5459,17 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Utilization>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Utilization_name_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Utilization>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Utilization_value_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Utilization>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "name",
+                    Command_GetLog_Utilization::has_name,
+                    Command_GetLog_Utilization::get_name,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "value",
+                    Command_GetLog_Utilization::has_value,
+                    Command_GetLog_Utilization::get_value,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Utilization>(
                     "Command_GetLog_Utilization",
                     fields,
@@ -6663,43 +5506,6 @@ impl ::std::fmt::Show for Command_GetLog_Utilization {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Utilization_name_acc_type;
-static Command_GetLog_Utilization_name_acc: Command_GetLog_Utilization_name_acc_type = Command_GetLog_Utilization_name_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Utilization> for Command_GetLog_Utilization_name_acc_type {
-    fn name(&self) -> &'static str {
-        "name"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Utilization) -> bool {
-        m.has_name()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Utilization) -> &'a str {
-        m.get_name()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Utilization_value_acc_type;
-static Command_GetLog_Utilization_value_acc: Command_GetLog_Utilization_value_acc_type = Command_GetLog_Utilization_value_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Utilization> for Command_GetLog_Utilization_value_acc_type {
-    fn name(&self) -> &'static str {
-        "value"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Utilization) -> bool {
-        m.has_value()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Utilization) -> f32 {
-        m.get_value()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Temperature {
     name: ::protobuf::SingularField<::std::string::String>,
@@ -6711,7 +5517,7 @@ pub struct Command_GetLog_Temperature {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Temperature {
+impl Command_GetLog_Temperature {
     pub fn new() -> Command_GetLog_Temperature {
         ::std::default::Default::default()
     }
@@ -6753,7 +5559,7 @@ impl<'a> Command_GetLog_Temperature {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_name<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.name.is_none() {
             self.name.set_default();
         };
@@ -6765,7 +5571,7 @@ impl<'a> Command_GetLog_Temperature {
         self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_name(&'a self) -> &'a str {
+    pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -6787,7 +5593,7 @@ impl<'a> Command_GetLog_Temperature {
         self.current = ::std::option::Some(v);
     }
 
-    pub fn get_current(&self) -> f32 {
+    pub fn get_current<'a>(&self) -> f32 {
         self.current.unwrap_or(0.)
     }
 
@@ -6806,7 +5612,7 @@ impl<'a> Command_GetLog_Temperature {
         self.minimum = ::std::option::Some(v);
     }
 
-    pub fn get_minimum(&self) -> f32 {
+    pub fn get_minimum<'a>(&self) -> f32 {
         self.minimum.unwrap_or(0.)
     }
 
@@ -6825,7 +5631,7 @@ impl<'a> Command_GetLog_Temperature {
         self.maximum = ::std::option::Some(v);
     }
 
-    pub fn get_maximum(&self) -> f32 {
+    pub fn get_maximum<'a>(&self) -> f32 {
         self.maximum.unwrap_or(0.)
     }
 
@@ -6844,7 +5650,7 @@ impl<'a> Command_GetLog_Temperature {
         self.target = ::std::option::Some(v);
     }
 
-    pub fn get_target(&self) -> f32 {
+    pub fn get_target<'a>(&self) -> f32 {
         self.target.unwrap_or(0.)
     }
 }
@@ -6930,35 +5736,20 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.name.as_ref() {
-            Some(v) => {
-                try!(os.write_string(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.name.as_ref() {
+            try!(os.write_string(1, v.as_slice()));
         };
-        match self.current {
-            Some(v) => {
-                try!(os.write_float(2, v));
-            },
-            None => {},
+        if let Some(v) = self.current {
+            try!(os.write_float(2, v));
         };
-        match self.minimum {
-            Some(v) => {
-                try!(os.write_float(3, v));
-            },
-            None => {},
+        if let Some(v) = self.minimum {
+            try!(os.write_float(3, v));
         };
-        match self.maximum {
-            Some(v) => {
-                try!(os.write_float(4, v));
-            },
-            None => {},
+        if let Some(v) = self.maximum {
+            try!(os.write_float(4, v));
         };
-        match self.target {
-            Some(v) => {
-                try!(os.write_float(5, v));
-            },
-            None => {},
+        if let Some(v) = self.target {
+            try!(os.write_float(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -6984,12 +5775,32 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Temperature_name_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Temperature_current_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Temperature_minimum_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Temperature_maximum_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Temperature_target_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "name",
+                    Command_GetLog_Temperature::has_name,
+                    Command_GetLog_Temperature::get_name,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "current",
+                    Command_GetLog_Temperature::has_current,
+                    Command_GetLog_Temperature::get_current,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "minimum",
+                    Command_GetLog_Temperature::has_minimum,
+                    Command_GetLog_Temperature::get_minimum,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "maximum",
+                    Command_GetLog_Temperature::has_maximum,
+                    Command_GetLog_Temperature::get_maximum,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "target",
+                    Command_GetLog_Temperature::has_target,
+                    Command_GetLog_Temperature::get_target,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Temperature>(
                     "Command_GetLog_Temperature",
                     fields,
@@ -7032,97 +5843,6 @@ impl ::std::fmt::Show for Command_GetLog_Temperature {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Temperature_name_acc_type;
-static Command_GetLog_Temperature_name_acc: Command_GetLog_Temperature_name_acc_type = Command_GetLog_Temperature_name_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature> for Command_GetLog_Temperature_name_acc_type {
-    fn name(&self) -> &'static str {
-        "name"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Temperature) -> bool {
-        m.has_name()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Temperature) -> &'a str {
-        m.get_name()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Temperature_current_acc_type;
-static Command_GetLog_Temperature_current_acc: Command_GetLog_Temperature_current_acc_type = Command_GetLog_Temperature_current_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature> for Command_GetLog_Temperature_current_acc_type {
-    fn name(&self) -> &'static str {
-        "current"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Temperature) -> bool {
-        m.has_current()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Temperature) -> f32 {
-        m.get_current()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Temperature_minimum_acc_type;
-static Command_GetLog_Temperature_minimum_acc: Command_GetLog_Temperature_minimum_acc_type = Command_GetLog_Temperature_minimum_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature> for Command_GetLog_Temperature_minimum_acc_type {
-    fn name(&self) -> &'static str {
-        "minimum"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Temperature) -> bool {
-        m.has_minimum()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Temperature) -> f32 {
-        m.get_minimum()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Temperature_maximum_acc_type;
-static Command_GetLog_Temperature_maximum_acc: Command_GetLog_Temperature_maximum_acc_type = Command_GetLog_Temperature_maximum_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature> for Command_GetLog_Temperature_maximum_acc_type {
-    fn name(&self) -> &'static str {
-        "maximum"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Temperature) -> bool {
-        m.has_maximum()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Temperature) -> f32 {
-        m.get_maximum()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Temperature_target_acc_type;
-static Command_GetLog_Temperature_target_acc: Command_GetLog_Temperature_target_acc_type = Command_GetLog_Temperature_target_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Temperature> for Command_GetLog_Temperature_target_acc_type {
-    fn name(&self) -> &'static str {
-        "target"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Temperature) -> bool {
-        m.has_target()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Temperature) -> f32 {
-        m.get_target()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Capacity {
     nominalCapacityInBytes: ::std::option::Option<u64>,
@@ -7131,7 +5851,7 @@ pub struct Command_GetLog_Capacity {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Capacity {
+impl Command_GetLog_Capacity {
     pub fn new() -> Command_GetLog_Capacity {
         ::std::default::Default::default()
     }
@@ -7168,7 +5888,7 @@ impl<'a> Command_GetLog_Capacity {
         self.nominalCapacityInBytes = ::std::option::Some(v);
     }
 
-    pub fn get_nominalCapacityInBytes(&self) -> u64 {
+    pub fn get_nominalCapacityInBytes<'a>(&self) -> u64 {
         self.nominalCapacityInBytes.unwrap_or(0)
     }
 
@@ -7187,7 +5907,7 @@ impl<'a> Command_GetLog_Capacity {
         self.portionFull = ::std::option::Some(v);
     }
 
-    pub fn get_portionFull(&self) -> f32 {
+    pub fn get_portionFull<'a>(&self) -> f32 {
         self.portionFull.unwrap_or(0.)
     }
 }
@@ -7243,17 +5963,11 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.nominalCapacityInBytes {
-            Some(v) => {
-                try!(os.write_uint64(4, v));
-            },
-            None => {},
+        if let Some(v) = self.nominalCapacityInBytes {
+            try!(os.write_uint64(4, v));
         };
-        match self.portionFull {
-            Some(v) => {
-                try!(os.write_float(5, v));
-            },
-            None => {},
+        if let Some(v) = self.portionFull {
+            try!(os.write_float(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -7279,9 +5993,17 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Capacity>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Capacity_nominalCapacityInBytes_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Capacity>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Capacity_portionFull_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Capacity>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_u64_accessor(
+                    "nominalCapacityInBytes",
+                    Command_GetLog_Capacity::has_nominalCapacityInBytes,
+                    Command_GetLog_Capacity::get_nominalCapacityInBytes,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_f32_accessor(
+                    "portionFull",
+                    Command_GetLog_Capacity::has_portionFull,
+                    Command_GetLog_Capacity::get_portionFull,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Capacity>(
                     "Command_GetLog_Capacity",
                     fields,
@@ -7318,43 +6040,6 @@ impl ::std::fmt::Show for Command_GetLog_Capacity {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Capacity_nominalCapacityInBytes_acc_type;
-static Command_GetLog_Capacity_nominalCapacityInBytes_acc: Command_GetLog_Capacity_nominalCapacityInBytes_acc_type = Command_GetLog_Capacity_nominalCapacityInBytes_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Capacity> for Command_GetLog_Capacity_nominalCapacityInBytes_acc_type {
-    fn name(&self) -> &'static str {
-        "nominalCapacityInBytes"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Capacity) -> bool {
-        m.has_nominalCapacityInBytes()
-    }
-
-    fn get_u64(&self, m: &Command_GetLog_Capacity) -> u64 {
-        m.get_nominalCapacityInBytes()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Capacity_portionFull_acc_type;
-static Command_GetLog_Capacity_portionFull_acc: Command_GetLog_Capacity_portionFull_acc_type = Command_GetLog_Capacity_portionFull_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Capacity> for Command_GetLog_Capacity_portionFull_acc_type {
-    fn name(&self) -> &'static str {
-        "portionFull"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Capacity) -> bool {
-        m.has_portionFull()
-    }
-
-    fn get_f32(&self, m: &Command_GetLog_Capacity) -> f32 {
-        m.get_portionFull()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Configuration {
     vendor: ::protobuf::SingularField<::std::string::String>,
@@ -7374,7 +6059,7 @@ pub struct Command_GetLog_Configuration {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Configuration {
+impl Command_GetLog_Configuration {
     pub fn new() -> Command_GetLog_Configuration {
         ::std::default::Default::default()
     }
@@ -7424,7 +6109,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_vendor(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_vendor<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.vendor.is_none() {
             self.vendor.set_default();
         };
@@ -7436,7 +6121,7 @@ impl<'a> Command_GetLog_Configuration {
         self.vendor.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_vendor(&'a self) -> &'a str {
+    pub fn get_vendor<'a>(&'a self) -> &'a str {
         match self.vendor.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7460,7 +6145,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_model(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_model<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.model.is_none() {
             self.model.set_default();
         };
@@ -7472,7 +6157,7 @@ impl<'a> Command_GetLog_Configuration {
         self.model.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_model(&'a self) -> &'a str {
+    pub fn get_model<'a>(&'a self) -> &'a str {
         match self.model.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7496,7 +6181,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_serialNumber(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_serialNumber<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.serialNumber.is_none() {
             self.serialNumber.set_default();
         };
@@ -7508,7 +6193,7 @@ impl<'a> Command_GetLog_Configuration {
         self.serialNumber.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_serialNumber(&'a self) -> &'a [u8] {
+    pub fn get_serialNumber<'a>(&'a self) -> &'a [u8] {
         match self.serialNumber.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -7532,7 +6217,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_worldWideName(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_worldWideName<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.worldWideName.is_none() {
             self.worldWideName.set_default();
         };
@@ -7544,7 +6229,7 @@ impl<'a> Command_GetLog_Configuration {
         self.worldWideName.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_worldWideName(&'a self) -> &'a [u8] {
+    pub fn get_worldWideName<'a>(&'a self) -> &'a [u8] {
         match self.worldWideName.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -7568,7 +6253,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_version(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_version<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.version.is_none() {
             self.version.set_default();
         };
@@ -7580,7 +6265,7 @@ impl<'a> Command_GetLog_Configuration {
         self.version.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_version(&'a self) -> &'a str {
+    pub fn get_version<'a>(&'a self) -> &'a str {
         match self.version.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7604,7 +6289,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_compilationDate(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_compilationDate<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.compilationDate.is_none() {
             self.compilationDate.set_default();
         };
@@ -7616,7 +6301,7 @@ impl<'a> Command_GetLog_Configuration {
         self.compilationDate.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_compilationDate(&'a self) -> &'a str {
+    pub fn get_compilationDate<'a>(&'a self) -> &'a str {
         match self.compilationDate.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7640,7 +6325,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_sourceHash(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_sourceHash<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.sourceHash.is_none() {
             self.sourceHash.set_default();
         };
@@ -7652,7 +6337,7 @@ impl<'a> Command_GetLog_Configuration {
         self.sourceHash.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_sourceHash(&'a self) -> &'a str {
+    pub fn get_sourceHash<'a>(&'a self) -> &'a str {
         match self.sourceHash.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7676,7 +6361,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_protocolVersion(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_protocolVersion<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.protocolVersion.is_none() {
             self.protocolVersion.set_default();
         };
@@ -7688,7 +6373,7 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolVersion.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_protocolVersion(&'a self) -> &'a str {
+    pub fn get_protocolVersion<'a>(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7712,7 +6397,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_protocolCompilationDate(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_protocolCompilationDate<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.protocolCompilationDate.is_none() {
             self.protocolCompilationDate.set_default();
         };
@@ -7724,7 +6409,7 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolCompilationDate.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_protocolCompilationDate(&'a self) -> &'a str {
+    pub fn get_protocolCompilationDate<'a>(&'a self) -> &'a str {
         match self.protocolCompilationDate.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7748,7 +6433,7 @@ impl<'a> Command_GetLog_Configuration {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_protocolSourceHash(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_protocolSourceHash<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.protocolSourceHash.is_none() {
             self.protocolSourceHash.set_default();
         };
@@ -7760,7 +6445,7 @@ impl<'a> Command_GetLog_Configuration {
         self.protocolSourceHash.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_protocolSourceHash(&'a self) -> &'a str {
+    pub fn get_protocolSourceHash<'a>(&'a self) -> &'a str {
         match self.protocolSourceHash.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -7779,7 +6464,7 @@ impl<'a> Command_GetLog_Configuration {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_interface(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Configuration_Interface> {
+    pub fn mut_interface<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_GetLog_Configuration_Interface> {
         &mut self.interface
     }
 
@@ -7788,7 +6473,7 @@ impl<'a> Command_GetLog_Configuration {
         ::std::mem::replace(&mut self.interface, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_interface(&'a self) -> &'a [Command_GetLog_Configuration_Interface] {
+    pub fn get_interface<'a>(&'a self) -> &'a [Command_GetLog_Configuration_Interface] {
         self.interface.as_slice()
     }
 
@@ -7807,7 +6492,7 @@ impl<'a> Command_GetLog_Configuration {
         self.port = ::std::option::Some(v);
     }
 
-    pub fn get_port(&self) -> i32 {
+    pub fn get_port<'a>(&self) -> i32 {
         self.port.unwrap_or(0)
     }
 
@@ -7826,7 +6511,7 @@ impl<'a> Command_GetLog_Configuration {
         self.tlsPort = ::std::option::Some(v);
     }
 
-    pub fn get_tlsPort(&self) -> i32 {
+    pub fn get_tlsPort<'a>(&self) -> i32 {
         self.tlsPort.unwrap_or(0)
     }
 }
@@ -7993,82 +6678,46 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.vendor.as_ref() {
-            Some(v) => {
-                try!(os.write_string(5, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.vendor.as_ref() {
+            try!(os.write_string(5, v.as_slice()));
         };
-        match self.model.as_ref() {
-            Some(v) => {
-                try!(os.write_string(6, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.model.as_ref() {
+            try!(os.write_string(6, v.as_slice()));
         };
-        match self.serialNumber.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(7, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.serialNumber.as_ref() {
+            try!(os.write_bytes(7, v.as_slice()));
         };
-        match self.worldWideName.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(14, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.worldWideName.as_ref() {
+            try!(os.write_bytes(14, v.as_slice()));
         };
-        match self.version.as_ref() {
-            Some(v) => {
-                try!(os.write_string(8, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.version.as_ref() {
+            try!(os.write_string(8, v.as_slice()));
         };
-        match self.compilationDate.as_ref() {
-            Some(v) => {
-                try!(os.write_string(12, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.compilationDate.as_ref() {
+            try!(os.write_string(12, v.as_slice()));
         };
-        match self.sourceHash.as_ref() {
-            Some(v) => {
-                try!(os.write_string(13, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.sourceHash.as_ref() {
+            try!(os.write_string(13, v.as_slice()));
         };
-        match self.protocolVersion.as_ref() {
-            Some(v) => {
-                try!(os.write_string(15, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.protocolVersion.as_ref() {
+            try!(os.write_string(15, v.as_slice()));
         };
-        match self.protocolCompilationDate.as_ref() {
-            Some(v) => {
-                try!(os.write_string(16, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.protocolCompilationDate.as_ref() {
+            try!(os.write_string(16, v.as_slice()));
         };
-        match self.protocolSourceHash.as_ref() {
-            Some(v) => {
-                try!(os.write_string(17, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.protocolSourceHash.as_ref() {
+            try!(os.write_string(17, v.as_slice()));
         };
         for v in self.interface.iter() {
             try!(os.write_tag(9, ::protobuf::wire_format::WireTypeLengthDelimited));
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.port {
-            Some(v) => {
-                try!(os.write_int32(10, v));
-            },
-            None => {},
+        if let Some(v) = self.port {
+            try!(os.write_int32(10, v));
         };
-        match self.tlsPort {
-            Some(v) => {
-                try!(os.write_int32(11, v));
-            },
-            None => {},
+        if let Some(v) = self.tlsPort {
+            try!(os.write_int32(11, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -8094,20 +6743,71 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_vendor_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_model_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_serialNumber_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_worldWideName_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_version_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_compilationDate_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_sourceHash_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_protocolVersion_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_protocolCompilationDate_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_protocolSourceHash_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_interface_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_port_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_tlsPort_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "vendor",
+                    Command_GetLog_Configuration::has_vendor,
+                    Command_GetLog_Configuration::get_vendor,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "model",
+                    Command_GetLog_Configuration::has_model,
+                    Command_GetLog_Configuration::get_model,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "serialNumber",
+                    Command_GetLog_Configuration::has_serialNumber,
+                    Command_GetLog_Configuration::get_serialNumber,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "worldWideName",
+                    Command_GetLog_Configuration::has_worldWideName,
+                    Command_GetLog_Configuration::get_worldWideName,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "version",
+                    Command_GetLog_Configuration::has_version,
+                    Command_GetLog_Configuration::get_version,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "compilationDate",
+                    Command_GetLog_Configuration::has_compilationDate,
+                    Command_GetLog_Configuration::get_compilationDate,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "sourceHash",
+                    Command_GetLog_Configuration::has_sourceHash,
+                    Command_GetLog_Configuration::get_sourceHash,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "protocolVersion",
+                    Command_GetLog_Configuration::has_protocolVersion,
+                    Command_GetLog_Configuration::get_protocolVersion,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "protocolCompilationDate",
+                    Command_GetLog_Configuration::has_protocolCompilationDate,
+                    Command_GetLog_Configuration::get_protocolCompilationDate,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "protocolSourceHash",
+                    Command_GetLog_Configuration::has_protocolSourceHash,
+                    Command_GetLog_Configuration::get_protocolSourceHash,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "interface",
+                    Command_GetLog_Configuration::get_interface,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i32_accessor(
+                    "port",
+                    Command_GetLog_Configuration::has_port,
+                    Command_GetLog_Configuration::get_port,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_i32_accessor(
+                    "tlsPort",
+                    Command_GetLog_Configuration::has_tlsPort,
+                    Command_GetLog_Configuration::get_tlsPort,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Configuration>(
                     "Command_GetLog_Configuration",
                     fields,
@@ -8166,241 +6866,6 @@ impl ::std::fmt::Show for Command_GetLog_Configuration {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_vendor_acc_type;
-static Command_GetLog_Configuration_vendor_acc: Command_GetLog_Configuration_vendor_acc_type = Command_GetLog_Configuration_vendor_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_vendor_acc_type {
-    fn name(&self) -> &'static str {
-        "vendor"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_vendor()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_vendor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_model_acc_type;
-static Command_GetLog_Configuration_model_acc: Command_GetLog_Configuration_model_acc_type = Command_GetLog_Configuration_model_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_model_acc_type {
-    fn name(&self) -> &'static str {
-        "model"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_model()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_model()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_serialNumber_acc_type;
-static Command_GetLog_Configuration_serialNumber_acc: Command_GetLog_Configuration_serialNumber_acc_type = Command_GetLog_Configuration_serialNumber_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_serialNumber_acc_type {
-    fn name(&self) -> &'static str {
-        "serialNumber"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_serialNumber()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a [u8] {
-        m.get_serialNumber()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_worldWideName_acc_type;
-static Command_GetLog_Configuration_worldWideName_acc: Command_GetLog_Configuration_worldWideName_acc_type = Command_GetLog_Configuration_worldWideName_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_worldWideName_acc_type {
-    fn name(&self) -> &'static str {
-        "worldWideName"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_worldWideName()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a [u8] {
-        m.get_worldWideName()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_version_acc_type;
-static Command_GetLog_Configuration_version_acc: Command_GetLog_Configuration_version_acc_type = Command_GetLog_Configuration_version_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_version_acc_type {
-    fn name(&self) -> &'static str {
-        "version"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_version()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_version()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_compilationDate_acc_type;
-static Command_GetLog_Configuration_compilationDate_acc: Command_GetLog_Configuration_compilationDate_acc_type = Command_GetLog_Configuration_compilationDate_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_compilationDate_acc_type {
-    fn name(&self) -> &'static str {
-        "compilationDate"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_compilationDate()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_compilationDate()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_sourceHash_acc_type;
-static Command_GetLog_Configuration_sourceHash_acc: Command_GetLog_Configuration_sourceHash_acc_type = Command_GetLog_Configuration_sourceHash_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_sourceHash_acc_type {
-    fn name(&self) -> &'static str {
-        "sourceHash"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_sourceHash()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_sourceHash()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_protocolVersion_acc_type;
-static Command_GetLog_Configuration_protocolVersion_acc: Command_GetLog_Configuration_protocolVersion_acc_type = Command_GetLog_Configuration_protocolVersion_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_protocolVersion_acc_type {
-    fn name(&self) -> &'static str {
-        "protocolVersion"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_protocolVersion()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_protocolVersion()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_protocolCompilationDate_acc_type;
-static Command_GetLog_Configuration_protocolCompilationDate_acc: Command_GetLog_Configuration_protocolCompilationDate_acc_type = Command_GetLog_Configuration_protocolCompilationDate_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_protocolCompilationDate_acc_type {
-    fn name(&self) -> &'static str {
-        "protocolCompilationDate"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_protocolCompilationDate()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_protocolCompilationDate()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_protocolSourceHash_acc_type;
-static Command_GetLog_Configuration_protocolSourceHash_acc: Command_GetLog_Configuration_protocolSourceHash_acc_type = Command_GetLog_Configuration_protocolSourceHash_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_protocolSourceHash_acc_type {
-    fn name(&self) -> &'static str {
-        "protocolSourceHash"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_protocolSourceHash()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration) -> &'a str {
-        m.get_protocolSourceHash()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_interface_acc_type;
-static Command_GetLog_Configuration_interface_acc: Command_GetLog_Configuration_interface_acc_type = Command_GetLog_Configuration_interface_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_interface_acc_type {
-    fn name(&self) -> &'static str {
-        "interface"
-    }
-
-    fn len_field(&self, m: &Command_GetLog_Configuration) -> uint {
-        m.get_interface().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_GetLog_Configuration, index: uint) -> &'a ::protobuf::Message {
-        &m.get_interface()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_port_acc_type;
-static Command_GetLog_Configuration_port_acc: Command_GetLog_Configuration_port_acc_type = Command_GetLog_Configuration_port_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_port_acc_type {
-    fn name(&self) -> &'static str {
-        "port"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_port()
-    }
-
-    fn get_i32(&self, m: &Command_GetLog_Configuration) -> i32 {
-        m.get_port()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_tlsPort_acc_type;
-static Command_GetLog_Configuration_tlsPort_acc: Command_GetLog_Configuration_tlsPort_acc_type = Command_GetLog_Configuration_tlsPort_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration> for Command_GetLog_Configuration_tlsPort_acc_type {
-    fn name(&self) -> &'static str {
-        "tlsPort"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration) -> bool {
-        m.has_tlsPort()
-    }
-
-    fn get_i32(&self, m: &Command_GetLog_Configuration) -> i32 {
-        m.get_tlsPort()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Configuration_Interface {
     name: ::protobuf::SingularField<::std::string::String>,
@@ -8411,7 +6876,7 @@ pub struct Command_GetLog_Configuration_Interface {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Configuration_Interface {
+impl Command_GetLog_Configuration_Interface {
     pub fn new() -> Command_GetLog_Configuration_Interface {
         ::std::default::Default::default()
     }
@@ -8452,7 +6917,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&'a mut self) -> &'a mut ::std::string::String {
+    pub fn mut_name<'a>(&'a mut self) -> &'a mut ::std::string::String {
         if self.name.is_none() {
             self.name.set_default();
         };
@@ -8464,7 +6929,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.name.take().unwrap_or_else(|| ::std::string::String::new())
     }
 
-    pub fn get_name(&'a self) -> &'a str {
+    pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
             None => "",
@@ -8488,7 +6953,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_MAC(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_MAC<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.MAC.is_none() {
             self.MAC.set_default();
         };
@@ -8500,7 +6965,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.MAC.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_MAC(&'a self) -> &'a [u8] {
+    pub fn get_MAC<'a>(&'a self) -> &'a [u8] {
         match self.MAC.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -8524,7 +6989,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_ipv4Address(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_ipv4Address<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.ipv4Address.is_none() {
             self.ipv4Address.set_default();
         };
@@ -8536,7 +7001,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.ipv4Address.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_ipv4Address(&'a self) -> &'a [u8] {
+    pub fn get_ipv4Address<'a>(&'a self) -> &'a [u8] {
         match self.ipv4Address.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -8560,7 +7025,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_ipv6Address(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_ipv6Address<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.ipv6Address.is_none() {
             self.ipv6Address.set_default();
         };
@@ -8572,7 +7037,7 @@ impl<'a> Command_GetLog_Configuration_Interface {
         self.ipv6Address.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_ipv6Address(&'a self) -> &'a [u8] {
+    pub fn get_ipv6Address<'a>(&'a self) -> &'a [u8] {
         match self.ipv6Address.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -8651,29 +7116,17 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.name.as_ref() {
-            Some(v) => {
-                try!(os.write_string(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.name.as_ref() {
+            try!(os.write_string(1, v.as_slice()));
         };
-        match self.MAC.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.MAC.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
-        match self.ipv4Address.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(3, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.ipv4Address.as_ref() {
+            try!(os.write_bytes(3, v.as_slice()));
         };
-        match self.ipv6Address.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(4, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.ipv6Address.as_ref() {
+            try!(os.write_bytes(4, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -8699,11 +7152,27 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_Interface_name_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_Interface_MAC_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_Interface_ipv4Address_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Configuration_Interface_ipv6Address_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_string_accessor(
+                    "name",
+                    Command_GetLog_Configuration_Interface::has_name,
+                    Command_GetLog_Configuration_Interface::get_name,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "MAC",
+                    Command_GetLog_Configuration_Interface::has_MAC,
+                    Command_GetLog_Configuration_Interface::get_MAC,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "ipv4Address",
+                    Command_GetLog_Configuration_Interface::has_ipv4Address,
+                    Command_GetLog_Configuration_Interface::get_ipv4Address,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "ipv6Address",
+                    Command_GetLog_Configuration_Interface::has_ipv6Address,
+                    Command_GetLog_Configuration_Interface::get_ipv6Address,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Configuration_Interface>(
                     "Command_GetLog_Configuration_Interface",
                     fields,
@@ -8744,79 +7213,6 @@ impl ::std::fmt::Show for Command_GetLog_Configuration_Interface {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_Interface_name_acc_type;
-static Command_GetLog_Configuration_Interface_name_acc: Command_GetLog_Configuration_Interface_name_acc_type = Command_GetLog_Configuration_Interface_name_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface> for Command_GetLog_Configuration_Interface_name_acc_type {
-    fn name(&self) -> &'static str {
-        "name"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration_Interface) -> bool {
-        m.has_name()
-    }
-
-    fn get_str<'a>(&self, m: &'a Command_GetLog_Configuration_Interface) -> &'a str {
-        m.get_name()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_Interface_MAC_acc_type;
-static Command_GetLog_Configuration_Interface_MAC_acc: Command_GetLog_Configuration_Interface_MAC_acc_type = Command_GetLog_Configuration_Interface_MAC_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface> for Command_GetLog_Configuration_Interface_MAC_acc_type {
-    fn name(&self) -> &'static str {
-        "MAC"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration_Interface) -> bool {
-        m.has_MAC()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Configuration_Interface) -> &'a [u8] {
-        m.get_MAC()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_Interface_ipv4Address_acc_type;
-static Command_GetLog_Configuration_Interface_ipv4Address_acc: Command_GetLog_Configuration_Interface_ipv4Address_acc_type = Command_GetLog_Configuration_Interface_ipv4Address_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface> for Command_GetLog_Configuration_Interface_ipv4Address_acc_type {
-    fn name(&self) -> &'static str {
-        "ipv4Address"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration_Interface) -> bool {
-        m.has_ipv4Address()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Configuration_Interface) -> &'a [u8] {
-        m.get_ipv4Address()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Configuration_Interface_ipv6Address_acc_type;
-static Command_GetLog_Configuration_Interface_ipv6Address_acc: Command_GetLog_Configuration_Interface_ipv6Address_acc_type = Command_GetLog_Configuration_Interface_ipv6Address_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Configuration_Interface> for Command_GetLog_Configuration_Interface_ipv6Address_acc_type {
-    fn name(&self) -> &'static str {
-        "ipv6Address"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Configuration_Interface) -> bool {
-        m.has_ipv6Address()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Configuration_Interface) -> &'a [u8] {
-        m.get_ipv6Address()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Statistics {
     messageType: ::std::option::Option<Command_MessageType>,
@@ -8826,7 +7222,7 @@ pub struct Command_GetLog_Statistics {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Statistics {
+impl Command_GetLog_Statistics {
     pub fn new() -> Command_GetLog_Statistics {
         ::std::default::Default::default()
     }
@@ -8864,7 +7260,7 @@ impl<'a> Command_GetLog_Statistics {
         self.messageType = ::std::option::Some(v);
     }
 
-    pub fn get_messageType(&self) -> Command_MessageType {
+    pub fn get_messageType<'a>(&self) -> Command_MessageType {
         self.messageType.unwrap_or(Command_MessageType::INVALID_MESSAGE_TYPE)
     }
 
@@ -8883,7 +7279,7 @@ impl<'a> Command_GetLog_Statistics {
         self.count = ::std::option::Some(v);
     }
 
-    pub fn get_count(&self) -> u64 {
+    pub fn get_count<'a>(&self) -> u64 {
         self.count.unwrap_or(0)
     }
 
@@ -8902,7 +7298,7 @@ impl<'a> Command_GetLog_Statistics {
         self.bytes = ::std::option::Some(v);
     }
 
-    pub fn get_bytes(&self) -> u64 {
+    pub fn get_bytes<'a>(&self) -> u64 {
         self.bytes.unwrap_or(0)
     }
 }
@@ -8968,23 +7364,14 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.messageType {
-            Some(v) => {
-                try!(os.write_enum(1, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.messageType {
+            try!(os.write_enum(1, v as i32));
         };
-        match self.count {
-            Some(v) => {
-                try!(os.write_uint64(4, v));
-            },
-            None => {},
+        if let Some(v) = self.count {
+            try!(os.write_uint64(4, v));
         };
-        match self.bytes {
-            Some(v) => {
-                try!(os.write_uint64(5, v));
-            },
-            None => {},
+        if let Some(v) = self.bytes {
+            try!(os.write_uint64(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -9010,10 +7397,22 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Statistics_messageType_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Statistics_count_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Statistics_bytes_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "messageType",
+                    Command_GetLog_Statistics::has_messageType,
+                    Command_GetLog_Statistics::get_messageType,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u64_accessor(
+                    "count",
+                    Command_GetLog_Statistics::has_count,
+                    Command_GetLog_Statistics::get_count,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u64_accessor(
+                    "bytes",
+                    Command_GetLog_Statistics::has_bytes,
+                    Command_GetLog_Statistics::get_bytes,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Statistics>(
                     "Command_GetLog_Statistics",
                     fields,
@@ -9052,61 +7451,6 @@ impl ::std::fmt::Show for Command_GetLog_Statistics {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Statistics_messageType_acc_type;
-static Command_GetLog_Statistics_messageType_acc: Command_GetLog_Statistics_messageType_acc_type = Command_GetLog_Statistics_messageType_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics> for Command_GetLog_Statistics_messageType_acc_type {
-    fn name(&self) -> &'static str {
-        "messageType"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Statistics) -> bool {
-        m.has_messageType()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_GetLog_Statistics) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_messageType().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Statistics_count_acc_type;
-static Command_GetLog_Statistics_count_acc: Command_GetLog_Statistics_count_acc_type = Command_GetLog_Statistics_count_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics> for Command_GetLog_Statistics_count_acc_type {
-    fn name(&self) -> &'static str {
-        "count"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Statistics) -> bool {
-        m.has_count()
-    }
-
-    fn get_u64(&self, m: &Command_GetLog_Statistics) -> u64 {
-        m.get_count()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Statistics_bytes_acc_type;
-static Command_GetLog_Statistics_bytes_acc: Command_GetLog_Statistics_bytes_acc_type = Command_GetLog_Statistics_bytes_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Statistics> for Command_GetLog_Statistics_bytes_acc_type {
-    fn name(&self) -> &'static str {
-        "bytes"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Statistics) -> bool {
-        m.has_bytes()
-    }
-
-    fn get_u64(&self, m: &Command_GetLog_Statistics) -> u64 {
-        m.get_bytes()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Limits {
     maxKeySize: ::std::option::Option<u32>,
@@ -9124,7 +7468,7 @@ pub struct Command_GetLog_Limits {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Limits {
+impl Command_GetLog_Limits {
     pub fn new() -> Command_GetLog_Limits {
         ::std::default::Default::default()
     }
@@ -9170,7 +7514,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxKeySize = ::std::option::Some(v);
     }
 
-    pub fn get_maxKeySize(&self) -> u32 {
+    pub fn get_maxKeySize<'a>(&self) -> u32 {
         self.maxKeySize.unwrap_or(0)
     }
 
@@ -9189,7 +7533,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxValueSize = ::std::option::Some(v);
     }
 
-    pub fn get_maxValueSize(&self) -> u32 {
+    pub fn get_maxValueSize<'a>(&self) -> u32 {
         self.maxValueSize.unwrap_or(0)
     }
 
@@ -9208,7 +7552,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxVersionSize = ::std::option::Some(v);
     }
 
-    pub fn get_maxVersionSize(&self) -> u32 {
+    pub fn get_maxVersionSize<'a>(&self) -> u32 {
         self.maxVersionSize.unwrap_or(0)
     }
 
@@ -9227,7 +7571,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxTagSize = ::std::option::Some(v);
     }
 
-    pub fn get_maxTagSize(&self) -> u32 {
+    pub fn get_maxTagSize<'a>(&self) -> u32 {
         self.maxTagSize.unwrap_or(0)
     }
 
@@ -9246,7 +7590,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxConnections = ::std::option::Some(v);
     }
 
-    pub fn get_maxConnections(&self) -> u32 {
+    pub fn get_maxConnections<'a>(&self) -> u32 {
         self.maxConnections.unwrap_or(0)
     }
 
@@ -9265,7 +7609,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxOutstandingReadRequests = ::std::option::Some(v);
     }
 
-    pub fn get_maxOutstandingReadRequests(&self) -> u32 {
+    pub fn get_maxOutstandingReadRequests<'a>(&self) -> u32 {
         self.maxOutstandingReadRequests.unwrap_or(0)
     }
 
@@ -9284,7 +7628,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxOutstandingWriteRequests = ::std::option::Some(v);
     }
 
-    pub fn get_maxOutstandingWriteRequests(&self) -> u32 {
+    pub fn get_maxOutstandingWriteRequests<'a>(&self) -> u32 {
         self.maxOutstandingWriteRequests.unwrap_or(0)
     }
 
@@ -9303,7 +7647,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxMessageSize = ::std::option::Some(v);
     }
 
-    pub fn get_maxMessageSize(&self) -> u32 {
+    pub fn get_maxMessageSize<'a>(&self) -> u32 {
         self.maxMessageSize.unwrap_or(0)
     }
 
@@ -9322,7 +7666,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxKeyRangeCount = ::std::option::Some(v);
     }
 
-    pub fn get_maxKeyRangeCount(&self) -> u32 {
+    pub fn get_maxKeyRangeCount<'a>(&self) -> u32 {
         self.maxKeyRangeCount.unwrap_or(0)
     }
 
@@ -9341,7 +7685,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxIdentityCount = ::std::option::Some(v);
     }
 
-    pub fn get_maxIdentityCount(&self) -> u32 {
+    pub fn get_maxIdentityCount<'a>(&self) -> u32 {
         self.maxIdentityCount.unwrap_or(0)
     }
 
@@ -9360,7 +7704,7 @@ impl<'a> Command_GetLog_Limits {
         self.maxPinSize = ::std::option::Some(v);
     }
 
-    pub fn get_maxPinSize(&self) -> u32 {
+    pub fn get_maxPinSize<'a>(&self) -> u32 {
         self.maxPinSize.unwrap_or(0)
     }
 }
@@ -9506,71 +7850,38 @@ impl ::protobuf::Message for Command_GetLog_Limits {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.maxKeySize {
-            Some(v) => {
-                try!(os.write_uint32(1, v));
-            },
-            None => {},
+        if let Some(v) = self.maxKeySize {
+            try!(os.write_uint32(1, v));
         };
-        match self.maxValueSize {
-            Some(v) => {
-                try!(os.write_uint32(2, v));
-            },
-            None => {},
+        if let Some(v) = self.maxValueSize {
+            try!(os.write_uint32(2, v));
         };
-        match self.maxVersionSize {
-            Some(v) => {
-                try!(os.write_uint32(3, v));
-            },
-            None => {},
+        if let Some(v) = self.maxVersionSize {
+            try!(os.write_uint32(3, v));
         };
-        match self.maxTagSize {
-            Some(v) => {
-                try!(os.write_uint32(4, v));
-            },
-            None => {},
+        if let Some(v) = self.maxTagSize {
+            try!(os.write_uint32(4, v));
         };
-        match self.maxConnections {
-            Some(v) => {
-                try!(os.write_uint32(5, v));
-            },
-            None => {},
+        if let Some(v) = self.maxConnections {
+            try!(os.write_uint32(5, v));
         };
-        match self.maxOutstandingReadRequests {
-            Some(v) => {
-                try!(os.write_uint32(6, v));
-            },
-            None => {},
+        if let Some(v) = self.maxOutstandingReadRequests {
+            try!(os.write_uint32(6, v));
         };
-        match self.maxOutstandingWriteRequests {
-            Some(v) => {
-                try!(os.write_uint32(7, v));
-            },
-            None => {},
+        if let Some(v) = self.maxOutstandingWriteRequests {
+            try!(os.write_uint32(7, v));
         };
-        match self.maxMessageSize {
-            Some(v) => {
-                try!(os.write_uint32(8, v));
-            },
-            None => {},
+        if let Some(v) = self.maxMessageSize {
+            try!(os.write_uint32(8, v));
         };
-        match self.maxKeyRangeCount {
-            Some(v) => {
-                try!(os.write_uint32(9, v));
-            },
-            None => {},
+        if let Some(v) = self.maxKeyRangeCount {
+            try!(os.write_uint32(9, v));
         };
-        match self.maxIdentityCount {
-            Some(v) => {
-                try!(os.write_uint32(10, v));
-            },
-            None => {},
+        if let Some(v) = self.maxIdentityCount {
+            try!(os.write_uint32(10, v));
         };
-        match self.maxPinSize {
-            Some(v) => {
-                try!(os.write_uint32(11, v));
-            },
-            None => {},
+        if let Some(v) = self.maxPinSize {
+            try!(os.write_uint32(11, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -9596,18 +7907,62 @@ impl ::protobuf::Message for Command_GetLog_Limits {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxKeySize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxValueSize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxVersionSize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxTagSize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxConnections_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxOutstandingReadRequests_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxOutstandingWriteRequests_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxMessageSize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxKeyRangeCount_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxIdentityCount_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Limits_maxPinSize_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxKeySize",
+                    Command_GetLog_Limits::has_maxKeySize,
+                    Command_GetLog_Limits::get_maxKeySize,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxValueSize",
+                    Command_GetLog_Limits::has_maxValueSize,
+                    Command_GetLog_Limits::get_maxValueSize,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxVersionSize",
+                    Command_GetLog_Limits::has_maxVersionSize,
+                    Command_GetLog_Limits::get_maxVersionSize,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxTagSize",
+                    Command_GetLog_Limits::has_maxTagSize,
+                    Command_GetLog_Limits::get_maxTagSize,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxConnections",
+                    Command_GetLog_Limits::has_maxConnections,
+                    Command_GetLog_Limits::get_maxConnections,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxOutstandingReadRequests",
+                    Command_GetLog_Limits::has_maxOutstandingReadRequests,
+                    Command_GetLog_Limits::get_maxOutstandingReadRequests,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxOutstandingWriteRequests",
+                    Command_GetLog_Limits::has_maxOutstandingWriteRequests,
+                    Command_GetLog_Limits::get_maxOutstandingWriteRequests,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxMessageSize",
+                    Command_GetLog_Limits::has_maxMessageSize,
+                    Command_GetLog_Limits::get_maxMessageSize,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxKeyRangeCount",
+                    Command_GetLog_Limits::has_maxKeyRangeCount,
+                    Command_GetLog_Limits::get_maxKeyRangeCount,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxIdentityCount",
+                    Command_GetLog_Limits::has_maxIdentityCount,
+                    Command_GetLog_Limits::get_maxIdentityCount,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_u32_accessor(
+                    "maxPinSize",
+                    Command_GetLog_Limits::has_maxPinSize,
+                    Command_GetLog_Limits::get_maxPinSize,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Limits>(
                     "Command_GetLog_Limits",
                     fields,
@@ -9662,205 +8017,6 @@ impl ::std::fmt::Show for Command_GetLog_Limits {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxKeySize_acc_type;
-static Command_GetLog_Limits_maxKeySize_acc: Command_GetLog_Limits_maxKeySize_acc_type = Command_GetLog_Limits_maxKeySize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxKeySize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxKeySize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxKeySize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxKeySize()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxValueSize_acc_type;
-static Command_GetLog_Limits_maxValueSize_acc: Command_GetLog_Limits_maxValueSize_acc_type = Command_GetLog_Limits_maxValueSize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxValueSize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxValueSize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxValueSize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxValueSize()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxVersionSize_acc_type;
-static Command_GetLog_Limits_maxVersionSize_acc: Command_GetLog_Limits_maxVersionSize_acc_type = Command_GetLog_Limits_maxVersionSize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxVersionSize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxVersionSize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxVersionSize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxVersionSize()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxTagSize_acc_type;
-static Command_GetLog_Limits_maxTagSize_acc: Command_GetLog_Limits_maxTagSize_acc_type = Command_GetLog_Limits_maxTagSize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxTagSize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxTagSize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxTagSize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxTagSize()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxConnections_acc_type;
-static Command_GetLog_Limits_maxConnections_acc: Command_GetLog_Limits_maxConnections_acc_type = Command_GetLog_Limits_maxConnections_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxConnections_acc_type {
-    fn name(&self) -> &'static str {
-        "maxConnections"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxConnections()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxConnections()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxOutstandingReadRequests_acc_type;
-static Command_GetLog_Limits_maxOutstandingReadRequests_acc: Command_GetLog_Limits_maxOutstandingReadRequests_acc_type = Command_GetLog_Limits_maxOutstandingReadRequests_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxOutstandingReadRequests_acc_type {
-    fn name(&self) -> &'static str {
-        "maxOutstandingReadRequests"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxOutstandingReadRequests()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxOutstandingReadRequests()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxOutstandingWriteRequests_acc_type;
-static Command_GetLog_Limits_maxOutstandingWriteRequests_acc: Command_GetLog_Limits_maxOutstandingWriteRequests_acc_type = Command_GetLog_Limits_maxOutstandingWriteRequests_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxOutstandingWriteRequests_acc_type {
-    fn name(&self) -> &'static str {
-        "maxOutstandingWriteRequests"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxOutstandingWriteRequests()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxOutstandingWriteRequests()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxMessageSize_acc_type;
-static Command_GetLog_Limits_maxMessageSize_acc: Command_GetLog_Limits_maxMessageSize_acc_type = Command_GetLog_Limits_maxMessageSize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxMessageSize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxMessageSize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxMessageSize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxMessageSize()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxKeyRangeCount_acc_type;
-static Command_GetLog_Limits_maxKeyRangeCount_acc: Command_GetLog_Limits_maxKeyRangeCount_acc_type = Command_GetLog_Limits_maxKeyRangeCount_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxKeyRangeCount_acc_type {
-    fn name(&self) -> &'static str {
-        "maxKeyRangeCount"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxKeyRangeCount()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxKeyRangeCount()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxIdentityCount_acc_type;
-static Command_GetLog_Limits_maxIdentityCount_acc: Command_GetLog_Limits_maxIdentityCount_acc_type = Command_GetLog_Limits_maxIdentityCount_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxIdentityCount_acc_type {
-    fn name(&self) -> &'static str {
-        "maxIdentityCount"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxIdentityCount()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxIdentityCount()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Limits_maxPinSize_acc_type;
-static Command_GetLog_Limits_maxPinSize_acc: Command_GetLog_Limits_maxPinSize_acc_type = Command_GetLog_Limits_maxPinSize_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Limits> for Command_GetLog_Limits_maxPinSize_acc_type {
-    fn name(&self) -> &'static str {
-        "maxPinSize"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Limits) -> bool {
-        m.has_maxPinSize()
-    }
-
-    fn get_u32(&self, m: &Command_GetLog_Limits) -> u32 {
-        m.get_maxPinSize()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_GetLog_Device {
     name: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -9868,7 +8024,7 @@ pub struct Command_GetLog_Device {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_GetLog_Device {
+impl Command_GetLog_Device {
     pub fn new() -> Command_GetLog_Device {
         ::std::default::Default::default()
     }
@@ -9906,7 +8062,7 @@ impl<'a> Command_GetLog_Device {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_name<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.name.is_none() {
             self.name.set_default();
         };
@@ -9918,7 +8074,7 @@ impl<'a> Command_GetLog_Device {
         self.name.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_name(&'a self) -> &'a [u8] {
+    pub fn get_name<'a>(&'a self) -> &'a [u8] {
         match self.name.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -9967,11 +8123,8 @@ impl ::protobuf::Message for Command_GetLog_Device {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.name.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(1, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.name.as_ref() {
+            try!(os.write_bytes(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -9997,8 +8150,12 @@ impl ::protobuf::Message for Command_GetLog_Device {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Device>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_GetLog_Device_name_acc as &'static ::protobuf::reflect::FieldAccessor<Command_GetLog_Device>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "name",
+                    Command_GetLog_Device::has_name,
+                    Command_GetLog_Device::get_name,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_GetLog_Device>(
                     "Command_GetLog_Device",
                     fields,
@@ -10030,25 +8187,6 @@ impl ::std::cmp::PartialEq for Command_GetLog_Device {
 impl ::std::fmt::Show for Command_GetLog_Device {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         self.fmt_impl(f)
-    }
-}
-
-
-#[allow(non_camel_case_types)]
-struct Command_GetLog_Device_name_acc_type;
-static Command_GetLog_Device_name_acc: Command_GetLog_Device_name_acc_type = Command_GetLog_Device_name_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_GetLog_Device> for Command_GetLog_Device_name_acc_type {
-    fn name(&self) -> &'static str {
-        "name"
-    }
-
-    fn has_field(&self, m: &Command_GetLog_Device) -> bool {
-        m.has_name()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_GetLog_Device) -> &'a [u8] {
-        m.get_name()
     }
 }
 
@@ -10110,7 +8248,7 @@ pub struct Command_Security {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Security {
+impl Command_Security {
     pub fn new() -> Command_Security {
         ::std::default::Default::default()
     }
@@ -10147,7 +8285,7 @@ impl<'a> Command_Security {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_acl(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_Security_ACL> {
+    pub fn mut_acl<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_Security_ACL> {
         &mut self.acl
     }
 
@@ -10156,7 +8294,7 @@ impl<'a> Command_Security {
         ::std::mem::replace(&mut self.acl, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_acl(&'a self) -> &'a [Command_Security_ACL] {
+    pub fn get_acl<'a>(&'a self) -> &'a [Command_Security_ACL] {
         self.acl.as_slice()
     }
 
@@ -10177,7 +8315,7 @@ impl<'a> Command_Security {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_oldLockPIN(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_oldLockPIN<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.oldLockPIN.is_none() {
             self.oldLockPIN.set_default();
         };
@@ -10189,7 +8327,7 @@ impl<'a> Command_Security {
         self.oldLockPIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_oldLockPIN(&'a self) -> &'a [u8] {
+    pub fn get_oldLockPIN<'a>(&'a self) -> &'a [u8] {
         match self.oldLockPIN.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -10213,7 +8351,7 @@ impl<'a> Command_Security {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_newLockPIN(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_newLockPIN<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.newLockPIN.is_none() {
             self.newLockPIN.set_default();
         };
@@ -10225,7 +8363,7 @@ impl<'a> Command_Security {
         self.newLockPIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_newLockPIN(&'a self) -> &'a [u8] {
+    pub fn get_newLockPIN<'a>(&'a self) -> &'a [u8] {
         match self.newLockPIN.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -10249,7 +8387,7 @@ impl<'a> Command_Security {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_oldErasePIN(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_oldErasePIN<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.oldErasePIN.is_none() {
             self.oldErasePIN.set_default();
         };
@@ -10261,7 +8399,7 @@ impl<'a> Command_Security {
         self.oldErasePIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_oldErasePIN(&'a self) -> &'a [u8] {
+    pub fn get_oldErasePIN<'a>(&'a self) -> &'a [u8] {
         match self.oldErasePIN.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -10285,7 +8423,7 @@ impl<'a> Command_Security {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_newErasePIN(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_newErasePIN<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.newErasePIN.is_none() {
             self.newErasePIN.set_default();
         };
@@ -10297,7 +8435,7 @@ impl<'a> Command_Security {
         self.newErasePIN.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_newErasePIN(&'a self) -> &'a [u8] {
+    pub fn get_newErasePIN<'a>(&'a self) -> &'a [u8] {
         match self.newErasePIN.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -10392,29 +8530,17 @@ impl ::protobuf::Message for Command_Security {
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.oldLockPIN.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(3, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.oldLockPIN.as_ref() {
+            try!(os.write_bytes(3, v.as_slice()));
         };
-        match self.newLockPIN.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(4, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.newLockPIN.as_ref() {
+            try!(os.write_bytes(4, v.as_slice()));
         };
-        match self.oldErasePIN.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(5, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.oldErasePIN.as_ref() {
+            try!(os.write_bytes(5, v.as_slice()));
         };
-        match self.newErasePIN.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(6, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.newErasePIN.as_ref() {
+            try!(os.write_bytes(6, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -10440,12 +8566,31 @@ impl ::protobuf::Message for Command_Security {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Security>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_acl_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_oldLockPIN_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_newLockPIN_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_oldErasePIN_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_newErasePIN_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "acl",
+                    Command_Security::get_acl,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "oldLockPIN",
+                    Command_Security::has_oldLockPIN,
+                    Command_Security::get_oldLockPIN,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "newLockPIN",
+                    Command_Security::has_newLockPIN,
+                    Command_Security::get_newLockPIN,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "oldErasePIN",
+                    Command_Security::has_oldErasePIN,
+                    Command_Security::get_oldErasePIN,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "newErasePIN",
+                    Command_Security::has_newErasePIN,
+                    Command_Security::get_newErasePIN,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Security>(
                     "Command_Security",
                     fields,
@@ -10488,97 +8633,6 @@ impl ::std::fmt::Show for Command_Security {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Security_acl_acc_type;
-static Command_Security_acl_acc: Command_Security_acl_acc_type = Command_Security_acl_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security> for Command_Security_acl_acc_type {
-    fn name(&self) -> &'static str {
-        "acl"
-    }
-
-    fn len_field(&self, m: &Command_Security) -> uint {
-        m.get_acl().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_Security, index: uint) -> &'a ::protobuf::Message {
-        &m.get_acl()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_oldLockPIN_acc_type;
-static Command_Security_oldLockPIN_acc: Command_Security_oldLockPIN_acc_type = Command_Security_oldLockPIN_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security> for Command_Security_oldLockPIN_acc_type {
-    fn name(&self) -> &'static str {
-        "oldLockPIN"
-    }
-
-    fn has_field(&self, m: &Command_Security) -> bool {
-        m.has_oldLockPIN()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security) -> &'a [u8] {
-        m.get_oldLockPIN()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_newLockPIN_acc_type;
-static Command_Security_newLockPIN_acc: Command_Security_newLockPIN_acc_type = Command_Security_newLockPIN_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security> for Command_Security_newLockPIN_acc_type {
-    fn name(&self) -> &'static str {
-        "newLockPIN"
-    }
-
-    fn has_field(&self, m: &Command_Security) -> bool {
-        m.has_newLockPIN()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security) -> &'a [u8] {
-        m.get_newLockPIN()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_oldErasePIN_acc_type;
-static Command_Security_oldErasePIN_acc: Command_Security_oldErasePIN_acc_type = Command_Security_oldErasePIN_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security> for Command_Security_oldErasePIN_acc_type {
-    fn name(&self) -> &'static str {
-        "oldErasePIN"
-    }
-
-    fn has_field(&self, m: &Command_Security) -> bool {
-        m.has_oldErasePIN()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security) -> &'a [u8] {
-        m.get_oldErasePIN()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_newErasePIN_acc_type;
-static Command_Security_newErasePIN_acc: Command_Security_newErasePIN_acc_type = Command_Security_newErasePIN_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security> for Command_Security_newErasePIN_acc_type {
-    fn name(&self) -> &'static str {
-        "newErasePIN"
-    }
-
-    fn has_field(&self, m: &Command_Security) -> bool {
-        m.has_newErasePIN()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security) -> &'a [u8] {
-        m.get_newErasePIN()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Security_ACL {
     identity: ::std::option::Option<i64>,
@@ -10590,7 +8644,7 @@ pub struct Command_Security_ACL {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Security_ACL {
+impl Command_Security_ACL {
     pub fn new() -> Command_Security_ACL {
         ::std::default::Default::default()
     }
@@ -10630,7 +8684,7 @@ impl<'a> Command_Security_ACL {
         self.identity = ::std::option::Some(v);
     }
 
-    pub fn get_identity(&self) -> i64 {
+    pub fn get_identity<'a>(&self) -> i64 {
         self.identity.unwrap_or(0)
     }
 
@@ -10651,7 +8705,7 @@ impl<'a> Command_Security_ACL {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_key(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_key<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.key.is_none() {
             self.key.set_default();
         };
@@ -10663,7 +8717,7 @@ impl<'a> Command_Security_ACL {
         self.key.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_key(&'a self) -> &'a [u8] {
+    pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -10685,7 +8739,7 @@ impl<'a> Command_Security_ACL {
         self.hmacAlgorithm = ::std::option::Some(v);
     }
 
-    pub fn get_hmacAlgorithm(&self) -> Command_Security_ACL_HMACAlgorithm {
+    pub fn get_hmacAlgorithm<'a>(&self) -> Command_Security_ACL_HMACAlgorithm {
         self.hmacAlgorithm.unwrap_or(Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM)
     }
 
@@ -10701,7 +8755,7 @@ impl<'a> Command_Security_ACL {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_scope(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_Security_ACL_Scope> {
+    pub fn mut_scope<'a>(&'a mut self) -> &'a mut ::protobuf::RepeatedField<Command_Security_ACL_Scope> {
         &mut self.scope
     }
 
@@ -10710,7 +8764,7 @@ impl<'a> Command_Security_ACL {
         ::std::mem::replace(&mut self.scope, ::protobuf::RepeatedField::new())
     }
 
-    pub fn get_scope(&'a self) -> &'a [Command_Security_ACL_Scope] {
+    pub fn get_scope<'a>(&'a self) -> &'a [Command_Security_ACL_Scope] {
         self.scope.as_slice()
     }
 
@@ -10729,7 +8783,7 @@ impl<'a> Command_Security_ACL {
         self.maxPriority = ::std::option::Some(v);
     }
 
-    pub fn get_maxPriority(&self) -> Command_Priority {
+    pub fn get_maxPriority<'a>(&self) -> Command_Priority {
         self.maxPriority.unwrap_or(Command_Priority::NORMAL)
     }
 }
@@ -10816,34 +8870,22 @@ impl ::protobuf::Message for Command_Security_ACL {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.identity {
-            Some(v) => {
-                try!(os.write_int64(1, v));
-            },
-            None => {},
+        if let Some(v) = self.identity {
+            try!(os.write_int64(1, v));
         };
-        match self.key.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.key.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
-        match self.hmacAlgorithm {
-            Some(v) => {
-                try!(os.write_enum(3, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.hmacAlgorithm {
+            try!(os.write_enum(3, v as i32));
         };
         for v in self.scope.iter() {
             try!(os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited));
             try!(os.write_raw_varint32(v.get_cached_size()));
             try!(v.write_to_with_cached_sizes(os));
         };
-        match self.maxPriority {
-            Some(v) => {
-                try!(os.write_enum(5, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.maxPriority {
+            try!(os.write_enum(5, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -10869,12 +8911,31 @@ impl ::protobuf::Message for Command_Security_ACL {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_identity_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_key_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_hmacAlgorithm_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_scope_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_maxPriority_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "identity",
+                    Command_Security_ACL::has_identity,
+                    Command_Security_ACL::get_identity,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "key",
+                    Command_Security_ACL::has_key,
+                    Command_Security_ACL::get_key,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "hmacAlgorithm",
+                    Command_Security_ACL::has_hmacAlgorithm,
+                    Command_Security_ACL::get_hmacAlgorithm,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_message_accessor(
+                    "scope",
+                    Command_Security_ACL::get_scope,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "maxPriority",
+                    Command_Security_ACL::has_maxPriority,
+                    Command_Security_ACL::get_maxPriority,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Security_ACL>(
                     "Command_Security_ACL",
                     fields,
@@ -10917,97 +8978,6 @@ impl ::std::fmt::Show for Command_Security_ACL {
     }
 }
 
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_identity_acc_type;
-static Command_Security_ACL_identity_acc: Command_Security_ACL_identity_acc_type = Command_Security_ACL_identity_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Security_ACL_identity_acc_type {
-    fn name(&self) -> &'static str {
-        "identity"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL) -> bool {
-        m.has_identity()
-    }
-
-    fn get_i64(&self, m: &Command_Security_ACL) -> i64 {
-        m.get_identity()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_key_acc_type;
-static Command_Security_ACL_key_acc: Command_Security_ACL_key_acc_type = Command_Security_ACL_key_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Security_ACL_key_acc_type {
-    fn name(&self) -> &'static str {
-        "key"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL) -> bool {
-        m.has_key()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security_ACL) -> &'a [u8] {
-        m.get_key()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_hmacAlgorithm_acc_type;
-static Command_Security_ACL_hmacAlgorithm_acc: Command_Security_ACL_hmacAlgorithm_acc_type = Command_Security_ACL_hmacAlgorithm_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Security_ACL_hmacAlgorithm_acc_type {
-    fn name(&self) -> &'static str {
-        "hmacAlgorithm"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL) -> bool {
-        m.has_hmacAlgorithm()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_Security_ACL) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_hmacAlgorithm().descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_scope_acc_type;
-static Command_Security_ACL_scope_acc: Command_Security_ACL_scope_acc_type = Command_Security_ACL_scope_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Security_ACL_scope_acc_type {
-    fn name(&self) -> &'static str {
-        "scope"
-    }
-
-    fn len_field(&self, m: &Command_Security_ACL) -> uint {
-        m.get_scope().len()
-    }
-
-    fn get_rep_message_item<'a>(&self, m: &'a Command_Security_ACL, index: uint) -> &'a ::protobuf::Message {
-        &m.get_scope()[index] as &'a ::protobuf::Message
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_maxPriority_acc_type;
-static Command_Security_ACL_maxPriority_acc: Command_Security_ACL_maxPriority_acc_type = Command_Security_ACL_maxPriority_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL> for Command_Security_ACL_maxPriority_acc_type {
-    fn name(&self) -> &'static str {
-        "maxPriority"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL) -> bool {
-        m.has_maxPriority()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_Security_ACL) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_maxPriority().descriptor()
-    }
-}
-
 #[deriving(Clone,Default)]
 pub struct Command_Security_ACL_Scope {
     offset: ::std::option::Option<i64>,
@@ -11018,7 +8988,7 @@ pub struct Command_Security_ACL_Scope {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_Security_ACL_Scope {
+impl Command_Security_ACL_Scope {
     pub fn new() -> Command_Security_ACL_Scope {
         ::std::default::Default::default()
     }
@@ -11057,7 +9027,7 @@ impl<'a> Command_Security_ACL_Scope {
         self.offset = ::std::option::Some(v);
     }
 
-    pub fn get_offset(&self) -> i64 {
+    pub fn get_offset<'a>(&self) -> i64 {
         self.offset.unwrap_or(0)
     }
 
@@ -11078,7 +9048,7 @@ impl<'a> Command_Security_ACL_Scope {
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_value(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
+    pub fn mut_value<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<u8> {
         if self.value.is_none() {
             self.value.set_default();
         };
@@ -11090,7 +9060,7 @@ impl<'a> Command_Security_ACL_Scope {
         self.value.take().unwrap_or_else(|| ::std::vec::Vec::new())
     }
 
-    pub fn get_value(&'a self) -> &'a [u8] {
+    pub fn get_value<'a>(&'a self) -> &'a [u8] {
         match self.value.as_ref() {
             Some(v) => v.as_slice(),
             None => [].as_slice(),
@@ -11109,7 +9079,7 @@ impl<'a> Command_Security_ACL_Scope {
     }
 
     // Mutable pointer to the field.
-    pub fn mut_permission(&'a mut self) -> &'a mut ::std::vec::Vec<Command_Security_ACL_Permission> {
+    pub fn mut_permission<'a>(&'a mut self) -> &'a mut ::std::vec::Vec<Command_Security_ACL_Permission> {
         &mut self.permission
     }
 
@@ -11118,7 +9088,7 @@ impl<'a> Command_Security_ACL_Scope {
         ::std::mem::replace(&mut self.permission, ::std::vec::Vec::new())
     }
 
-    pub fn get_permission(&'a self) -> &'a [Command_Security_ACL_Permission] {
+    pub fn get_permission<'a>(&'a self) -> &'a [Command_Security_ACL_Permission] {
         self.permission.as_slice()
     }
 
@@ -11137,7 +9107,7 @@ impl<'a> Command_Security_ACL_Scope {
         self.TlsRequired = ::std::option::Some(v);
     }
 
-    pub fn get_TlsRequired(&self) -> bool {
+    pub fn get_TlsRequired<'a>(&self) -> bool {
         self.TlsRequired.unwrap_or(false)
     }
 }
@@ -11219,26 +9189,17 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.offset {
-            Some(v) => {
-                try!(os.write_int64(1, v));
-            },
-            None => {},
+        if let Some(v) = self.offset {
+            try!(os.write_int64(1, v));
         };
-        match self.value.as_ref() {
-            Some(v) => {
-                try!(os.write_bytes(2, v.as_slice()));
-            },
-            None => {},
+        if let Some(v) = self.value.as_ref() {
+            try!(os.write_bytes(2, v.as_slice()));
         };
         for v in self.permission.iter() {
             try!(os.write_enum(3, *v as i32));
         };
-        match self.TlsRequired {
-            Some(v) => {
-                try!(os.write_bool(4, v));
-            },
-            None => {},
+        if let Some(v) = self.TlsRequired {
+            try!(os.write_bool(4, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -11264,11 +9225,26 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_Scope_offset_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_Scope_value_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_Scope_permission_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope>) });
-                fields.push(unsafe { ::std::mem::transmute(&Command_Security_ACL_Scope_TlsRequired_acc as &'static ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_i64_accessor(
+                    "offset",
+                    Command_Security_ACL_Scope::has_offset,
+                    Command_Security_ACL_Scope::get_offset,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bytes_accessor(
+                    "value",
+                    Command_Security_ACL_Scope::has_value,
+                    Command_Security_ACL_Scope::get_value,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_enum_accessor(
+                    "permission",
+                    Command_Security_ACL_Scope::get_permission,
+                ));
+                fields.push(::protobuf::reflect::accessor::make_singular_bool_accessor(
+                    "TlsRequired",
+                    Command_Security_ACL_Scope::has_TlsRequired,
+                    Command_Security_ACL_Scope::get_TlsRequired,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_Security_ACL_Scope>(
                     "Command_Security_ACL_Scope",
                     fields,
@@ -11306,79 +9282,6 @@ impl ::std::cmp::PartialEq for Command_Security_ACL_Scope {
 impl ::std::fmt::Show for Command_Security_ACL_Scope {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         self.fmt_impl(f)
-    }
-}
-
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_Scope_offset_acc_type;
-static Command_Security_ACL_Scope_offset_acc: Command_Security_ACL_Scope_offset_acc_type = Command_Security_ACL_Scope_offset_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_Security_ACL_Scope_offset_acc_type {
-    fn name(&self) -> &'static str {
-        "offset"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL_Scope) -> bool {
-        m.has_offset()
-    }
-
-    fn get_i64(&self, m: &Command_Security_ACL_Scope) -> i64 {
-        m.get_offset()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_Scope_value_acc_type;
-static Command_Security_ACL_Scope_value_acc: Command_Security_ACL_Scope_value_acc_type = Command_Security_ACL_Scope_value_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_Security_ACL_Scope_value_acc_type {
-    fn name(&self) -> &'static str {
-        "value"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL_Scope) -> bool {
-        m.has_value()
-    }
-
-    fn get_bytes<'a>(&self, m: &'a Command_Security_ACL_Scope) -> &'a [u8] {
-        m.get_value()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_Scope_permission_acc_type;
-static Command_Security_ACL_Scope_permission_acc: Command_Security_ACL_Scope_permission_acc_type = Command_Security_ACL_Scope_permission_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_Security_ACL_Scope_permission_acc_type {
-    fn name(&self) -> &'static str {
-        "permission"
-    }
-
-    fn len_field(&self, m: &Command_Security_ACL_Scope) -> uint {
-        m.get_permission().len()
-    }
-
-    fn get_rep_enum_item<'a>(&self, m: &Command_Security_ACL_Scope, index: uint) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_permission()[index].descriptor()
-    }
-}
-
-#[allow(non_camel_case_types)]
-struct Command_Security_ACL_Scope_TlsRequired_acc_type;
-static Command_Security_ACL_Scope_TlsRequired_acc: Command_Security_ACL_Scope_TlsRequired_acc_type = Command_Security_ACL_Scope_TlsRequired_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_Security_ACL_Scope> for Command_Security_ACL_Scope_TlsRequired_acc_type {
-    fn name(&self) -> &'static str {
-        "TlsRequired"
-    }
-
-    fn has_field(&self, m: &Command_Security_ACL_Scope) -> bool {
-        m.has_TlsRequired()
-    }
-
-    fn get_bool(&self, m: &Command_Security_ACL_Scope) -> bool {
-        m.get_TlsRequired()
     }
 }
 
@@ -11469,7 +9372,7 @@ pub struct Command_PinOperation {
     cached_size: ::std::cell::Cell<u32>,
 }
 
-impl<'a> Command_PinOperation {
+impl Command_PinOperation {
     pub fn new() -> Command_PinOperation {
         ::std::default::Default::default()
     }
@@ -11505,7 +9408,7 @@ impl<'a> Command_PinOperation {
         self.pinOpType = ::std::option::Some(v);
     }
 
-    pub fn get_pinOpType(&self) -> Command_PinOperation_PinOpType {
+    pub fn get_pinOpType<'a>(&self) -> Command_PinOperation_PinOpType {
         self.pinOpType.unwrap_or(Command_PinOperation_PinOpType::INVALID_PINOP)
     }
 }
@@ -11551,11 +9454,8 @@ impl ::protobuf::Message for Command_PinOperation {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        match self.pinOpType {
-            Some(v) => {
-                try!(os.write_enum(1, v as i32));
-            },
-            None => {},
+        if let Some(v) = self.pinOpType {
+            try!(os.write_enum(1, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Ok(())
@@ -11581,8 +9481,12 @@ impl ::protobuf::Message for Command_PinOperation {
         };
         unsafe {
             descriptor.get(|| {
-                let mut fields: ::std::vec::Vec<&'static ::protobuf::reflect::FieldAccessor<Command_PinOperation>> = ::std::vec::Vec::new();
-                fields.push(unsafe { ::std::mem::transmute(&Command_PinOperation_pinOpType_acc as &'static ::protobuf::reflect::FieldAccessor<Command_PinOperation>) });
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_singular_enum_accessor(
+                    "pinOpType",
+                    Command_PinOperation::has_pinOpType,
+                    Command_PinOperation::get_pinOpType,
+                ));
                 ::protobuf::reflect::MessageDescriptor::new::<Command_PinOperation>(
                     "Command_PinOperation",
                     fields,
@@ -11614,25 +9518,6 @@ impl ::std::cmp::PartialEq for Command_PinOperation {
 impl ::std::fmt::Show for Command_PinOperation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         self.fmt_impl(f)
-    }
-}
-
-
-#[allow(non_camel_case_types)]
-struct Command_PinOperation_pinOpType_acc_type;
-static Command_PinOperation_pinOpType_acc: Command_PinOperation_pinOpType_acc_type = Command_PinOperation_pinOpType_acc_type;
-
-impl ::protobuf::reflect::FieldAccessor<Command_PinOperation> for Command_PinOperation_pinOpType_acc_type {
-    fn name(&self) -> &'static str {
-        "pinOpType"
-    }
-
-    fn has_field(&self, m: &Command_PinOperation) -> bool {
-        m.has_pinOpType()
-    }
-
-    fn get_enum<'a>(&self, m: &Command_PinOperation) -> &'static ::protobuf::reflect::EnumValueDescriptor {
-        m.get_pinOpType().descriptor()
     }
 }
 
