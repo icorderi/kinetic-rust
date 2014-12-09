@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `FlushResponse` type in crate `kinetic`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, FlushResponse">
+    <meta name="description" content="API documentation for the Rust `AsyncClient` type in crate `kinetic`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, AsyncClient">
 
-    <title>kinetic::responses::FlushResponse - Rust</title>
+    <title>kinetic::AsyncClient - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>responses</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='pin/index.html'>pin</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.GetKeyRangeResponse.html'>GetKeyRangeResponse</a><a class='struct ' href='struct.GetNextResponse.html'>GetNextResponse</a><a class='struct ' href='struct.GetPreviousResponse.html'>GetPreviousResponse</a><a class='struct ' href='struct.GetResponse.html'>GetResponse</a><a class='struct ' href='struct.GetVersionResponse.html'>GetVersionResponse</a></div>
+        <p class='location'><a href='index.html'>kinetic</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='authentication/index.html'>authentication</a><a class='mod ' href='channel/index.html'>channel</a><a class='mod ' href='commands/index.html'>commands</a><a class='mod ' href='error/index.html'>error</a><a class='mod ' href='proto/index.html'>proto</a><a class='mod ' href='responses/index.html'>responses</a><a class='mod ' href='result/index.html'>result</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Client.html'>Client</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Command.html'>Command</a><a class='trait ' href='trait.Response.html'>Response</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.version.html'>version</a></div>
     </section>
 
     <nav class="sub">
@@ -41,12 +41,11 @@
     </nav>
 
     <section id='main' class="content type">
-<h1 class='fqn'><span class='in-band'><a href='../index.html'>kinetic</a>::<wbr><a href='index.html'>responses</a>::<wbr><a class='type' href=''>FlushResponse</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'><a href='index.html'>kinetic</a>::<wbr><a class='type' href=''>AsyncClient</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-2089' href='../../src/kinetic/responses/mod.rs.html#50'>[src]</a></span></h1>
-<pre class='rust typedef'>type FlushResponse = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>;</pre><div class='docblock'><p>A <code>Flush</code> command result</p>
-</div></section>
+        </span><a id='src-90318' href='../src/kinetic/client.rs.html#159'>[src]</a></span></h1>
+<pre class='rust typedef'>type AsyncClient = <a class='struct' href='../kinetic/struct.Client.html' title='kinetic::Client'>Client</a>&lt;<a class='struct' href='../kinetic/channel/struct.AsyncChannel.html' title='kinetic::channel::AsyncChannel'>AsyncChannel</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/comm/struct.Receiver.html' title='std::comm::Receiver'>Receiver</a>&lt;<a class='type' href='../kinetic/channel/type.Result.html' title='kinetic::channel::Result'>Result</a>&gt;&gt;;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -85,13 +84,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../";
         window.currentCrate = "kinetic";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script async src="../search-index.js"></script>
 </body>
 </html>
