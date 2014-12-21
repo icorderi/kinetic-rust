@@ -43,6 +43,7 @@ pub enum Command {
     Write,
     Info,
     Bench,
+    Log,
 }
 
 impl CliDispatcher for Command {
@@ -61,6 +62,9 @@ impl CliDispatcher for Command {
                 },
                 Command::Bench  => {
                     let x: ::bench::BenchArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                },
+                Command::Log  => {
+                    let x: ::get_log::LogArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
                 }
                 Command::Help => {
                     let x: ::help::HelpArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
@@ -115,6 +119,7 @@ pub fn main_with_args(argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -
         println!("    write");
         println!("    info");
         println!("    bench");
+        println!("    log");
         println!("    help");
         return Ok(());
     }

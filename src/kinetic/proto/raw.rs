@@ -4,7 +4,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
-#![allow(non_snake_case)] 
+#![allow(non_snake_case)]
 
 use protobuf::Message as Message_imported_for_functions;
 use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
@@ -89,7 +89,7 @@ impl ::protobuf::Message for Local {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolVersion.set_default();
                     try!(is.read_string_into(tmp))
@@ -100,7 +100,7 @@ impl ::protobuf::Message for Local {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -119,7 +119,7 @@ impl ::protobuf::Message for Local {
             try!(os.write_string(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -205,7 +205,7 @@ impl Message {
         unsafe {
             instance.get(|| {
                 Message {
-                    authType: ::std::option::None,
+                    authType: ::std::option::Option::None,
                     hmacAuth: ::protobuf::SingularPtrField::none(),
                     pinAuth: ::protobuf::SingularPtrField::none(),
                     commandBytes: ::protobuf::SingularField::none(),
@@ -219,7 +219,7 @@ impl Message {
     // optional .com.seagate.kinetic.proto.Message.AuthType authType = 4;
 
     pub fn clear_authType(&mut self) {
-        self.authType = ::std::option::None;
+        self.authType = ::std::option::Option::None;
     }
 
     pub fn has_authType(&self) -> bool {
@@ -228,7 +228,7 @@ impl Message {
 
     // Param is passed by value, moved
     pub fn set_authType(&mut self, v: Message_AuthType) {
-        self.authType = ::std::option::Some(v);
+        self.authType = ::std::option::Option::Some(v);
     }
 
     pub fn get_authType<'a>(&self) -> Message_AuthType {
@@ -353,28 +353,28 @@ impl ::protobuf::Message for Message {
             match field_number {
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.authType = ::std::option::Some(tmp);
+                    self.authType = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hmacAuth.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.pinAuth.set_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.commandBytes.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -385,7 +385,7 @@ impl ::protobuf::Message for Message {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -428,7 +428,7 @@ impl ::protobuf::Message for Message {
             try!(os.write_bytes(7, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -533,7 +533,7 @@ impl Message_HMACauth {
         unsafe {
             instance.get(|| {
                 Message_HMACauth {
-                    identity: ::std::option::None,
+                    identity: ::std::option::Option::None,
                     hmac: ::protobuf::SingularField::none(),
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
@@ -545,7 +545,7 @@ impl Message_HMACauth {
     // optional int64 identity = 1;
 
     pub fn clear_identity(&mut self) {
-        self.identity = ::std::option::None;
+        self.identity = ::std::option::Option::None;
     }
 
     pub fn has_identity(&self) -> bool {
@@ -554,7 +554,7 @@ impl Message_HMACauth {
 
     // Param is passed by value, moved
     pub fn set_identity(&mut self, v: i64) {
-        self.identity = ::std::option::Some(v);
+        self.identity = ::std::option::Option::Some(v);
     }
 
     pub fn get_identity<'a>(&self) -> i64 {
@@ -613,14 +613,14 @@ impl ::protobuf::Message for Message_HMACauth {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.identity = ::std::option::Some(tmp);
+                    self.identity = ::std::option::Option::Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hmac.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -631,7 +631,7 @@ impl ::protobuf::Message for Message_HMACauth {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -656,7 +656,7 @@ impl ::protobuf::Message for Message_HMACauth {
             try!(os.write_bytes(2, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -806,7 +806,7 @@ impl ::protobuf::Message for Message_PINauth {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.pin.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -817,7 +817,7 @@ impl ::protobuf::Message for Message_PINauth {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -836,7 +836,7 @@ impl ::protobuf::Message for Message_PINauth {
             try!(os.write_bytes(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -907,7 +907,6 @@ pub enum Message_AuthType {
     UNSOLICITEDSTATUS = 3,
 }
 
-
 impl ::protobuf::ProtobufEnum for Message_AuthType {
     fn value(&self) -> i32 {
         *self as i32
@@ -915,11 +914,11 @@ impl ::protobuf::ProtobufEnum for Message_AuthType {
 
     fn from_i32(value: i32) -> ::std::option::Option<Message_AuthType> {
         match value {
-            -1 => ::std::option::Some(Message_AuthType::INVALID_AUTH_TYPE),
-            1 => ::std::option::Some(Message_AuthType::HMACAUTH),
-            2 => ::std::option::Some(Message_AuthType::PINAUTH),
-            3 => ::std::option::Some(Message_AuthType::UNSOLICITEDSTATUS),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Message_AuthType::INVALID_AUTH_TYPE),
+            1 => ::std::option::Option::Some(Message_AuthType::HMACAUTH),
+            2 => ::std::option::Option::Some(Message_AuthType::PINAUTH),
+            3 => ::std::option::Option::Some(Message_AuthType::UNSOLICITEDSTATUS),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -934,6 +933,9 @@ impl ::protobuf::ProtobufEnum for Message_AuthType {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Message_AuthType {
 }
 
 #[deriving(Clone,Default)]
@@ -1083,21 +1085,21 @@ impl ::protobuf::Message for Command {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.header.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.body.set_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.status.set_default();
                     try!(is.merge_message(tmp))
@@ -1108,7 +1110,7 @@ impl ::protobuf::Message for Command {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -1148,7 +1150,7 @@ impl ::protobuf::Message for Command {
             try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -1253,15 +1255,15 @@ impl Command_Header {
         unsafe {
             instance.get(|| {
                 Command_Header {
-                    clusterVersion: ::std::option::None,
-                    connectionID: ::std::option::None,
-                    sequence: ::std::option::None,
-                    ackSequence: ::std::option::None,
-                    messageType: ::std::option::None,
-                    timeout: ::std::option::None,
-                    earlyExit: ::std::option::None,
-                    priority: ::std::option::None,
-                    TimeQuanta: ::std::option::None,
+                    clusterVersion: ::std::option::Option::None,
+                    connectionID: ::std::option::Option::None,
+                    sequence: ::std::option::Option::None,
+                    ackSequence: ::std::option::Option::None,
+                    messageType: ::std::option::Option::None,
+                    timeout: ::std::option::Option::None,
+                    earlyExit: ::std::option::Option::None,
+                    priority: ::std::option::Option::None,
+                    TimeQuanta: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -1272,7 +1274,7 @@ impl Command_Header {
     // optional int64 clusterVersion = 1;
 
     pub fn clear_clusterVersion(&mut self) {
-        self.clusterVersion = ::std::option::None;
+        self.clusterVersion = ::std::option::Option::None;
     }
 
     pub fn has_clusterVersion(&self) -> bool {
@@ -1281,7 +1283,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_clusterVersion(&mut self, v: i64) {
-        self.clusterVersion = ::std::option::Some(v);
+        self.clusterVersion = ::std::option::Option::Some(v);
     }
 
     pub fn get_clusterVersion<'a>(&self) -> i64 {
@@ -1291,7 +1293,7 @@ impl Command_Header {
     // optional int64 connectionID = 3;
 
     pub fn clear_connectionID(&mut self) {
-        self.connectionID = ::std::option::None;
+        self.connectionID = ::std::option::Option::None;
     }
 
     pub fn has_connectionID(&self) -> bool {
@@ -1300,7 +1302,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_connectionID(&mut self, v: i64) {
-        self.connectionID = ::std::option::Some(v);
+        self.connectionID = ::std::option::Option::Some(v);
     }
 
     pub fn get_connectionID<'a>(&self) -> i64 {
@@ -1310,7 +1312,7 @@ impl Command_Header {
     // optional int64 sequence = 4;
 
     pub fn clear_sequence(&mut self) {
-        self.sequence = ::std::option::None;
+        self.sequence = ::std::option::Option::None;
     }
 
     pub fn has_sequence(&self) -> bool {
@@ -1319,7 +1321,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_sequence(&mut self, v: i64) {
-        self.sequence = ::std::option::Some(v);
+        self.sequence = ::std::option::Option::Some(v);
     }
 
     pub fn get_sequence<'a>(&self) -> i64 {
@@ -1329,7 +1331,7 @@ impl Command_Header {
     // optional int64 ackSequence = 6;
 
     pub fn clear_ackSequence(&mut self) {
-        self.ackSequence = ::std::option::None;
+        self.ackSequence = ::std::option::Option::None;
     }
 
     pub fn has_ackSequence(&self) -> bool {
@@ -1338,7 +1340,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_ackSequence(&mut self, v: i64) {
-        self.ackSequence = ::std::option::Some(v);
+        self.ackSequence = ::std::option::Option::Some(v);
     }
 
     pub fn get_ackSequence<'a>(&self) -> i64 {
@@ -1348,7 +1350,7 @@ impl Command_Header {
     // optional .com.seagate.kinetic.proto.Command.MessageType messageType = 7;
 
     pub fn clear_messageType(&mut self) {
-        self.messageType = ::std::option::None;
+        self.messageType = ::std::option::Option::None;
     }
 
     pub fn has_messageType(&self) -> bool {
@@ -1357,7 +1359,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_messageType(&mut self, v: Command_MessageType) {
-        self.messageType = ::std::option::Some(v);
+        self.messageType = ::std::option::Option::Some(v);
     }
 
     pub fn get_messageType<'a>(&self) -> Command_MessageType {
@@ -1367,7 +1369,7 @@ impl Command_Header {
     // optional int64 timeout = 9;
 
     pub fn clear_timeout(&mut self) {
-        self.timeout = ::std::option::None;
+        self.timeout = ::std::option::Option::None;
     }
 
     pub fn has_timeout(&self) -> bool {
@@ -1376,7 +1378,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_timeout(&mut self, v: i64) {
-        self.timeout = ::std::option::Some(v);
+        self.timeout = ::std::option::Option::Some(v);
     }
 
     pub fn get_timeout<'a>(&self) -> i64 {
@@ -1386,7 +1388,7 @@ impl Command_Header {
     // optional bool earlyExit = 10;
 
     pub fn clear_earlyExit(&mut self) {
-        self.earlyExit = ::std::option::None;
+        self.earlyExit = ::std::option::Option::None;
     }
 
     pub fn has_earlyExit(&self) -> bool {
@@ -1395,7 +1397,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_earlyExit(&mut self, v: bool) {
-        self.earlyExit = ::std::option::Some(v);
+        self.earlyExit = ::std::option::Option::Some(v);
     }
 
     pub fn get_earlyExit<'a>(&self) -> bool {
@@ -1405,7 +1407,7 @@ impl Command_Header {
     // optional .com.seagate.kinetic.proto.Command.Priority priority = 12;
 
     pub fn clear_priority(&mut self) {
-        self.priority = ::std::option::None;
+        self.priority = ::std::option::Option::None;
     }
 
     pub fn has_priority(&self) -> bool {
@@ -1414,7 +1416,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_priority(&mut self, v: Command_Priority) {
-        self.priority = ::std::option::Some(v);
+        self.priority = ::std::option::Option::Some(v);
     }
 
     pub fn get_priority<'a>(&self) -> Command_Priority {
@@ -1424,7 +1426,7 @@ impl Command_Header {
     // optional int64 TimeQuanta = 13;
 
     pub fn clear_TimeQuanta(&mut self) {
-        self.TimeQuanta = ::std::option::None;
+        self.TimeQuanta = ::std::option::Option::None;
     }
 
     pub fn has_TimeQuanta(&self) -> bool {
@@ -1433,7 +1435,7 @@ impl Command_Header {
 
     // Param is passed by value, moved
     pub fn set_TimeQuanta(&mut self, v: i64) {
-        self.TimeQuanta = ::std::option::Some(v);
+        self.TimeQuanta = ::std::option::Option::Some(v);
     }
 
     pub fn get_TimeQuanta<'a>(&self) -> i64 {
@@ -1456,66 +1458,66 @@ impl ::protobuf::Message for Command_Header {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.clusterVersion = ::std::option::Some(tmp);
+                    self.clusterVersion = ::std::option::Option::Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.connectionID = ::std::option::Some(tmp);
+                    self.connectionID = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.sequence = ::std::option::Some(tmp);
+                    self.sequence = ::std::option::Option::Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.ackSequence = ::std::option::Some(tmp);
+                    self.ackSequence = ::std::option::Option::Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.messageType = ::std::option::Some(tmp);
+                    self.messageType = ::std::option::Option::Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.timeout = ::std::option::Some(tmp);
+                    self.timeout = ::std::option::Option::Some(tmp);
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.earlyExit = ::std::option::Some(tmp);
+                    self.earlyExit = ::std::option::Option::Some(tmp);
                 },
                 12 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.priority = ::std::option::Some(tmp);
+                    self.priority = ::std::option::Option::Some(tmp);
                 },
                 13 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.TimeQuanta = ::std::option::Some(tmp);
+                    self.TimeQuanta = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -1523,7 +1525,7 @@ impl ::protobuf::Message for Command_Header {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -1590,7 +1592,7 @@ impl ::protobuf::Message for Command_Header {
             try!(os.write_int64(13, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -1996,49 +1998,49 @@ impl ::protobuf::Message for Command_Body {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.keyValue.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.range.set_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.setup.set_default();
                     try!(is.merge_message(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.p2pOperation.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.getLog.set_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.security.set_default();
                     try!(is.merge_message(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.pinOp.set_default();
                     try!(is.merge_message(tmp))
@@ -2049,7 +2051,7 @@ impl ::protobuf::Message for Command_Body {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -2125,7 +2127,7 @@ impl ::protobuf::Message for Command_Body {
             try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -2252,7 +2254,7 @@ impl Command_Status {
         unsafe {
             instance.get(|| {
                 Command_Status {
-                    code: ::std::option::None,
+                    code: ::std::option::Option::None,
                     statusMessage: ::protobuf::SingularField::none(),
                     detailedMessage: ::protobuf::SingularField::none(),
                     unknown_fields: ::protobuf::UnknownFields::new(),
@@ -2265,7 +2267,7 @@ impl Command_Status {
     // optional .com.seagate.kinetic.proto.Command.Status.StatusCode code = 1;
 
     pub fn clear_code(&mut self) {
-        self.code = ::std::option::None;
+        self.code = ::std::option::Option::None;
     }
 
     pub fn has_code(&self) -> bool {
@@ -2274,7 +2276,7 @@ impl Command_Status {
 
     // Param is passed by value, moved
     pub fn set_code(&mut self, v: Command_Status_StatusCode) {
-        self.code = ::std::option::Some(v);
+        self.code = ::std::option::Option::Some(v);
     }
 
     pub fn get_code<'a>(&self) -> Command_Status_StatusCode {
@@ -2369,21 +2371,21 @@ impl ::protobuf::Message for Command_Status {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.code = ::std::option::Some(tmp);
+                    self.code = ::std::option::Option::Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.statusMessage.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.detailedMessage.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -2394,7 +2396,7 @@ impl ::protobuf::Message for Command_Status {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -2425,7 +2427,7 @@ impl ::protobuf::Message for Command_Status {
             try!(os.write_bytes(3, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -2528,7 +2530,6 @@ pub enum Command_Status_StatusCode {
     CONNECTION_TERMINATED = 20,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Status_StatusCode {
     fn value(&self) -> i32 {
         *self as i32
@@ -2536,29 +2537,29 @@ impl ::protobuf::ProtobufEnum for Command_Status_StatusCode {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Status_StatusCode> {
         match value {
-            -1 => ::std::option::Some(Command_Status_StatusCode::INVALID_STATUS_CODE),
-            0 => ::std::option::Some(Command_Status_StatusCode::NOT_ATTEMPTED),
-            1 => ::std::option::Some(Command_Status_StatusCode::SUCCESS),
-            2 => ::std::option::Some(Command_Status_StatusCode::HMAC_FAILURE),
-            3 => ::std::option::Some(Command_Status_StatusCode::NOT_AUTHORIZED),
-            4 => ::std::option::Some(Command_Status_StatusCode::VERSION_FAILURE),
-            5 => ::std::option::Some(Command_Status_StatusCode::INTERNAL_ERROR),
-            6 => ::std::option::Some(Command_Status_StatusCode::HEADER_REQUIRED),
-            7 => ::std::option::Some(Command_Status_StatusCode::NOT_FOUND),
-            8 => ::std::option::Some(Command_Status_StatusCode::VERSION_MISMATCH),
-            9 => ::std::option::Some(Command_Status_StatusCode::SERVICE_BUSY),
-            10 => ::std::option::Some(Command_Status_StatusCode::EXPIRED),
-            11 => ::std::option::Some(Command_Status_StatusCode::DATA_ERROR),
-            12 => ::std::option::Some(Command_Status_StatusCode::PERM_DATA_ERROR),
-            13 => ::std::option::Some(Command_Status_StatusCode::REMOTE_CONNECTION_ERROR),
-            14 => ::std::option::Some(Command_Status_StatusCode::NO_SPACE),
-            15 => ::std::option::Some(Command_Status_StatusCode::NO_SUCH_HMAC_ALGORITHM),
-            16 => ::std::option::Some(Command_Status_StatusCode::INVALID_REQUEST),
-            17 => ::std::option::Some(Command_Status_StatusCode::NESTED_OPERATION_ERRORS),
-            18 => ::std::option::Some(Command_Status_StatusCode::DEVICE_LOCKED),
-            19 => ::std::option::Some(Command_Status_StatusCode::DEVICE_ALREADY_UNLOCKED),
-            20 => ::std::option::Some(Command_Status_StatusCode::CONNECTION_TERMINATED),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_Status_StatusCode::INVALID_STATUS_CODE),
+            0 => ::std::option::Option::Some(Command_Status_StatusCode::NOT_ATTEMPTED),
+            1 => ::std::option::Option::Some(Command_Status_StatusCode::SUCCESS),
+            2 => ::std::option::Option::Some(Command_Status_StatusCode::HMAC_FAILURE),
+            3 => ::std::option::Option::Some(Command_Status_StatusCode::NOT_AUTHORIZED),
+            4 => ::std::option::Option::Some(Command_Status_StatusCode::VERSION_FAILURE),
+            5 => ::std::option::Option::Some(Command_Status_StatusCode::INTERNAL_ERROR),
+            6 => ::std::option::Option::Some(Command_Status_StatusCode::HEADER_REQUIRED),
+            7 => ::std::option::Option::Some(Command_Status_StatusCode::NOT_FOUND),
+            8 => ::std::option::Option::Some(Command_Status_StatusCode::VERSION_MISMATCH),
+            9 => ::std::option::Option::Some(Command_Status_StatusCode::SERVICE_BUSY),
+            10 => ::std::option::Option::Some(Command_Status_StatusCode::EXPIRED),
+            11 => ::std::option::Option::Some(Command_Status_StatusCode::DATA_ERROR),
+            12 => ::std::option::Option::Some(Command_Status_StatusCode::PERM_DATA_ERROR),
+            13 => ::std::option::Option::Some(Command_Status_StatusCode::REMOTE_CONNECTION_ERROR),
+            14 => ::std::option::Option::Some(Command_Status_StatusCode::NO_SPACE),
+            15 => ::std::option::Option::Some(Command_Status_StatusCode::NO_SUCH_HMAC_ALGORITHM),
+            16 => ::std::option::Option::Some(Command_Status_StatusCode::INVALID_REQUEST),
+            17 => ::std::option::Option::Some(Command_Status_StatusCode::NESTED_OPERATION_ERRORS),
+            18 => ::std::option::Option::Some(Command_Status_StatusCode::DEVICE_LOCKED),
+            19 => ::std::option::Option::Some(Command_Status_StatusCode::DEVICE_ALREADY_UNLOCKED),
+            20 => ::std::option::Option::Some(Command_Status_StatusCode::CONNECTION_TERMINATED),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -2573,6 +2574,9 @@ impl ::protobuf::ProtobufEnum for Command_Status_StatusCode {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Command_Status_StatusCode {
 }
 
 #[deriving(Clone,Default)]
@@ -2603,13 +2607,13 @@ impl Command_KeyValue {
             instance.get(|| {
                 Command_KeyValue {
                     newVersion: ::protobuf::SingularField::none(),
-                    force: ::std::option::None,
+                    force: ::std::option::Option::None,
                     key: ::protobuf::SingularField::none(),
                     dbVersion: ::protobuf::SingularField::none(),
                     tag: ::protobuf::SingularField::none(),
-                    algorithm: ::std::option::None,
-                    metadataOnly: ::std::option::None,
-                    synchronization: ::std::option::None,
+                    algorithm: ::std::option::Option::None,
+                    metadataOnly: ::std::option::Option::None,
+                    synchronization: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -2656,7 +2660,7 @@ impl Command_KeyValue {
     // optional bool force = 8;
 
     pub fn clear_force(&mut self) {
-        self.force = ::std::option::None;
+        self.force = ::std::option::Option::None;
     }
 
     pub fn has_force(&self) -> bool {
@@ -2665,7 +2669,7 @@ impl Command_KeyValue {
 
     // Param is passed by value, moved
     pub fn set_force(&mut self, v: bool) {
-        self.force = ::std::option::Some(v);
+        self.force = ::std::option::Option::Some(v);
     }
 
     pub fn get_force<'a>(&self) -> bool {
@@ -2783,7 +2787,7 @@ impl Command_KeyValue {
     // optional .com.seagate.kinetic.proto.Command.Algorithm algorithm = 6;
 
     pub fn clear_algorithm(&mut self) {
-        self.algorithm = ::std::option::None;
+        self.algorithm = ::std::option::Option::None;
     }
 
     pub fn has_algorithm(&self) -> bool {
@@ -2792,7 +2796,7 @@ impl Command_KeyValue {
 
     // Param is passed by value, moved
     pub fn set_algorithm(&mut self, v: Command_Algorithm) {
-        self.algorithm = ::std::option::Some(v);
+        self.algorithm = ::std::option::Option::Some(v);
     }
 
     pub fn get_algorithm<'a>(&self) -> Command_Algorithm {
@@ -2802,7 +2806,7 @@ impl Command_KeyValue {
     // optional bool metadataOnly = 7;
 
     pub fn clear_metadataOnly(&mut self) {
-        self.metadataOnly = ::std::option::None;
+        self.metadataOnly = ::std::option::Option::None;
     }
 
     pub fn has_metadataOnly(&self) -> bool {
@@ -2811,7 +2815,7 @@ impl Command_KeyValue {
 
     // Param is passed by value, moved
     pub fn set_metadataOnly(&mut self, v: bool) {
-        self.metadataOnly = ::std::option::Some(v);
+        self.metadataOnly = ::std::option::Option::Some(v);
     }
 
     pub fn get_metadataOnly<'a>(&self) -> bool {
@@ -2821,7 +2825,7 @@ impl Command_KeyValue {
     // optional .com.seagate.kinetic.proto.Command.Synchronization synchronization = 9;
 
     pub fn clear_synchronization(&mut self) {
-        self.synchronization = ::std::option::None;
+        self.synchronization = ::std::option::Option::None;
     }
 
     pub fn has_synchronization(&self) -> bool {
@@ -2830,7 +2834,7 @@ impl Command_KeyValue {
 
     // Param is passed by value, moved
     pub fn set_synchronization(&mut self, v: Command_Synchronization) {
-        self.synchronization = ::std::option::Some(v);
+        self.synchronization = ::std::option::Option::Some(v);
     }
 
     pub fn get_synchronization<'a>(&self) -> Command_Synchronization {
@@ -2853,59 +2857,59 @@ impl ::protobuf::Message for Command_KeyValue {
             match field_number {
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newVersion.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.force = ::std::option::Some(tmp);
+                    self.force = ::std::option::Option::Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.dbVersion.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.tag.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.algorithm = ::std::option::Some(tmp);
+                    self.algorithm = ::std::option::Option::Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.metadataOnly = ::std::option::Some(tmp);
+                    self.metadataOnly = ::std::option::Option::Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.synchronization = ::std::option::Some(tmp);
+                    self.synchronization = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -2913,7 +2917,7 @@ impl ::protobuf::Message for Command_KeyValue {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -2974,7 +2978,7 @@ impl ::protobuf::Message for Command_KeyValue {
             try!(os.write_enum(9, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -3114,10 +3118,10 @@ impl Command_Range {
                 Command_Range {
                     startKey: ::protobuf::SingularField::none(),
                     endKey: ::protobuf::SingularField::none(),
-                    startKeyInclusive: ::std::option::None,
-                    endKeyInclusive: ::std::option::None,
-                    maxReturned: ::std::option::None,
-                    reverse: ::std::option::None,
+                    startKeyInclusive: ::std::option::Option::None,
+                    endKeyInclusive: ::std::option::Option::None,
+                    maxReturned: ::std::option::Option::None,
+                    reverse: ::std::option::Option::None,
                     keys: ::protobuf::RepeatedField::new(),
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
@@ -3201,7 +3205,7 @@ impl Command_Range {
     // optional bool startKeyInclusive = 3;
 
     pub fn clear_startKeyInclusive(&mut self) {
-        self.startKeyInclusive = ::std::option::None;
+        self.startKeyInclusive = ::std::option::Option::None;
     }
 
     pub fn has_startKeyInclusive(&self) -> bool {
@@ -3210,7 +3214,7 @@ impl Command_Range {
 
     // Param is passed by value, moved
     pub fn set_startKeyInclusive(&mut self, v: bool) {
-        self.startKeyInclusive = ::std::option::Some(v);
+        self.startKeyInclusive = ::std::option::Option::Some(v);
     }
 
     pub fn get_startKeyInclusive<'a>(&self) -> bool {
@@ -3220,7 +3224,7 @@ impl Command_Range {
     // optional bool endKeyInclusive = 4;
 
     pub fn clear_endKeyInclusive(&mut self) {
-        self.endKeyInclusive = ::std::option::None;
+        self.endKeyInclusive = ::std::option::Option::None;
     }
 
     pub fn has_endKeyInclusive(&self) -> bool {
@@ -3229,7 +3233,7 @@ impl Command_Range {
 
     // Param is passed by value, moved
     pub fn set_endKeyInclusive(&mut self, v: bool) {
-        self.endKeyInclusive = ::std::option::Some(v);
+        self.endKeyInclusive = ::std::option::Option::Some(v);
     }
 
     pub fn get_endKeyInclusive<'a>(&self) -> bool {
@@ -3239,7 +3243,7 @@ impl Command_Range {
     // optional int32 maxReturned = 5;
 
     pub fn clear_maxReturned(&mut self) {
-        self.maxReturned = ::std::option::None;
+        self.maxReturned = ::std::option::Option::None;
     }
 
     pub fn has_maxReturned(&self) -> bool {
@@ -3248,7 +3252,7 @@ impl Command_Range {
 
     // Param is passed by value, moved
     pub fn set_maxReturned(&mut self, v: i32) {
-        self.maxReturned = ::std::option::Some(v);
+        self.maxReturned = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxReturned<'a>(&self) -> i32 {
@@ -3258,7 +3262,7 @@ impl Command_Range {
     // optional bool reverse = 6;
 
     pub fn clear_reverse(&mut self) {
-        self.reverse = ::std::option::None;
+        self.reverse = ::std::option::Option::None;
     }
 
     pub fn has_reverse(&self) -> bool {
@@ -3267,7 +3271,7 @@ impl Command_Range {
 
     // Param is passed by value, moved
     pub fn set_reverse(&mut self, v: bool) {
-        self.reverse = ::std::option::Some(v);
+        self.reverse = ::std::option::Option::Some(v);
     }
 
     pub fn get_reverse<'a>(&self) -> bool {
@@ -3315,49 +3319,49 @@ impl ::protobuf::Message for Command_Range {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.startKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.endKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.startKeyInclusive = ::std::option::Some(tmp);
+                    self.startKeyInclusive = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.endKeyInclusive = ::std::option::Some(tmp);
+                    self.endKeyInclusive = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
-                    self.maxReturned = ::std::option::Some(tmp);
+                    self.maxReturned = ::std::option::Option::Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.reverse = ::std::option::Some(tmp);
+                    self.reverse = ::std::option::Option::Some(tmp);
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.keys.push_default();
                     try!(is.read_bytes_into(tmp))
@@ -3368,7 +3372,7 @@ impl ::protobuf::Message for Command_Range {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -3423,7 +3427,7 @@ impl ::protobuf::Message for Command_Range {
             try!(os.write_bytes(8, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -3548,8 +3552,8 @@ impl Command_Setup {
         unsafe {
             instance.get(|| {
                 Command_Setup {
-                    newClusterVersion: ::std::option::None,
-                    firmwareDownload: ::std::option::None,
+                    newClusterVersion: ::std::option::Option::None,
+                    firmwareDownload: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -3560,7 +3564,7 @@ impl Command_Setup {
     // optional int64 newClusterVersion = 1;
 
     pub fn clear_newClusterVersion(&mut self) {
-        self.newClusterVersion = ::std::option::None;
+        self.newClusterVersion = ::std::option::Option::None;
     }
 
     pub fn has_newClusterVersion(&self) -> bool {
@@ -3569,7 +3573,7 @@ impl Command_Setup {
 
     // Param is passed by value, moved
     pub fn set_newClusterVersion(&mut self, v: i64) {
-        self.newClusterVersion = ::std::option::Some(v);
+        self.newClusterVersion = ::std::option::Option::Some(v);
     }
 
     pub fn get_newClusterVersion<'a>(&self) -> i64 {
@@ -3579,7 +3583,7 @@ impl Command_Setup {
     // optional bool firmwareDownload = 5;
 
     pub fn clear_firmwareDownload(&mut self) {
-        self.firmwareDownload = ::std::option::None;
+        self.firmwareDownload = ::std::option::Option::None;
     }
 
     pub fn has_firmwareDownload(&self) -> bool {
@@ -3588,7 +3592,7 @@ impl Command_Setup {
 
     // Param is passed by value, moved
     pub fn set_firmwareDownload(&mut self, v: bool) {
-        self.firmwareDownload = ::std::option::Some(v);
+        self.firmwareDownload = ::std::option::Option::Some(v);
     }
 
     pub fn get_firmwareDownload<'a>(&self) -> bool {
@@ -3611,17 +3615,17 @@ impl ::protobuf::Message for Command_Setup {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.newClusterVersion = ::std::option::Some(tmp);
+                    self.newClusterVersion = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.firmwareDownload = ::std::option::Some(tmp);
+                    self.firmwareDownload = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -3629,7 +3633,7 @@ impl ::protobuf::Message for Command_Setup {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -3654,7 +3658,7 @@ impl ::protobuf::Message for Command_Setup {
             try!(os.write_bool(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -3748,7 +3752,7 @@ impl Command_P2POperation {
                 Command_P2POperation {
                     peer: ::protobuf::SingularPtrField::none(),
                     operation: ::protobuf::RepeatedField::new(),
-                    allChildOperationsSucceeded: ::std::option::None,
+                    allChildOperationsSucceeded: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -3817,7 +3821,7 @@ impl Command_P2POperation {
     // optional bool allChildOperationsSucceeded = 3;
 
     pub fn clear_allChildOperationsSucceeded(&mut self) {
-        self.allChildOperationsSucceeded = ::std::option::None;
+        self.allChildOperationsSucceeded = ::std::option::Option::None;
     }
 
     pub fn has_allChildOperationsSucceeded(&self) -> bool {
@@ -3826,7 +3830,7 @@ impl Command_P2POperation {
 
     // Param is passed by value, moved
     pub fn set_allChildOperationsSucceeded(&mut self, v: bool) {
-        self.allChildOperationsSucceeded = ::std::option::Some(v);
+        self.allChildOperationsSucceeded = ::std::option::Option::Some(v);
     }
 
     pub fn get_allChildOperationsSucceeded<'a>(&self) -> bool {
@@ -3849,24 +3853,24 @@ impl ::protobuf::Message for Command_P2POperation {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.peer.set_default();
                     try!(is.merge_message(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.operation.push_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.allChildOperationsSucceeded = ::std::option::Some(tmp);
+                    self.allChildOperationsSucceeded = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -3874,7 +3878,7 @@ impl ::protobuf::Message for Command_P2POperation {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -3911,7 +3915,7 @@ impl ::protobuf::Message for Command_P2POperation {
             try!(os.write_bool(3, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -4015,7 +4019,7 @@ impl Command_P2POperation_Operation {
                     key: ::protobuf::SingularField::none(),
                     version: ::protobuf::SingularField::none(),
                     newKey: ::protobuf::SingularField::none(),
-                    force: ::std::option::None,
+                    force: ::std::option::Option::None,
                     status: ::protobuf::SingularPtrField::none(),
                     p2pop: ::protobuf::SingularPtrField::none(),
                     unknown_fields: ::protobuf::UnknownFields::new(),
@@ -4136,7 +4140,7 @@ impl Command_P2POperation_Operation {
     // optional bool force = 6;
 
     pub fn clear_force(&mut self) {
-        self.force = ::std::option::None;
+        self.force = ::std::option::Option::None;
     }
 
     pub fn has_force(&self) -> bool {
@@ -4145,7 +4149,7 @@ impl Command_P2POperation_Operation {
 
     // Param is passed by value, moved
     pub fn set_force(&mut self, v: bool) {
-        self.force = ::std::option::Some(v);
+        self.force = ::std::option::Option::Some(v);
     }
 
     pub fn get_force<'a>(&self) -> bool {
@@ -4234,42 +4238,42 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
             match field_number {
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.version.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newKey.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.force = ::std::option::Some(tmp);
+                    self.force = ::std::option::Option::Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.status.set_default();
                     try!(is.merge_message(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.p2pop.set_default();
                     try!(is.merge_message(tmp))
@@ -4280,7 +4284,7 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -4335,7 +4339,7 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
             try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -4456,8 +4460,8 @@ impl Command_P2POperation_Peer {
             instance.get(|| {
                 Command_P2POperation_Peer {
                     hostname: ::protobuf::SingularField::none(),
-                    port: ::std::option::None,
-                    tls: ::std::option::None,
+                    port: ::std::option::Option::None,
+                    tls: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -4504,7 +4508,7 @@ impl Command_P2POperation_Peer {
     // optional int32 port = 2;
 
     pub fn clear_port(&mut self) {
-        self.port = ::std::option::None;
+        self.port = ::std::option::Option::None;
     }
 
     pub fn has_port(&self) -> bool {
@@ -4513,7 +4517,7 @@ impl Command_P2POperation_Peer {
 
     // Param is passed by value, moved
     pub fn set_port(&mut self, v: i32) {
-        self.port = ::std::option::Some(v);
+        self.port = ::std::option::Option::Some(v);
     }
 
     pub fn get_port<'a>(&self) -> i32 {
@@ -4523,7 +4527,7 @@ impl Command_P2POperation_Peer {
     // optional bool tls = 3;
 
     pub fn clear_tls(&mut self) {
-        self.tls = ::std::option::None;
+        self.tls = ::std::option::Option::None;
     }
 
     pub fn has_tls(&self) -> bool {
@@ -4532,7 +4536,7 @@ impl Command_P2POperation_Peer {
 
     // Param is passed by value, moved
     pub fn set_tls(&mut self, v: bool) {
-        self.tls = ::std::option::Some(v);
+        self.tls = ::std::option::Option::Some(v);
     }
 
     pub fn get_tls<'a>(&self) -> bool {
@@ -4555,24 +4559,24 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.hostname.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
-                    self.port = ::std::option::Some(tmp);
+                    self.port = ::std::option::Option::Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.tls = ::std::option::Some(tmp);
+                    self.tls = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -4580,7 +4584,7 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -4611,7 +4615,7 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
             try!(os.write_bool(3, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -5023,62 +5027,62 @@ impl ::protobuf::Message for Command_GetLog {
                             self.types.push(try!(is.read_enum()));
                         },
                         _ => {
-                            return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                            return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                         },
                     };
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.utilizations.push_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.temperatures.push_default();
                     try!(is.merge_message(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.capacity.set_default();
                     try!(is.merge_message(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.configuration.set_default();
                     try!(is.merge_message(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.statistics.push_default();
                     try!(is.merge_message(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.messages.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.limits.set_default();
                     try!(is.merge_message(tmp))
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.device.set_default();
                     try!(is.merge_message(tmp))
@@ -5089,7 +5093,7 @@ impl ::protobuf::Message for Command_GetLog {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -5177,7 +5181,7 @@ impl ::protobuf::Message for Command_GetLog {
             try!(v.write_to_with_cached_sizes(os));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -5314,7 +5318,7 @@ impl Command_GetLog_Utilization {
             instance.get(|| {
                 Command_GetLog_Utilization {
                     name: ::protobuf::SingularField::none(),
-                    value: ::std::option::None,
+                    value: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -5361,7 +5365,7 @@ impl Command_GetLog_Utilization {
     // optional float value = 2;
 
     pub fn clear_value(&mut self) {
-        self.value = ::std::option::None;
+        self.value = ::std::option::Option::None;
     }
 
     pub fn has_value(&self) -> bool {
@@ -5370,7 +5374,7 @@ impl Command_GetLog_Utilization {
 
     // Param is passed by value, moved
     pub fn set_value(&mut self, v: f32) {
-        self.value = ::std::option::Some(v);
+        self.value = ::std::option::Option::Some(v);
     }
 
     pub fn get_value<'a>(&self) -> f32 {
@@ -5393,17 +5397,17 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.value = ::std::option::Some(tmp);
+                    self.value = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -5411,7 +5415,7 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -5436,7 +5440,7 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
             try!(os.write_float(2, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -5531,10 +5535,10 @@ impl Command_GetLog_Temperature {
             instance.get(|| {
                 Command_GetLog_Temperature {
                     name: ::protobuf::SingularField::none(),
-                    current: ::std::option::None,
-                    minimum: ::std::option::None,
-                    maximum: ::std::option::None,
-                    target: ::std::option::None,
+                    current: ::std::option::Option::None,
+                    minimum: ::std::option::Option::None,
+                    maximum: ::std::option::Option::None,
+                    target: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -5581,7 +5585,7 @@ impl Command_GetLog_Temperature {
     // optional float current = 2;
 
     pub fn clear_current(&mut self) {
-        self.current = ::std::option::None;
+        self.current = ::std::option::Option::None;
     }
 
     pub fn has_current(&self) -> bool {
@@ -5590,7 +5594,7 @@ impl Command_GetLog_Temperature {
 
     // Param is passed by value, moved
     pub fn set_current(&mut self, v: f32) {
-        self.current = ::std::option::Some(v);
+        self.current = ::std::option::Option::Some(v);
     }
 
     pub fn get_current<'a>(&self) -> f32 {
@@ -5600,7 +5604,7 @@ impl Command_GetLog_Temperature {
     // optional float minimum = 3;
 
     pub fn clear_minimum(&mut self) {
-        self.minimum = ::std::option::None;
+        self.minimum = ::std::option::Option::None;
     }
 
     pub fn has_minimum(&self) -> bool {
@@ -5609,7 +5613,7 @@ impl Command_GetLog_Temperature {
 
     // Param is passed by value, moved
     pub fn set_minimum(&mut self, v: f32) {
-        self.minimum = ::std::option::Some(v);
+        self.minimum = ::std::option::Option::Some(v);
     }
 
     pub fn get_minimum<'a>(&self) -> f32 {
@@ -5619,7 +5623,7 @@ impl Command_GetLog_Temperature {
     // optional float maximum = 4;
 
     pub fn clear_maximum(&mut self) {
-        self.maximum = ::std::option::None;
+        self.maximum = ::std::option::Option::None;
     }
 
     pub fn has_maximum(&self) -> bool {
@@ -5628,7 +5632,7 @@ impl Command_GetLog_Temperature {
 
     // Param is passed by value, moved
     pub fn set_maximum(&mut self, v: f32) {
-        self.maximum = ::std::option::Some(v);
+        self.maximum = ::std::option::Option::Some(v);
     }
 
     pub fn get_maximum<'a>(&self) -> f32 {
@@ -5638,7 +5642,7 @@ impl Command_GetLog_Temperature {
     // optional float target = 5;
 
     pub fn clear_target(&mut self) {
-        self.target = ::std::option::None;
+        self.target = ::std::option::Option::None;
     }
 
     pub fn has_target(&self) -> bool {
@@ -5647,7 +5651,7 @@ impl Command_GetLog_Temperature {
 
     // Param is passed by value, moved
     pub fn set_target(&mut self, v: f32) {
-        self.target = ::std::option::Some(v);
+        self.target = ::std::option::Option::Some(v);
     }
 
     pub fn get_target<'a>(&self) -> f32 {
@@ -5670,38 +5674,38 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.current = ::std::option::Some(tmp);
+                    self.current = ::std::option::Option::Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.minimum = ::std::option::Some(tmp);
+                    self.minimum = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.maximum = ::std::option::Some(tmp);
+                    self.maximum = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.target = ::std::option::Some(tmp);
+                    self.target = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -5709,7 +5713,7 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -5752,7 +5756,7 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
             try!(os.write_float(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -5864,8 +5868,8 @@ impl Command_GetLog_Capacity {
         unsafe {
             instance.get(|| {
                 Command_GetLog_Capacity {
-                    nominalCapacityInBytes: ::std::option::None,
-                    portionFull: ::std::option::None,
+                    nominalCapacityInBytes: ::std::option::Option::None,
+                    portionFull: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -5876,7 +5880,7 @@ impl Command_GetLog_Capacity {
     // optional uint64 nominalCapacityInBytes = 4;
 
     pub fn clear_nominalCapacityInBytes(&mut self) {
-        self.nominalCapacityInBytes = ::std::option::None;
+        self.nominalCapacityInBytes = ::std::option::Option::None;
     }
 
     pub fn has_nominalCapacityInBytes(&self) -> bool {
@@ -5885,7 +5889,7 @@ impl Command_GetLog_Capacity {
 
     // Param is passed by value, moved
     pub fn set_nominalCapacityInBytes(&mut self, v: u64) {
-        self.nominalCapacityInBytes = ::std::option::Some(v);
+        self.nominalCapacityInBytes = ::std::option::Option::Some(v);
     }
 
     pub fn get_nominalCapacityInBytes<'a>(&self) -> u64 {
@@ -5895,7 +5899,7 @@ impl Command_GetLog_Capacity {
     // optional float portionFull = 5;
 
     pub fn clear_portionFull(&mut self) {
-        self.portionFull = ::std::option::None;
+        self.portionFull = ::std::option::Option::None;
     }
 
     pub fn has_portionFull(&self) -> bool {
@@ -5904,7 +5908,7 @@ impl Command_GetLog_Capacity {
 
     // Param is passed by value, moved
     pub fn set_portionFull(&mut self, v: f32) {
-        self.portionFull = ::std::option::Some(v);
+        self.portionFull = ::std::option::Option::Some(v);
     }
 
     pub fn get_portionFull<'a>(&self) -> f32 {
@@ -5927,17 +5931,17 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
             match field_number {
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
-                    self.nominalCapacityInBytes = ::std::option::Some(tmp);
+                    self.nominalCapacityInBytes = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeFixed32 {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_float());
-                    self.portionFull = ::std::option::Some(tmp);
+                    self.portionFull = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -5945,7 +5949,7 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -5970,7 +5974,7 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
             try!(os.write_float(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -6083,8 +6087,8 @@ impl Command_GetLog_Configuration {
                     protocolCompilationDate: ::protobuf::SingularField::none(),
                     protocolSourceHash: ::protobuf::SingularField::none(),
                     interface: ::protobuf::RepeatedField::new(),
-                    port: ::std::option::None,
-                    tlsPort: ::std::option::None,
+                    port: ::std::option::Option::None,
+                    tlsPort: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -6480,7 +6484,7 @@ impl Command_GetLog_Configuration {
     // optional int32 port = 10;
 
     pub fn clear_port(&mut self) {
-        self.port = ::std::option::None;
+        self.port = ::std::option::Option::None;
     }
 
     pub fn has_port(&self) -> bool {
@@ -6489,7 +6493,7 @@ impl Command_GetLog_Configuration {
 
     // Param is passed by value, moved
     pub fn set_port(&mut self, v: i32) {
-        self.port = ::std::option::Some(v);
+        self.port = ::std::option::Option::Some(v);
     }
 
     pub fn get_port<'a>(&self) -> i32 {
@@ -6499,7 +6503,7 @@ impl Command_GetLog_Configuration {
     // optional int32 tlsPort = 11;
 
     pub fn clear_tlsPort(&mut self) {
-        self.tlsPort = ::std::option::None;
+        self.tlsPort = ::std::option::Option::None;
     }
 
     pub fn has_tlsPort(&self) -> bool {
@@ -6508,7 +6512,7 @@ impl Command_GetLog_Configuration {
 
     // Param is passed by value, moved
     pub fn set_tlsPort(&mut self, v: i32) {
-        self.tlsPort = ::std::option::Some(v);
+        self.tlsPort = ::std::option::Option::Some(v);
     }
 
     pub fn get_tlsPort<'a>(&self) -> i32 {
@@ -6531,94 +6535,94 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
             match field_number {
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.vendor.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.model.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.serialNumber.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 14 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.worldWideName.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.version.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 12 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.compilationDate.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 13 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.sourceHash.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 15 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolVersion.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 16 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolCompilationDate.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 17 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.protocolSourceHash.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.interface.push_default();
                     try!(is.merge_message(tmp))
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
-                    self.port = ::std::option::Some(tmp);
+                    self.port = ::std::option::Option::Some(tmp);
                 },
                 11 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int32());
-                    self.tlsPort = ::std::option::Some(tmp);
+                    self.tlsPort = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -6626,7 +6630,7 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -6720,7 +6724,7 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
             try!(os.write_int32(11, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -7060,28 +7064,28 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_string_into(tmp))
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.MAC.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.ipv4Address.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.ipv6Address.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -7092,7 +7096,7 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -7129,7 +7133,7 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
             try!(os.write_bytes(4, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -7235,9 +7239,9 @@ impl Command_GetLog_Statistics {
         unsafe {
             instance.get(|| {
                 Command_GetLog_Statistics {
-                    messageType: ::std::option::None,
-                    count: ::std::option::None,
-                    bytes: ::std::option::None,
+                    messageType: ::std::option::Option::None,
+                    count: ::std::option::Option::None,
+                    bytes: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -7248,7 +7252,7 @@ impl Command_GetLog_Statistics {
     // optional .com.seagate.kinetic.proto.Command.MessageType messageType = 1;
 
     pub fn clear_messageType(&mut self) {
-        self.messageType = ::std::option::None;
+        self.messageType = ::std::option::Option::None;
     }
 
     pub fn has_messageType(&self) -> bool {
@@ -7257,7 +7261,7 @@ impl Command_GetLog_Statistics {
 
     // Param is passed by value, moved
     pub fn set_messageType(&mut self, v: Command_MessageType) {
-        self.messageType = ::std::option::Some(v);
+        self.messageType = ::std::option::Option::Some(v);
     }
 
     pub fn get_messageType<'a>(&self) -> Command_MessageType {
@@ -7267,7 +7271,7 @@ impl Command_GetLog_Statistics {
     // optional uint64 count = 4;
 
     pub fn clear_count(&mut self) {
-        self.count = ::std::option::None;
+        self.count = ::std::option::Option::None;
     }
 
     pub fn has_count(&self) -> bool {
@@ -7276,7 +7280,7 @@ impl Command_GetLog_Statistics {
 
     // Param is passed by value, moved
     pub fn set_count(&mut self, v: u64) {
-        self.count = ::std::option::Some(v);
+        self.count = ::std::option::Option::Some(v);
     }
 
     pub fn get_count<'a>(&self) -> u64 {
@@ -7286,7 +7290,7 @@ impl Command_GetLog_Statistics {
     // optional uint64 bytes = 5;
 
     pub fn clear_bytes(&mut self) {
-        self.bytes = ::std::option::None;
+        self.bytes = ::std::option::Option::None;
     }
 
     pub fn has_bytes(&self) -> bool {
@@ -7295,7 +7299,7 @@ impl Command_GetLog_Statistics {
 
     // Param is passed by value, moved
     pub fn set_bytes(&mut self, v: u64) {
-        self.bytes = ::std::option::Some(v);
+        self.bytes = ::std::option::Option::Some(v);
     }
 
     pub fn get_bytes<'a>(&self) -> u64 {
@@ -7318,24 +7322,24 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.messageType = ::std::option::Some(tmp);
+                    self.messageType = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
-                    self.count = ::std::option::Some(tmp);
+                    self.count = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint64());
-                    self.bytes = ::std::option::Some(tmp);
+                    self.bytes = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -7343,7 +7347,7 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -7374,7 +7378,7 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
             try!(os.write_uint64(5, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -7481,17 +7485,17 @@ impl Command_GetLog_Limits {
         unsafe {
             instance.get(|| {
                 Command_GetLog_Limits {
-                    maxKeySize: ::std::option::None,
-                    maxValueSize: ::std::option::None,
-                    maxVersionSize: ::std::option::None,
-                    maxTagSize: ::std::option::None,
-                    maxConnections: ::std::option::None,
-                    maxOutstandingReadRequests: ::std::option::None,
-                    maxOutstandingWriteRequests: ::std::option::None,
-                    maxMessageSize: ::std::option::None,
-                    maxKeyRangeCount: ::std::option::None,
-                    maxIdentityCount: ::std::option::None,
-                    maxPinSize: ::std::option::None,
+                    maxKeySize: ::std::option::Option::None,
+                    maxValueSize: ::std::option::Option::None,
+                    maxVersionSize: ::std::option::Option::None,
+                    maxTagSize: ::std::option::Option::None,
+                    maxConnections: ::std::option::Option::None,
+                    maxOutstandingReadRequests: ::std::option::Option::None,
+                    maxOutstandingWriteRequests: ::std::option::Option::None,
+                    maxMessageSize: ::std::option::Option::None,
+                    maxKeyRangeCount: ::std::option::Option::None,
+                    maxIdentityCount: ::std::option::Option::None,
+                    maxPinSize: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -7502,7 +7506,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxKeySize = 1;
 
     pub fn clear_maxKeySize(&mut self) {
-        self.maxKeySize = ::std::option::None;
+        self.maxKeySize = ::std::option::Option::None;
     }
 
     pub fn has_maxKeySize(&self) -> bool {
@@ -7511,7 +7515,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxKeySize(&mut self, v: u32) {
-        self.maxKeySize = ::std::option::Some(v);
+        self.maxKeySize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxKeySize<'a>(&self) -> u32 {
@@ -7521,7 +7525,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxValueSize = 2;
 
     pub fn clear_maxValueSize(&mut self) {
-        self.maxValueSize = ::std::option::None;
+        self.maxValueSize = ::std::option::Option::None;
     }
 
     pub fn has_maxValueSize(&self) -> bool {
@@ -7530,7 +7534,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxValueSize(&mut self, v: u32) {
-        self.maxValueSize = ::std::option::Some(v);
+        self.maxValueSize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxValueSize<'a>(&self) -> u32 {
@@ -7540,7 +7544,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxVersionSize = 3;
 
     pub fn clear_maxVersionSize(&mut self) {
-        self.maxVersionSize = ::std::option::None;
+        self.maxVersionSize = ::std::option::Option::None;
     }
 
     pub fn has_maxVersionSize(&self) -> bool {
@@ -7549,7 +7553,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxVersionSize(&mut self, v: u32) {
-        self.maxVersionSize = ::std::option::Some(v);
+        self.maxVersionSize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxVersionSize<'a>(&self) -> u32 {
@@ -7559,7 +7563,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxTagSize = 4;
 
     pub fn clear_maxTagSize(&mut self) {
-        self.maxTagSize = ::std::option::None;
+        self.maxTagSize = ::std::option::Option::None;
     }
 
     pub fn has_maxTagSize(&self) -> bool {
@@ -7568,7 +7572,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxTagSize(&mut self, v: u32) {
-        self.maxTagSize = ::std::option::Some(v);
+        self.maxTagSize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxTagSize<'a>(&self) -> u32 {
@@ -7578,7 +7582,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxConnections = 5;
 
     pub fn clear_maxConnections(&mut self) {
-        self.maxConnections = ::std::option::None;
+        self.maxConnections = ::std::option::Option::None;
     }
 
     pub fn has_maxConnections(&self) -> bool {
@@ -7587,7 +7591,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxConnections(&mut self, v: u32) {
-        self.maxConnections = ::std::option::Some(v);
+        self.maxConnections = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxConnections<'a>(&self) -> u32 {
@@ -7597,7 +7601,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxOutstandingReadRequests = 6;
 
     pub fn clear_maxOutstandingReadRequests(&mut self) {
-        self.maxOutstandingReadRequests = ::std::option::None;
+        self.maxOutstandingReadRequests = ::std::option::Option::None;
     }
 
     pub fn has_maxOutstandingReadRequests(&self) -> bool {
@@ -7606,7 +7610,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxOutstandingReadRequests(&mut self, v: u32) {
-        self.maxOutstandingReadRequests = ::std::option::Some(v);
+        self.maxOutstandingReadRequests = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxOutstandingReadRequests<'a>(&self) -> u32 {
@@ -7616,7 +7620,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxOutstandingWriteRequests = 7;
 
     pub fn clear_maxOutstandingWriteRequests(&mut self) {
-        self.maxOutstandingWriteRequests = ::std::option::None;
+        self.maxOutstandingWriteRequests = ::std::option::Option::None;
     }
 
     pub fn has_maxOutstandingWriteRequests(&self) -> bool {
@@ -7625,7 +7629,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxOutstandingWriteRequests(&mut self, v: u32) {
-        self.maxOutstandingWriteRequests = ::std::option::Some(v);
+        self.maxOutstandingWriteRequests = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxOutstandingWriteRequests<'a>(&self) -> u32 {
@@ -7635,7 +7639,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxMessageSize = 8;
 
     pub fn clear_maxMessageSize(&mut self) {
-        self.maxMessageSize = ::std::option::None;
+        self.maxMessageSize = ::std::option::Option::None;
     }
 
     pub fn has_maxMessageSize(&self) -> bool {
@@ -7644,7 +7648,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxMessageSize(&mut self, v: u32) {
-        self.maxMessageSize = ::std::option::Some(v);
+        self.maxMessageSize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxMessageSize<'a>(&self) -> u32 {
@@ -7654,7 +7658,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxKeyRangeCount = 9;
 
     pub fn clear_maxKeyRangeCount(&mut self) {
-        self.maxKeyRangeCount = ::std::option::None;
+        self.maxKeyRangeCount = ::std::option::Option::None;
     }
 
     pub fn has_maxKeyRangeCount(&self) -> bool {
@@ -7663,7 +7667,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxKeyRangeCount(&mut self, v: u32) {
-        self.maxKeyRangeCount = ::std::option::Some(v);
+        self.maxKeyRangeCount = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxKeyRangeCount<'a>(&self) -> u32 {
@@ -7673,7 +7677,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxIdentityCount = 10;
 
     pub fn clear_maxIdentityCount(&mut self) {
-        self.maxIdentityCount = ::std::option::None;
+        self.maxIdentityCount = ::std::option::Option::None;
     }
 
     pub fn has_maxIdentityCount(&self) -> bool {
@@ -7682,7 +7686,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxIdentityCount(&mut self, v: u32) {
-        self.maxIdentityCount = ::std::option::Some(v);
+        self.maxIdentityCount = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxIdentityCount<'a>(&self) -> u32 {
@@ -7692,7 +7696,7 @@ impl Command_GetLog_Limits {
     // optional uint32 maxPinSize = 11;
 
     pub fn clear_maxPinSize(&mut self) {
-        self.maxPinSize = ::std::option::None;
+        self.maxPinSize = ::std::option::Option::None;
     }
 
     pub fn has_maxPinSize(&self) -> bool {
@@ -7701,7 +7705,7 @@ impl Command_GetLog_Limits {
 
     // Param is passed by value, moved
     pub fn set_maxPinSize(&mut self, v: u32) {
-        self.maxPinSize = ::std::option::Some(v);
+        self.maxPinSize = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxPinSize<'a>(&self) -> u32 {
@@ -7724,80 +7728,80 @@ impl ::protobuf::Message for Command_GetLog_Limits {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxKeySize = ::std::option::Some(tmp);
+                    self.maxKeySize = ::std::option::Option::Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxValueSize = ::std::option::Some(tmp);
+                    self.maxValueSize = ::std::option::Option::Some(tmp);
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxVersionSize = ::std::option::Some(tmp);
+                    self.maxVersionSize = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxTagSize = ::std::option::Some(tmp);
+                    self.maxTagSize = ::std::option::Option::Some(tmp);
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxConnections = ::std::option::Some(tmp);
+                    self.maxConnections = ::std::option::Option::Some(tmp);
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxOutstandingReadRequests = ::std::option::Some(tmp);
+                    self.maxOutstandingReadRequests = ::std::option::Option::Some(tmp);
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxOutstandingWriteRequests = ::std::option::Some(tmp);
+                    self.maxOutstandingWriteRequests = ::std::option::Option::Some(tmp);
                 },
                 8 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxMessageSize = ::std::option::Some(tmp);
+                    self.maxMessageSize = ::std::option::Option::Some(tmp);
                 },
                 9 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxKeyRangeCount = ::std::option::Some(tmp);
+                    self.maxKeyRangeCount = ::std::option::Option::Some(tmp);
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxIdentityCount = ::std::option::Some(tmp);
+                    self.maxIdentityCount = ::std::option::Option::Some(tmp);
                 },
                 11 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_uint32());
-                    self.maxPinSize = ::std::option::Some(tmp);
+                    self.maxPinSize = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -7805,7 +7809,7 @@ impl ::protobuf::Message for Command_GetLog_Limits {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -7884,7 +7888,7 @@ impl ::protobuf::Message for Command_GetLog_Limits {
             try!(os.write_uint32(11, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -8097,7 +8101,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.name.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -8108,7 +8112,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -8127,7 +8131,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
             try!(os.write_bytes(1, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -8203,7 +8207,6 @@ pub enum Command_GetLog_Type {
     DEVICE = 7,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_GetLog_Type {
     fn value(&self) -> i32 {
         *self as i32
@@ -8211,16 +8214,16 @@ impl ::protobuf::ProtobufEnum for Command_GetLog_Type {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_GetLog_Type> {
         match value {
-            -1 => ::std::option::Some(Command_GetLog_Type::INVALID_TYPE),
-            0 => ::std::option::Some(Command_GetLog_Type::UTILIZATIONS),
-            1 => ::std::option::Some(Command_GetLog_Type::TEMPERATURES),
-            2 => ::std::option::Some(Command_GetLog_Type::CAPACITIES),
-            3 => ::std::option::Some(Command_GetLog_Type::CONFIGURATION),
-            4 => ::std::option::Some(Command_GetLog_Type::STATISTICS),
-            5 => ::std::option::Some(Command_GetLog_Type::MESSAGES),
-            6 => ::std::option::Some(Command_GetLog_Type::LIMITS),
-            7 => ::std::option::Some(Command_GetLog_Type::DEVICE),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_GetLog_Type::INVALID_TYPE),
+            0 => ::std::option::Option::Some(Command_GetLog_Type::UTILIZATIONS),
+            1 => ::std::option::Option::Some(Command_GetLog_Type::TEMPERATURES),
+            2 => ::std::option::Option::Some(Command_GetLog_Type::CAPACITIES),
+            3 => ::std::option::Option::Some(Command_GetLog_Type::CONFIGURATION),
+            4 => ::std::option::Option::Some(Command_GetLog_Type::STATISTICS),
+            5 => ::std::option::Option::Some(Command_GetLog_Type::MESSAGES),
+            6 => ::std::option::Option::Some(Command_GetLog_Type::LIMITS),
+            7 => ::std::option::Option::Some(Command_GetLog_Type::DEVICE),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -8235,6 +8238,9 @@ impl ::protobuf::ProtobufEnum for Command_GetLog_Type {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Command_GetLog_Type {
 }
 
 #[deriving(Clone,Default)]
@@ -8458,35 +8464,35 @@ impl ::protobuf::Message for Command_Security {
             match field_number {
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.acl.push_default();
                     try!(is.merge_message(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.oldLockPIN.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newLockPIN.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.oldErasePIN.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.newErasePIN.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -8497,7 +8503,7 @@ impl ::protobuf::Message for Command_Security {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -8543,7 +8549,7 @@ impl ::protobuf::Message for Command_Security {
             try!(os.write_bytes(6, v.as_slice()));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -8657,11 +8663,11 @@ impl Command_Security_ACL {
         unsafe {
             instance.get(|| {
                 Command_Security_ACL {
-                    identity: ::std::option::None,
+                    identity: ::std::option::Option::None,
                     key: ::protobuf::SingularField::none(),
-                    hmacAlgorithm: ::std::option::None,
+                    hmacAlgorithm: ::std::option::Option::None,
                     scope: ::protobuf::RepeatedField::new(),
-                    maxPriority: ::std::option::None,
+                    maxPriority: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -8672,7 +8678,7 @@ impl Command_Security_ACL {
     // optional int64 identity = 1;
 
     pub fn clear_identity(&mut self) {
-        self.identity = ::std::option::None;
+        self.identity = ::std::option::Option::None;
     }
 
     pub fn has_identity(&self) -> bool {
@@ -8681,7 +8687,7 @@ impl Command_Security_ACL {
 
     // Param is passed by value, moved
     pub fn set_identity(&mut self, v: i64) {
-        self.identity = ::std::option::Some(v);
+        self.identity = ::std::option::Option::Some(v);
     }
 
     pub fn get_identity<'a>(&self) -> i64 {
@@ -8727,7 +8733,7 @@ impl Command_Security_ACL {
     // optional .com.seagate.kinetic.proto.Command.Security.ACL.HMACAlgorithm hmacAlgorithm = 3;
 
     pub fn clear_hmacAlgorithm(&mut self) {
-        self.hmacAlgorithm = ::std::option::None;
+        self.hmacAlgorithm = ::std::option::Option::None;
     }
 
     pub fn has_hmacAlgorithm(&self) -> bool {
@@ -8736,7 +8742,7 @@ impl Command_Security_ACL {
 
     // Param is passed by value, moved
     pub fn set_hmacAlgorithm(&mut self, v: Command_Security_ACL_HMACAlgorithm) {
-        self.hmacAlgorithm = ::std::option::Some(v);
+        self.hmacAlgorithm = ::std::option::Option::Some(v);
     }
 
     pub fn get_hmacAlgorithm<'a>(&self) -> Command_Security_ACL_HMACAlgorithm {
@@ -8771,7 +8777,7 @@ impl Command_Security_ACL {
     // optional .com.seagate.kinetic.proto.Command.Priority maxPriority = 5;
 
     pub fn clear_maxPriority(&mut self) {
-        self.maxPriority = ::std::option::None;
+        self.maxPriority = ::std::option::Option::None;
     }
 
     pub fn has_maxPriority(&self) -> bool {
@@ -8780,7 +8786,7 @@ impl Command_Security_ACL {
 
     // Param is passed by value, moved
     pub fn set_maxPriority(&mut self, v: Command_Priority) {
-        self.maxPriority = ::std::option::Some(v);
+        self.maxPriority = ::std::option::Option::Some(v);
     }
 
     pub fn get_maxPriority<'a>(&self) -> Command_Priority {
@@ -8803,38 +8809,38 @@ impl ::protobuf::Message for Command_Security_ACL {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.identity = ::std::option::Some(tmp);
+                    self.identity = ::std::option::Option::Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.key.set_default();
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.hmacAlgorithm = ::std::option::Some(tmp);
+                    self.hmacAlgorithm = ::std::option::Option::Some(tmp);
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.scope.push_default();
                     try!(is.merge_message(tmp))
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.maxPriority = ::std::option::Some(tmp);
+                    self.maxPriority = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -8842,7 +8848,7 @@ impl ::protobuf::Message for Command_Security_ACL {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -8888,7 +8894,7 @@ impl ::protobuf::Message for Command_Security_ACL {
             try!(os.write_enum(5, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -9001,10 +9007,10 @@ impl Command_Security_ACL_Scope {
         unsafe {
             instance.get(|| {
                 Command_Security_ACL_Scope {
-                    offset: ::std::option::None,
+                    offset: ::std::option::Option::None,
                     value: ::protobuf::SingularField::none(),
                     permission: ::std::vec::Vec::new(),
-                    TlsRequired: ::std::option::None,
+                    TlsRequired: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -9015,7 +9021,7 @@ impl Command_Security_ACL_Scope {
     // optional int64 offset = 1;
 
     pub fn clear_offset(&mut self) {
-        self.offset = ::std::option::None;
+        self.offset = ::std::option::Option::None;
     }
 
     pub fn has_offset(&self) -> bool {
@@ -9024,7 +9030,7 @@ impl Command_Security_ACL_Scope {
 
     // Param is passed by value, moved
     pub fn set_offset(&mut self, v: i64) {
-        self.offset = ::std::option::Some(v);
+        self.offset = ::std::option::Option::Some(v);
     }
 
     pub fn get_offset<'a>(&self) -> i64 {
@@ -9095,7 +9101,7 @@ impl Command_Security_ACL_Scope {
     // optional bool TlsRequired = 4;
 
     pub fn clear_TlsRequired(&mut self) {
-        self.TlsRequired = ::std::option::None;
+        self.TlsRequired = ::std::option::Option::None;
     }
 
     pub fn has_TlsRequired(&self) -> bool {
@@ -9104,7 +9110,7 @@ impl Command_Security_ACL_Scope {
 
     // Param is passed by value, moved
     pub fn set_TlsRequired(&mut self, v: bool) {
-        self.TlsRequired = ::std::option::Some(v);
+        self.TlsRequired = ::std::option::Option::Some(v);
     }
 
     pub fn get_TlsRequired<'a>(&self) -> bool {
@@ -9127,14 +9133,14 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_int64());
-                    self.offset = ::std::option::Some(tmp);
+                    self.offset = ::std::option::Option::Some(tmp);
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = self.value.set_default();
                     try!(is.read_bytes_into(tmp))
@@ -9148,16 +9154,16 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
                             self.permission.push(try!(is.read_enum()));
                         },
                         _ => {
-                            return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                            return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                         },
                     };
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_bool());
-                    self.TlsRequired = ::std::option::Some(tmp);
+                    self.TlsRequired = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -9165,7 +9171,7 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -9202,7 +9208,7 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             try!(os.write_bool(4, v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -9291,7 +9297,6 @@ pub enum Command_Security_ACL_HMACAlgorithm {
     HmacSHA1 = 1,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
     fn value(&self) -> i32 {
         *self as i32
@@ -9299,9 +9304,9 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Security_ACL_HMACAlgorithm> {
         match value {
-            -1 => ::std::option::Some(Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM),
-            1 => ::std::option::Some(Command_Security_ACL_HMACAlgorithm::HmacSHA1),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_Security_ACL_HMACAlgorithm::INVALID_HMAC_ALGORITHM),
+            1 => ::std::option::Option::Some(Command_Security_ACL_HMACAlgorithm::HmacSHA1),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9318,6 +9323,9 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
     }
 }
 
+impl ::std::kinds::Copy for Command_Security_ACL_HMACAlgorithm {
+}
+
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Security_ACL_Permission {
     INVALID_PERMISSION = -1,
@@ -9331,7 +9339,6 @@ pub enum Command_Security_ACL_Permission {
     SECURITY = 8,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Security_ACL_Permission {
     fn value(&self) -> i32 {
         *self as i32
@@ -9339,16 +9346,16 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_Permission {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Security_ACL_Permission> {
         match value {
-            -1 => ::std::option::Some(Command_Security_ACL_Permission::INVALID_PERMISSION),
-            0 => ::std::option::Some(Command_Security_ACL_Permission::READ),
-            1 => ::std::option::Some(Command_Security_ACL_Permission::WRITE),
-            2 => ::std::option::Some(Command_Security_ACL_Permission::DELETE),
-            3 => ::std::option::Some(Command_Security_ACL_Permission::RANGE),
-            4 => ::std::option::Some(Command_Security_ACL_Permission::SETUP),
-            5 => ::std::option::Some(Command_Security_ACL_Permission::P2POP),
-            7 => ::std::option::Some(Command_Security_ACL_Permission::GETLOG),
-            8 => ::std::option::Some(Command_Security_ACL_Permission::SECURITY),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_Security_ACL_Permission::INVALID_PERMISSION),
+            0 => ::std::option::Option::Some(Command_Security_ACL_Permission::READ),
+            1 => ::std::option::Option::Some(Command_Security_ACL_Permission::WRITE),
+            2 => ::std::option::Option::Some(Command_Security_ACL_Permission::DELETE),
+            3 => ::std::option::Option::Some(Command_Security_ACL_Permission::RANGE),
+            4 => ::std::option::Option::Some(Command_Security_ACL_Permission::SETUP),
+            5 => ::std::option::Option::Some(Command_Security_ACL_Permission::P2POP),
+            7 => ::std::option::Option::Some(Command_Security_ACL_Permission::GETLOG),
+            8 => ::std::option::Option::Some(Command_Security_ACL_Permission::SECURITY),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9363,6 +9370,9 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_Permission {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Command_Security_ACL_Permission {
 }
 
 #[deriving(Clone,Default)]
@@ -9385,7 +9395,7 @@ impl Command_PinOperation {
         unsafe {
             instance.get(|| {
                 Command_PinOperation {
-                    pinOpType: ::std::option::None,
+                    pinOpType: ::std::option::Option::None,
                     unknown_fields: ::protobuf::UnknownFields::new(),
                     cached_size: ::std::cell::Cell::new(0),
                 }
@@ -9396,7 +9406,7 @@ impl Command_PinOperation {
     // optional .com.seagate.kinetic.proto.Command.PinOperation.PinOpType pinOpType = 1;
 
     pub fn clear_pinOpType(&mut self) {
-        self.pinOpType = ::std::option::None;
+        self.pinOpType = ::std::option::Option::None;
     }
 
     pub fn has_pinOpType(&self) -> bool {
@@ -9405,7 +9415,7 @@ impl Command_PinOperation {
 
     // Param is passed by value, moved
     pub fn set_pinOpType(&mut self, v: Command_PinOperation_PinOpType) {
-        self.pinOpType = ::std::option::Some(v);
+        self.pinOpType = ::std::option::Option::Some(v);
     }
 
     pub fn get_pinOpType<'a>(&self) -> Command_PinOperation_PinOpType {
@@ -9428,10 +9438,10 @@ impl ::protobuf::Message for Command_PinOperation {
             match field_number {
                 1 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
+                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
                     };
                     let tmp = try!(is.read_enum());
-                    self.pinOpType = ::std::option::Some(tmp);
+                    self.pinOpType = ::std::option::Option::Some(tmp);
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -9439,7 +9449,7 @@ impl ::protobuf::Message for Command_PinOperation {
                 },
             };
         }
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     // Compute sizes of nested messages
@@ -9458,7 +9468,7 @@ impl ::protobuf::Message for Command_PinOperation {
             try!(os.write_enum(1, v as i32));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
-        ::std::result::Ok(())
+        ::std::result::Result::Ok(())
     }
 
     fn get_cached_size(&self) -> u32 {
@@ -9530,7 +9540,6 @@ pub enum Command_PinOperation_PinOpType {
     SECURE_ERASE_PINOP = 4,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_PinOperation_PinOpType {
     fn value(&self) -> i32 {
         *self as i32
@@ -9538,12 +9547,12 @@ impl ::protobuf::ProtobufEnum for Command_PinOperation_PinOpType {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_PinOperation_PinOpType> {
         match value {
-            -1 => ::std::option::Some(Command_PinOperation_PinOpType::INVALID_PINOP),
-            1 => ::std::option::Some(Command_PinOperation_PinOpType::UNLOCK_PINOP),
-            2 => ::std::option::Some(Command_PinOperation_PinOpType::LOCK_PINOP),
-            3 => ::std::option::Some(Command_PinOperation_PinOpType::ERASE_PINOP),
-            4 => ::std::option::Some(Command_PinOperation_PinOpType::SECURE_ERASE_PINOP),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_PinOperation_PinOpType::INVALID_PINOP),
+            1 => ::std::option::Option::Some(Command_PinOperation_PinOpType::UNLOCK_PINOP),
+            2 => ::std::option::Option::Some(Command_PinOperation_PinOpType::LOCK_PINOP),
+            3 => ::std::option::Option::Some(Command_PinOperation_PinOpType::ERASE_PINOP),
+            4 => ::std::option::Option::Some(Command_PinOperation_PinOpType::SECURE_ERASE_PINOP),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9560,6 +9569,9 @@ impl ::protobuf::ProtobufEnum for Command_PinOperation_PinOpType {
     }
 }
 
+impl ::std::kinds::Copy for Command_PinOperation_PinOpType {
+}
+
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Synchronization {
     INVALID_SYNCHRONIZATION = -1,
@@ -9568,7 +9580,6 @@ pub enum Command_Synchronization {
     FLUSH = 3,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Synchronization {
     fn value(&self) -> i32 {
         *self as i32
@@ -9576,11 +9587,11 @@ impl ::protobuf::ProtobufEnum for Command_Synchronization {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Synchronization> {
         match value {
-            -1 => ::std::option::Some(Command_Synchronization::INVALID_SYNCHRONIZATION),
-            1 => ::std::option::Some(Command_Synchronization::WRITETHROUGH),
-            2 => ::std::option::Some(Command_Synchronization::WRITEBACK),
-            3 => ::std::option::Some(Command_Synchronization::FLUSH),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_Synchronization::INVALID_SYNCHRONIZATION),
+            1 => ::std::option::Option::Some(Command_Synchronization::WRITETHROUGH),
+            2 => ::std::option::Option::Some(Command_Synchronization::WRITEBACK),
+            3 => ::std::option::Option::Some(Command_Synchronization::FLUSH),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9597,6 +9608,9 @@ impl ::protobuf::ProtobufEnum for Command_Synchronization {
     }
 }
 
+impl ::std::kinds::Copy for Command_Synchronization {
+}
+
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Priority {
     NORMAL = 5,
@@ -9606,7 +9620,6 @@ pub enum Command_Priority {
     HIGHEST = 9,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Priority {
     fn value(&self) -> i32 {
         *self as i32
@@ -9614,12 +9627,12 @@ impl ::protobuf::ProtobufEnum for Command_Priority {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Priority> {
         match value {
-            5 => ::std::option::Some(Command_Priority::NORMAL),
-            1 => ::std::option::Some(Command_Priority::LOWEST),
-            3 => ::std::option::Some(Command_Priority::LOWER),
-            7 => ::std::option::Some(Command_Priority::HIGHER),
-            9 => ::std::option::Some(Command_Priority::HIGHEST),
-            _ => ::std::option::None
+            5 => ::std::option::Option::Some(Command_Priority::NORMAL),
+            1 => ::std::option::Option::Some(Command_Priority::LOWEST),
+            3 => ::std::option::Option::Some(Command_Priority::LOWER),
+            7 => ::std::option::Option::Some(Command_Priority::HIGHER),
+            9 => ::std::option::Option::Some(Command_Priority::HIGHEST),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9636,6 +9649,9 @@ impl ::protobuf::ProtobufEnum for Command_Priority {
     }
 }
 
+impl ::std::kinds::Copy for Command_Priority {
+}
+
 #[deriving(Clone,PartialEq,Eq,Show)]
 pub enum Command_Algorithm {
     INVALID_ALGORITHM = -1,
@@ -9646,7 +9662,6 @@ pub enum Command_Algorithm {
     CRC64 = 5,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_Algorithm {
     fn value(&self) -> i32 {
         *self as i32
@@ -9654,13 +9669,13 @@ impl ::protobuf::ProtobufEnum for Command_Algorithm {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_Algorithm> {
         match value {
-            -1 => ::std::option::Some(Command_Algorithm::INVALID_ALGORITHM),
-            1 => ::std::option::Some(Command_Algorithm::SHA1),
-            2 => ::std::option::Some(Command_Algorithm::SHA2),
-            3 => ::std::option::Some(Command_Algorithm::SHA3),
-            4 => ::std::option::Some(Command_Algorithm::CRC32),
-            5 => ::std::option::Some(Command_Algorithm::CRC64),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_Algorithm::INVALID_ALGORITHM),
+            1 => ::std::option::Option::Some(Command_Algorithm::SHA1),
+            2 => ::std::option::Option::Some(Command_Algorithm::SHA2),
+            3 => ::std::option::Option::Some(Command_Algorithm::SHA3),
+            4 => ::std::option::Option::Some(Command_Algorithm::CRC32),
+            5 => ::std::option::Option::Some(Command_Algorithm::CRC64),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9675,6 +9690,9 @@ impl ::protobuf::ProtobufEnum for Command_Algorithm {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Command_Algorithm {
 }
 
 #[deriving(Clone,PartialEq,Eq,Show)]
@@ -9714,7 +9732,6 @@ pub enum Command_MessageType {
     MEDIAOPTIMIZE_RESPONSE = 39,
 }
 
-
 impl ::protobuf::ProtobufEnum for Command_MessageType {
     fn value(&self) -> i32 {
         *self as i32
@@ -9722,40 +9739,40 @@ impl ::protobuf::ProtobufEnum for Command_MessageType {
 
     fn from_i32(value: i32) -> ::std::option::Option<Command_MessageType> {
         match value {
-            -1 => ::std::option::Some(Command_MessageType::INVALID_MESSAGE_TYPE),
-            2 => ::std::option::Some(Command_MessageType::GET),
-            1 => ::std::option::Some(Command_MessageType::GET_RESPONSE),
-            4 => ::std::option::Some(Command_MessageType::PUT),
-            3 => ::std::option::Some(Command_MessageType::PUT_RESPONSE),
-            6 => ::std::option::Some(Command_MessageType::DELETE),
-            5 => ::std::option::Some(Command_MessageType::DELETE_RESPONSE),
-            8 => ::std::option::Some(Command_MessageType::GETNEXT),
-            7 => ::std::option::Some(Command_MessageType::GETNEXT_RESPONSE),
-            10 => ::std::option::Some(Command_MessageType::GETPREVIOUS),
-            9 => ::std::option::Some(Command_MessageType::GETPREVIOUS_RESPONSE),
-            12 => ::std::option::Some(Command_MessageType::GETKEYRANGE),
-            11 => ::std::option::Some(Command_MessageType::GETKEYRANGE_RESPONSE),
-            16 => ::std::option::Some(Command_MessageType::GETVERSION),
-            15 => ::std::option::Some(Command_MessageType::GETVERSION_RESPONSE),
-            22 => ::std::option::Some(Command_MessageType::SETUP),
-            21 => ::std::option::Some(Command_MessageType::SETUP_RESPONSE),
-            24 => ::std::option::Some(Command_MessageType::GETLOG),
-            23 => ::std::option::Some(Command_MessageType::GETLOG_RESPONSE),
-            26 => ::std::option::Some(Command_MessageType::SECURITY),
-            25 => ::std::option::Some(Command_MessageType::SECURITY_RESPONSE),
-            28 => ::std::option::Some(Command_MessageType::PEER2PEERPUSH),
-            27 => ::std::option::Some(Command_MessageType::PEER2PEERPUSH_RESPONSE),
-            30 => ::std::option::Some(Command_MessageType::NOOP),
-            29 => ::std::option::Some(Command_MessageType::NOOP_RESPONSE),
-            32 => ::std::option::Some(Command_MessageType::FLUSHALLDATA),
-            31 => ::std::option::Some(Command_MessageType::FLUSHALLDATA_RESPONSE),
-            36 => ::std::option::Some(Command_MessageType::PINOP),
-            35 => ::std::option::Some(Command_MessageType::PINOP_RESPONSE),
-            38 => ::std::option::Some(Command_MessageType::MEDIASCAN),
-            37 => ::std::option::Some(Command_MessageType::MEDIASCAN_RESPONSE),
-            40 => ::std::option::Some(Command_MessageType::MEDIAOPTIMIZE),
-            39 => ::std::option::Some(Command_MessageType::MEDIAOPTIMIZE_RESPONSE),
-            _ => ::std::option::None
+            -1 => ::std::option::Option::Some(Command_MessageType::INVALID_MESSAGE_TYPE),
+            2 => ::std::option::Option::Some(Command_MessageType::GET),
+            1 => ::std::option::Option::Some(Command_MessageType::GET_RESPONSE),
+            4 => ::std::option::Option::Some(Command_MessageType::PUT),
+            3 => ::std::option::Option::Some(Command_MessageType::PUT_RESPONSE),
+            6 => ::std::option::Option::Some(Command_MessageType::DELETE),
+            5 => ::std::option::Option::Some(Command_MessageType::DELETE_RESPONSE),
+            8 => ::std::option::Option::Some(Command_MessageType::GETNEXT),
+            7 => ::std::option::Option::Some(Command_MessageType::GETNEXT_RESPONSE),
+            10 => ::std::option::Option::Some(Command_MessageType::GETPREVIOUS),
+            9 => ::std::option::Option::Some(Command_MessageType::GETPREVIOUS_RESPONSE),
+            12 => ::std::option::Option::Some(Command_MessageType::GETKEYRANGE),
+            11 => ::std::option::Option::Some(Command_MessageType::GETKEYRANGE_RESPONSE),
+            16 => ::std::option::Option::Some(Command_MessageType::GETVERSION),
+            15 => ::std::option::Option::Some(Command_MessageType::GETVERSION_RESPONSE),
+            22 => ::std::option::Option::Some(Command_MessageType::SETUP),
+            21 => ::std::option::Option::Some(Command_MessageType::SETUP_RESPONSE),
+            24 => ::std::option::Option::Some(Command_MessageType::GETLOG),
+            23 => ::std::option::Option::Some(Command_MessageType::GETLOG_RESPONSE),
+            26 => ::std::option::Option::Some(Command_MessageType::SECURITY),
+            25 => ::std::option::Option::Some(Command_MessageType::SECURITY_RESPONSE),
+            28 => ::std::option::Option::Some(Command_MessageType::PEER2PEERPUSH),
+            27 => ::std::option::Option::Some(Command_MessageType::PEER2PEERPUSH_RESPONSE),
+            30 => ::std::option::Option::Some(Command_MessageType::NOOP),
+            29 => ::std::option::Option::Some(Command_MessageType::NOOP_RESPONSE),
+            32 => ::std::option::Option::Some(Command_MessageType::FLUSHALLDATA),
+            31 => ::std::option::Option::Some(Command_MessageType::FLUSHALLDATA_RESPONSE),
+            36 => ::std::option::Option::Some(Command_MessageType::PINOP),
+            35 => ::std::option::Option::Some(Command_MessageType::PINOP_RESPONSE),
+            38 => ::std::option::Option::Some(Command_MessageType::MEDIASCAN),
+            37 => ::std::option::Option::Some(Command_MessageType::MEDIASCAN_RESPONSE),
+            40 => ::std::option::Option::Some(Command_MessageType::MEDIAOPTIMIZE),
+            39 => ::std::option::Option::Some(Command_MessageType::MEDIAOPTIMIZE_RESPONSE),
+            _ => ::std::option::Option::None
         }
     }
 
@@ -9770,6 +9787,9 @@ impl ::protobuf::ProtobufEnum for Command_MessageType {
             })
         }
     }
+}
+
+impl ::std::kinds::Copy for Command_MessageType {
 }
 
 static file_descriptor_proto_data: &'static [u8] = &[

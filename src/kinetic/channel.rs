@@ -109,7 +109,7 @@ impl AsyncChannel {
         let pending_mutex_reader = pending_mutex.clone();
         // for unsolicited status
         let (unsol_tx, unsol_rx) = channel();
-        spawn(proc() {
+        spawn(move|| {
             let pending_mutex = pending_mutex_reader;
             loop {
                 let r = ::network::recv(&mut reader);
@@ -166,7 +166,7 @@ impl AsyncChannel {
         let (w_tx, w_rx): (_, Receiver<(Operation,Sender<Result>)>) = sync_channel(max_pending);
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
-        spawn(proc() {
+        spawn(move|| {
             let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 

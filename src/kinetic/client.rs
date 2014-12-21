@@ -179,7 +179,7 @@ impl Client<::channel::AsyncChannel, Receiver<Result>> {
     #[inline]
     pub fn send_future<C: Command<R>, R : Response> (&self, cmd: C) -> Future<KineticResult<R>> {
         let rx = self.send_raw(self.default_credentials.clone(), cmd);
-        Future::spawn(proc() { Client::receive_raw(rx) })
+        Future::spawn(move|| { Client::receive_raw(rx) })
     }
 
 }

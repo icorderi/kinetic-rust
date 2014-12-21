@@ -24,6 +24,10 @@ use kinetic::KineticResult;
 use std::io::BufferedReader;
 use std::io::File;
 use std::iter::IteratorExt;
+use kinetic::commands::Put;
+use std::default::Default;
+use std::vec;
+use std::time::duration::Duration;
 
 #[deriving(Decodable, Show)]
 pub struct BenchArgs {
@@ -47,8 +51,33 @@ Options:
   -v, --verbose            Use verbose output
 ";
 
-fn bench(client: ::kinetic::AsyncClient) -> KineticResult<()> {
-    Ok(())
+fn to_utf8(s: &[u8]) -> String {
+    String::from_utf8(s.to_vec()).unwrap()
+}
+
+fn bench(c: &::kinetic::AsyncClient, size: uint, count: uint) -> KineticResult<(&::kinetic::AsyncClient, String)> {
+    let d = Duration::span(|| {
+        let mut responses = vec::Vec::with_capacity(count);
+
+        for i in range(0u, count) {
+            let data = vec::Vec::from_elem(size, 0u8);
+            let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
+                                        value: data,
+                                        ..Default::default()});
+            responses.push(r);
+        }
+
+        // wait on all
+        for r in responses.into_iter() {
+            r.into_inner().unwrap();
+        }
+    });
+
+    let ops = count as f64  / (d.num_milliseconds() as f64 / 1000.0);
+    let transfered = (count as f64 * size as f64) / (1024.0 * 1024.0);
+    let bw = transfered / (d.num_milliseconds() as f64 / 1000.0);
+
+    Ok((c, format!("operation took {}ms ({:.2} MB/s, {:.2} op/s)", d.num_milliseconds(), bw, ops)))
 }
 
 fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
@@ -70,17 +99,46 @@ fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
             ::kinetic::Client::new(x.as_slice())
         }).collect();;
 
-    for c in clients.into_iter() {
-        match c {
-            Ok(c)  => {
-                try!(shell.status("Connected", c.get_config().get_serialNumber()));
-                spawn(proc() {
-                    bench(c).unwrap();
-                });
-            },
-            Err(e) => try!(shell.error_full(&e, true)),
-        };
-    }
+    let size = cmd.flag_size.unwrap_or(1024*1024u);
+    let count = cmd.flag_count.unwrap_or(10u);
+
+    let (tx,rx) = channel();
+    let mut pending = clients.len();
+
+    let d = Duration::span(|| {
+        let clients = clients.clone(); // ugly... but apparently clients doesnt live long enough...
+        for c in clients.iter() {
+            match *c {
+                Ok(ref c)  => {
+                    shell.status("Connected", to_utf8(c.get_config().get_serialNumber())).unwrap(); //ugly unwrap
+                    let tx = tx.clone();
+                    spawn(move|| {
+                        let r = bench(c, size, count);
+                        tx.send(r);
+                    });
+                },
+                Err(ref e) => shell.error_full(e, true).unwrap(), //ungly unwrap
+            };
+        }
+
+        while pending > 0 {
+            let r = rx.recv();
+            match r {
+                Ok((c,r)) => shell.tag(to_utf8(c.get_config().get_serialNumber()), r).unwrap(), //ugly unwrap
+                Err(e) => shell.error_full(&e, true).unwrap(), //ugly unwrap
+            };
+
+            pending -= 1;
+        }
+    });
+
+    let count = count * clients.len();
+    try!(shell.status("Count?", count));
+    let ops = count as f64  / (d.num_milliseconds() as f64 / 1000.0);
+    let transfered = (count as f64 * size as f64) / (1024.0 * 1024.0);
+    let bw = transfered / (d.num_milliseconds() as f64 / 1000.0);
+
+    try!(shell.status("Done",format!("benchmark took {}ms ({:.2} MB/s, {:.2} op/s)", d.num_milliseconds(), bw, ops)));
 
     Ok(()) //return
 }

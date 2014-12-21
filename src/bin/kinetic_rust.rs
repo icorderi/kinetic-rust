@@ -42,6 +42,7 @@ mod help;
 mod info;
 mod write;
 mod bench;
+mod get_log;
 pub mod shell;
 
 #[cfg(not(test))]

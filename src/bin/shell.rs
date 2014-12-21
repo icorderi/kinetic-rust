@@ -15,6 +15,7 @@ use self::AdequateTerminal::{NoColor, Colored};
 
 static GREY: u16 = 8;
 
+#[deriving(Clone)]
 pub struct ShellConfig {
     pub color: bool,
     pub verbose: bool,
@@ -158,9 +159,9 @@ impl Shell {
             let term = TerminfoTerminal::new(out);
             term.map(|t| Shell {
                 terminal: Colored(t),
-                config: config
+                config: config.clone(),
             }).unwrap_or_else(|| {
-                Shell { terminal: NoColor(box stderr()), config: config }
+                Shell { terminal: NoColor(box stderr()), config: config.clone() }
             })
         } else {
             Shell { terminal: NoColor(out.inner), config: config }

@@ -20,34 +20,45 @@
 
 // author: Ignacio Corderi
 
-#![crate_type = "lib"]
-#![crate_name = "kinetic"]
-
-#![experimental]
-
-//! Kinetic protocol library in Rust
-
-extern crate protobuf;
-extern crate crypto;
-extern crate serialize;
+use kinetic::KineticResult;
 
 
-pub use core::version;
-pub use proto::version as protocol_version;
-pub use core::{Command, Response};
-pub use result::KineticResult;
-pub use error::KineticError;
-pub use client::Client;
-pub use client::AsyncClient;
+#[deriving(Decodable, Show)]
+pub struct LogArgs {
+    flag_verbose: bool,
+    arg_target: String,
+}
 
-pub mod commands;
-pub mod responses;
-pub mod error;
-pub mod result;
-pub mod proto;
-pub mod channel;
-pub mod authentication;
+static USAGE: &'static str = "
+Get log information from kinetic device
 
-mod client;
-mod core;
-mod network;
+Usage: kinetic-rust log messages [options] <target>
+       kinetic-rust log (-h | --help)
+
+Options:
+  -h, --help            Print this message
+  -v, --verbose         Use verbose output
+";
+
+fn to_utf8(s: &[u8]) -> String {
+    String::from_utf8(s.to_vec()).unwrap()
+}
+
+fn execute(cmd: &LogArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
+    debug!("executing; cmd=kinetic-rust-log; args={}", ::std::os::args());
+    shell.set_verbose(cmd.flag_verbose);
+
+    try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
+
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
+
+    let x = try!(c.send(::kinetic::commands::GetLog { log_types: vec![::kinetic::proto::command::LogType::MESSAGES]}));
+
+    let s = x.get_messages();
+
+    println!("{}", to_utf8(s));
+
+    Ok(()) //return
+}
+
+cmd!(LogArgs, execute, USAGE)

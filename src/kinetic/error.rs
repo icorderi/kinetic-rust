@@ -46,8 +46,11 @@ impl Error for KineticError {
             KineticError::IoError(_) => "An I/O error occurred",
             KineticError::ProtobufError(_) => "There was an error with the protobuf library",
             KineticError::InvalidMagicNumber => "Invalid magic number received",
-            KineticError::RemoteError(ref status) =>
-                format!("{}: {}", status.get_code(), status.get_statusMessage()).as_slice().clone(),
+            KineticError::RemoteError(ref status) => {
+                let msg = status.get_statusMessage();
+                if msg.len() > 0 { msg }
+                else { "Kinetic remote error" }
+            },
         }
     }
 
@@ -55,10 +58,12 @@ impl Error for KineticError {
         match *self {
             KineticError::IoError(ref err) => Some(err.description().to_string()),
             KineticError::ProtobufError(ref err) => Some(err.description().to_string()),
-            KineticError::RemoteError(ref status) =>
+            KineticError::RemoteError(ref status) => {
+                let x = format!("{}: {}", status.get_code(), status.get_statusMessage());
                 if status.has_detailedMessage() {
                     String::from_utf8(status.get_detailedMessage().to_vec()).ok() }
-                else { None },
+                else { None }
+            },
             _ => None,
         }
     }
