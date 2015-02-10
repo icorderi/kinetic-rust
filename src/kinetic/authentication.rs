@@ -35,7 +35,7 @@ use std::num::Int;
 /// Kinetic authentication credentials
 ///
 /// Kinetic authentication credentials include `Hmac` and `Pin`.
-#[deriving(Clone)]
+#[derive(Clone)]
 pub enum Credentials {
     /// Authenticates a message with an `identity` and a `key`
     Hmac { identity: i64, key: vec::Vec<u8>, },
@@ -49,7 +49,7 @@ impl Credentials {
     fn calculate_hmac(key: &vec::Vec<u8>, data: &[u8]) -> vec::Vec<u8> {
         let mut hmac = hmac::Hmac::new(sha1::Sha1::new(), key.as_slice());
 
-        let buffer: [u8, ..4] = unsafe { ::std::mem::transmute((data.len() as u32).to_be()) };
+        let buffer: [u8;4] = unsafe { ::std::mem::transmute((data.len() as u32).to_be()) };
 
         hmac.input(&buffer);
         hmac.input(data);

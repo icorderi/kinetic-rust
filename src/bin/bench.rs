@@ -143,4 +143,4 @@ fn execute(cmd: &BenchArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
     Ok(()) //return
 }
 
-cmd!(BenchArgs, execute, USAGE)
+cmd!(BenchArgs, execute, USAGE);

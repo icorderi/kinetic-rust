@@ -33,7 +33,7 @@ use commands::common::Integrity;
 ///
 /// A `GetVersion` command returns the version and integrity information for the requested key
 #[unstable]
-#[deriving(Show)]
+#[derive(Debug)]
 pub struct GetVersionResponse {
     pub version: vec::Vec<u8>,
     pub integrity: Integrity,

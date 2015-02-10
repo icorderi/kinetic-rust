@@ -66,7 +66,7 @@ pub mod common {
     ///
     /// The drive can check the data integrity if the `algorithm` used is known.
     #[unstable]
-    #[deriving(Show)]
+    #[derive(Debug)]
     pub struct Integrity {
         pub tag : vec::Vec<u8>,
         pub algorithm: command::Algorithm,

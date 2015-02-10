@@ -21,29 +21,29 @@
 // author: Ignacio Corderi
 
 use protobuf::{parse_from_reader, parse_from_bytes, Message};
-use std::io;
+use std::old_io::{Reader, BufReader, MemReader, Writer, BufferedWriter};
 use result::KineticResult;
 use error::KineticError;
 
 
 #[stable]
 #[inline]
-pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)> {
-    let mut header = [0u8,..9];
+pub fn recv(stream: &mut Reader) -> KineticResult<(::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)> {
+    let mut header = [0u8;9];
     try!(stream.read_at_least(9, &mut header));
 
-    let mut r = io::BufReader::new(&header);
+    let mut r = BufReader::new(&header);
     let magic_number = try!(r.read_byte());
     if magic_number != 70u8 { return Err(KineticError::InvalidMagicNumber); }
-    let proto_length = try!(r.read_be_i32()) as uint;
-    let value_length = try!(r.read_be_i32()) as uint;
+    let proto_length = try!(r.read_be_i32()) as usize;
+    let value_length = try!(r.read_be_i32()) as usize;
 
     let proto_vec = try!(stream.read_exact(proto_length));
 
     let value = if value_length == 0 { vec![] }
                 else { try!(stream.read_exact(value_length)) };
 
-    let mut proto_reader = io::MemReader::new(proto_vec);
+    let mut proto_reader = MemReader::new(proto_vec);
 
     let msg = try!(parse_from_reader::<::proto::Message>(&mut proto_reader));
     let cmd = try!(parse_from_bytes::<::proto::Command>(msg.get_commandBytes()));
@@ -53,10 +53,10 @@ pub fn recv(stream: &mut io::Reader) -> KineticResult<(::proto::Message, ::proto
 
 #[stable]
 #[inline]
-pub fn send(stream: &mut io::Writer, proto: &::proto::Message, value: &[u8]) -> KineticResult<()> {
+pub fn send(stream: &mut Writer, proto: &::proto::Message, value: &[u8]) -> KineticResult<()> {
     let s = proto.compute_size();
 
-    let mut hw = io::BufferedWriter::with_capacity(9u + s as uint, stream);
+    let mut hw = BufferedWriter::with_capacity(9 + s as usize, stream);
     try!(hw.write_u8(70u8)); // Magic number
     try!(hw.write_be_i32(s as i32));
     try!(hw.write_be_i32(value.len() as i32));

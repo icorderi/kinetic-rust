@@ -24,11 +24,12 @@
 //! Module representing raw communication channels with a kinetic device
 
 use protobuf::Message;
-use std::{vec, io, collections};
-use std::io::net::ip::ToSocketAddr;
+use std::{vec, old_io, collections};
+use std::old_io::net::ip::ToSocketAddr;
 use std::sync::{Mutex, Arc};
 use result::KineticResult;
-
+use std::sync::mpsc::{Sender, Receiver, SyncSender, channel, sync_channel};
+use std::thread::Thread;
 
 #[unstable]
 pub type Operation= (::authentication::Credentials, ::proto::Command, Option<::std::vec::Vec<u8>>);
@@ -55,15 +56,15 @@ pub trait KineticChannel<T> {
     fn receive(T) -> Result;
 
     #[experimental]
-    fn get_unsolicited_receiver<'r>(&'r self) -> &'r ::std::comm::Receiver<Result>;
+    fn get_unsolicited_receiver<'r>(&'r self) -> &'r Receiver<Result>;
 
 }
 
 #[unstable]
 pub struct AsyncChannel {
-    stream: io::TcpStream,
-    writer_tx: ::std::comm::SyncSender<(Operation,Sender<Result>)>,
-    unsol_rx: ::std::comm::Receiver<Result>,
+    stream: old_io::TcpStream,
+    writer_tx: SyncSender<(Operation,Sender<Result>)>,
+    unsol_rx: Receiver<Result>,
     closed: bool,
     configuration: ::proto::command::log::Configuration,
     limits: ::proto::command::log::Limits,
@@ -86,8 +87,8 @@ impl Drop for AsyncChannel {
 impl AsyncChannel {
 
     #[unstable]
-    pub fn new<A: ToSocketAddr>(addr: A, max_pending: uint) -> KineticResult<AsyncChannel> {
-        let mut s = try!(io::TcpStream::connect(addr));
+    pub fn new<A: ToSocketAddr>(addr: A, max_pending: usize) -> KineticResult<AsyncChannel> {
+        let mut s = try!(old_io::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
         // Handshake
@@ -109,7 +110,7 @@ impl AsyncChannel {
         let pending_mutex_reader = pending_mutex.clone();
         // for unsolicited status
         let (unsol_tx, unsol_rx) = channel();
-        spawn(move|| {
+        Thread::spawn(move|| {
             let pending_mutex = pending_mutex_reader;
             loop {
                 let r = ::network::recv(&mut reader);
@@ -166,7 +167,7 @@ impl AsyncChannel {
         let (w_tx, w_rx): (_, Receiver<(Operation,Sender<Result>)>) = sync_channel(max_pending);
         let mut writer = s.clone();
         let pending_mutex_writer = pending_mutex.clone();
-        spawn(move|| {
+        Thread::spawn(move|| {
             let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 
@@ -209,7 +210,7 @@ impl KineticChannel<Receiver<Result>> for AsyncChannel {
 
     #[experimental]
     #[inline]
-    fn get_unsolicited_receiver<'r>(&'r self) -> &'r ::std::comm::Receiver<Result> {
+    fn get_unsolicited_receiver<'r>(&'r self) -> &'r Receiver<Result> {
         &self.unsol_rx
     }
 

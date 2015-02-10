@@ -33,7 +33,7 @@ use commands::common::Integrity;
 ///
 /// A `Get` command returns the value stored associated with the key requested
 #[unstable]
-#[deriving(Show)]
+#[derive(Debug)]
 pub struct GetResponse {
     pub value: vec::Vec<u8>,
     pub version: vec::Vec<u8>,

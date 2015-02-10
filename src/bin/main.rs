@@ -127,7 +127,7 @@ pub fn main_with_args(argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -
     match args.arg_command {
         Some(cmd) => cmd.dispatch(args.arg_args, shell),
         None => {
-            println!("{}", USAGE)
+            println!("{}", USAGE);
             Ok(())
         },
     } // return

@@ -22,15 +22,16 @@
 
 #![unstable]
 
-use std::io::net::ip::ToSocketAddr;
+use std::old_io::net::ip::ToSocketAddr;
 use std::sync::Future;
 use core::{Command, Response};
 use result::KineticResult;
 use channel::Result;
 use authentication::Credentials::Pin;
 use commands::pin::PinCommand;
+use std::sync::mpsc::{Receiver};
 
-static DEFAULT_MAX_PENDING: uint = 10;
+static DEFAULT_MAX_PENDING: usize = 10;
 
 /// The Kinetic device client
 ///

@@ -26,13 +26,14 @@
 
 use std::error::Error;
 use std::error::FromError;
-use std::io::IoError;
+use std::old_io::IoError;
 use protobuf::error::ProtobufError;
 use proto::command::Status;
+use std::fmt;
 
 /// Enum representing possible Kinetic errors
 #[stable]
-#[deriving(Show)]
+#[derive(Debug)]
 pub enum KineticError {
     IoError(IoError),
     ProtobufError(ProtobufError),
@@ -40,33 +41,39 @@ pub enum KineticError {
     RemoteError(Status)
 }
 
+impl fmt::Display for KineticError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Debug::fmt(self, f)
+    }
+}
+
 impl Error for KineticError {
     fn description(&self) -> &str {
         match *self {
-            KineticError::IoError(_) => "An I/O error occurred",
-            KineticError::ProtobufError(_) => "There was an error with the protobuf library",
-            KineticError::InvalidMagicNumber => "Invalid magic number received",
+            KineticError::IoError(e) => e.description(),
+            KineticError::ProtobufError(e) => e.description(),
+            KineticError::InvalidMagicNumber => "Invalid magic number received.",
             KineticError::RemoteError(ref status) => {
                 let msg = status.get_statusMessage();
                 if msg.len() > 0 { msg }
-                else { "Kinetic remote error" }
+                else { "Kinetic remote error." }
             },
         }
     }
 
-    fn detail(&self) -> Option<String> {
-        match *self {
-            KineticError::IoError(ref err) => Some(err.description().to_string()),
-            KineticError::ProtobufError(ref err) => Some(err.description().to_string()),
-            KineticError::RemoteError(ref status) => {
-                let x = format!("{}: {}", status.get_code(), status.get_statusMessage());
-                if status.has_detailedMessage() {
-                    String::from_utf8(status.get_detailedMessage().to_vec()).ok() }
-                else { None }
-            },
-            _ => None,
-        }
-    }
+//     fn detail(&self) -> Option<String> {
+//         match *self {
+//             KineticError::IoError(ref err) => Some(err.description().to_string()),
+//             KineticError::ProtobufError(ref err) => Some(err.description().to_string()),
+//             KineticError::RemoteError(ref status) => {
+//                 let x = format!("{}: {}", status.get_code(), status.get_statusMessage());
+//                 if status.has_detailedMessage() {
+//                     String::from_utf8(status.get_detailedMessage().to_vec()).ok() }
+//                 else { None }
+//             },
+//             _ => None,
+//         }
+//     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {

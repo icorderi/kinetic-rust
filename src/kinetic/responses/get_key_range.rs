@@ -33,6 +33,7 @@ use std::vec;
 /// A `GetKeyRange` command result contains an ordered list of keys contained
 /// between the `start` key and the `end` key.
 #[experimental]
+#[derive(Debug)]
 pub struct GetKeyRangeResponse {
     pub keys: vec::Vec<vec::Vec<u8>>
 }

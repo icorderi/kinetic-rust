@@ -33,7 +33,7 @@ use commands::common::Integrity;
 ///
 /// A `GetNext` command returns the value following the given key
 #[unstable]
-#[deriving(Show)]
+#[derive(Debug)]
 pub struct GetNextResponse {
     pub value: vec::Vec<u8>,
     pub version: vec::Vec<u8>,

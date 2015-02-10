@@ -4,12 +4,11 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
-#![allow(non_snake_case)]
 
 use protobuf::Message as Message_imported_for_functions;
 use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Local {
     protocolVersion: ::protobuf::SingularField<::std::string::String>,
     unknown_fields: ::protobuf::UnknownFields,
@@ -75,10 +74,6 @@ impl Local {
 }
 
 impl ::protobuf::Message for Local {
-    fn new() -> Local {
-        Local::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -134,6 +129,20 @@ impl ::protobuf::Message for Local {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Local>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Local {
+    fn new() -> Local {
+        Local::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Local>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -156,10 +165,6 @@ impl ::protobuf::Message for Local {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Local>()
-    }
 }
 
 impl ::protobuf::Clear for Local {
@@ -176,13 +181,13 @@ impl ::std::cmp::PartialEq for Local {
     }
 }
 
-impl ::std::fmt::Show for Local {
+impl ::std::fmt::Debug for Local {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Message {
     authType: ::std::option::Option<Message_AuthType>,
     hmacAuth: ::protobuf::SingularPtrField<Message_HMACauth>,
@@ -339,10 +344,6 @@ impl Message {
 }
 
 impl ::protobuf::Message for Message {
-    fn new() -> Message {
-        Message::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -443,6 +444,20 @@ impl ::protobuf::Message for Message {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Message>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Message {
+    fn new() -> Message {
+        Message::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -480,10 +495,6 @@ impl ::protobuf::Message for Message {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Message>()
-    }
 }
 
 impl ::protobuf::Clear for Message {
@@ -506,13 +517,13 @@ impl ::std::cmp::PartialEq for Message {
     }
 }
 
-impl ::std::fmt::Show for Message {
+impl ::std::fmt::Debug for Message {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Message_HMACauth {
     identity: ::std::option::Option<i64>,
     hmac: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -599,10 +610,6 @@ impl Message_HMACauth {
 }
 
 impl ::protobuf::Message for Message_HMACauth {
-    fn new() -> Message_HMACauth {
-        Message_HMACauth::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -671,6 +678,20 @@ impl ::protobuf::Message for Message_HMACauth {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Message_HMACauth>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Message_HMACauth {
+    fn new() -> Message_HMACauth {
+        Message_HMACauth::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message_HMACauth>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -698,10 +719,6 @@ impl ::protobuf::Message for Message_HMACauth {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Message_HMACauth>()
-    }
 }
 
 impl ::protobuf::Clear for Message_HMACauth {
@@ -720,13 +737,13 @@ impl ::std::cmp::PartialEq for Message_HMACauth {
     }
 }
 
-impl ::std::fmt::Show for Message_HMACauth {
+impl ::std::fmt::Debug for Message_HMACauth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Message_PINauth {
     pin: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     unknown_fields: ::protobuf::UnknownFields,
@@ -792,10 +809,6 @@ impl Message_PINauth {
 }
 
 impl ::protobuf::Message for Message_PINauth {
-    fn new() -> Message_PINauth {
-        Message_PINauth::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -851,6 +864,20 @@ impl ::protobuf::Message for Message_PINauth {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Message_PINauth>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Message_PINauth {
+    fn new() -> Message_PINauth {
+        Message_PINauth::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message_PINauth>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -873,10 +900,6 @@ impl ::protobuf::Message for Message_PINauth {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Message_PINauth>()
-    }
 }
 
 impl ::protobuf::Clear for Message_PINauth {
@@ -893,13 +916,13 @@ impl ::std::cmp::PartialEq for Message_PINauth {
     }
 }
 
-impl ::std::fmt::Show for Message_PINauth {
+impl ::std::fmt::Debug for Message_PINauth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Message_AuthType {
     INVALID_AUTH_TYPE = -1,
     HMACAUTH = 1,
@@ -935,10 +958,10 @@ impl ::protobuf::ProtobufEnum for Message_AuthType {
     }
 }
 
-impl ::std::kinds::Copy for Message_AuthType {
+impl ::std::marker::Copy for Message_AuthType {
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command {
     header: ::protobuf::SingularPtrField<Command_Header>,
     body: ::protobuf::SingularPtrField<Command_Body>,
@@ -1071,10 +1094,6 @@ impl Command {
 }
 
 impl ::protobuf::Message for Command {
-    fn new() -> Command {
-        Command::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -1165,6 +1184,20 @@ impl ::protobuf::Message for Command {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command {
+    fn new() -> Command {
+        Command::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -1197,10 +1230,6 @@ impl ::protobuf::Message for Command {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command>()
-    }
 }
 
 impl ::protobuf::Clear for Command {
@@ -1221,13 +1250,13 @@ impl ::std::cmp::PartialEq for Command {
     }
 }
 
-impl ::std::fmt::Show for Command {
+impl ::std::fmt::Debug for Command {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Header {
     clusterVersion: ::std::option::Option<i64>,
     connectionID: ::std::option::Option<i64>,
@@ -1444,10 +1473,6 @@ impl Command_Header {
 }
 
 impl ::protobuf::Message for Command_Header {
-    fn new() -> Command_Header {
-        Command_Header::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -1607,6 +1632,20 @@ impl ::protobuf::Message for Command_Header {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Header>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Header {
+    fn new() -> Command_Header {
+        Command_Header::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Header>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -1669,10 +1708,6 @@ impl ::protobuf::Message for Command_Header {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Header>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Header {
@@ -1705,13 +1740,13 @@ impl ::std::cmp::PartialEq for Command_Header {
     }
 }
 
-impl ::std::fmt::Show for Command_Header {
+impl ::std::fmt::Debug for Command_Header {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Body {
     keyValue: ::protobuf::SingularPtrField<Command_KeyValue>,
     range: ::protobuf::SingularPtrField<Command_Range>,
@@ -1984,10 +2019,6 @@ impl Command_Body {
 }
 
 impl ::protobuf::Message for Command_Body {
-    fn new() -> Command_Body {
-        Command_Body::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -2142,6 +2173,20 @@ impl ::protobuf::Message for Command_Body {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Body>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Body {
+    fn new() -> Command_Body {
+        Command_Body::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Body>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -2194,10 +2239,6 @@ impl ::protobuf::Message for Command_Body {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Body>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Body {
@@ -2226,13 +2267,13 @@ impl ::std::cmp::PartialEq for Command_Body {
     }
 }
 
-impl ::std::fmt::Show for Command_Body {
+impl ::std::fmt::Debug for Command_Body {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Status {
     code: ::std::option::Option<Command_Status_StatusCode>,
     statusMessage: ::protobuf::SingularField<::std::string::String>,
@@ -2357,10 +2398,6 @@ impl Command_Status {
 }
 
 impl ::protobuf::Message for Command_Status {
-    fn new() -> Command_Status {
-        Command_Status::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -2442,6 +2479,20 @@ impl ::protobuf::Message for Command_Status {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Status>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Status {
+    fn new() -> Command_Status {
+        Command_Status::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Status>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -2474,10 +2525,6 @@ impl ::protobuf::Message for Command_Status {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Status>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Status {
@@ -2498,13 +2545,13 @@ impl ::std::cmp::PartialEq for Command_Status {
     }
 }
 
-impl ::std::fmt::Show for Command_Status {
+impl ::std::fmt::Debug for Command_Status {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Status_StatusCode {
     INVALID_STATUS_CODE = -1,
     NOT_ATTEMPTED = 0,
@@ -2576,10 +2623,10 @@ impl ::protobuf::ProtobufEnum for Command_Status_StatusCode {
     }
 }
 
-impl ::std::kinds::Copy for Command_Status_StatusCode {
+impl ::std::marker::Copy for Command_Status_StatusCode {
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_KeyValue {
     newVersion: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     force: ::std::option::Option<bool>,
@@ -2843,10 +2890,6 @@ impl Command_KeyValue {
 }
 
 impl ::protobuf::Message for Command_KeyValue {
-    fn new() -> Command_KeyValue {
-        Command_KeyValue::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -2993,6 +3036,20 @@ impl ::protobuf::Message for Command_KeyValue {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_KeyValue>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_KeyValue {
+    fn new() -> Command_KeyValue {
+        Command_KeyValue::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_KeyValue>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -3050,10 +3107,6 @@ impl ::protobuf::Message for Command_KeyValue {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_KeyValue>()
-    }
 }
 
 impl ::protobuf::Clear for Command_KeyValue {
@@ -3084,13 +3137,13 @@ impl ::std::cmp::PartialEq for Command_KeyValue {
     }
 }
 
-impl ::std::fmt::Show for Command_KeyValue {
+impl ::std::fmt::Debug for Command_KeyValue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Range {
     startKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     endKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -3305,10 +3358,6 @@ impl Command_Range {
 }
 
 impl ::protobuf::Message for Command_Range {
-    fn new() -> Command_Range {
-        Command_Range::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -3360,11 +3409,7 @@ impl ::protobuf::Message for Command_Range {
                     self.reverse = ::std::option::Option::Some(tmp);
                 },
                 8 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.keys.push_default();
-                    try!(is.read_bytes_into(tmp))
+                    try!(::protobuf::rt::read_repeated_bytes_into(wire_type, is, &mut self.keys));
                 },
                 _ => {
                     let unknown = try!(is.read_unknown(wire_type));
@@ -3442,6 +3487,20 @@ impl ::protobuf::Message for Command_Range {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Range>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Range {
+    fn new() -> Command_Range {
+        Command_Range::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Range>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -3493,10 +3552,6 @@ impl ::protobuf::Message for Command_Range {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Range>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Range {
@@ -3525,13 +3580,13 @@ impl ::std::cmp::PartialEq for Command_Range {
     }
 }
 
-impl ::std::fmt::Show for Command_Range {
+impl ::std::fmt::Debug for Command_Range {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Setup {
     newClusterVersion: ::std::option::Option<i64>,
     firmwareDownload: ::std::option::Option<bool>,
@@ -3601,10 +3656,6 @@ impl Command_Setup {
 }
 
 impl ::protobuf::Message for Command_Setup {
-    fn new() -> Command_Setup {
-        Command_Setup::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -3673,6 +3724,20 @@ impl ::protobuf::Message for Command_Setup {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Setup>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Setup {
+    fn new() -> Command_Setup {
+        Command_Setup::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Setup>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -3700,10 +3765,6 @@ impl ::protobuf::Message for Command_Setup {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Setup>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Setup {
@@ -3722,13 +3783,13 @@ impl ::std::cmp::PartialEq for Command_Setup {
     }
 }
 
-impl ::std::fmt::Show for Command_Setup {
+impl ::std::fmt::Debug for Command_Setup {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_P2POperation {
     peer: ::protobuf::SingularPtrField<Command_P2POperation_Peer>,
     operation: ::protobuf::RepeatedField<Command_P2POperation_Operation>,
@@ -3839,10 +3900,6 @@ impl Command_P2POperation {
 }
 
 impl ::protobuf::Message for Command_P2POperation {
-    fn new() -> Command_P2POperation {
-        Command_P2POperation::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -3859,11 +3916,7 @@ impl ::protobuf::Message for Command_P2POperation {
                     try!(is.merge_message(tmp))
                 },
                 2 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.operation.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.operation));
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -3930,6 +3983,20 @@ impl ::protobuf::Message for Command_P2POperation {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_P2POperation>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_P2POperation {
+    fn new() -> Command_P2POperation {
+        Command_P2POperation::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -3961,10 +4028,6 @@ impl ::protobuf::Message for Command_P2POperation {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_P2POperation>()
-    }
 }
 
 impl ::protobuf::Clear for Command_P2POperation {
@@ -3985,13 +4048,13 @@ impl ::std::cmp::PartialEq for Command_P2POperation {
     }
 }
 
-impl ::std::fmt::Show for Command_P2POperation {
+impl ::std::fmt::Debug for Command_P2POperation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_P2POperation_Operation {
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     version: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -4224,10 +4287,6 @@ impl Command_P2POperation_Operation {
 }
 
 impl ::protobuf::Message for Command_P2POperation_Operation {
-    fn new() -> Command_P2POperation_Operation {
-        Command_P2POperation_Operation::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -4354,6 +4413,20 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_P2POperation_Operation>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_P2POperation_Operation {
+    fn new() -> Command_P2POperation_Operation {
+        Command_P2POperation_Operation::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation_Operation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -4401,10 +4474,6 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_P2POperation_Operation>()
-    }
 }
 
 impl ::protobuf::Clear for Command_P2POperation_Operation {
@@ -4431,13 +4500,13 @@ impl ::std::cmp::PartialEq for Command_P2POperation_Operation {
     }
 }
 
-impl ::std::fmt::Show for Command_P2POperation_Operation {
+impl ::std::fmt::Debug for Command_P2POperation_Operation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_P2POperation_Peer {
     hostname: ::protobuf::SingularField<::std::string::String>,
     port: ::std::option::Option<i32>,
@@ -4545,10 +4614,6 @@ impl Command_P2POperation_Peer {
 }
 
 impl ::protobuf::Message for Command_P2POperation_Peer {
-    fn new() -> Command_P2POperation_Peer {
-        Command_P2POperation_Peer::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -4630,6 +4695,20 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_P2POperation_Peer>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_P2POperation_Peer {
+    fn new() -> Command_P2POperation_Peer {
+        Command_P2POperation_Peer::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation_Peer>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -4662,10 +4741,6 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_P2POperation_Peer>()
-    }
 }
 
 impl ::protobuf::Clear for Command_P2POperation_Peer {
@@ -4686,13 +4761,13 @@ impl ::std::cmp::PartialEq for Command_P2POperation_Peer {
     }
 }
 
-impl ::std::fmt::Show for Command_P2POperation_Peer {
+impl ::std::fmt::Debug for Command_P2POperation_Peer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog {
     types: ::std::vec::Vec<Command_GetLog_Type>,
     utilizations: ::protobuf::RepeatedField<Command_GetLog_Utilization>,
@@ -5006,10 +5081,6 @@ impl Command_GetLog {
 }
 
 impl ::protobuf::Message for Command_GetLog {
-    fn new() -> Command_GetLog {
-        Command_GetLog::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -5019,31 +5090,13 @@ impl ::protobuf::Message for Command_GetLog {
             let (field_number, wire_type) = try!(is.read_tag_unpack());
             match field_number {
                 1 => {
-                    match wire_type {
-                        ::protobuf::wire_format::WireTypeLengthDelimited => {
-                            try!(is.read_repeated_packed_enum_into(&mut self.types));
-                        },
-                        ::protobuf::wire_format::WireTypeVarint => {
-                            self.types.push(try!(is.read_enum()));
-                        },
-                        _ => {
-                            return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                        },
-                    };
+                    try!(::protobuf::rt::read_repeated_enum_into(wire_type, is, &mut self.types));
                 },
                 2 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.utilizations.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.utilizations));
                 },
                 3 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.temperatures.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.temperatures));
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
@@ -5060,11 +5113,7 @@ impl ::protobuf::Message for Command_GetLog {
                     try!(is.merge_message(tmp))
                 },
                 6 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.statistics.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.statistics));
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
@@ -5196,6 +5245,20 @@ impl ::protobuf::Message for Command_GetLog {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog {
+    fn new() -> Command_GetLog {
+        Command_GetLog::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -5254,10 +5317,6 @@ impl ::protobuf::Message for Command_GetLog {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog {
@@ -5290,13 +5349,13 @@ impl ::std::cmp::PartialEq for Command_GetLog {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog {
+impl ::std::fmt::Debug for Command_GetLog {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Utilization {
     name: ::protobuf::SingularField<::std::string::String>,
     value: ::std::option::Option<f32>,
@@ -5383,10 +5442,6 @@ impl Command_GetLog_Utilization {
 }
 
 impl ::protobuf::Message for Command_GetLog_Utilization {
-    fn new() -> Command_GetLog_Utilization {
-        Command_GetLog_Utilization::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -5455,6 +5510,20 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Utilization>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Utilization {
+    fn new() -> Command_GetLog_Utilization {
+        Command_GetLog_Utilization::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Utilization>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -5482,10 +5551,6 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Utilization>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Utilization {
@@ -5504,13 +5569,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Utilization {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Utilization {
+impl ::std::fmt::Debug for Command_GetLog_Utilization {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Temperature {
     name: ::protobuf::SingularField<::std::string::String>,
     current: ::std::option::Option<f32>,
@@ -5660,10 +5725,6 @@ impl Command_GetLog_Temperature {
 }
 
 impl ::protobuf::Message for Command_GetLog_Temperature {
-    fn new() -> Command_GetLog_Temperature {
-        Command_GetLog_Temperature::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -5771,6 +5832,20 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Temperature>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Temperature {
+    fn new() -> Command_GetLog_Temperature {
+        Command_GetLog_Temperature::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Temperature>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -5813,10 +5888,6 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Temperature>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Temperature {
@@ -5841,13 +5912,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Temperature {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Temperature {
+impl ::std::fmt::Debug for Command_GetLog_Temperature {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Capacity {
     nominalCapacityInBytes: ::std::option::Option<u64>,
     portionFull: ::std::option::Option<f32>,
@@ -5917,10 +5988,6 @@ impl Command_GetLog_Capacity {
 }
 
 impl ::protobuf::Message for Command_GetLog_Capacity {
-    fn new() -> Command_GetLog_Capacity {
-        Command_GetLog_Capacity::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -5989,6 +6056,20 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Capacity>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Capacity {
+    fn new() -> Command_GetLog_Capacity {
+        Command_GetLog_Capacity::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Capacity>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -6016,10 +6097,6 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Capacity>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Capacity {
@@ -6038,13 +6115,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Capacity {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Capacity {
+impl ::std::fmt::Debug for Command_GetLog_Capacity {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Configuration {
     vendor: ::protobuf::SingularField<::std::string::String>,
     model: ::protobuf::SingularField<::std::string::String>,
@@ -6521,10 +6598,6 @@ impl Command_GetLog_Configuration {
 }
 
 impl ::protobuf::Message for Command_GetLog_Configuration {
-    fn new() -> Command_GetLog_Configuration {
-        Command_GetLog_Configuration::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -6604,11 +6677,7 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
                     try!(is.read_string_into(tmp))
                 },
                 9 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.interface.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.interface));
                 },
                 10 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -6739,6 +6808,20 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Configuration>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Configuration {
+    fn new() -> Command_GetLog_Configuration {
+        Command_GetLog_Configuration::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Configuration>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -6820,10 +6903,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Configuration>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Configuration {
@@ -6864,13 +6943,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Configuration {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Configuration {
+impl ::std::fmt::Debug for Command_GetLog_Configuration {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Configuration_Interface {
     name: ::protobuf::SingularField<::std::string::String>,
     MAC: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -7050,10 +7129,6 @@ impl Command_GetLog_Configuration_Interface {
 }
 
 impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
-    fn new() -> Command_GetLog_Configuration_Interface {
-        Command_GetLog_Configuration_Interface::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -7148,6 +7223,20 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Configuration_Interface>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Configuration_Interface {
+    fn new() -> Command_GetLog_Configuration_Interface {
+        Command_GetLog_Configuration_Interface::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Configuration_Interface>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -7185,10 +7274,6 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Configuration_Interface>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Configuration_Interface {
@@ -7211,13 +7296,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Configuration_Interface {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Configuration_Interface {
+impl ::std::fmt::Debug for Command_GetLog_Configuration_Interface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Statistics {
     messageType: ::std::option::Option<Command_MessageType>,
     count: ::std::option::Option<u64>,
@@ -7308,10 +7393,6 @@ impl Command_GetLog_Statistics {
 }
 
 impl ::protobuf::Message for Command_GetLog_Statistics {
-    fn new() -> Command_GetLog_Statistics {
-        Command_GetLog_Statistics::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -7393,6 +7474,20 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Statistics>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Statistics {
+    fn new() -> Command_GetLog_Statistics {
+        Command_GetLog_Statistics::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Statistics>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -7425,10 +7520,6 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Statistics>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Statistics {
@@ -7449,13 +7540,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Statistics {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Statistics {
+impl ::std::fmt::Debug for Command_GetLog_Statistics {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Limits {
     maxKeySize: ::std::option::Option<u32>,
     maxValueSize: ::std::option::Option<u32>,
@@ -7714,10 +7805,6 @@ impl Command_GetLog_Limits {
 }
 
 impl ::protobuf::Message for Command_GetLog_Limits {
-    fn new() -> Command_GetLog_Limits {
-        Command_GetLog_Limits::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -7903,6 +7990,20 @@ impl ::protobuf::Message for Command_GetLog_Limits {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Limits>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Limits {
+    fn new() -> Command_GetLog_Limits {
+        Command_GetLog_Limits::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Limits>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -7975,10 +8076,6 @@ impl ::protobuf::Message for Command_GetLog_Limits {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Limits>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Limits {
@@ -8015,13 +8112,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Limits {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Limits {
+impl ::std::fmt::Debug for Command_GetLog_Limits {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_GetLog_Device {
     name: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     unknown_fields: ::protobuf::UnknownFields,
@@ -8087,10 +8184,6 @@ impl Command_GetLog_Device {
 }
 
 impl ::protobuf::Message for Command_GetLog_Device {
-    fn new() -> Command_GetLog_Device {
-        Command_GetLog_Device::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -8146,6 +8239,20 @@ impl ::protobuf::Message for Command_GetLog_Device {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_GetLog_Device>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_GetLog_Device {
+    fn new() -> Command_GetLog_Device {
+        Command_GetLog_Device::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Device>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -8168,10 +8275,6 @@ impl ::protobuf::Message for Command_GetLog_Device {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_GetLog_Device>()
-    }
 }
 
 impl ::protobuf::Clear for Command_GetLog_Device {
@@ -8188,13 +8291,13 @@ impl ::std::cmp::PartialEq for Command_GetLog_Device {
     }
 }
 
-impl ::std::fmt::Show for Command_GetLog_Device {
+impl ::std::fmt::Debug for Command_GetLog_Device {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_GetLog_Type {
     INVALID_TYPE = -1,
     UTILIZATIONS = 0,
@@ -8240,10 +8343,10 @@ impl ::protobuf::ProtobufEnum for Command_GetLog_Type {
     }
 }
 
-impl ::std::kinds::Copy for Command_GetLog_Type {
+impl ::std::marker::Copy for Command_GetLog_Type {
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Security {
     acl: ::protobuf::RepeatedField<Command_Security_ACL>,
     oldLockPIN: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -8450,10 +8553,6 @@ impl Command_Security {
 }
 
 impl ::protobuf::Message for Command_Security {
-    fn new() -> Command_Security {
-        Command_Security::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -8463,11 +8562,7 @@ impl ::protobuf::Message for Command_Security {
             let (field_number, wire_type) = try!(is.read_tag_unpack());
             match field_number {
                 2 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.acl.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.acl));
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
@@ -8564,6 +8659,20 @@ impl ::protobuf::Message for Command_Security {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Security>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Security {
+    fn new() -> Command_Security {
+        Command_Security::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -8605,10 +8714,6 @@ impl ::protobuf::Message for Command_Security {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Security>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Security {
@@ -8633,13 +8738,13 @@ impl ::std::cmp::PartialEq for Command_Security {
     }
 }
 
-impl ::std::fmt::Show for Command_Security {
+impl ::std::fmt::Debug for Command_Security {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Security_ACL {
     identity: ::std::option::Option<i64>,
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -8795,10 +8900,6 @@ impl Command_Security_ACL {
 }
 
 impl ::protobuf::Message for Command_Security_ACL {
-    fn new() -> Command_Security_ACL {
-        Command_Security_ACL::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -8829,11 +8930,7 @@ impl ::protobuf::Message for Command_Security_ACL {
                     self.hmacAlgorithm = ::std::option::Option::Some(tmp);
                 },
                 4 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
-                        return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                    };
-                    let tmp = self.scope.push_default();
-                    try!(is.merge_message(tmp))
+                    try!(::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.scope));
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -8909,6 +9006,20 @@ impl ::protobuf::Message for Command_Security_ACL {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Security_ACL>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Security_ACL {
+    fn new() -> Command_Security_ACL {
+        Command_Security_ACL::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security_ACL>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -8950,10 +9061,6 @@ impl ::protobuf::Message for Command_Security_ACL {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Security_ACL>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Security_ACL {
@@ -8978,13 +9085,13 @@ impl ::std::cmp::PartialEq for Command_Security_ACL {
     }
 }
 
-impl ::std::fmt::Show for Command_Security_ACL {
+impl ::std::fmt::Debug for Command_Security_ACL {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_Security_ACL_Scope {
     offset: ::std::option::Option<i64>,
     value: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -9119,10 +9226,6 @@ impl Command_Security_ACL_Scope {
 }
 
 impl ::protobuf::Message for Command_Security_ACL_Scope {
-    fn new() -> Command_Security_ACL_Scope {
-        Command_Security_ACL_Scope::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -9146,17 +9249,7 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
                     try!(is.read_bytes_into(tmp))
                 },
                 3 => {
-                    match wire_type {
-                        ::protobuf::wire_format::WireTypeLengthDelimited => {
-                            try!(is.read_repeated_packed_enum_into(&mut self.permission));
-                        },
-                        ::protobuf::wire_format::WireTypeVarint => {
-                            self.permission.push(try!(is.read_enum()));
-                        },
-                        _ => {
-                            return ::std::result::Result::Err(::protobuf::ProtobufError::WireError("unexpected wire type".to_string()));
-                        },
-                    };
+                    try!(::protobuf::rt::read_repeated_enum_into(wire_type, is, &mut self.permission));
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -9223,6 +9316,20 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_Security_ACL_Scope>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_Security_ACL_Scope {
+    fn new() -> Command_Security_ACL_Scope {
+        Command_Security_ACL_Scope::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security_ACL_Scope>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -9259,10 +9366,6 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_Security_ACL_Scope>()
-    }
 }
 
 impl ::protobuf::Clear for Command_Security_ACL_Scope {
@@ -9285,13 +9388,13 @@ impl ::std::cmp::PartialEq for Command_Security_ACL_Scope {
     }
 }
 
-impl ::std::fmt::Show for Command_Security_ACL_Scope {
+impl ::std::fmt::Debug for Command_Security_ACL_Scope {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Security_ACL_HMACAlgorithm {
     INVALID_HMAC_ALGORITHM = -1,
     HmacSHA1 = 1,
@@ -9323,10 +9426,10 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_HMACAlgorithm {
     }
 }
 
-impl ::std::kinds::Copy for Command_Security_ACL_HMACAlgorithm {
+impl ::std::marker::Copy for Command_Security_ACL_HMACAlgorithm {
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Security_ACL_Permission {
     INVALID_PERMISSION = -1,
     READ = 0,
@@ -9372,10 +9475,10 @@ impl ::protobuf::ProtobufEnum for Command_Security_ACL_Permission {
     }
 }
 
-impl ::std::kinds::Copy for Command_Security_ACL_Permission {
+impl ::std::marker::Copy for Command_Security_ACL_Permission {
 }
 
-#[deriving(Clone,Default)]
+#[derive(Clone,Default)]
 pub struct Command_PinOperation {
     pinOpType: ::std::option::Option<Command_PinOperation_PinOpType>,
     unknown_fields: ::protobuf::UnknownFields,
@@ -9424,10 +9527,6 @@ impl Command_PinOperation {
 }
 
 impl ::protobuf::Message for Command_PinOperation {
-    fn new() -> Command_PinOperation {
-        Command_PinOperation::new()
-    }
-
     fn is_initialized(&self) -> bool {
         true
     }
@@ -9483,6 +9582,20 @@ impl ::protobuf::Message for Command_PinOperation {
         &mut self.unknown_fields
     }
 
+    fn type_id(&self) -> ::std::any::TypeId {
+        ::std::any::TypeId::of::<Command_PinOperation>()
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        ::protobuf::MessageStatic::descriptor_static(None::<Self>)
+    }
+}
+
+impl ::protobuf::MessageStatic for Command_PinOperation {
+    fn new() -> Command_PinOperation {
+        Command_PinOperation::new()
+    }
+
     #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_PinOperation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
@@ -9505,10 +9618,6 @@ impl ::protobuf::Message for Command_PinOperation {
             })
         }
     }
-
-    fn type_id(&self) -> ::std::intrinsics::TypeId {
-        ::std::intrinsics::TypeId::of::<Command_PinOperation>()
-    }
 }
 
 impl ::protobuf::Clear for Command_PinOperation {
@@ -9525,13 +9634,13 @@ impl ::std::cmp::PartialEq for Command_PinOperation {
     }
 }
 
-impl ::std::fmt::Show for Command_PinOperation {
+impl ::std::fmt::Debug for Command_PinOperation {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        self.fmt_impl(f)
+        ::protobuf::text_format::fmt(self, f)
     }
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_PinOperation_PinOpType {
     INVALID_PINOP = -1,
     UNLOCK_PINOP = 1,
@@ -9569,10 +9678,10 @@ impl ::protobuf::ProtobufEnum for Command_PinOperation_PinOpType {
     }
 }
 
-impl ::std::kinds::Copy for Command_PinOperation_PinOpType {
+impl ::std::marker::Copy for Command_PinOperation_PinOpType {
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Synchronization {
     INVALID_SYNCHRONIZATION = -1,
     WRITETHROUGH = 1,
@@ -9608,10 +9717,10 @@ impl ::protobuf::ProtobufEnum for Command_Synchronization {
     }
 }
 
-impl ::std::kinds::Copy for Command_Synchronization {
+impl ::std::marker::Copy for Command_Synchronization {
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Priority {
     NORMAL = 5,
     LOWEST = 1,
@@ -9649,10 +9758,10 @@ impl ::protobuf::ProtobufEnum for Command_Priority {
     }
 }
 
-impl ::std::kinds::Copy for Command_Priority {
+impl ::std::marker::Copy for Command_Priority {
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_Algorithm {
     INVALID_ALGORITHM = -1,
     SHA1 = 1,
@@ -9692,10 +9801,10 @@ impl ::protobuf::ProtobufEnum for Command_Algorithm {
     }
 }
 
-impl ::std::kinds::Copy for Command_Algorithm {
+impl ::std::marker::Copy for Command_Algorithm {
 }
 
-#[deriving(Clone,PartialEq,Eq,Show)]
+#[derive(Clone,PartialEq,Eq,Debug)]
 pub enum Command_MessageType {
     INVALID_MESSAGE_TYPE = -1,
     GET = 2,
@@ -9789,7 +9898,7 @@ impl ::protobuf::ProtobufEnum for Command_MessageType {
     }
 }
 
-impl ::std::kinds::Copy for Command_MessageType {
+impl ::std::marker::Copy for Command_MessageType {
 }
 
 static file_descriptor_proto_data: &'static [u8] = &[

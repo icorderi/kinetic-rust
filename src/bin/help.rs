@@ -52,4 +52,4 @@ fn execute(cmd: &HelpArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
     ::main::main_with_args(argv, shell) //return
 }
 
-cmd!(HelpArgs, execute, USAGE)
+cmd!(HelpArgs, execute, USAGE);

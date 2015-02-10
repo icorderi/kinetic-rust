@@ -17,4 +17,4 @@ macro_rules! cmd( ($name:ident, $execute:ident, $usage: ident) => (
         #[inline]
         fn usage(_: Option<$name>) -> &'static str { $usage }
     }
-))
+));

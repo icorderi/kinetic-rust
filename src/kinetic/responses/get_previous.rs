@@ -33,7 +33,7 @@ use commands::common::Integrity;
 ///
 /// A `GetPrevious` command returns the value before the given key
 #[unstable]
-#[deriving(Show)]
+#[derive(Debug)]
 pub struct GetPreviousResponse {
     pub value: vec::Vec<u8>,
     pub version: vec::Vec<u8>,

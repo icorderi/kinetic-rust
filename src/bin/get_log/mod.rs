@@ -61,4 +61,4 @@ fn execute(cmd: &LogArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> 
     Ok(()) //return
 }
 
-cmd!(LogArgs, execute, USAGE)
+cmd!(LogArgs, execute, USAGE);
