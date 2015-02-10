@@ -119,23 +119,23 @@ impl AsyncChannel {
                 let (msg, cmd, value) = r.unwrap();
 
                 match  msg.get_authType() {
-                    ::proto::message::AuthType::UNSOLICITEDSTATUS => unsol_tx.send((msg, cmd, value)),
+                    ::proto::message::AuthType::UNSOLICITEDSTATUS => unsol_tx.send((msg, cmd, value)).unwrap(), //TODO: try!(...)
                     ::proto::message::AuthType::HMACAUTH => {
                         // FIXME: verify HMAC integrity
                         let ack = cmd.get_header().get_ackSequence();
                         let req: Option<Sender<Result>>;
                         // lock the pendings and grab the request that matches the ACK
                         {
-                            let mut pending = pending_mutex.lock();
+                            let mut pending = pending_mutex.lock().unwrap(); // TODO: try!(...)
                             // *remove* returns the value if it was there
                             req = pending.remove(&ack);
                         }
 
                         match req {
-                            // FIXME: What shjould we do if we get a result for an operation
+                            // FIXME: What should we do if we get a result for an operation
                             //        we did not send?
                             None => println!("No match for ack: {} found.", ack),
-                            Some(callback) => callback.send((msg, cmd, value))
+                            Some(callback) => callback.send((msg, cmd, value)).unwrap() // TODO: try!(...)
                         }
                     },
                     ::proto::message::AuthType::PINAUTH => {
@@ -144,7 +144,7 @@ impl AsyncChannel {
                         let req: Option<Sender<Result>>;
                         // lock the pendings and grab the request that matches the ACK
                         {
-                            let mut pending = pending_mutex.lock();
+                            let mut pending = pending_mutex.lock().unwrap(); // TODO: try!(...);
                             // *remove* returns the value if it was there
                             req = pending.remove(&ack);
                         }
@@ -153,7 +153,7 @@ impl AsyncChannel {
                             // FIXME: What shjould we do if we get a result for an operation
                             //        we did not send?
                             None => println!("No match for ack: {} found.", ack),
-                            Some(callback) => callback.send((msg, cmd, value))
+                            Some(callback) => callback.send((msg, cmd, value)).unwrap() // TODO: try!(...)
                         }
                     },
                     ::proto::message::AuthType::INVALID_AUTH_TYPE =>
@@ -181,8 +181,8 @@ impl AsyncChannel {
                 msg.set_commandBytes(cmd_bytes);
 
                 {
-                    let mut pending = pending_mutex.lock();
-                    pending.insert(seq, callback);
+                    let mut pending = pending_mutex.lock().unwrap(); // TODO: try!(...)
+                    pending.insert(seq, callback).unwrap(); // TODO: try!(...)
                 }
 
                 let value = value.unwrap_or(vec::Vec::new());
@@ -237,7 +237,7 @@ impl KineticChannel<Receiver<Result>> for AsyncChannel {
     #[experimental]
     #[inline]
     fn receive(rx: Receiver<Result>) -> Result {
-        rx.recv()
+        rx.recv().unwrap() // TODO: try and return KineticResult
     }
 
 }
