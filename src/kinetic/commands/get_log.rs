@@ -20,21 +20,16 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 use proto::command;
 
-
 /// Get's the requested logs
-#[unstable]
 pub struct GetLog {
     // FIXME: The operation actually accepts a **set** of types
     pub log_types: vec::Vec<command::LogType>
 }
 
-#[unstable]
 impl Command<::responses::GetLogResponse> for GetLog {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

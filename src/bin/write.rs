@@ -27,11 +27,11 @@ use kinetic::commands::{Put, Get};
 use kinetic::KineticResult;
 
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub struct WriteArgs {
     flag_verbose: bool,
-    flag_count: Option<uint>,
-    flag_size: Option<uint>,
+    flag_count: Option<usize>,
+    flag_size: Option<usize>,
     arg_target: String,
 }
 
@@ -49,12 +49,12 @@ Options:
 ";
 
 fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    debug!("executing; cmd=kinetic-rust-write; args={}", ::std::os::args());
+    //debug!("executing; cmd=kinetic-rust-write; args={}", ::std::env::args());
     shell.set_verbose(cmd.flag_verbose);
 
     try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
 
-    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_str()));
 
     c.send(Put { key: "rust".as_bytes().to_vec(),
                  value: format!("Hello from {}!", ::kinetic::version()).as_bytes().to_vec(),
@@ -63,14 +63,14 @@ fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
 
     try!(shell.status("Response", format!("{}", String::from_utf8(v.value).unwrap())));
 
-    let items = cmd.flag_count.unwrap_or(10u);
+    let items = cmd.flag_count.unwrap_or(10);
         // benchmark
-    let size = cmd.flag_size.unwrap_or(1024*1024u);
+    let size = cmd.flag_size.unwrap_or(1024*1024);
     let d = Duration::span(|| {
         let mut responses = vec::Vec::with_capacity(items);
 
-        for i in range(0u, items) {
-            let data = vec::Vec::from_elem(size, 0u8);
+        for i in (0.. items) {
+            let data = vec![0u8; size];
             let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
                                         value: data,
                                         ..Default::default()});
@@ -91,4 +91,18 @@ fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()
     Ok(()) //return
 }
 
-cmd!(WriteArgs, execute, USAGE);
+impl ::cli::CliCommand for WriteArgs {
+    fn from_argv(argv: ::std::vec::Vec<String>) -> WriteArgs {
+        ::docopt::Docopt::new(::cli::CliCommand::usage(None::<WriteArgs>))
+            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
+            .unwrap_or_else(|e| e.exit())
+    }
+
+    #[inline]
+    fn execute(&self, shell: &mut ::shell::MultiShell) -> ::kinetic::KineticResult<()> {
+        execute(self, shell)
+    }
+
+    #[inline]
+    fn usage(_: Option<WriteArgs>) -> &'static str { USAGE }
+}

@@ -24,7 +24,6 @@ use std::vec;
 use kinetic::KineticResult;
 
 
-#[experimental]
 pub trait CliCommand {
 
     fn from_argv(argv: vec::Vec<String>) -> Self;
@@ -35,7 +34,6 @@ pub trait CliCommand {
     fn usage(_:Option<Self>) -> &'static str;
 }
 
-#[experimental]
 pub trait CliDispatcher {
 
     fn dispatch(&self, vec::Vec<String>,  &mut ::shell::MultiShell) -> KineticResult<()>;

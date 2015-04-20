@@ -4,13 +4,16 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
+#![allow(non_snake_case)]
 
 use protobuf::Message as Message_imported_for_functions;
 use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
 
 #[derive(Clone,Default)]
 pub struct Local {
+    // message fields
     protocolVersion: ::protobuf::SingularField<::std::string::String>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -67,7 +70,7 @@ impl Local {
 
     pub fn get_protocolVersion<'a>(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "3.0.5",
         }
     }
@@ -99,10 +102,11 @@ impl ::protobuf::Message for Local {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.protocolVersion.iter() {
-            my_size += ::protobuf::rt::string_size(1, value.as_slice());
+            my_size += ::protobuf::rt::string_size(1, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -111,7 +115,7 @@ impl ::protobuf::Message for Local {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.protocolVersion.as_ref() {
-            try!(os.write_string(1, v.as_slice()));
+            try!(os.write_string(1, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -133,6 +137,10 @@ impl ::protobuf::Message for Local {
         ::std::any::TypeId::of::<Local>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -143,7 +151,6 @@ impl ::protobuf::MessageStatic for Local {
         Local::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Local>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -189,10 +196,12 @@ impl ::std::fmt::Debug for Local {
 
 #[derive(Clone,Default)]
 pub struct Message {
+    // message fields
     authType: ::std::option::Option<Message_AuthType>,
     hmacAuth: ::protobuf::SingularPtrField<Message_HMACauth>,
     pinAuth: ::protobuf::SingularPtrField<Message_PINauth>,
     commandBytes: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -337,8 +346,8 @@ impl Message {
 
     pub fn get_commandBytes<'a>(&'a self) -> &'a [u8] {
         match self.commandBytes.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -390,6 +399,7 @@ impl ::protobuf::Message for Message {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.authType.iter() {
@@ -404,7 +414,7 @@ impl ::protobuf::Message for Message {
             my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
         };
         for value in self.commandBytes.iter() {
-            my_size += ::protobuf::rt::bytes_size(7, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(7, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -426,7 +436,7 @@ impl ::protobuf::Message for Message {
             try!(v.write_to_with_cached_sizes(os));
         };
         if let Some(v) = self.commandBytes.as_ref() {
-            try!(os.write_bytes(7, v.as_slice()));
+            try!(os.write_bytes(7, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -448,6 +458,10 @@ impl ::protobuf::Message for Message {
         ::std::any::TypeId::of::<Message>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -458,7 +472,6 @@ impl ::protobuf::MessageStatic for Message {
         Message::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -525,8 +538,10 @@ impl ::std::fmt::Debug for Message {
 
 #[derive(Clone,Default)]
 pub struct Message_HMACauth {
+    // message fields
     identity: ::std::option::Option<i64>,
     hmac: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -603,8 +618,8 @@ impl Message_HMACauth {
 
     pub fn get_hmac<'a>(&'a self) -> &'a [u8] {
         match self.hmac.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -642,13 +657,14 @@ impl ::protobuf::Message for Message_HMACauth {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.identity.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
         };
         for value in self.hmac.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -660,7 +676,7 @@ impl ::protobuf::Message for Message_HMACauth {
             try!(os.write_int64(1, v));
         };
         if let Some(v) = self.hmac.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -682,6 +698,10 @@ impl ::protobuf::Message for Message_HMACauth {
         ::std::any::TypeId::of::<Message_HMACauth>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -692,7 +712,6 @@ impl ::protobuf::MessageStatic for Message_HMACauth {
         Message_HMACauth::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message_HMACauth>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -745,7 +764,9 @@ impl ::std::fmt::Debug for Message_HMACauth {
 
 #[derive(Clone,Default)]
 pub struct Message_PINauth {
+    // message fields
     pin: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -802,8 +823,8 @@ impl Message_PINauth {
 
     pub fn get_pin<'a>(&'a self) -> &'a [u8] {
         match self.pin.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -834,10 +855,11 @@ impl ::protobuf::Message for Message_PINauth {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.pin.iter() {
-            my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(1, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -846,7 +868,7 @@ impl ::protobuf::Message for Message_PINauth {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.pin.as_ref() {
-            try!(os.write_bytes(1, v.as_slice()));
+            try!(os.write_bytes(1, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -868,6 +890,10 @@ impl ::protobuf::Message for Message_PINauth {
         ::std::any::TypeId::of::<Message_PINauth>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -878,7 +904,6 @@ impl ::protobuf::MessageStatic for Message_PINauth {
         Message_PINauth::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Message_PINauth>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -963,9 +988,11 @@ impl ::std::marker::Copy for Message_AuthType {
 
 #[derive(Clone,Default)]
 pub struct Command {
+    // message fields
     header: ::protobuf::SingularPtrField<Command_Header>,
     body: ::protobuf::SingularPtrField<Command_Body>,
     status: ::protobuf::SingularPtrField<Command_Status>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -1133,6 +1160,7 @@ impl ::protobuf::Message for Command {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.header.iter() {
@@ -1188,6 +1216,10 @@ impl ::protobuf::Message for Command {
         ::std::any::TypeId::of::<Command>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -1198,7 +1230,6 @@ impl ::protobuf::MessageStatic for Command {
         Command::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -1258,6 +1289,7 @@ impl ::std::fmt::Debug for Command {
 
 #[derive(Clone,Default)]
 pub struct Command_Header {
+    // message fields
     clusterVersion: ::std::option::Option<i64>,
     connectionID: ::std::option::Option<i64>,
     sequence: ::std::option::Option<i64>,
@@ -1267,6 +1299,7 @@ pub struct Command_Header {
     earlyExit: ::std::option::Option<bool>,
     priority: ::std::option::Option<Command_Priority>,
     TimeQuanta: ::std::option::Option<i64>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -1554,6 +1587,7 @@ impl ::protobuf::Message for Command_Header {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.clusterVersion.iter() {
@@ -1636,6 +1670,10 @@ impl ::protobuf::Message for Command_Header {
         ::std::any::TypeId::of::<Command_Header>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -1646,7 +1684,6 @@ impl ::protobuf::MessageStatic for Command_Header {
         Command_Header::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Header>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -1748,6 +1785,7 @@ impl ::std::fmt::Debug for Command_Header {
 
 #[derive(Clone,Default)]
 pub struct Command_Body {
+    // message fields
     keyValue: ::protobuf::SingularPtrField<Command_KeyValue>,
     range: ::protobuf::SingularPtrField<Command_Range>,
     setup: ::protobuf::SingularPtrField<Command_Setup>,
@@ -1755,6 +1793,7 @@ pub struct Command_Body {
     getLog: ::protobuf::SingularPtrField<Command_GetLog>,
     security: ::protobuf::SingularPtrField<Command_Security>,
     pinOp: ::protobuf::SingularPtrField<Command_PinOperation>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -2086,6 +2125,7 @@ impl ::protobuf::Message for Command_Body {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.keyValue.iter() {
@@ -2177,6 +2217,10 @@ impl ::protobuf::Message for Command_Body {
         ::std::any::TypeId::of::<Command_Body>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -2187,7 +2231,6 @@ impl ::protobuf::MessageStatic for Command_Body {
         Command_Body::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Body>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -2275,9 +2318,11 @@ impl ::std::fmt::Debug for Command_Body {
 
 #[derive(Clone,Default)]
 pub struct Command_Status {
+    // message fields
     code: ::std::option::Option<Command_Status_StatusCode>,
     statusMessage: ::protobuf::SingularField<::std::string::String>,
     detailedMessage: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -2355,7 +2400,7 @@ impl Command_Status {
 
     pub fn get_statusMessage<'a>(&'a self) -> &'a str {
         match self.statusMessage.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -2391,8 +2436,8 @@ impl Command_Status {
 
     pub fn get_detailedMessage<'a>(&'a self) -> &'a [u8] {
         match self.detailedMessage.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -2437,16 +2482,17 @@ impl ::protobuf::Message for Command_Status {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.code.iter() {
             my_size += ::protobuf::rt::enum_size(1, *value);
         };
         for value in self.statusMessage.iter() {
-            my_size += ::protobuf::rt::string_size(2, value.as_slice());
+            my_size += ::protobuf::rt::string_size(2, &value);
         };
         for value in self.detailedMessage.iter() {
-            my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(3, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -2458,10 +2504,10 @@ impl ::protobuf::Message for Command_Status {
             try!(os.write_enum(1, v as i32));
         };
         if let Some(v) = self.statusMessage.as_ref() {
-            try!(os.write_string(2, v.as_slice()));
+            try!(os.write_string(2, &v));
         };
         if let Some(v) = self.detailedMessage.as_ref() {
-            try!(os.write_bytes(3, v.as_slice()));
+            try!(os.write_bytes(3, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -2483,6 +2529,10 @@ impl ::protobuf::Message for Command_Status {
         ::std::any::TypeId::of::<Command_Status>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -2493,7 +2543,6 @@ impl ::protobuf::MessageStatic for Command_Status {
         Command_Status::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Status>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -2628,6 +2677,7 @@ impl ::std::marker::Copy for Command_Status_StatusCode {
 
 #[derive(Clone,Default)]
 pub struct Command_KeyValue {
+    // message fields
     newVersion: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     force: ::std::option::Option<bool>,
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -2636,6 +2686,7 @@ pub struct Command_KeyValue {
     algorithm: ::std::option::Option<Command_Algorithm>,
     metadataOnly: ::std::option::Option<bool>,
     synchronization: ::std::option::Option<Command_Synchronization>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -2699,8 +2750,8 @@ impl Command_KeyValue {
 
     pub fn get_newVersion<'a>(&'a self) -> &'a [u8] {
         match self.newVersion.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -2754,8 +2805,8 @@ impl Command_KeyValue {
 
     pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -2790,8 +2841,8 @@ impl Command_KeyValue {
 
     pub fn get_dbVersion<'a>(&'a self) -> &'a [u8] {
         match self.dbVersion.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -2826,8 +2877,8 @@ impl Command_KeyValue {
 
     pub fn get_tag<'a>(&'a self) -> &'a [u8] {
         match self.tag.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -2964,22 +3015,23 @@ impl ::protobuf::Message for Command_KeyValue {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.newVersion.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         if self.force.is_some() {
             my_size += 2;
         };
         for value in self.key.iter() {
-            my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(3, &value);
         };
         for value in self.dbVersion.iter() {
-            my_size += ::protobuf::rt::bytes_size(4, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(4, &value);
         };
         for value in self.tag.iter() {
-            my_size += ::protobuf::rt::bytes_size(5, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(5, &value);
         };
         for value in self.algorithm.iter() {
             my_size += ::protobuf::rt::enum_size(6, *value);
@@ -2997,19 +3049,19 @@ impl ::protobuf::Message for Command_KeyValue {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.newVersion.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         if let Some(v) = self.force {
             try!(os.write_bool(8, v));
         };
         if let Some(v) = self.key.as_ref() {
-            try!(os.write_bytes(3, v.as_slice()));
+            try!(os.write_bytes(3, &v));
         };
         if let Some(v) = self.dbVersion.as_ref() {
-            try!(os.write_bytes(4, v.as_slice()));
+            try!(os.write_bytes(4, &v));
         };
         if let Some(v) = self.tag.as_ref() {
-            try!(os.write_bytes(5, v.as_slice()));
+            try!(os.write_bytes(5, &v));
         };
         if let Some(v) = self.algorithm {
             try!(os.write_enum(6, v as i32));
@@ -3040,6 +3092,10 @@ impl ::protobuf::Message for Command_KeyValue {
         ::std::any::TypeId::of::<Command_KeyValue>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -3050,7 +3106,6 @@ impl ::protobuf::MessageStatic for Command_KeyValue {
         Command_KeyValue::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_KeyValue>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -3145,6 +3200,7 @@ impl ::std::fmt::Debug for Command_KeyValue {
 
 #[derive(Clone,Default)]
 pub struct Command_Range {
+    // message fields
     startKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     endKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     startKeyInclusive: ::std::option::Option<bool>,
@@ -3152,6 +3208,7 @@ pub struct Command_Range {
     maxReturned: ::std::option::Option<i32>,
     reverse: ::std::option::Option<bool>,
     keys: ::protobuf::RepeatedField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -3214,8 +3271,8 @@ impl Command_Range {
 
     pub fn get_startKey<'a>(&'a self) -> &'a [u8] {
         match self.startKey.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -3250,8 +3307,8 @@ impl Command_Range {
 
     pub fn get_endKey<'a>(&'a self) -> &'a [u8] {
         match self.endKey.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -3353,7 +3410,7 @@ impl Command_Range {
     }
 
     pub fn get_keys<'a>(&'a self) -> &'a [::std::vec::Vec<u8>] {
-        self.keys.as_slice()
+        &self.keys
     }
 }
 
@@ -3421,13 +3478,14 @@ impl ::protobuf::Message for Command_Range {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.startKey.iter() {
-            my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(1, &value);
         };
         for value in self.endKey.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         if self.startKeyInclusive.is_some() {
             my_size += 2;
@@ -3442,7 +3500,7 @@ impl ::protobuf::Message for Command_Range {
             my_size += 2;
         };
         for value in self.keys.iter() {
-            my_size += ::protobuf::rt::bytes_size(8, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(8, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -3451,10 +3509,10 @@ impl ::protobuf::Message for Command_Range {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.startKey.as_ref() {
-            try!(os.write_bytes(1, v.as_slice()));
+            try!(os.write_bytes(1, &v));
         };
         if let Some(v) = self.endKey.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         if let Some(v) = self.startKeyInclusive {
             try!(os.write_bool(3, v));
@@ -3469,7 +3527,7 @@ impl ::protobuf::Message for Command_Range {
             try!(os.write_bool(6, v));
         };
         for v in self.keys.iter() {
-            try!(os.write_bytes(8, v.as_slice()));
+            try!(os.write_bytes(8, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -3491,6 +3549,10 @@ impl ::protobuf::Message for Command_Range {
         ::std::any::TypeId::of::<Command_Range>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -3501,7 +3563,6 @@ impl ::protobuf::MessageStatic for Command_Range {
         Command_Range::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Range>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -3588,8 +3649,10 @@ impl ::std::fmt::Debug for Command_Range {
 
 #[derive(Clone,Default)]
 pub struct Command_Setup {
+    // message fields
     newClusterVersion: ::std::option::Option<i64>,
     firmwareDownload: ::std::option::Option<bool>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -3688,6 +3751,7 @@ impl ::protobuf::Message for Command_Setup {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.newClusterVersion.iter() {
@@ -3728,6 +3792,10 @@ impl ::protobuf::Message for Command_Setup {
         ::std::any::TypeId::of::<Command_Setup>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -3738,7 +3806,6 @@ impl ::protobuf::MessageStatic for Command_Setup {
         Command_Setup::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Setup>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -3791,9 +3858,11 @@ impl ::std::fmt::Debug for Command_Setup {
 
 #[derive(Clone,Default)]
 pub struct Command_P2POperation {
+    // message fields
     peer: ::protobuf::SingularPtrField<Command_P2POperation_Peer>,
     operation: ::protobuf::RepeatedField<Command_P2POperation_Operation>,
     allChildOperationsSucceeded: ::std::option::Option<bool>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -3876,7 +3945,7 @@ impl Command_P2POperation {
     }
 
     pub fn get_operation<'a>(&'a self) -> &'a [Command_P2POperation_Operation] {
-        self.operation.as_slice()
+        &self.operation
     }
 
     // optional bool allChildOperationsSucceeded = 3;
@@ -3935,6 +4004,7 @@ impl ::protobuf::Message for Command_P2POperation {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.peer.iter() {
@@ -3987,6 +4057,10 @@ impl ::protobuf::Message for Command_P2POperation {
         ::std::any::TypeId::of::<Command_P2POperation>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -3997,7 +4071,6 @@ impl ::protobuf::MessageStatic for Command_P2POperation {
         Command_P2POperation::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -4056,12 +4129,14 @@ impl ::std::fmt::Debug for Command_P2POperation {
 
 #[derive(Clone,Default)]
 pub struct Command_P2POperation_Operation {
+    // message fields
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     version: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     newKey: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     force: ::std::option::Option<bool>,
     status: ::protobuf::SingularPtrField<Command_Status>,
     p2pop: ::protobuf::SingularPtrField<Command_P2POperation>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -4123,8 +4198,8 @@ impl Command_P2POperation_Operation {
 
     pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -4159,8 +4234,8 @@ impl Command_P2POperation_Operation {
 
     pub fn get_version<'a>(&'a self) -> &'a [u8] {
         match self.version.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -4195,8 +4270,8 @@ impl Command_P2POperation_Operation {
 
     pub fn get_newKey<'a>(&'a self) -> &'a [u8] {
         match self.newKey.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -4347,16 +4422,17 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.key.iter() {
-            my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(3, &value);
         };
         for value in self.version.iter() {
-            my_size += ::protobuf::rt::bytes_size(4, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(4, &value);
         };
         for value in self.newKey.iter() {
-            my_size += ::protobuf::rt::bytes_size(5, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(5, &value);
         };
         if self.force.is_some() {
             my_size += 2;
@@ -4376,13 +4452,13 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.key.as_ref() {
-            try!(os.write_bytes(3, v.as_slice()));
+            try!(os.write_bytes(3, &v));
         };
         if let Some(v) = self.version.as_ref() {
-            try!(os.write_bytes(4, v.as_slice()));
+            try!(os.write_bytes(4, &v));
         };
         if let Some(v) = self.newKey.as_ref() {
-            try!(os.write_bytes(5, v.as_slice()));
+            try!(os.write_bytes(5, &v));
         };
         if let Some(v) = self.force {
             try!(os.write_bool(6, v));
@@ -4417,6 +4493,10 @@ impl ::protobuf::Message for Command_P2POperation_Operation {
         ::std::any::TypeId::of::<Command_P2POperation_Operation>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -4427,7 +4507,6 @@ impl ::protobuf::MessageStatic for Command_P2POperation_Operation {
         Command_P2POperation_Operation::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation_Operation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -4508,9 +4587,11 @@ impl ::std::fmt::Debug for Command_P2POperation_Operation {
 
 #[derive(Clone,Default)]
 pub struct Command_P2POperation_Peer {
+    // message fields
     hostname: ::protobuf::SingularField<::std::string::String>,
     port: ::std::option::Option<i32>,
     tls: ::std::option::Option<bool>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -4569,7 +4650,7 @@ impl Command_P2POperation_Peer {
 
     pub fn get_hostname<'a>(&'a self) -> &'a str {
         match self.hostname.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -4653,10 +4734,11 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.hostname.iter() {
-            my_size += ::protobuf::rt::string_size(1, value.as_slice());
+            my_size += ::protobuf::rt::string_size(1, &value);
         };
         for value in self.port.iter() {
             my_size += ::protobuf::rt::value_size(2, *value, ::protobuf::wire_format::WireTypeVarint);
@@ -4671,7 +4753,7 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.hostname.as_ref() {
-            try!(os.write_string(1, v.as_slice()));
+            try!(os.write_string(1, &v));
         };
         if let Some(v) = self.port {
             try!(os.write_int32(2, v));
@@ -4699,6 +4781,10 @@ impl ::protobuf::Message for Command_P2POperation_Peer {
         ::std::any::TypeId::of::<Command_P2POperation_Peer>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -4709,7 +4795,6 @@ impl ::protobuf::MessageStatic for Command_P2POperation_Peer {
         Command_P2POperation_Peer::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_P2POperation_Peer>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -4769,6 +4854,7 @@ impl ::std::fmt::Debug for Command_P2POperation_Peer {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog {
+    // message fields
     types: ::std::vec::Vec<Command_GetLog_Type>,
     utilizations: ::protobuf::RepeatedField<Command_GetLog_Utilization>,
     temperatures: ::protobuf::RepeatedField<Command_GetLog_Temperature>,
@@ -4778,6 +4864,7 @@ pub struct Command_GetLog {
     messages: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     limits: ::protobuf::SingularPtrField<Command_GetLog_Limits>,
     device: ::protobuf::SingularPtrField<Command_GetLog_Device>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -4833,7 +4920,7 @@ impl Command_GetLog {
     }
 
     pub fn get_types<'a>(&'a self) -> &'a [Command_GetLog_Type] {
-        self.types.as_slice()
+        &self.types
     }
 
     // repeated .com.seagate.kinetic.proto.Command.GetLog.Utilization utilizations = 2;
@@ -4858,7 +4945,7 @@ impl Command_GetLog {
     }
 
     pub fn get_utilizations<'a>(&'a self) -> &'a [Command_GetLog_Utilization] {
-        self.utilizations.as_slice()
+        &self.utilizations
     }
 
     // repeated .com.seagate.kinetic.proto.Command.GetLog.Temperature temperatures = 3;
@@ -4883,7 +4970,7 @@ impl Command_GetLog {
     }
 
     pub fn get_temperatures<'a>(&'a self) -> &'a [Command_GetLog_Temperature] {
-        self.temperatures.as_slice()
+        &self.temperatures
     }
 
     // optional .com.seagate.kinetic.proto.Command.GetLog.Capacity capacity = 4;
@@ -4974,7 +5061,7 @@ impl Command_GetLog {
     }
 
     pub fn get_statistics<'a>(&'a self) -> &'a [Command_GetLog_Statistics] {
-        self.statistics.as_slice()
+        &self.statistics
     }
 
     // optional bytes messages = 7;
@@ -5008,8 +5095,8 @@ impl Command_GetLog {
 
     pub fn get_messages<'a>(&'a self) -> &'a [u8] {
         match self.messages.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -5146,6 +5233,7 @@ impl ::protobuf::Message for Command_GetLog {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.types.iter() {
@@ -5172,7 +5260,7 @@ impl ::protobuf::Message for Command_GetLog {
             my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
         };
         for value in self.messages.iter() {
-            my_size += ::protobuf::rt::bytes_size(7, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(7, &value);
         };
         for value in self.limits.iter() {
             let len = value.compute_size();
@@ -5217,7 +5305,7 @@ impl ::protobuf::Message for Command_GetLog {
             try!(v.write_to_with_cached_sizes(os));
         };
         if let Some(v) = self.messages.as_ref() {
-            try!(os.write_bytes(7, v.as_slice()));
+            try!(os.write_bytes(7, &v));
         };
         if let Some(v) = self.limits.as_ref() {
             try!(os.write_tag(8, ::protobuf::wire_format::WireTypeLengthDelimited));
@@ -5249,6 +5337,10 @@ impl ::protobuf::Message for Command_GetLog {
         ::std::any::TypeId::of::<Command_GetLog>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -5259,7 +5351,6 @@ impl ::protobuf::MessageStatic for Command_GetLog {
         Command_GetLog::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -5357,8 +5448,10 @@ impl ::std::fmt::Debug for Command_GetLog {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Utilization {
+    // message fields
     name: ::protobuf::SingularField<::std::string::String>,
     value: ::std::option::Option<f32>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -5416,7 +5509,7 @@ impl Command_GetLog_Utilization {
 
     pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -5474,10 +5567,11 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.name.iter() {
-            my_size += ::protobuf::rt::string_size(1, value.as_slice());
+            my_size += ::protobuf::rt::string_size(1, &value);
         };
         if self.value.is_some() {
             my_size += 5;
@@ -5489,7 +5583,7 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.name.as_ref() {
-            try!(os.write_string(1, v.as_slice()));
+            try!(os.write_string(1, &v));
         };
         if let Some(v) = self.value {
             try!(os.write_float(2, v));
@@ -5514,6 +5608,10 @@ impl ::protobuf::Message for Command_GetLog_Utilization {
         ::std::any::TypeId::of::<Command_GetLog_Utilization>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -5524,7 +5622,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Utilization {
         Command_GetLog_Utilization::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Utilization>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -5577,11 +5674,13 @@ impl ::std::fmt::Debug for Command_GetLog_Utilization {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Temperature {
+    // message fields
     name: ::protobuf::SingularField<::std::string::String>,
     current: ::std::option::Option<f32>,
     minimum: ::std::option::Option<f32>,
     maximum: ::std::option::Option<f32>,
     target: ::std::option::Option<f32>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -5642,7 +5741,7 @@ impl Command_GetLog_Temperature {
 
     pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -5778,10 +5877,11 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.name.iter() {
-            my_size += ::protobuf::rt::string_size(1, value.as_slice());
+            my_size += ::protobuf::rt::string_size(1, &value);
         };
         if self.current.is_some() {
             my_size += 5;
@@ -5802,7 +5902,7 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.name.as_ref() {
-            try!(os.write_string(1, v.as_slice()));
+            try!(os.write_string(1, &v));
         };
         if let Some(v) = self.current {
             try!(os.write_float(2, v));
@@ -5836,6 +5936,10 @@ impl ::protobuf::Message for Command_GetLog_Temperature {
         ::std::any::TypeId::of::<Command_GetLog_Temperature>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -5846,7 +5950,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Temperature {
         Command_GetLog_Temperature::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Temperature>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -5920,8 +6023,10 @@ impl ::std::fmt::Debug for Command_GetLog_Temperature {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Capacity {
+    // message fields
     nominalCapacityInBytes: ::std::option::Option<u64>,
     portionFull: ::std::option::Option<f32>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -6020,6 +6125,7 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.nominalCapacityInBytes.iter() {
@@ -6060,6 +6166,10 @@ impl ::protobuf::Message for Command_GetLog_Capacity {
         ::std::any::TypeId::of::<Command_GetLog_Capacity>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -6070,7 +6180,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Capacity {
         Command_GetLog_Capacity::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Capacity>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -6123,6 +6232,7 @@ impl ::std::fmt::Debug for Command_GetLog_Capacity {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Configuration {
+    // message fields
     vendor: ::protobuf::SingularField<::std::string::String>,
     model: ::protobuf::SingularField<::std::string::String>,
     serialNumber: ::protobuf::SingularField<::std::vec::Vec<u8>>,
@@ -6136,6 +6246,7 @@ pub struct Command_GetLog_Configuration {
     interface: ::protobuf::RepeatedField<Command_GetLog_Configuration_Interface>,
     port: ::std::option::Option<i32>,
     tlsPort: ::std::option::Option<i32>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -6204,7 +6315,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_vendor<'a>(&'a self) -> &'a str {
         match self.vendor.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6240,7 +6351,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_model<'a>(&'a self) -> &'a str {
         match self.model.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6276,8 +6387,8 @@ impl Command_GetLog_Configuration {
 
     pub fn get_serialNumber<'a>(&'a self) -> &'a [u8] {
         match self.serialNumber.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -6312,8 +6423,8 @@ impl Command_GetLog_Configuration {
 
     pub fn get_worldWideName<'a>(&'a self) -> &'a [u8] {
         match self.worldWideName.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -6348,7 +6459,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_version<'a>(&'a self) -> &'a str {
         match self.version.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6384,7 +6495,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_compilationDate<'a>(&'a self) -> &'a str {
         match self.compilationDate.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6420,7 +6531,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_sourceHash<'a>(&'a self) -> &'a str {
         match self.sourceHash.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6456,7 +6567,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_protocolVersion<'a>(&'a self) -> &'a str {
         match self.protocolVersion.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6492,7 +6603,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_protocolCompilationDate<'a>(&'a self) -> &'a str {
         match self.protocolCompilationDate.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6528,7 +6639,7 @@ impl Command_GetLog_Configuration {
 
     pub fn get_protocolSourceHash<'a>(&'a self) -> &'a str {
         match self.protocolSourceHash.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -6555,7 +6666,7 @@ impl Command_GetLog_Configuration {
     }
 
     pub fn get_interface<'a>(&'a self) -> &'a [Command_GetLog_Configuration_Interface] {
-        self.interface.as_slice()
+        &self.interface
     }
 
     // optional int32 port = 10;
@@ -6703,37 +6814,38 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.vendor.iter() {
-            my_size += ::protobuf::rt::string_size(5, value.as_slice());
+            my_size += ::protobuf::rt::string_size(5, &value);
         };
         for value in self.model.iter() {
-            my_size += ::protobuf::rt::string_size(6, value.as_slice());
+            my_size += ::protobuf::rt::string_size(6, &value);
         };
         for value in self.serialNumber.iter() {
-            my_size += ::protobuf::rt::bytes_size(7, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(7, &value);
         };
         for value in self.worldWideName.iter() {
-            my_size += ::protobuf::rt::bytes_size(14, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(14, &value);
         };
         for value in self.version.iter() {
-            my_size += ::protobuf::rt::string_size(8, value.as_slice());
+            my_size += ::protobuf::rt::string_size(8, &value);
         };
         for value in self.compilationDate.iter() {
-            my_size += ::protobuf::rt::string_size(12, value.as_slice());
+            my_size += ::protobuf::rt::string_size(12, &value);
         };
         for value in self.sourceHash.iter() {
-            my_size += ::protobuf::rt::string_size(13, value.as_slice());
+            my_size += ::protobuf::rt::string_size(13, &value);
         };
         for value in self.protocolVersion.iter() {
-            my_size += ::protobuf::rt::string_size(15, value.as_slice());
+            my_size += ::protobuf::rt::string_size(15, &value);
         };
         for value in self.protocolCompilationDate.iter() {
-            my_size += ::protobuf::rt::string_size(16, value.as_slice());
+            my_size += ::protobuf::rt::string_size(16, &value);
         };
         for value in self.protocolSourceHash.iter() {
-            my_size += ::protobuf::rt::string_size(17, value.as_slice());
+            my_size += ::protobuf::rt::string_size(17, &value);
         };
         for value in self.interface.iter() {
             let len = value.compute_size();
@@ -6752,34 +6864,34 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.vendor.as_ref() {
-            try!(os.write_string(5, v.as_slice()));
+            try!(os.write_string(5, &v));
         };
         if let Some(v) = self.model.as_ref() {
-            try!(os.write_string(6, v.as_slice()));
+            try!(os.write_string(6, &v));
         };
         if let Some(v) = self.serialNumber.as_ref() {
-            try!(os.write_bytes(7, v.as_slice()));
+            try!(os.write_bytes(7, &v));
         };
         if let Some(v) = self.worldWideName.as_ref() {
-            try!(os.write_bytes(14, v.as_slice()));
+            try!(os.write_bytes(14, &v));
         };
         if let Some(v) = self.version.as_ref() {
-            try!(os.write_string(8, v.as_slice()));
+            try!(os.write_string(8, &v));
         };
         if let Some(v) = self.compilationDate.as_ref() {
-            try!(os.write_string(12, v.as_slice()));
+            try!(os.write_string(12, &v));
         };
         if let Some(v) = self.sourceHash.as_ref() {
-            try!(os.write_string(13, v.as_slice()));
+            try!(os.write_string(13, &v));
         };
         if let Some(v) = self.protocolVersion.as_ref() {
-            try!(os.write_string(15, v.as_slice()));
+            try!(os.write_string(15, &v));
         };
         if let Some(v) = self.protocolCompilationDate.as_ref() {
-            try!(os.write_string(16, v.as_slice()));
+            try!(os.write_string(16, &v));
         };
         if let Some(v) = self.protocolSourceHash.as_ref() {
-            try!(os.write_string(17, v.as_slice()));
+            try!(os.write_string(17, &v));
         };
         for v in self.interface.iter() {
             try!(os.write_tag(9, ::protobuf::wire_format::WireTypeLengthDelimited));
@@ -6812,6 +6924,10 @@ impl ::protobuf::Message for Command_GetLog_Configuration {
         ::std::any::TypeId::of::<Command_GetLog_Configuration>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -6822,7 +6938,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Configuration {
         Command_GetLog_Configuration::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Configuration>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -6951,10 +7066,12 @@ impl ::std::fmt::Debug for Command_GetLog_Configuration {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Configuration_Interface {
+    // message fields
     name: ::protobuf::SingularField<::std::string::String>,
     MAC: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     ipv4Address: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     ipv6Address: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -7014,7 +7131,7 @@ impl Command_GetLog_Configuration_Interface {
 
     pub fn get_name<'a>(&'a self) -> &'a str {
         match self.name.as_ref() {
-            Some(v) => v.as_slice(),
+            Some(v) => &v,
             None => "",
         }
     }
@@ -7050,8 +7167,8 @@ impl Command_GetLog_Configuration_Interface {
 
     pub fn get_MAC<'a>(&'a self) -> &'a [u8] {
         match self.MAC.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -7086,8 +7203,8 @@ impl Command_GetLog_Configuration_Interface {
 
     pub fn get_ipv4Address<'a>(&'a self) -> &'a [u8] {
         match self.ipv4Address.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -7122,8 +7239,8 @@ impl Command_GetLog_Configuration_Interface {
 
     pub fn get_ipv6Address<'a>(&'a self) -> &'a [u8] {
         match self.ipv6Address.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -7175,19 +7292,20 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.name.iter() {
-            my_size += ::protobuf::rt::string_size(1, value.as_slice());
+            my_size += ::protobuf::rt::string_size(1, &value);
         };
         for value in self.MAC.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         for value in self.ipv4Address.iter() {
-            my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(3, &value);
         };
         for value in self.ipv6Address.iter() {
-            my_size += ::protobuf::rt::bytes_size(4, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(4, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -7196,16 +7314,16 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.name.as_ref() {
-            try!(os.write_string(1, v.as_slice()));
+            try!(os.write_string(1, &v));
         };
         if let Some(v) = self.MAC.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         if let Some(v) = self.ipv4Address.as_ref() {
-            try!(os.write_bytes(3, v.as_slice()));
+            try!(os.write_bytes(3, &v));
         };
         if let Some(v) = self.ipv6Address.as_ref() {
-            try!(os.write_bytes(4, v.as_slice()));
+            try!(os.write_bytes(4, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -7227,6 +7345,10 @@ impl ::protobuf::Message for Command_GetLog_Configuration_Interface {
         ::std::any::TypeId::of::<Command_GetLog_Configuration_Interface>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -7237,7 +7359,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Configuration_Interface {
         Command_GetLog_Configuration_Interface::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Configuration_Interface>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -7304,9 +7425,11 @@ impl ::std::fmt::Debug for Command_GetLog_Configuration_Interface {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Statistics {
+    // message fields
     messageType: ::std::option::Option<Command_MessageType>,
     count: ::std::option::Option<u64>,
     bytes: ::std::option::Option<u64>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -7432,6 +7555,7 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.messageType.iter() {
@@ -7478,6 +7602,10 @@ impl ::protobuf::Message for Command_GetLog_Statistics {
         ::std::any::TypeId::of::<Command_GetLog_Statistics>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -7488,7 +7616,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Statistics {
         Command_GetLog_Statistics::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Statistics>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -7548,6 +7675,7 @@ impl ::std::fmt::Debug for Command_GetLog_Statistics {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Limits {
+    // message fields
     maxKeySize: ::std::option::Option<u32>,
     maxValueSize: ::std::option::Option<u32>,
     maxVersionSize: ::std::option::Option<u32>,
@@ -7559,6 +7687,7 @@ pub struct Command_GetLog_Limits {
     maxKeyRangeCount: ::std::option::Option<u32>,
     maxIdentityCount: ::std::option::Option<u32>,
     maxPinSize: ::std::option::Option<u32>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -7900,6 +8029,7 @@ impl ::protobuf::Message for Command_GetLog_Limits {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.maxKeySize.iter() {
@@ -7994,6 +8124,10 @@ impl ::protobuf::Message for Command_GetLog_Limits {
         ::std::any::TypeId::of::<Command_GetLog_Limits>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -8004,7 +8138,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Limits {
         Command_GetLog_Limits::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Limits>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -8120,7 +8253,9 @@ impl ::std::fmt::Debug for Command_GetLog_Limits {
 
 #[derive(Clone,Default)]
 pub struct Command_GetLog_Device {
+    // message fields
     name: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -8177,8 +8312,8 @@ impl Command_GetLog_Device {
 
     pub fn get_name<'a>(&'a self) -> &'a [u8] {
         match self.name.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -8209,10 +8344,11 @@ impl ::protobuf::Message for Command_GetLog_Device {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.name.iter() {
-            my_size += ::protobuf::rt::bytes_size(1, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(1, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -8221,7 +8357,7 @@ impl ::protobuf::Message for Command_GetLog_Device {
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
         if let Some(v) = self.name.as_ref() {
-            try!(os.write_bytes(1, v.as_slice()));
+            try!(os.write_bytes(1, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -8243,6 +8379,10 @@ impl ::protobuf::Message for Command_GetLog_Device {
         ::std::any::TypeId::of::<Command_GetLog_Device>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -8253,7 +8393,6 @@ impl ::protobuf::MessageStatic for Command_GetLog_Device {
         Command_GetLog_Device::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_GetLog_Device>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -8348,11 +8487,13 @@ impl ::std::marker::Copy for Command_GetLog_Type {
 
 #[derive(Clone,Default)]
 pub struct Command_Security {
+    // message fields
     acl: ::protobuf::RepeatedField<Command_Security_ACL>,
     oldLockPIN: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     newLockPIN: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     oldErasePIN: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     newErasePIN: ::protobuf::SingularField<::std::vec::Vec<u8>>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -8404,7 +8545,7 @@ impl Command_Security {
     }
 
     pub fn get_acl<'a>(&'a self) -> &'a [Command_Security_ACL] {
-        self.acl.as_slice()
+        &self.acl
     }
 
     // optional bytes oldLockPIN = 3;
@@ -8438,8 +8579,8 @@ impl Command_Security {
 
     pub fn get_oldLockPIN<'a>(&'a self) -> &'a [u8] {
         match self.oldLockPIN.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -8474,8 +8615,8 @@ impl Command_Security {
 
     pub fn get_newLockPIN<'a>(&'a self) -> &'a [u8] {
         match self.newLockPIN.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -8510,8 +8651,8 @@ impl Command_Security {
 
     pub fn get_oldErasePIN<'a>(&'a self) -> &'a [u8] {
         match self.oldErasePIN.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -8546,8 +8687,8 @@ impl Command_Security {
 
     pub fn get_newErasePIN<'a>(&'a self) -> &'a [u8] {
         match self.newErasePIN.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 }
@@ -8602,6 +8743,7 @@ impl ::protobuf::Message for Command_Security {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.acl.iter() {
@@ -8609,16 +8751,16 @@ impl ::protobuf::Message for Command_Security {
             my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
         };
         for value in self.oldLockPIN.iter() {
-            my_size += ::protobuf::rt::bytes_size(3, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(3, &value);
         };
         for value in self.newLockPIN.iter() {
-            my_size += ::protobuf::rt::bytes_size(4, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(4, &value);
         };
         for value in self.oldErasePIN.iter() {
-            my_size += ::protobuf::rt::bytes_size(5, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(5, &value);
         };
         for value in self.newErasePIN.iter() {
-            my_size += ::protobuf::rt::bytes_size(6, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(6, &value);
         };
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -8632,16 +8774,16 @@ impl ::protobuf::Message for Command_Security {
             try!(v.write_to_with_cached_sizes(os));
         };
         if let Some(v) = self.oldLockPIN.as_ref() {
-            try!(os.write_bytes(3, v.as_slice()));
+            try!(os.write_bytes(3, &v));
         };
         if let Some(v) = self.newLockPIN.as_ref() {
-            try!(os.write_bytes(4, v.as_slice()));
+            try!(os.write_bytes(4, &v));
         };
         if let Some(v) = self.oldErasePIN.as_ref() {
-            try!(os.write_bytes(5, v.as_slice()));
+            try!(os.write_bytes(5, &v));
         };
         if let Some(v) = self.newErasePIN.as_ref() {
-            try!(os.write_bytes(6, v.as_slice()));
+            try!(os.write_bytes(6, &v));
         };
         try!(os.write_unknown_fields(self.get_unknown_fields()));
         ::std::result::Result::Ok(())
@@ -8663,6 +8805,10 @@ impl ::protobuf::Message for Command_Security {
         ::std::any::TypeId::of::<Command_Security>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -8673,7 +8819,6 @@ impl ::protobuf::MessageStatic for Command_Security {
         Command_Security::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -8746,11 +8891,13 @@ impl ::std::fmt::Debug for Command_Security {
 
 #[derive(Clone,Default)]
 pub struct Command_Security_ACL {
+    // message fields
     identity: ::std::option::Option<i64>,
     key: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     hmacAlgorithm: ::std::option::Option<Command_Security_ACL_HMACAlgorithm>,
     scope: ::protobuf::RepeatedField<Command_Security_ACL_Scope>,
     maxPriority: ::std::option::Option<Command_Priority>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -8830,8 +8977,8 @@ impl Command_Security_ACL {
 
     pub fn get_key<'a>(&'a self) -> &'a [u8] {
         match self.key.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -8876,7 +9023,7 @@ impl Command_Security_ACL {
     }
 
     pub fn get_scope<'a>(&'a self) -> &'a [Command_Security_ACL_Scope] {
-        self.scope.as_slice()
+        &self.scope
     }
 
     // optional .com.seagate.kinetic.proto.Command.Priority maxPriority = 5;
@@ -8949,13 +9096,14 @@ impl ::protobuf::Message for Command_Security_ACL {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.identity.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
         };
         for value in self.key.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         for value in self.hmacAlgorithm.iter() {
             my_size += ::protobuf::rt::enum_size(3, *value);
@@ -8977,7 +9125,7 @@ impl ::protobuf::Message for Command_Security_ACL {
             try!(os.write_int64(1, v));
         };
         if let Some(v) = self.key.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         if let Some(v) = self.hmacAlgorithm {
             try!(os.write_enum(3, v as i32));
@@ -9010,6 +9158,10 @@ impl ::protobuf::Message for Command_Security_ACL {
         ::std::any::TypeId::of::<Command_Security_ACL>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -9020,7 +9172,6 @@ impl ::protobuf::MessageStatic for Command_Security_ACL {
         Command_Security_ACL::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security_ACL>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -9093,10 +9244,12 @@ impl ::std::fmt::Debug for Command_Security_ACL {
 
 #[derive(Clone,Default)]
 pub struct Command_Security_ACL_Scope {
+    // message fields
     offset: ::std::option::Option<i64>,
     value: ::protobuf::SingularField<::std::vec::Vec<u8>>,
     permission: ::std::vec::Vec<Command_Security_ACL_Permission>,
     TlsRequired: ::std::option::Option<bool>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -9175,8 +9328,8 @@ impl Command_Security_ACL_Scope {
 
     pub fn get_value<'a>(&'a self) -> &'a [u8] {
         match self.value.as_ref() {
-            Some(v) => v.as_slice(),
-            None => [].as_slice(),
+            Some(v) => &v,
+            None => &[],
         }
     }
 
@@ -9202,7 +9355,7 @@ impl Command_Security_ACL_Scope {
     }
 
     pub fn get_permission<'a>(&'a self) -> &'a [Command_Security_ACL_Permission] {
-        self.permission.as_slice()
+        &self.permission
     }
 
     // optional bool TlsRequired = 4;
@@ -9268,13 +9421,14 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.offset.iter() {
             my_size += ::protobuf::rt::value_size(1, *value, ::protobuf::wire_format::WireTypeVarint);
         };
         for value in self.value.iter() {
-            my_size += ::protobuf::rt::bytes_size(2, value.as_slice());
+            my_size += ::protobuf::rt::bytes_size(2, &value);
         };
         for value in self.permission.iter() {
             my_size += ::protobuf::rt::enum_size(3, *value);
@@ -9292,7 +9446,7 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
             try!(os.write_int64(1, v));
         };
         if let Some(v) = self.value.as_ref() {
-            try!(os.write_bytes(2, v.as_slice()));
+            try!(os.write_bytes(2, &v));
         };
         for v in self.permission.iter() {
             try!(os.write_enum(3, *v as i32));
@@ -9320,6 +9474,10 @@ impl ::protobuf::Message for Command_Security_ACL_Scope {
         ::std::any::TypeId::of::<Command_Security_ACL_Scope>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -9330,7 +9488,6 @@ impl ::protobuf::MessageStatic for Command_Security_ACL_Scope {
         Command_Security_ACL_Scope::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_Security_ACL_Scope>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
@@ -9480,7 +9637,9 @@ impl ::std::marker::Copy for Command_Security_ACL_Permission {
 
 #[derive(Clone,Default)]
 pub struct Command_PinOperation {
+    // message fields
     pinOpType: ::std::option::Option<Command_PinOperation_PinOpType>,
+    // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::std::cell::Cell<u32>,
 }
@@ -9552,6 +9711,7 @@ impl ::protobuf::Message for Command_PinOperation {
     }
 
     // Compute sizes of nested messages
+    #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
         for value in self.pinOpType.iter() {
@@ -9586,6 +9746,10 @@ impl ::protobuf::Message for Command_PinOperation {
         ::std::any::TypeId::of::<Command_PinOperation>()
     }
 
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+
     fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
         ::protobuf::MessageStatic::descriptor_static(None::<Self>)
     }
@@ -9596,7 +9760,6 @@ impl ::protobuf::MessageStatic for Command_PinOperation {
         Command_PinOperation::new()
     }
 
-    #[allow(unused_unsafe,unused_mut)]
     fn descriptor_static(_: ::std::option::Option<Command_PinOperation>) -> &'static ::protobuf::reflect::MessageDescriptor {
         static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,

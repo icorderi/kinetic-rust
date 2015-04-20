@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Response;
 use result::KineticResult;
 use error::KineticError;
@@ -32,7 +30,6 @@ use commands::common::Integrity;
 /// A `GetPrevious` command result
 ///
 /// A `GetPrevious` command returns the value before the given key
-#[unstable]
 #[derive(Debug)]
 pub struct GetPreviousResponse {
     pub value: vec::Vec<u8>,
@@ -40,7 +37,6 @@ pub struct GetPreviousResponse {
     pub integrity: Integrity,
 }
 
-#[unstable]
 impl Response for GetPreviousResponse {
 
     fn from_proto(_: Message, mut cmd: Command, value: vec::Vec<u8>) -> KineticResult<GetPreviousResponse> {

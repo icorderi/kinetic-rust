@@ -20,18 +20,14 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 
 /// Get's the version and integrity for the given key
-#[unstable]
 pub struct GetVersion {
     pub key: vec::Vec<u8>
 }
 
-#[unstable]
 impl Command<::responses::GetVersionResponse> for GetVersion {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![stable]
-
 //! Public exports of the raw proto generated files
 
 pub use proto::raw::Command_Status_StatusCode as StatusCode;
@@ -30,7 +28,6 @@ pub use proto::raw::Message;
 
 mod raw;
 
-#[stable]
 pub mod message {
 
     pub use proto::raw::Message_AuthType as AuthType;
@@ -39,7 +36,6 @@ pub mod message {
 
 }
 
-#[stable]
 pub mod command {
 
     pub use proto::raw::Command_Header as Header;
@@ -59,7 +55,6 @@ pub mod command {
     pub use proto::raw::Command_PinOperation as PinOperation;
     pub use proto::raw::Command_PinOperation_PinOpType as  PinOpTypes;
 
-    #[unstable]
     pub mod log {
 
         pub use proto::raw::Command_GetLog_Utilization as Utilization;
@@ -73,7 +68,6 @@ pub mod command {
 }
 
 /// Returns the version of the Kinetic Protocol
-#[frozen]
 pub fn version() -> String {
     String::from_str(::proto::raw::Local::default_instance().get_protocolVersion())
 }

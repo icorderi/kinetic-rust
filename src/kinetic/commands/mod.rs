@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 //! Available Kinetic commands
 
 pub use commands::get::Get;
@@ -54,7 +52,6 @@ pub mod common {
     use proto::command;
 
     /// Version checking modes for operations
-    #[unstable]
     pub enum Versioning {
         /// Match current version
         Match(vec::Vec<u8>),
@@ -65,7 +62,6 @@ pub mod common {
     /// Point-to-point data integrity
     ///
     /// The drive can check the data integrity if the `algorithm` used is known.
-    #[unstable]
     #[derive(Debug)]
     pub struct Integrity {
         pub tag : vec::Vec<u8>,

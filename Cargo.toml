@@ -1,11 +1,11 @@
 [package]
 
 name = "kinetic-rust"
-version = "0.0.15"
+version = "0.0.16"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
-homepage = "https://github.com/icorderi/kinetic-rust/"
+homepage = "https://icorderi.github.io/icorderi/kinetic-rust"
 repository = "https://github.com/icorderi/kinetic-rust/"
-documentation = "http://icorderi.github.io/kinetic-rust/doc/kinetic/"
+documentation = "https://icorderi.github.io/kinetic-rust/doc/kinetic/"
 description = "A Kinetic protocol library written in Rust"
 keywords = [ "Protocol", "Kinetic", "Storage" ]
 readme = "README.md"
@@ -17,18 +17,22 @@ name = "kinetic"
 path = "src/kinetic/lib.rs"
 
 [dependencies.protobuf]
-
 git = "https://github.com/stepancheg/rust-protobuf.git"
 
 [dependencies.rust-crypto]
-
 git = "https://github.com/DaGenix/rust-crypto.git"
+
+[dependencies.byteorder]
 
 [[bin]]
 
 name = "kinetic-rust"
 path = "src/bin/kinetic_rust.rs"
 
-[dependencies.docopt_macros]
-
+[dependencies.docopt]
 git = "git://github.com/docopt/docopt.rs"
+
+[dependencies.rustc-serialize]
+[dependencies.libc]
+[dependencies.term]
+[dependencies.log]

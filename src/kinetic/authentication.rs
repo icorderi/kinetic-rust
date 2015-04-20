@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 //! Kinetic authentication mechanisms
 
 use std::vec;
@@ -47,7 +45,7 @@ impl Credentials {
 
     #[inline]
     fn calculate_hmac(key: &vec::Vec<u8>, data: &[u8]) -> vec::Vec<u8> {
-        let mut hmac = hmac::Hmac::new(sha1::Sha1::new(), key.as_slice());
+        let mut hmac = hmac::Hmac::new(sha1::Sha1::new(), key.as_ref());
 
         let buffer: [u8;4] = unsafe { ::std::mem::transmute((data.len() as u32).to_be()) };
 
@@ -67,7 +65,7 @@ impl Credentials {
                 let mut auth = ::proto::message::HmacAuth::new();
                 auth.set_identity(identity);
 
-                auth.set_hmac(Credentials::calculate_hmac(key, command_bytes.as_slice()));
+                auth.set_hmac(Credentials::calculate_hmac(key, command_bytes.as_ref()));
                 msg.set_hmacAuth(auth);
             },
             Credentials::Pin { ref pin } => {

@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 
@@ -60,14 +58,12 @@ use std::vec;
 /// A `Forced` delete will perform faster on certaing devices given that
 /// it does not require a metadata version check.
 ///
-#[unstable]
 pub enum Delete {
     Versioned { key: vec::Vec<u8>,
                 version: vec::Vec<u8>, },
     Forced { key: vec::Vec<u8>, },
 }
 
-#[unstable]
 impl Command<::responses::DeleteResponse> for Delete {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

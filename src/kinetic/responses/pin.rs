@@ -20,9 +20,7 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
 //! Kinetic responses for available pin commands
 
 /// An `Unlock` command result
-#[unstable] pub type UnlockResponse = ();
+pub type UnlockResponse = ();

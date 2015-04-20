@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
 //! Pin based commands
 //!
 //! Pin based commands are used for special commands that are valid when the device

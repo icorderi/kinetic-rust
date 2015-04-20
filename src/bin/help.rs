@@ -24,7 +24,7 @@ use kinetic::KineticResult;
 use std::ascii::OwnedAsciiExt;
 
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub struct HelpArgs {
     flag_verbose: bool,
     arg_command: ::main::Command,
@@ -42,14 +42,28 @@ Options:
 ";
 
 fn execute(cmd: &HelpArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    debug!("executing; cmd=kinetic-rust-help; args={}", ::std::os::args());
+    //debug!("executing; cmd=kinetic-rust-help; args={}", ::std::env::args());
     shell.set_verbose(cmd.flag_verbose);
 
-    let argv = vec!["kinetic-rust".to_string(),
-                    format!("{}", cmd.arg_command).into_ascii_lower(),
-                    "-h".to_string()];
+    let argv = ["kinetic-rust".to_string(),
+                format!("{:?}", cmd.arg_command).into_ascii_lowercase(),
+                "-h".to_string()];
 
-    ::main::main_with_args(argv, shell) //return
+    ::main::main_with_args(&argv, shell) //return
 }
 
-cmd!(HelpArgs, execute, USAGE);
+impl ::cli::CliCommand for HelpArgs {
+    fn from_argv(argv: ::std::vec::Vec<String>) -> HelpArgs {
+        ::docopt::Docopt::new(::cli::CliCommand::usage(None::<HelpArgs>))
+            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
+            .unwrap_or_else(|e| e.exit())
+    }
+
+    #[inline]
+    fn execute(&self, shell: &mut ::shell::MultiShell) -> ::kinetic::KineticResult<()> {
+        execute(self, shell)
+    }
+
+    #[inline]
+    fn usage(_: Option<HelpArgs>) -> &'static str { USAGE }
+}

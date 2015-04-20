@@ -23,14 +23,16 @@
 #![crate_type = "lib"]
 #![crate_name = "kinetic"]
 
-#![experimental]
+#![feature(std_misc)] // needed for Futures
+#![feature(tcp)] // needed for TCP_NODELAY
+#![feature(collections)] // needed for String::from_str
+#![feature(convert)] // needed for Vec::as_slice()
 
 //! Kinetic protocol library in Rust
 
 extern crate protobuf;
 extern crate crypto;
-extern crate serialize;
-
+extern crate byteorder;
 
 pub use core::version;
 pub use proto::version as protocol_version;

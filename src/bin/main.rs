@@ -27,7 +27,7 @@ use std::ascii::OwnedAsciiExt;
 use cli::{CliDispatcher, CliCommand};
 
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub struct Args {
     arg_command: Option<Command>,
     arg_args: Vec<String>,
@@ -37,7 +37,7 @@ pub struct Args {
     flag_verbose: bool,
 }
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub enum Command {
     Help,
     Write,
@@ -49,36 +49,34 @@ pub enum Command {
 impl CliDispatcher for Command {
 
     fn dispatch(&self, mut argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-        argv.insert(0, format!("{}", self).into_ascii_lower());
+        argv.insert(0, format!("{:?}", self).into_ascii_lowercase());
         argv.insert(0, "kinetic-rust".to_string());
 
-        let cmd: Box<CliCommand> =
+        let result =
             match *self {
                 Command::Write => {
-                    let x: ::write::WriteArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                    let x: ::write::WriteArgs = CliCommand::from_argv(argv); try!(x.execute(shell))
                 },
                 Command::Info  => {
-                    let x: ::info::InfoArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                    let x: ::info::InfoArgs = CliCommand::from_argv(argv); try!(x.execute(shell))
                 },
                 Command::Bench  => {
-                    let x: ::bench::BenchArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                    let x: ::bench::BenchArgs = CliCommand::from_argv(argv); try!(x.execute(shell))
                 },
                 Command::Log  => {
-                    let x: ::get_log::LogArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                    let x: ::get_log::LogArgs = CliCommand::from_argv(argv); try!(x.execute(shell))
                 }
                 Command::Help => {
-                    let x: ::help::HelpArgs = CliCommand::from_argv(argv); (box x) as Box<CliCommand>
+                    let x: ::help::HelpArgs = CliCommand::from_argv(argv); try!(x.execute(shell))
                 }
             };
 
-        let result = try!(cmd.execute(shell));
         Ok(result) // return
     }
 
 }
 
 
-#[stable]
 fn version() -> String {
     format!("kinetic-rust {}\nkinetic-protocol {}", ::kinetic::version(), ::kinetic::protocol_version())
 }
@@ -103,10 +101,10 @@ Some common kinetic-rust commands are:
 
 See 'kinetic-rust help <command>' for more information on a specific command.
 ";
-pub fn main_with_args(argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
+pub fn main_with_args(args : &[String], shell: &mut ::shell::MultiShell) -> KineticResult<()> {
     let docopt = Docopt::new(USAGE).unwrap()
                             .options_first(true)
-                            .argv(argv.into_iter())
+                            .argv(args.iter().map(|s| &s[..]))
                             .help(true)
                             .version(Some(version()));
 

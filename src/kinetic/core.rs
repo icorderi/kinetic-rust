@@ -22,10 +22,10 @@
 
 use std::vec;
 use result::KineticResult;
+use std::marker::PhantomFn;
 
 /// Trait representing a Kinetic command
-#[unstable]
-pub trait Command<R: Response> : Send {
+pub trait Command<R: Response> : Send + PhantomFn<R>  {
 
     /// Build the raw kinetic proto structure for the Command
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>);
@@ -33,7 +33,6 @@ pub trait Command<R: Response> : Send {
 }
 
 /// Trait representing a Kinetic response
-#[unstable]
 pub trait Response : Send {
 
     /// Create a Response un populate it with values from the raw kinetic proto
@@ -42,7 +41,6 @@ pub trait Response : Send {
 }
 
 /// Returns the current version of the package
-#[frozen]
 pub fn version() -> String {
     format!("{}", match option_env!("CFG_VERSION") {
         Some(s) => s.to_string(),

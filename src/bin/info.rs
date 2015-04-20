@@ -23,7 +23,7 @@
 use kinetic::KineticResult;
 
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub struct InfoArgs {
     flag_verbose: bool,
     flag_detailed: bool,
@@ -47,12 +47,12 @@ fn to_utf8(s: &[u8]) -> String {
 }
 
 fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    debug!("executing; cmd=kinetic-rust-info; args={}", ::std::os::args());
+    //debug!("executing; cmd=kinetic-rust-info; args={}", ::std::env::args());
     shell.set_verbose(cmd.flag_verbose);
 
     try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
 
-    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_str()));
 
     if cmd.flag_detailed {
         try!(shell.header("Device"));
@@ -86,7 +86,7 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
     let v = ::kinetic::protocol_version();
     if cmd.flag_detailed {
         try!(shell.header("Kinetic protocol"));
-        if v.as_slice() == c.get_config().get_protocolVersion() {
+        if v.as_str() == c.get_config().get_protocolVersion() {
             try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::GREEN));
         } else {
             try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));
@@ -94,7 +94,7 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
         try!(shell.tag(".(date)", c.get_config().get_protocolCompilationDate()));
         try!(shell.tag(".(hash)", c.get_config().get_protocolSourceHash()));
     } else {
-        if v.as_slice() == c.get_config().get_protocolVersion() {
+        if v.as_str() == c.get_config().get_protocolVersion() {
             try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::GREEN));
         } else {
             try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));
@@ -131,4 +131,18 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
     Ok(()) //return
 }
 
-cmd!(InfoArgs, execute, USAGE);
+impl ::cli::CliCommand for InfoArgs {
+    fn from_argv(argv: ::std::vec::Vec<String>) -> InfoArgs {
+        ::docopt::Docopt::new(::cli::CliCommand::usage(None::<InfoArgs>))
+            .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
+            .unwrap_or_else(|e| e.exit())
+    }
+
+    #[inline]
+    fn execute(&self, shell: &mut ::shell::MultiShell) -> ::kinetic::KineticResult<()> {
+        execute(self, shell)
+    }
+
+    #[inline]
+    fn usage(_: Option<InfoArgs>) -> &'static str { USAGE }
+}

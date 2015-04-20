@@ -20,12 +20,9 @@
 
 // author: Ignacio Corderi
 
-#![frozen]
-
 //! Kinetic result
 
 use error::KineticError;
 
 /// Kinetic result
-#[frozen]
 pub type KineticResult<T> = Result<T, KineticError>;

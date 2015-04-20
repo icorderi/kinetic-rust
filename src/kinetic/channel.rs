@@ -20,49 +20,37 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
 //! Module representing raw communication channels with a kinetic device
 
 use protobuf::Message;
-use std::{vec, old_io, collections};
-use std::old_io::net::ip::ToSocketAddr;
+use std::{vec, collections, net};
+use std::net::ToSocketAddrs;
 use std::sync::{Mutex, Arc};
 use result::KineticResult;
 use std::sync::mpsc::{Sender, Receiver, SyncSender, channel, sync_channel};
-use std::thread::Thread;
 
-#[unstable]
 pub type Operation= (::authentication::Credentials, ::proto::Command, Option<::std::vec::Vec<u8>>);
 
-#[unstable]
 pub type Result = (::proto::Message, ::proto::Command, ::std::vec::Vec<u8>);
 
-#[experimental]
 pub trait KineticChannel<T> {
 
-    #[experimental]
     fn is_closed(&self) -> bool;
 
-    #[experimental]
     fn get_configuration<'r>(&'r self) -> &'r ::proto::command::log::Configuration;
 
-    #[experimental]
     fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits;
 
-    #[experimental]
     fn send(&self, op: Operation) -> T;
 
-    #[experimental]
     fn receive(T) -> Result;
 
-    #[experimental]
     fn get_unsolicited_receiver<'r>(&'r self) -> &'r Receiver<Result>;
 
 }
 
-#[unstable]
 pub struct AsyncChannel {
-    stream: old_io::TcpStream,
+    stream: net::TcpStream,
     writer_tx: SyncSender<(Operation,Sender<Result>)>,
     unsol_rx: Receiver<Result>,
     closed: bool,
@@ -70,25 +58,20 @@ pub struct AsyncChannel {
     limits: ::proto::command::log::Limits,
 }
 
-#[unstable]
 impl Drop for AsyncChannel {
 
-    #[unstable]
     #[inline]
     fn drop(&mut self) {
         self.closed = true;
-        self.stream.close_read().unwrap();
     }
 
 }
 
 
-#[unstable]
 impl AsyncChannel {
 
-    #[unstable]
-    pub fn new<A: ToSocketAddr>(addr: A, max_pending: usize) -> KineticResult<AsyncChannel> {
-        let mut s = try!(old_io::TcpStream::connect(addr));
+    pub fn new<A: ToSocketAddrs>(addr: A, max_pending: usize) -> KineticResult<AsyncChannel> {
+        let mut s = try!(net::TcpStream::connect(addr));
         try!(s.set_nodelay(true));
 
         // Handshake
@@ -106,11 +89,11 @@ impl AsyncChannel {
         let pending_mutex = Arc::new(Mutex::new(collections::HashMap::with_capacity(max_pending)));
 
         // reader
-        let mut reader = s.clone();
+        let mut reader = try!(s.try_clone());
         let pending_mutex_reader = pending_mutex.clone();
         // for unsolicited status
         let (unsol_tx, unsol_rx) = channel();
-        Thread::spawn(move|| {
+        ::std::thread::spawn(move|| {
             let pending_mutex = pending_mutex_reader;
             loop {
                 let r = ::network::recv(&mut reader);
@@ -165,9 +148,9 @@ impl AsyncChannel {
 
         // writer
         let (w_tx, w_rx): (_, Receiver<(Operation,Sender<Result>)>) = sync_channel(max_pending);
-        let mut writer = s.clone();
+        let mut writer = try!(s.try_clone());
         let pending_mutex_writer = pending_mutex.clone();
-        Thread::spawn(move|| {
+        ::std::thread::spawn(move|| {
             let pending_mutex = pending_mutex_writer;
             let mut seq = 0;
 
@@ -186,7 +169,7 @@ impl AsyncChannel {
                 }
 
                 let value = value.unwrap_or(vec::Vec::new());
-                ::network::send(&mut writer, &msg, value.as_slice()).unwrap();
+                ::network::send(&mut writer, &msg, value.as_ref()).unwrap();
                 seq += 1;
             }
         });
@@ -201,32 +184,26 @@ impl AsyncChannel {
 
 }
 
-#[experimental]
 impl KineticChannel<Receiver<Result>> for AsyncChannel {
 
-    #[stable]
     #[inline]
     fn is_closed(&self) -> bool { self.closed }
 
-    #[experimental]
     #[inline]
     fn get_unsolicited_receiver<'r>(&'r self) -> &'r Receiver<Result> {
         &self.unsol_rx
     }
 
-    #[experimental]
     #[inline]
     fn get_configuration<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
         &self.configuration
     }
 
-    #[experimental]
     #[inline]
     fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
         &self.limits
     }
 
-    #[unstable]
     #[inline]
     fn send(&self, op: Operation) -> Receiver<Result> {
         let (tx,rx) = channel();
@@ -234,7 +211,6 @@ impl KineticChannel<Receiver<Result>> for AsyncChannel {
         rx //return rx
     }
 
-    #[experimental]
     #[inline]
     fn receive(rx: Receiver<Result>) -> Result {
         rx.recv().unwrap() // TODO: try and return KineticResult

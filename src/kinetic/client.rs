@@ -20,9 +20,7 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
-use std::old_io::net::ip::ToSocketAddr;
+use std::net::ToSocketAddrs;
 use std::sync::Future;
 use core::{Command, Response};
 use result::KineticResult;
@@ -30,6 +28,7 @@ use channel::Result;
 use authentication::Credentials::Pin;
 use commands::pin::PinCommand;
 use std::sync::mpsc::{Receiver};
+use std::marker::PhantomData;
 
 static DEFAULT_MAX_PENDING: usize = 10;
 
@@ -49,16 +48,14 @@ static DEFAULT_MAX_PENDING: usize = 10;
 ///              ..Default::default() }).unwrap();
 /// ```
 ///
-#[unstable]
 pub struct Client<Ch: ::channel::KineticChannel<T>,T> {
     channel: Ch,
     cluster_version: i64,
     default_credentials: ::authentication::Credentials,
+    async_return_type: PhantomData<T>,
 }
 
-#[unstable]
-impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
-
+impl Client<::channel::AsyncChannel, Receiver<Result>> {
     /// Creates a new `Client` backed by an `AsyncChannel`
     ///
     /// Creates a new `Client` backed by an `AsyncChannel` by default and connects to it.
@@ -68,40 +65,40 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     ///
     /// # Returns
     /// Returns a `KineticResult` that will hold the `Client` if the connection was established succesfully.
-    #[unstable]
     #[inline]
-    pub fn new<A: ToSocketAddr>(addr: A) -> KineticResult<Client<::channel::AsyncChannel, Receiver<Result>>> {
+    pub fn new<A: ToSocketAddrs>(addr: A) -> KineticResult<Client<::channel::AsyncChannel, Receiver<Result>>> {
         let c = try!(::channel::AsyncChannel::new(addr, DEFAULT_MAX_PENDING));
 
         Ok( Client { channel: c,
                      cluster_version: 0,
-                     default_credentials: ::std::default::Default::default() })
+                     default_credentials: ::std::default::Default::default(),
+                     async_return_type: PhantomData})
     }
+}
+
+impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
 
     /// Creates a new `Client` with an specific `KineticChannel`
-    #[experimental]
     #[inline]
-    pub fn new_with_channel<A: ToSocketAddr>(channel: Ch) -> KineticResult<Client<Ch, T>> {
+    pub fn new_with_channel<A: ToSocketAddrs>(channel: Ch) -> KineticResult<Client<Ch, T>> {
         Ok( Client { channel: channel,
                      cluster_version: 0,
-                     default_credentials: ::std::default::Default::default() })
+                     default_credentials: ::std::default::Default::default(),
+                     async_return_type: PhantomData})
     }
 
-    #[experimental]
     #[inline]
     pub fn set_cluster_version(&mut self, value: i64) {
         self.cluster_version = value;
     }
 
     /// Gets the device `Configuration` received during _handshake_
-    #[unstable]
     #[inline]
     pub fn get_config<'r>(&'r self) -> &'r ::proto::command::log::Configuration {
         self.channel.get_configuration()
     }
 
     /// Gets the device `Limits` received during _handshake_
-    #[unstable]
     #[inline]
     pub fn get_limits<'r>(&'r self) -> &'r ::proto::command::log::Limits {
         self.channel.get_limits()
@@ -125,7 +122,7 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     #[inline]
     fn receive_raw<R : Response> (token: T) -> KineticResult<R> {
         // Receive response
-        let (msg, cmd, value) = ::channel::KineticChannel::receive(token);
+        let (msg, cmd, value) = Ch::receive(token);
 
         let r:KineticResult<R> = Response::from_proto(msg, cmd, value);
 
@@ -136,11 +133,10 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     ///
     /// # Arguments
     /// * `cmd` - The `PinCommand` to be sent.
-    #[stable]
     #[inline]
     pub fn send<C: Command<R>, R : Response> (&self, cmd: C) -> KineticResult<R> {
         let token = self.send_raw(self.default_credentials.clone(), cmd);
-        Client::receive_raw(token) // return
+        Self::receive_raw(token) // return
     }
 
     /// Sends a `PinCommand` to the target device an waits for the `Response`
@@ -148,39 +144,36 @@ impl<Ch: ::channel::KineticChannel<T>, T> Client<Ch,T> {
     /// # Arguments
     /// * `cmd` - The `PinCommand` to be sent.
     /// * `pin` - The pin to be used.
-    #[experimental]
     #[inline]
     pub fn send_with_pin<C: PinCommand<R>, R : Response> (&self, cmd: C, pin: ::std::vec::Vec<u8>) -> KineticResult<R> {
         let auth = Pin { pin: pin };
         let token = self.send_raw(auth, cmd);
-        Client::receive_raw(token) // return
+        Self::receive_raw(token) // return
     }
 }
 
 pub type AsyncClient = Client<::channel::AsyncChannel, Receiver<Result>>;
 
 /// `Client` backed by an `AsyncChannel`
-#[experimental]
 impl Client<::channel::AsyncChannel, Receiver<Result>> {
 
-    #[experimental]
     #[inline]
-    pub fn new_with_credentials<A: ToSocketAddr>(addr: A, credentials: ::authentication::Credentials)
+    pub fn new_with_credentials<A: ToSocketAddrs>(addr: A, credentials: ::authentication::Credentials)
             -> KineticResult<Client<::channel::AsyncChannel, Receiver<Result>>> {
 
         let c = try!(::channel::AsyncChannel::new(addr, DEFAULT_MAX_PENDING));
 
         Ok( Client { channel: c,
                      cluster_version: 0,
-                     default_credentials: credentials })
+                     default_credentials: credentials,
+                     async_return_type: PhantomData })
     }
 
     // Returns a Future<T> instead of waiting for the response
-    #[experimental]
     #[inline]
-    pub fn send_future<C: Command<R>, R : Response> (&self, cmd: C) -> Future<KineticResult<R>> {
+    pub fn send_future<C: Command<R>, R: Response + 'static> (&self, cmd: C) -> Future<KineticResult<R>> {
         let rx = self.send_raw(self.default_credentials.clone(), cmd);
-        Future::spawn(move|| { Client::receive_raw(rx) })
+        Future::spawn(move|| { Self::receive_raw(rx) })
     }
 
 }

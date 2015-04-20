@@ -20,18 +20,14 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 
 /// Get's the value and the metadata for the key before the given key
-#[unstable]
 pub struct GetPrevious {
     pub key: vec::Vec<u8>
 }
 
-#[unstable]
 impl Command<::responses::GetResponse> for GetPrevious {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

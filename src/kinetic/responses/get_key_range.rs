@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
 use core::Response;
 use result::KineticResult;
 use error::KineticError;
@@ -32,13 +30,11 @@ use std::vec;
 ///
 /// A `GetKeyRange` command result contains an ordered list of keys contained
 /// between the `start` key and the `end` key.
-#[experimental]
 #[derive(Debug)]
 pub struct GetKeyRangeResponse {
     pub keys: vec::Vec<vec::Vec<u8>>
 }
 
-#[unstable]
 impl Response for GetKeyRangeResponse {
 
     fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<GetKeyRangeResponse> {

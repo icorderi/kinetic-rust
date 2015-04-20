@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 //! Kinetic responses for available commands
 
 pub use responses::get::GetResponse;
@@ -41,15 +39,14 @@ mod get_previous;
 pub mod pin;
 
 /// A `Put` command result
-#[unstable] pub type PutResponse = ();
+pub type PutResponse = ();
 /// A `Delete` command result
-#[unstable] pub type DeleteResponse = ();
+pub type DeleteResponse = ();
 /// A `Noop` command result
-#[unstable] pub type NoopResponse = ();
+pub type NoopResponse = ();
 /// A `Flush` command result
-#[unstable] pub type FlushResponse = ();
+pub type FlushResponse = ();
 
-#[unstable]
 impl ::core::Response for () {
 
     fn from_proto(_: ::proto::Message, mut cmd: ::proto::Command, _: ::std::vec::Vec<u8>)

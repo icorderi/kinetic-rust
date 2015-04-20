@@ -20,23 +20,24 @@
 
 // author: Ignacio Corderi
 
-#![crate_name = "kinetic-rust"]
+#![crate_name = "kinetic_rust"]
 
 // Skip entire crate
 #![cfg(not(test))]
 
-#![feature(phase, macro_rules)]
+#![feature(std_misc)]
+#![feature(convert)]
 
-extern crate serialize;
+extern crate libc;
+extern crate rustc_serialize;
 extern crate docopt;
 extern crate kinetic;
 extern crate term;
-#[phase(plugin, link)] extern crate log;
+#[macro_use] extern crate log;
 
-use std::os;
+use std::env;
 
 mod cli;
-mod cli_macros;
 mod main;
 mod help;
 mod info;
@@ -48,7 +49,8 @@ pub mod shell;
 #[cfg(not(test))]
 fn main() {
     let mut shell = ::shell::MultiShell::new_stdio(false);
-    let r = main::main_with_args(os::args(), &mut shell);
+    let args: Vec<_> = env::args().collect();
+    let r = main::main_with_args(args.as_ref(), &mut shell);
     match r {
         Ok(_) => (),
         Err(e) => shell.error_full(&e, true).unwrap(),

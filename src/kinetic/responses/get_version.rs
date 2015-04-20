@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Response;
 use result::KineticResult;
 use error::KineticError;
@@ -32,14 +30,12 @@ use commands::common::Integrity;
 /// A `GetVersion` command result
 ///
 /// A `GetVersion` command returns the version and integrity information for the requested key
-#[unstable]
 #[derive(Debug)]
 pub struct GetVersionResponse {
     pub version: vec::Vec<u8>,
     pub integrity: Integrity,
 }
 
-#[unstable]
 impl Response for GetVersionResponse {
 
     fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<GetVersionResponse> {

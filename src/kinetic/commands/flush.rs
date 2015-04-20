@@ -20,17 +20,13 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 use proto::command;
 
 /// Sends a flush command to the Kinetic device
-#[unstable]
 pub struct Flush;
 
-#[unstable]
 impl Command<::responses::FlushResponse> for Flush {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

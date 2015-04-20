@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
 use core::Response;
 use result::KineticResult;
 use error::KineticError;
@@ -31,10 +29,8 @@ use std::vec;
 /// A `GetLog` command result
 ///
 /// A `GetLog` command returns the corresponding log entries requested
-#[experimental]
 pub type GetLogResponse = ::proto::command::GetLog;
 
-#[experimental]
 impl Response for GetLogResponse {
 
     fn from_proto(_: Message, mut cmd: Command, _: vec::Vec<u8>) -> KineticResult<::proto::command::GetLog> {

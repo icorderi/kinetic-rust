@@ -20,20 +20,16 @@
 
 // author: Ignacio Corderi
 
-#![experimental]
-
 use core::Command;
 use commands::pin::PinCommand;
 use std::vec;
 use proto::command;
 
 /// Unlocks the device
-#[experimental]
 pub struct Unlock;
 
 impl PinCommand<::responses::pin::UnlockResponse> for Unlock { }
 
-#[experimental]
 impl Command<::responses::pin::UnlockResponse> for Unlock {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

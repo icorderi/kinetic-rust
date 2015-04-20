@@ -20,13 +20,10 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 
 /// Requests a range of keys between two given keys
-#[unstable]
 pub struct GetKeyRange {
     pub start: vec::Vec<u8>,
     pub end: vec::Vec<u8>,
@@ -36,7 +33,6 @@ pub struct GetKeyRange {
     pub reverse: bool,
 }
 
-#[unstable]
 impl Command<::responses::GetKeyRangeResponse> for GetKeyRange {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

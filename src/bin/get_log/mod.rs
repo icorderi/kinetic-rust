@@ -23,7 +23,7 @@
 use kinetic::KineticResult;
 
 
-#[deriving(Decodable, Show)]
+#[derive(RustcDecodable, Debug)]
 pub struct LogArgs {
     flag_verbose: bool,
     arg_target: String,
@@ -45,12 +45,12 @@ fn to_utf8(s: &[u8]) -> String {
 }
 
 fn execute(cmd: &LogArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    debug!("executing; cmd=kinetic-rust-log; args={}", ::std::os::args());
+    //debug!("executing; cmd=kinetic-rust-log; args={}", ::std::env::args());
     shell.set_verbose(cmd.flag_verbose);
 
     try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
 
-    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_slice()));
+    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_str()));
 
     let x = try!(c.send(::kinetic::commands::GetLog { log_types: vec![::kinetic::proto::command::LogType::MESSAGES]}));
 
@@ -61,4 +61,18 @@ fn execute(cmd: &LogArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> 
     Ok(()) //return
 }
 
-cmd!(LogArgs, execute, USAGE);
+impl ::cli::CliCommand for LogArgs {
+    fn from_argv(argv: ::std::vec::Vec<String>) -> LogArgs {
+        ::docopt::Docopt::new(::cli::CliCommand::usage(None::<LogArgs>))
+        .and_then(|d| d.argv(argv.clone().into_iter()).decode() )
+        .unwrap_or_else(|e| e.exit())
+    }
+
+    #[inline]
+    fn execute(&self, shell: &mut ::shell::MultiShell) -> ::kinetic::KineticResult<()> {
+        execute(self, shell)
+    }
+
+    #[inline]
+    fn usage(_: Option<LogArgs>) -> &'static str { USAGE }
+}

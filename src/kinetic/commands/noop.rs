@@ -20,17 +20,13 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 use proto::command;
 
 /// Sends a Noop to the Kinetic device
-#[unstable]
 pub struct Noop;
 
-#[unstable]
 impl Command<::responses::NoopResponse> for Noop {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {

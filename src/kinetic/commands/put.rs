@@ -20,8 +20,6 @@
 
 // author: Ignacio Corderi
 
-#![unstable]
-
 use core::Command;
 use std::vec;
 use proto::command;
@@ -29,7 +27,6 @@ use std::default::Default;
 use commands::common;
 
 /// Stores the value asociated with the key
-#[unstable]
 pub struct Put {
     /// Key to store.
     pub key: vec::Vec<u8>,
@@ -57,7 +54,6 @@ impl Default for Put {
     }
 }
 
-#[unstable]
 impl Command<::responses::PutResponse> for Put {
 
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>) {
