@@ -1,0 +1,1 @@
+initSidebarItems({"type":[["KineticResult","Kinetic result"]]});

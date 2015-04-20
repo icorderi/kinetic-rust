@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GetVersion","Get's the version and integrity for the given key"]]});

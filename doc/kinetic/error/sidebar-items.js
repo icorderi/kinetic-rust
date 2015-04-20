@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["KineticError","Enum representing possible Kinetic errors"]]});

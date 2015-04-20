@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Get","Get's the value and the metadata for the given key"]]});

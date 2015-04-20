@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GetVersionResponse","A `GetVersion` command result"]]});

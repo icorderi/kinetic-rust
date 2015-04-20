@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GetResponse","A `Get` command result"]]});

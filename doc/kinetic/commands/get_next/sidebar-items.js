@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GetNext","Get's the value and the metadata for the given key following the given key"]]});
