@@ -11,7 +11,7 @@
 
 If you don't have Rust yet the quicket way to get the current nightly build is to run:
 
-    curl -s https://static.rust-lang.org/rustup.sh | sudo sh
+    curl -s https://static.rust-lang.org/rustup.sh | sudo sh -s -- --channel=nightly
 
 If you want other installation options, visit the official [install] guide.
 
