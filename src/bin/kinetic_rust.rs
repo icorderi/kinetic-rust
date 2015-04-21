@@ -33,6 +33,7 @@ extern crate rustc_serialize;
 extern crate docopt;
 extern crate kinetic;
 extern crate term;
+extern crate shell;
 #[macro_use] extern crate log;
 
 use std::env;
@@ -44,7 +45,6 @@ mod info;
 mod write;
 mod bench;
 mod get_log;
-pub mod shell;
 
 #[cfg(not(test))]
 fn main() {
