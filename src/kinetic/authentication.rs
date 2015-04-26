@@ -27,8 +27,6 @@ use proto::message::AuthType;
 use crypto::{hmac, sha1};
 use crypto::digest::Digest;
 use crypto::mac::Mac;
-use std::num::Int;
-
 
 /// Kinetic authentication credentials
 ///

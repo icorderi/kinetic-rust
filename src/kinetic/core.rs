@@ -22,10 +22,9 @@
 
 use std::vec;
 use result::KineticResult;
-use std::marker::PhantomFn;
 
 /// Trait representing a Kinetic command
-pub trait Command<R: Response> : Send + PhantomFn<R>  {
+pub trait Command<R: Response> : Send {
 
     /// Build the raw kinetic proto structure for the Command
     fn build_proto(self) -> (::proto::Command, Option<vec::Vec<u8>>);
