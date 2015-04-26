@@ -3,8 +3,9 @@
 [Kinetic]: https://github.com/Seagate/kinetic-protocol
 [Rust]: http://www.rust-lang.org/
 
-[![Build Status](https://travis-ci.org/icorderi/kinetic-rust.png?branch=master)](https://travis-ci.org/icorderi/kinetic-rust)
-[![](http://meritbadge.herokuapp.com/kinetic)](https://crates.io/crates/kinetic)
+[![Travis](https://img.shields.io/travis/icorderi/kinetic-rust.svg)](https://travis-ci.org/icorderi/kinetic-rust)
+[![Crates.io](https://img.shields.io/crates/v/kinetic.svg)](https://crates.io/crates/kinetic)
+[![Crates.io](https://img.shields.io/crates/l/kinetic.svg)](https://github.com/icorderi/kinetic-rust/blob/master/LICENSE/mit.md)
 
 ## Getting Started
 
