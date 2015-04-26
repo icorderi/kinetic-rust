@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["shell",""]]});
+initSidebarItems({});

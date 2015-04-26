@@ -92,7 +92,6 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
-<span id="53">53</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2014 Seagate Technology</span>
 
@@ -118,10 +117,9 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
 <span class='kw'>use</span> <span class='ident'>result</span>::<span class='ident'>KineticResult</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomFn</span>;
 
 <span class='doccomment'>/// Trait representing a Kinetic command</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Response</span><span class='op'>&gt;</span> : <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>PhantomFn</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>  {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Command</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Response</span><span class='op'>&gt;</span> : <span class='ident'>Send</span> {
 
     <span class='doccomment'>/// Build the raw kinetic proto structure for the Command</span>
     <span class='kw'>fn</span> <span class='ident'>build_proto</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (::<span class='ident'>proto</span>::<span class='ident'>Command</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>);

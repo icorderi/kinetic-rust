@@ -42,9 +42,9 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>kinetic</a>::<wbr><a class='trait' href=''>Command</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-85837' class='srclink' href='../src/kinetic/core.rs.html#28-33'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Command&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.PhantomFn.html' title='core::marker::PhantomFn'>PhantomFn</a>&lt;R&gt; {
+            <a id="toggle-all-docs" href="#" title="collapse all docs">[-]</a>
+        </span><a id='src-85835' class='srclink' href='../src/kinetic/core.rs.html#27-32' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Command&lt;R: <a class='trait' href='../kinetic/trait.Response.html' title='kinetic::Response'>Response</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> {
     fn <a href='#tymethod.build_proto' class='fnname'>build_proto</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../kinetic/proto/struct.Command.html' title='kinetic::proto::Command'>Command</a>, <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;&gt;)</a>;
 }</pre><div class='docblock'><p>Trait representing a Kinetic command</p>
 </div>
