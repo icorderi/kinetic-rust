@@ -236,9 +236,9 @@
                 <span class='kw'>if</span> <span class='ident'>msg</span>.<span class='ident'>get_hmacAuth</span>().<span class='ident'>get_identity</span>() <span class='op'>!=</span> <span class='ident'>identity</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; }
 
                 <span class='kw'>let</span> <span class='ident'>received_hmac</span> <span class='op'>=</span> <span class='ident'>msg</span>.<span class='ident'>get_hmacAuth</span>().<span class='ident'>get_hmac</span>();
-                <span class='kw'>let</span> <span class='ident'>calculated_hmac</span> <span class='op'>=</span> <span class='ident'>Credentials</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>msg</span>.<span class='ident'>get_commandBytes</span>());
-
-                (<span class='ident'>received_hmac</span> <span class='op'>==</span> <span class='ident'>calculated_hmac</span>.<span class='ident'>as_slice</span>())
+                <span class='kw'>let</span> <span class='ident'>calculated_hmac_vec</span> <span class='op'>=</span> <span class='ident'>Credentials</span>::<span class='ident'>calculate_hmac</span>(<span class='ident'>key</span>, <span class='ident'>msg</span>.<span class='ident'>get_commandBytes</span>());
+                <span class='kw'>let</span> <span class='ident'>calculated_hmac</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] <span class='op'>=</span> <span class='ident'>calculated_hmac_vec</span>.<span class='ident'>as_ref</span>();
+                (<span class='ident'>received_hmac</span> <span class='op'>==</span> <span class='ident'>calculated_hmac</span>)
             },
             <span class='ident'>Credentials</span>::<span class='ident'>Pin</span> { .. } <span class='op'>=&gt;</span> <span class='ident'>msg</span>.<span class='ident'>get_authType</span>() <span class='op'>==</span> <span class='ident'>AuthType</span>::<span class='ident'>PINAUTH</span>
         }
