@@ -86,9 +86,9 @@ impl Credentials {
                 if msg.get_hmacAuth().get_identity() != identity { return false; }
 
                 let received_hmac = msg.get_hmacAuth().get_hmac();
-                let calculated_hmac = Credentials::calculate_hmac(key, msg.get_commandBytes());
-
-                (received_hmac == calculated_hmac.as_slice())
+                let calculated_hmac_vec = Credentials::calculate_hmac(key, msg.get_commandBytes());
+                let calculated_hmac: &[u8] = calculated_hmac_vec.as_ref();
+                (received_hmac == calculated_hmac)
             },
             Credentials::Pin { .. } => msg.get_authType() == AuthType::PINAUTH
         }

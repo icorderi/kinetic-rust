@@ -20,12 +20,12 @@
 
 // author: Ignacio Corderi
 
-use protobuf::{parse_from_reader, parse_from_bytes, Message};
-use std::io::{Read, BufReader, Write, BufWriter};
+use protobuf::{parse_from_bytes, Message};
+use std::io::{Read, Write, BufWriter};
 use result::KineticResult;
 use error::KineticError;
 use std::io;
-use byteorder::{ByteOrder, BigEndian, ReadBytesExt, WriteBytesExt};
+use byteorder::{ByteOrder, BigEndian, WriteBytesExt};
 
 #[inline]
 pub fn recv(stream: &mut Read) -> KineticResult<(::proto::Message, ::proto::Command, ::std::vec::Vec<u8>)> {
@@ -43,7 +43,7 @@ pub fn recv(stream: &mut Read) -> KineticResult<(::proto::Message, ::proto::Comm
     let value = if value_length == 0 { vec![] }
                 else { try!(read_exact(stream, value_length)) };
 
-    let msg = try!(parse_from_bytes::<::proto::Message>(proto_vec.as_slice()));
+    let msg = try!(parse_from_bytes::<::proto::Message>(proto_vec.as_ref()));
     let cmd = try!(parse_from_bytes::<::proto::Command>(msg.get_commandBytes()));
 
     Ok((msg, cmd, value))

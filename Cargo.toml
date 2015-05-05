@@ -17,7 +17,7 @@ name = "kinetic"
 path = "src/kinetic/lib.rs"
 
 [dependencies.protobuf]
-git = "https://github.com/stepancheg/rust-protobuf.git"
+#git = "https://github.com/stepancheg/rust-protobuf.git"
 
 [dependencies.rust-crypto]
 #git = "https://github.com/DaGenix/rust-crypto.git"

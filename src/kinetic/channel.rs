@@ -207,7 +207,7 @@ impl KineticChannel<Receiver<Result>> for AsyncChannel {
     #[inline]
     fn send(&self, op: Operation) -> Receiver<Result> {
         let (tx,rx) = channel();
-        self.writer_tx.send((op,tx));
+        self.writer_tx.send((op,tx)).unwrap();
         rx //return rx
     }
 

@@ -86,7 +86,7 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
     let v = ::kinetic::protocol_version();
     if cmd.flag_detailed {
         try!(shell.header("Kinetic protocol"));
-        if v.as_str() == c.get_config().get_protocolVersion() {
+        if v == c.get_config().get_protocolVersion() {
             try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::GREEN));
         } else {
             try!(shell.tag_color("Version", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));
@@ -94,7 +94,7 @@ fn execute(cmd: &InfoArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
         try!(shell.tag(".(date)", c.get_config().get_protocolCompilationDate()));
         try!(shell.tag(".(hash)", c.get_config().get_protocolSourceHash()));
     } else {
-        if v.as_str() == c.get_config().get_protocolVersion() {
+        if v == c.get_config().get_protocolVersion() {
             try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::GREEN));
         } else {
             try!(shell.tag_color("Protocol", c.get_config().get_protocolVersion(), ::term::color::BRIGHT_RED));

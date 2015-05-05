@@ -25,8 +25,6 @@
 
 #![feature(std_misc)] // needed for Futures
 #![feature(tcp)] // needed for TCP_NODELAY
-#![feature(collections)] // needed for String::from_str
-#![feature(convert)] // needed for Vec::as_slice()
 
 //! Kinetic protocol library in Rust
 

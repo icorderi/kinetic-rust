@@ -68,6 +68,6 @@ pub mod command {
 }
 
 /// Returns the version of the Kinetic Protocol
-pub fn version() -> String {
-    String::from_str(::proto::raw::Local::default_instance().get_protocolVersion())
+pub fn version() -> &'static str {
+    ::proto::raw::Local::default_instance().get_protocolVersion()
 }
