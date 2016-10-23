@@ -27,7 +27,7 @@ use std::iter::Iterator;
 use kinetic::commands::Put;
 use std::default::Default;
 use std::vec;
-use std::time::duration::Duration;
+use std::time::Duration;
 use std::path::Path;
 use std::sync::mpsc::channel;
 use std::thread::spawn;

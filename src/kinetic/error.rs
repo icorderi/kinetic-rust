@@ -104,15 +104,3 @@ impl From<ProtobufError> for KineticError {
         KineticError::ProtobufError(err)
     }
 }
-
-impl From<::byteorder::Error> for KineticError {
-    #[inline]
-    fn from(err: ::byteorder::Error) -> KineticError {
-        match err {
-            ::byteorder::Error::Io(err) => KineticError::IoError(err),
-            ::byteorder::Error::UnexpectedEOF =>
-                KineticError::IoError(io::Error::new(io::ErrorKind::InvalidInput, "Unexpected EOF"))
-        }
-    }
-}
-

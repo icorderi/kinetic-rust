@@ -23,7 +23,7 @@
 use docopt::Docopt;
 use std::vec;
 use kinetic::KineticResult;
-use std::ascii::OwnedAsciiExt;
+//use std::ascii::OwnedAsciiExt;
 use cli::{CliDispatcher, CliCommand};
 
 
@@ -49,7 +49,7 @@ pub enum Command {
 impl CliDispatcher for Command {
 
     fn dispatch(&self, mut argv: vec::Vec<String>, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-        argv.insert(0, format!("{:?}", self).into_ascii_lowercase());
+        argv.insert(0, format!("{:?}", self).to_lowercase());
         argv.insert(0, "kinetic-rust".to_string());
 
         let result =
