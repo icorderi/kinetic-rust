@@ -31,7 +31,7 @@ pub trait CliCommand {
     fn execute(&self, &mut ::shell::MultiShell) -> KineticResult<()>;
 
     // the marker is a hack until a missing compiler feature gets finished
-    fn usage(_:Option<Self>) -> &'static str;
+    fn usage(_:Option<Self>) -> &'static str where Self: Sized;
 }
 
 pub trait CliDispatcher {

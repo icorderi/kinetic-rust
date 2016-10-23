@@ -21,7 +21,7 @@
 // author: Ignacio Corderi
 
 use kinetic::KineticResult;
-use std::ascii::OwnedAsciiExt;
+//use std::ascii::OwnedAsciiExt;
 
 
 #[derive(RustcDecodable, Debug)]
@@ -46,7 +46,7 @@ fn execute(cmd: &HelpArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()>
     shell.set_verbose(cmd.flag_verbose);
 
     let argv = ["kinetic-rust".to_string(),
-                format!("{:?}", cmd.arg_command).into_ascii_lowercase(),
+                format!("{:?}", cmd.arg_command).to_lowercase(),
                 "-h".to_string()];
 
     ::main::main_with_args(&argv, shell) //return

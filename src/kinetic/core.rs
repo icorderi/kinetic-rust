@@ -35,7 +35,7 @@ pub trait Command<R: Response> : Send {
 pub trait Response : Send {
 
     /// Create a Response un populate it with values from the raw kinetic proto
-    fn from_proto(::proto::Message, ::proto::Command, vec::Vec<u8>) -> KineticResult<Self>;
+    fn from_proto(::proto::Message, ::proto::Command, vec::Vec<u8>) -> KineticResult<Self> where Self: Sized;
 
 }
 

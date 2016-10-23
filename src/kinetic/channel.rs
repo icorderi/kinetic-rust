@@ -75,7 +75,7 @@ impl AsyncChannel {
         try!(s.set_nodelay(true));
 
         // Handshake
-        let (_, mut cmd, _) = ::network::recv(&mut s).unwrap();
+        let (_, mut cmd, _) = ::network::recv(&mut s).expect("boom 1");
         if cmd.get_status().get_code() != ::proto::StatusCode::SUCCESS {
             return Err(::error::KineticError::RemoteError(cmd.take_status()));
         }
@@ -99,17 +99,17 @@ impl AsyncChannel {
                 let r = ::network::recv(&mut reader);
                 if r.is_err() { break; } // FIXME: this is only ok if *we* closed it
 
-                let (msg, cmd, value) = r.unwrap();
+                let (msg, cmd, value) = r.expect("boom2");
 
                 match  msg.get_authType() {
-                    ::proto::message::AuthType::UNSOLICITEDSTATUS => unsol_tx.send((msg, cmd, value)).unwrap(), //TODO: try!(...)
+                    ::proto::message::AuthType::UNSOLICITEDSTATUS => unsol_tx.send((msg, cmd, value)).expect("boom3"), //TODO: try!(...)
                     ::proto::message::AuthType::HMACAUTH => {
                         // FIXME: verify HMAC integrity
                         let ack = cmd.get_header().get_ackSequence();
                         let req: Option<Sender<Result>>;
                         // lock the pendings and grab the request that matches the ACK
                         {
-                            let mut pending = pending_mutex.lock().unwrap(); // TODO: try!(...)
+                            let mut pending = pending_mutex.lock().expect("boom4"); // TODO: try!(...)
                             // *remove* returns the value if it was there
                             req = pending.remove(&ack);
                         }
@@ -118,7 +118,7 @@ impl AsyncChannel {
                             // FIXME: What should we do if we get a result for an operation
                             //        we did not send?
                             None => println!("No match for ack: {} found.", ack),
-                            Some(callback) => callback.send((msg, cmd, value)).unwrap() // TODO: try!(...)
+                            Some(callback) => callback.send((msg, cmd, value)).expect("boom5") // TODO: try!(...)
                         }
                     },
                     ::proto::message::AuthType::PINAUTH => {
@@ -136,7 +136,7 @@ impl AsyncChannel {
                             // FIXME: What shjould we do if we get a result for an operation
                             //        we did not send?
                             None => println!("No match for ack: {} found.", ack),
-                            Some(callback) => callback.send((msg, cmd, value)).unwrap() // TODO: try!(...)
+                            Some(callback) => callback.send((msg, cmd, value)).expect("boom6") // TODO: try!(...)
                         }
                     },
                     ::proto::message::AuthType::INVALID_AUTH_TYPE =>
@@ -158,18 +158,18 @@ impl AsyncChannel {
                 cmd.mut_header().set_sequence(seq);
                 cmd.mut_header().set_connectionID(connection_id);
 
-                let cmd_bytes = cmd.write_to_bytes().unwrap();
+                let cmd_bytes = cmd.write_to_bytes().expect("boom7");
 
                 let mut msg = auth.authenticate_proto(&cmd_bytes);
                 msg.set_commandBytes(cmd_bytes);
 
                 {
                     let mut pending = pending_mutex.lock().unwrap(); // TODO: try!(...)
-                    pending.insert(seq, callback).unwrap(); // TODO: try!(...)
+                    pending.insert(seq, callback);
                 }
 
                 let value = value.unwrap_or(vec::Vec::new());
-                ::network::send(&mut writer, &msg, value.as_ref()).unwrap();
+                ::network::send(&mut writer, &msg, value.as_ref()).expect("boom9");
                 seq += 1;
             }
         });

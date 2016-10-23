@@ -21,7 +21,7 @@
 // author: Ignacio Corderi
 
 use std::net::ToSocketAddrs;
-use std::sync::Future;
+//use std::sync::Future;
 use core::{Command, Response};
 use result::KineticResult;
 use channel::Result;
@@ -168,12 +168,4 @@ impl Client<::channel::AsyncChannel, Receiver<Result>> {
                      default_credentials: credentials,
                      async_return_type: PhantomData })
     }
-
-    // Returns a Future<T> instead of waiting for the response
-    #[inline]
-    pub fn send_future<C: Command<R>, R: Response + 'static> (&self, cmd: C) -> Future<KineticResult<R>> {
-        let rx = self.send_raw(self.default_credentials.clone(), cmd);
-        Future::spawn(move|| { Self::receive_raw(rx) })
-    }
-
 }

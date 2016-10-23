@@ -20,7 +20,7 @@
 
 // author: Ignacio Corderi
 
-use std::time::duration::Duration;
+use std::time::Duration;
 use std::vec;
 use std::default::Default;
 use kinetic::commands::{Put, Get};
@@ -49,46 +49,47 @@ Options:
 ";
 
 fn execute(cmd: &WriteArgs, shell: &mut ::shell::MultiShell) -> KineticResult<()> {
-    //debug!("executing; cmd=kinetic-rust-write; args={}", ::std::env::args());
+    //debugı!("executing; cmd=kinetic-rust-write; args={}", ::std::env::args());
     shell.set_verbose(cmd.flag_verbose);
+    unimplemented!();
 
-    try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
+    // try!(shell.status("Connecting", format!("device at {}:8123", cmd.arg_target)));
 
-    let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_str()));
+    // let c = try!(::kinetic::Client::new(format!("{}:8123", cmd.arg_target).as_str()));
 
-    c.send(Put { key: "rust".as_bytes().to_vec(),
-                 value: format!("Hello from {}!", ::kinetic::version()).as_bytes().to_vec(),
-                 ..Default::default() }).unwrap();
-    let v = try!(c.send(Get { key: "rust".as_bytes().to_vec() }));
+    // c.send(Put { key: "rust".as_bytes().to_vec(),
+    //              value: format!("Hello from {}!", ::kinetic::version()).as_bytes().to_vec(),
+    //              ..Default::default() }).unwrap();
+    // let v = try!(c.send(Get { key: "rust".as_bytes().to_vec() }));
 
-    try!(shell.status("Response", format!("{}", String::from_utf8(v.value).unwrap())));
+    // try!(shell.status("Response", format!("{}", String::from_utf8(v.value).unwrap())));
 
-    let items = cmd.flag_count.unwrap_or(10);
-        // benchmark
-    let size = cmd.flag_size.unwrap_or(1024*1024);
-    let d = Duration::span(|| {
-        let mut responses = vec::Vec::with_capacity(items);
+    // let items = cmd.flag_count.unwrap_or(10);
+    //     // benchmark
+    // let size = cmd.flag_size.unwrap_or(1024*1024);
+    // let d = Duration::span(|| {
+    //     let mut responses = vec::Vec::with_capacity(items);
 
-        for i in (0.. items) {
-            let data = vec![0u8; size];
-            let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
-                                        value: data,
-                                        ..Default::default()});
-            responses.push(r);
-        }
+    //     for i in (0.. items) {
+    //         let data = vec![0u8; size];
+    //         let r = c.send_future(Put { key: format!("opt-bench.{}", i).as_bytes().to_vec(),
+    //                                     value: data,
+    //                                     ..Default::default()});
+    //         responses.push(r);
+    //     }
 
-        // wait on all
-        for r in responses.into_iter() {
-            r.into_inner().unwrap();
-        }
-    });
-    let ops = items as f64  / (d.num_milliseconds() as f64 / 1000.0);
-    let transfered = (items as f64 * size as f64) / (1024.0 * 1024.0);
-    let bw = transfered / (d.num_milliseconds() as f64 / 1000.0);
+    //     // wait on all
+    //     for r in responses.into_iter() {
+    //         r.into_inner().unwrap();
+    //     }
+    // });
+    // let ops = items as f64  / (d.num_milliseconds() as f64 / 1000.0);
+    // let transfered = (items as f64 * size as f64) / (1024.0 * 1024.0);
+    // let bw = transfered / (d.num_milliseconds() as f64 / 1000.0);
 
-    try!(shell.status("Done", format!("benchmark took {}ms ({:.2} MB/s, {:.2} op/s)", d.num_milliseconds(), bw, ops)));
+    // try!(shell.status("Done", format!("benchmark took {}ms ({:.2} MB/s, {:.2} op/s)", d.num_milliseconds(), bw, ops)));
 
-    Ok(()) //return
+    // Ok(()) //return
 }
 
 impl ::cli::CliCommand for WriteArgs {
